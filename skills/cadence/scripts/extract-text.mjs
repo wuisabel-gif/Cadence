@@ -166,12 +166,84 @@ function extractPdf(buf) {
     .trim();
 }
 
+// ─── .docx (a ZIP of XML) ───────────────────────────────────────────────────
+function decodeXml(s) {
+  return s
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&apos;/g, "'")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16)));
+}
+
+// Pull one named entry out of a ZIP via its central directory (always carries
+// real sizes, unlike local headers that may defer to a data descriptor).
+function readZipEntry(buf, name) {
+  let eocd = -1;
+  for (let i = buf.length - 22; i >= 0 && i > buf.length - 22 - 65536; i--) {
+    if (buf.readUInt32LE(i) === 0x06054b50) { eocd = i; break; }
+  }
+  if (eocd < 0) return null;
+  const count = buf.readUInt16LE(eocd + 10);
+  let p = buf.readUInt32LE(eocd + 16);
+  for (let n = 0; n < count; n++) {
+    if (buf.readUInt32LE(p) !== 0x02014b50) break;
+    const method = buf.readUInt16LE(p + 10);
+    const compSize = buf.readUInt32LE(p + 20);
+    const nameLen = buf.readUInt16LE(p + 28);
+    const extraLen = buf.readUInt16LE(p + 30);
+    const commentLen = buf.readUInt16LE(p + 32);
+    const localOff = buf.readUInt32LE(p + 42);
+    if (buf.toString('utf8', p + 46, p + 46 + nameLen) === name) {
+      const dataStart = localOff + 30 + buf.readUInt16LE(localOff + 26) + buf.readUInt16LE(localOff + 28);
+      const data = buf.subarray(dataStart, dataStart + compSize);
+      if (method === 0) return data;
+      if (method === 8) { try { return zlib.inflateRawSync(data); } catch { return null; } }
+      return null;
+    }
+    p += 46 + nameLen + extraLen + commentLen;
+  }
+  return null;
+}
+
+export function extractDocx(buf) {
+  const xml = readZipEntry(buf, 'word/document.xml');
+  if (!xml) return '';
+  let s = xml.toString('utf8');
+  s = s.replace(/<\/w:p>/g, '\n').replace(/<w:tab\b[^>]*\/?>/g, '\t').replace(/<w:br\b[^>]*\/?>/g, '\n');
+  s = decodeXml(s.replace(/<[^>]+>/g, ''));
+  return s.replace(/[ \t]+/g, ' ').replace(/ *\n */g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+// ─── live URL ───────────────────────────────────────────────────────────────
+export async function fetchUrl(url) {
+  const res = await fetch(url, { headers: { 'user-agent': 'cadence-deslop' }, redirect: 'follow' });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const body = await res.text();
+  const ct = res.headers.get('content-type') || '';
+  const looksHtml = /html|xml/i.test(ct) || /<\/?(html|body|main|article|p|div)\b/i.test(body.slice(0, 2000));
+  return looksHtml ? stripHtml(body) : body;
+}
+
 // ─── CLI ────────────────────────────────────────────────────────────────────
-function main() {
+async function main() {
   const file = process.argv[2];
   if (!file) {
-    process.stderr.write('usage: node extract-text.mjs <file.pdf|.txt|.md|.html>\n');
+    process.stderr.write('usage: node extract-text.mjs <file.pdf|.txt|.md|.html|.docx | http(s)://url>\n');
     process.exit(2);
+  }
+  if (/^https?:\/\//i.test(file)) {
+    try {
+      const text = await fetchUrl(file);
+      if (!text || text.replace(/\s/g, '').length < 20) {
+        process.stderr.write('No readable text found at that URL.\n');
+        process.exit(3);
+      }
+      process.stdout.write(text + '\n');
+    } catch (e) {
+      process.stderr.write(`Could not fetch ${file}: ${e.message}\n`);
+      process.exit(3);
+    }
+    return;
   }
   const ext = extname(file).toLowerCase();
   if (ext === '.txt' || ext === '.md' || ext === '') {
@@ -180,6 +252,13 @@ function main() {
     const text = stripHtml(readFileSync(file, 'utf8'));
     if (!text || text.replace(/\s/g, '').length < 20) {
       process.stderr.write('No readable text found in this HTML file.\n');
+      process.exit(3);
+    }
+    process.stdout.write(text + '\n');
+  } else if (ext === '.docx') {
+    const text = extractDocx(readFileSync(file));
+    if (!text || text.replace(/\s/g, '').length < 20) {
+      process.stderr.write('No readable text found in this .docx file.\n');
       process.exit(3);
     }
     process.stdout.write(text + '\n');
@@ -193,13 +272,15 @@ function main() {
     }
     process.stdout.write(text + '\n');
   } else {
-    process.stderr.write(`Unsupported file type: ${ext}. Use .pdf, .txt, .md, or .html, ` +
-      'or paste the text directly.\n');
+    process.stderr.write(`Unsupported file type: ${ext}. Use .pdf, .txt, .md, .html, or .docx ` +
+      '(or an http(s):// URL), or paste the text directly.\n');
     process.exit(2);
   }
 }
 
 // Run as CLI unless imported by a test.
-if (import.meta.url === `file://${process.argv[1]}`) main();
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((e) => { process.stderr.write(String(e?.message || e) + '\n'); process.exit(1); });
+}
 
 export { extractPdf, decodeLiteral, decodeHex, textFromContent, looksReadable };

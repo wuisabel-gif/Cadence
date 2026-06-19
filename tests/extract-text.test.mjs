@@ -1,7 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import {
-  extractPdf, decodeLiteral, decodeHex, textFromContent, looksReadable,
+  extractPdf, extractDocx, decodeLiteral, decodeHex, textFromContent, looksReadable,
 } from '../skills/cadence/scripts/extract-text.mjs';
 
 // A minimal uncompressed PDF — just enough structure for the stream scanner.
@@ -34,6 +35,14 @@ test('decodeLiteral handles escapes and octal', () => {
 
 test('decodeHex decodes hex strings', () => {
   assert.equal(decodeHex('48656c6c6f'), 'Hello');
+});
+
+test('extractDocx pulls text from a .docx (a ZIP of XML)', () => {
+  const buf = readFileSync(new URL('./fixtures/sample.docx', import.meta.url));
+  const out = extractDocx(buf);
+  assert.match(out, /low all summer/);
+  assert.match(out, /baked white in the sun/);
+  assert.doesNotMatch(out, /<w:/); // no XML tags survive
 });
 
 test('textFromContent inserts a space on a wide TJ kerning gap', () => {

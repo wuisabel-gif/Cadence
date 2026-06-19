@@ -7,8 +7,8 @@ Output is one file at `voices/<name>.md` following `voice-profile-schema.md`.
 
 A book, article, essay, transcript, or the user's own past writing — as a file
 (`.pdf`, `.txt`, `.md`, `.html`, `.docx`), a pasted block, or a URL. The bundled
-`scripts/extract-text.mjs` handles `.pdf` and `.html` (it strips tags, scripts, and
-styles to the visible prose). For PDFs, extract
+`scripts/extract-text.mjs` handles `.pdf`, `.html`, `.docx`, and live `http(s)` URLs
+(it strips markup to the visible prose). For PDFs, extract
 text with the bundled `scripts/extract-text.mjs` (pure Node, no dependencies). If
 a PDF uses custom-encoded subset fonts and extraction fails, convert it to `.txt`
 first. You need **at least ~500 words** of real prose to get a

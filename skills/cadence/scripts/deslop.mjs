@@ -19,6 +19,7 @@
 
 import { readFileSync, realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { extractPdf, extractDocx, fetchUrl, looksReadable } from './extract-text.mjs';
 
 // ─── Lexical rules ──────────────────────────────────────────────────────────
 // Phrases that almost never survive a human editor. Each hit is one finding.
@@ -358,9 +359,28 @@ if (isMain()) {
   const file = positionals[0];
   if (!file && process.stdin.isTTY) { process.stdout.write(HELP); process.exit(0); }
 
-  let text = file ? readFileSync(file, 'utf8') : await readStdin();
-  if (args.includes('--html') || /\.html?$/i.test(file || '')) text = stripHtml(text);
-  else if (args.includes('--prose-only')) text = stripMarkdown(text);
+  let text;
+  if (!file) {
+    text = await readStdin();
+    if (args.includes('--html')) text = stripHtml(text);
+    else if (args.includes('--prose-only')) text = stripMarkdown(text);
+  } else if (/^https?:\/\//i.test(file)) {
+    try { text = await fetchUrl(file); }
+    catch (e) { process.stderr.write(`Could not fetch ${file}: ${e.message}\n`); process.exit(3); }
+  } else {
+    const lower = file.toLowerCase();
+    if (lower.endsWith('.pdf') || lower.endsWith('.docx')) {
+      text = lower.endsWith('.pdf') ? extractPdf(readFileSync(file)) : extractDocx(readFileSync(file));
+      if (!text || text.replace(/\s/g, '').length < 20 || (lower.endsWith('.pdf') && !looksReadable(text))) {
+        process.stderr.write('Could not extract readable text from that file. Convert it to .txt and try again.\n');
+        process.exit(3);
+      }
+    } else {
+      text = readFileSync(file, 'utf8');
+      if (args.includes('--html') || /\.html?$/i.test(lower)) text = stripHtml(text);
+      else if (args.includes('--prose-only')) text = stripMarkdown(text);
+    }
+  }
 
   const result = analyze(text);
   process.stdout.write((args.includes('--json') ? JSON.stringify(result, null, 2) : formatReport(result)) + '\n');

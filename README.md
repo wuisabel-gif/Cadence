@@ -144,15 +144,16 @@ them, edit them, share them.
 The detector is the front door — try it in five seconds, no install:
 
 ```bash
-npx cadence-deslop draft.txt          # score any file (.txt, .md, .pdf, .html)
+npx cadence-deslop draft.txt          # any file: .txt .md .pdf .html .docx
 npx cadence-deslop page.html          # scores the visible text of a web page
+npx cadence-deslop https://a.blog/post  # fetch a live URL and score it
 pbpaste | npx cadence-deslop          # score whatever's on your clipboard
 npx cadence-deslop --json draft.txt   # machine-readable JSON
 npx cadence-deslop --strict draft.txt # exit 1 if score > 25 (CI gate)
 ```
 
-`deslop.mjs` is the engine — pure Node, zero dependencies, no network. Run it from a
-clone the same way:
+`deslop.mjs` is the engine — pure Node, zero dependencies. It only reaches the
+network if you hand it a URL. Run it from a clone the same way:
 
 ```bash
 node skills/cadence/scripts/deslop.mjs draft.txt
@@ -202,7 +203,7 @@ cadence/
 │           ├── deslop.mjs       # the detector (real code, tested)
 │           └── extract-text.mjs # pure-Node prose extraction from .pdf/.txt/.md
 ├── voices/                      # shipped voice profiles (seed set)
-└── tests/                       # 25 tests — `npm test`
+└── tests/                       # 26 tests — `npm test`
     ├── deslop.test.mjs
     └── extract-text.test.mjs
 ```
@@ -210,7 +211,7 @@ cadence/
 ## Test
 
 ```bash
-npm test          # 25 tests over the detector and the extractors
+npm test          # 26 tests over the detector and the extractors
 npm run check:docs  # dogfood: the repo's own docs must score grade A
 ```
 

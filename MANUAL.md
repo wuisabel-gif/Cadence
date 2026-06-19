@@ -42,6 +42,7 @@ cat draft.txt | cadence-deslop       # from stdin
 | Argument | Effect |
 |---|---|
 | `<file>` | Score a file. Auto-detects type by extension (see Input formats). |
+| `<url>` | An `http(s)://` URL is fetched live; HTML is reduced to its visible text. |
 | *(stdin)* | With no file, reads text from standard input. |
 | `--html` | Treat input as HTML: score the visible text, skip tags/scripts/styles. Auto-enabled for `.html`/`.htm` files; use the flag for stdin. |
 | `--prose-only` | Treat input as Markdown: skip fenced code, blockquotes, tables, and HTML. Use it to score a `.md` doc's prose, not its examples. |
@@ -53,11 +54,13 @@ cat draft.txt | cadence-deslop       # from stdin
 
 ### Input formats
 
-| Extension | Handling |
+| Source | Handling |
 |---|---|
 | `.txt`, `.md` | Scored as-is. Add `--prose-only` to skip Markdown code/quotes/tables. |
 | `.html`, `.htm` | Auto-stripped to visible text, then scored. |
 | `.pdf` | Text extracted with built-in `zlib` (no pypdf). Subset-font PDFs fail with a clear message — convert to `.txt`. |
+| `.docx` | Text pulled from the Word document (a ZIP of XML), also with built-in `zlib`. |
+| `http(s)://…` | Fetched live; if it's HTML, reduced to visible text. The only thing that touches the network. |
 
 ### Exit codes
 
@@ -65,12 +68,14 @@ cat draft.txt | cadence-deslop       # from stdin
 |---|---|
 | `0` | Ran successfully (and, under `--strict`/`--max`, stayed within the limit). |
 | `1` | `--strict`/`--max` threshold exceeded. |
+| `3` | A `.pdf`/`.docx`/URL produced no readable text (convert it to `.txt`). |
 
 ### Examples
 
 ```bash
 cadence-deslop draft.txt                 # human report
-cadence-deslop page.html                 # score a web page's visible copy
+cadence-deslop report.docx               # score a Word document
+cadence-deslop https://a.blog/post       # fetch a live page and score it
 cadence-deslop --json draft.md           # machine-readable
 cadence-deslop --prose-only README.md    # score the prose, not the code samples
 cadence-deslop --strict post.md          # fail (exit 1) above score 25
@@ -124,7 +129,7 @@ adverb rate 0/100   em-dash rate 0/100   triad density 0.25
 Used by `/cadence learn` to pull prose from a file. Run it directly if you like:
 
 ```bash
-node skills/cadence/scripts/extract-text.mjs <file.pdf|.txt|.md|.html>   # prose to stdout
+node skills/cadence/scripts/extract-text.mjs <file.pdf|.txt|.md|.html|.docx | url>   # prose to stdout
 ```
 
 Exit `2` for a usage error or unsupported type; exit `3` when no readable text can be

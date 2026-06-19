@@ -10,6 +10,7 @@
   "exports": "./skills/cadence/scripts/deslop.mjs",
   "files": [
     "skills/cadence/scripts/deslop.mjs",
+    "skills/cadence/scripts/extract-text.mjs",
     "README.md",
     "LICENSE"
   ],
