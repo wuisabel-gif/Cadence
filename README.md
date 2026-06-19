@@ -195,6 +195,7 @@ npm install -g cadence-deslop    # or install the `cadence-deslop` / `deslop` co
 | Document | What it covers |
 |---|---|
 | [SOP.md](SOP.md) | Step-by-step playbook: how to de-slop, write, recast, and learn a voice |
+| [tutorials/scan-a-repo.md](tutorials/scan-a-repo.md) | Tutorial: audit and de-slop an entire repo, then gate it in CI |
 | [MANUAL.md](MANUAL.md) | Full reference for every command, CLI flag, input format, and exit code |
 | [PHILOSOPHY.md](PHILOSOPHY.md) | The thinking behind it — *The Age of Taste* |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How the project is built and how to add a rule, voice, or command |
