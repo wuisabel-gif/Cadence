@@ -13,7 +13,7 @@ every AI tell in it, so a clean result is something you can verify, not just tru
 Generic AI prose has a fingerprint: every sentence the same length, hollow
 confidence words ("seamless," "robust"), reflexive triads ("fast, reliable, and
 scalable"), the "it's not X, it's Y" seesaw, and throat-clearing openers ("In
-today's world…"). Cadence targets that fingerprint directly — and gives you a
+today's world…"). Cadence targets that fingerprint directly. It also gives you a
 voice to write *toward*, not just tells to avoid.
 
 ## Commands
@@ -30,7 +30,7 @@ You type these in Claude Code as `/cadence <command>`:
 
 ## Examples
 
-Every score below comes straight from `skills/cadence/scripts/deslop.mjs` — reproduce them
+Every score below comes straight from `skills/cadence/scripts/deslop.mjs`. Reproduce them
 with the commands shown.
 
 ### `deslop` then `recast` — strip the AI tells
@@ -68,7 +68,7 @@ Cadence de-slop  ·  score 0/100  ·  grade A     (61 → 0)
 ### `write` — one idea, two voices
 
 Brief: *"reassure someone who feels they're falling behind their peers."* Same
-thought, two profiles — notice the structure change, not just the wording.
+thought, two profiles. Notice the structure change, not just the wording.
 
 **`/cadence write --voice counsel`** (reframes the question; long-wind-then-snap rhythm):
 
@@ -104,7 +104,7 @@ thought, two profiles — notice the structure change, not just the wording.
 ```
 
 Cadence reads the sample, measures its real rhythm with the detector, and writes a
-profile to `voices/<name>.md`. The shipped **counsel** voice was built this way —
+profile to `voices/<name>.md`. The shipped **counsel** voice was built this way.
 `voices/counsel.md` shows what a learned profile looks like.
 
 ## Voices that ship with it
@@ -117,7 +117,7 @@ profile to `voices/<name>.md`. The shipped **counsel** voice was built this way 
 - **plain** — say it once, in the fewest honest words.
 - **punchy** — high contrast; long build, short hit.
 
-Add your own with `/cadence learn`. Profiles are plain markdown in `voices/` — read
+Add your own with `/cadence learn`. Profiles are plain markdown in `voices/`. Read
 them, edit them, share them.
 
 ## The detector
@@ -134,13 +134,13 @@ node skills/cadence/scripts/deslop.mjs --strict draft.txt   # exit 1 if score > 
 
 It measures sentence-length variance (the strongest tell), a banned-phrase list,
 hollow-confidence words, triad density, negation pivots, hedge-stacking, adverb and
-em-dash rates — and returns a transparent 0–100 score plus a letter grade. Same
+em-dash rates. It returns a transparent 0–100 score plus a letter grade. Same
 text, same score, every time.
 
 ## Install
 
 Cadence is packaged as a Claude Code plugin, and this repo is its own marketplace.
-Plugins are free — there's no store, no review, no fee.
+Plugins are free. There's no store, no review, no fee.
 
 **From GitHub (once this repo is pushed):**
 
