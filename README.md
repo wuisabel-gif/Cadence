@@ -162,9 +162,9 @@ text, same score, every time.
 
 ## Install
 
-**The full plugin** — writes in voices, learns new ones from samples. Cadence is a
-Claude Code plugin, and this repo is its own marketplace; plugins are free, with no
-store, review, or fee:
+**The full plugin.** It writes in voices and learns new ones from samples. Cadence is
+a Claude Code plugin, and this repo is its own marketplace; plugins are free, with no
+store and no fee:
 
 ```
 /plugin marketplace add wuisabel-gif/Cadence
@@ -176,7 +176,7 @@ in a new session. New voices you create with `/cadence learn` are written to a
 `voices/` folder in whatever project you're working in. (Developing on Cadence? Point
 the marketplace at a local clone instead: `/plugin marketplace add ~/cadence`.)
 
-**Just the detector** — score prose anywhere, no plugin:
+**Just the detector.** Score prose anywhere, no plugin needed:
 
 ```bash
 npx cadence-deslop draft.txt     # run it without installing
