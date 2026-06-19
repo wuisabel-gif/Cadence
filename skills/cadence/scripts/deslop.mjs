@@ -17,6 +17,9 @@
  * threshold (default 25), so it can gate a writing pipeline.
  */
 
+import { readFileSync, realpathSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
 // ─── Lexical rules ──────────────────────────────────────────────────────────
 // Phrases that almost never survive a human editor. Each hit is one finding.
 const BANNED_PHRASES = [
@@ -266,18 +269,36 @@ export function formatReport(result) {
 }
 
 // ─── CLI ────────────────────────────────────────────────────────────────────
+const HELP = `cadence-deslop — score prose for AI tells (0 clean … 100 slop)
+
+Usage
+  cadence-deslop <file>            human-readable report
+  cadence-deslop --json <file>     machine-readable JSON
+  cat draft.txt | cadence-deslop   read from stdin
+  cadence-deslop --strict <file>   exit 1 when score > 25 (CI gate)
+
+Options
+  --json         output JSON instead of the report
+  --strict       non-zero exit when the score exceeds 25
+  -h, --help     show this help
+  -v, --version  print the version
+`;
+
+function version() {
+  try {
+    return JSON.parse(readFileSync(new URL('../../../package.json', import.meta.url), 'utf8')).version;
+  } catch { return '0.0.0'; }
+}
+
+// True only when this file is the program entry point. Comparing resolved real
+// paths makes it survive the bin symlink that `npx cadence-deslop` runs through.
 function isMain() {
-  try { return process.argv[1] && import.meta.url.endsWith(process.argv[1].split('/').pop()); }
+  if (!process.argv[1]) return false;
+  try { return realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url)); }
   catch { return false; }
 }
 
-async function readInput(args) {
-  const file = args.find((a) => !a.startsWith('--'));
-  if (file) {
-    const { readFileSync } = await import('node:fs');
-    return readFileSync(file, 'utf8');
-  }
-  // stdin
+async function readStdin() {
   const chunks = [];
   for await (const c of process.stdin) chunks.push(c);
   return Buffer.concat(chunks).toString('utf8');
@@ -285,13 +306,14 @@ async function readInput(args) {
 
 if (isMain()) {
   const args = process.argv.slice(2);
-  const text = await readInput(args);
+  if (args.includes('-h') || args.includes('--help')) { process.stdout.write(HELP); process.exit(0); }
+  if (args.includes('-v') || args.includes('--version')) { process.stdout.write(version() + '\n'); process.exit(0); }
+
+  const file = args.find((a) => !a.startsWith('-'));
+  if (!file && process.stdin.isTTY) { process.stdout.write(HELP); process.exit(0); }
+
+  const text = file ? readFileSync(file, 'utf8') : await readStdin();
   const result = analyze(text);
-  if (args.includes('--json')) {
-    process.stdout.write(JSON.stringify(result, null, 2) + '\n');
-  } else {
-    process.stdout.write(formatReport(result) + '\n');
-  }
-  const strictThreshold = 25;
-  if (args.includes('--strict') && result.score > strictThreshold) process.exit(1);
+  process.stdout.write((args.includes('--json') ? JSON.stringify(result, null, 2) : formatReport(result)) + '\n');
+  if (args.includes('--strict') && result.score > 25) process.exit(1);
 }

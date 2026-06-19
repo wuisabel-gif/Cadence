@@ -132,14 +132,21 @@ them, edit them, share them.
 
 ## The detector
 
-`skills/cadence/scripts/deslop.mjs` is the engine. It's pure Node, no dependencies, no
-network. Run it standalone:
+The detector is the front door — try it in five seconds, no install:
 
 ```bash
-node skills/cadence/scripts/deslop.mjs draft.txt           # human report
-node skills/cadence/scripts/deslop.mjs --json draft.txt     # machine-readable
-cat draft.txt | node skills/cadence/scripts/deslop.mjs      # stdin
-node skills/cadence/scripts/deslop.mjs --strict draft.txt   # exit 1 if score > 25 (CI gate)
+npx cadence-deslop draft.txt          # score any file
+pbpaste | npx cadence-deslop          # score whatever's on your clipboard
+npx cadence-deslop --json draft.txt   # machine-readable JSON
+npx cadence-deslop --strict draft.txt # exit 1 if score > 25 (CI gate)
+```
+
+`deslop.mjs` is the engine — pure Node, zero dependencies, no network. Run it from a
+clone the same way:
+
+```bash
+node skills/cadence/scripts/deslop.mjs draft.txt
+cat draft.txt | node skills/cadence/scripts/deslop.mjs
 ```
 
 It measures sentence-length variance (the strongest tell), a banned-phrase list,
