@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cadence — a Claude Code plugin for prose fluency</title>
+<meta name="description" content="Cadence is a Claude Code plugin that writes in a voice you choose, with less AI tone. It learns a voice from writing you admire, writes in it, and runs a deterministic detector that scores any draft and names every AI tell.">
+<meta property="og:title" content="Cadence — a Claude Code plugin for prose fluency">
+<meta property="og:description" content="Write in a voice you choose, with less AI tone. A deterministic detector scores any draft and names every AI tell.">
+<meta property="og:type" content="website">
+<script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400;500;600&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+/* ============================== tokens ============================== */
+:root{
+  --paper:      oklch(0.977 0.004 255);
+  --paper-2:    oklch(0.948 0.006 255);
+  --paper-3:    oklch(0.925 0.008 255);
+  --ink:        oklch(0.245 0.035 262);
+  --ink-soft:   oklch(0.395 0.030 262);
+  --muted:      oklch(0.505 0.022 262);
+  --brand:      oklch(0.430 0.150 264);
+  --brand-deep: oklch(0.345 0.130 264);
+  --flag:       oklch(0.585 0.205 28);
+  --flag-ink:   oklch(0.505 0.180 28);
+  --good:       oklch(0.520 0.110 150);
+  --line:       oklch(0.885 0.006 255);
+  --line-2:     oklch(0.820 0.010 255);
+
+  --panel:      oklch(0.225 0.030 262);
+  --panel-2:    oklch(0.275 0.032 262);
+  --panel-ink:  oklch(0.910 0.012 255);
+  --panel-mut:  oklch(0.660 0.018 255);
+  --panel-flag: oklch(0.730 0.170 32);
+  --panel-good: oklch(0.790 0.140 155);
+  --panel-line: oklch(0.345 0.030 262);
+
+  --display:"Bricolage Grotesque",-apple-system,system-ui,"Segoe UI",sans-serif;
+  --serif:"Spectral",Georgia,"Times New Roman",serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+
+  --z-sticky:100; --z-tooltip:600;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --pad: clamp(1.25rem, 5vw, 4rem);
+  --maxw: 1120px;
+}
+
+/* ============================== base ============================== */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:clamp(1.02rem,0.55vw + 0.9rem,1.14rem);
+  line-height:1.62;
+  font-optical-sizing:auto;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.04;letter-spacing:-0.02em;text-wrap:balance;margin:0}
+p{margin:0;text-wrap:pretty}
+a{color:var(--brand);text-decoration-thickness:.06em;text-underline-offset:.18em}
+a:hover{color:var(--brand-deep)}
+:focus-visible{outline:2.5px solid var(--brand);outline-offset:3px;border-radius:3px}
+code,kbd,samp{font-family:var(--mono)}
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad)}
+.eyebrow-cmd{font-family:var(--mono);font-size:.8rem;color:var(--flag-ink);letter-spacing:.01em}
+.lede{font-size:clamp(1.18rem,0.8vw + 1rem,1.5rem);line-height:1.5;color:var(--ink-soft);max-width:60ch}
+section{padding-block:clamp(3.5rem,8vw,7rem)}
+
+/* ============================== top bar ============================== */
+.bar{position:sticky;top:0;z-index:var(--z-sticky);background:color-mix(in oklab,var(--paper) 86%, transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:1.5rem;height:60px}
+.mark{font-family:var(--display);font-weight:800;font-size:1.18rem;letter-spacing:-0.03em;color:var(--ink);text-decoration:none;display:flex;align-items:baseline;gap:.5rem}
+.mark .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--flag);display:inline-block;transform:translateY(-.05em)}
+.bar nav{margin-left:auto;display:flex;gap:1.4rem;align-items:center;font-family:var(--display);font-size:.92rem;font-weight:500}
+.bar nav a{color:var(--ink-soft);text-decoration:none}
+.bar nav a:hover{color:var(--brand)}
+.chip{font-family:var(--mono);font-size:.72rem;font-weight:500;padding:.2rem .5rem;border:1px solid var(--line-2);border-radius:6px;color:var(--muted)}
+@media(max-width:720px){.bar nav .navlink{display:none}}
+
+/* ============================== hero ============================== */
+.hero{padding-top:clamp(3rem,7vw,5.5rem);padding-bottom:clamp(2.5rem,5vw,4rem)}
+.hero h1{font-size:clamp(2.55rem,6.2vw,4.7rem);font-weight:800;letter-spacing:-0.025em;max-width:15ch}
+.hero .lede{margin-top:1.4rem}
+.hero-cta{margin-top:2rem;display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+.btn{font-family:var(--display);font-weight:600;font-size:.96rem;border-radius:10px;padding:.72rem 1.15rem;border:1px solid transparent;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:transform .25s var(--ease),background .25s var(--ease)}
+.btn-primary{background:var(--ink);color:var(--paper)}
+.btn-primary:hover{background:var(--brand-deep);color:var(--paper);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+.btn-ghost:hover{border-color:var(--ink);color:var(--ink)}
+
+/* ---------- the live readout (signature) ---------- */
+.readout{margin-top:clamp(2.5rem,5vw,3.6rem);border:1px solid var(--line-2);border-radius:16px;background:var(--paper);overflow:hidden;box-shadow:0 1px 0 var(--line)}
+.readout-head{display:flex;align-items:center;gap:.8rem;padding:.85rem 1.2rem;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:.78rem;color:var(--muted);flex-wrap:wrap}
+.readout-head .file{color:var(--ink-soft)}
+.readout-head .state{margin-left:auto;display:inline-flex;align-items:center;gap:.45rem}
+.tdot{width:.5rem;height:.5rem;border-radius:50%}
+.tdot.s-slop{background:var(--flag)}
+.tdot.s-clean{background:var(--good)}
+.readout-body{padding:clamp(1.3rem,3vw,2.1rem)}
+.specimen-stack{display:grid}
+.specimen-stack>*{grid-area:1/1}
+.spec-text{font-family:var(--serif);font-size:clamp(1.18rem,0.9vw + 1rem,1.5rem);line-height:1.56;max-width:64ch;transition:opacity .5s var(--ease)}
+.spec-text.clean{opacity:0;pointer-events:none}
+.is-clean .spec-text.slop{opacity:0;pointer-events:none}
+.is-clean .spec-text.clean{opacity:1;pointer-events:auto}
+
+/* proofreader marks */
+.tell{position:relative;color:var(--flag-ink);cursor:help;text-decoration:none;background:
+   linear-gradient(transparent 84%, color-mix(in oklab,var(--flag) 26%, transparent) 0) ;
+   border-radius:2px;padding-bottom:.02em;transition:background .4s var(--ease),color .4s var(--ease)}
+.is-clean .tell{color:inherit;background:transparent}
+.tell::after{content:attr(data-tell);position:absolute;left:50%;bottom:calc(100% + .55rem);transform:translateX(-50%) translateY(4px);background:var(--panel);color:var(--panel-ink);font-family:var(--mono);font-size:.68rem;line-height:1.2;white-space:nowrap;padding:.32rem .5rem;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:var(--z-tooltip)}
+.tell::before{content:"";position:absolute;left:50%;bottom:calc(100% + .3rem);transform:translateX(-50%);border:5px solid transparent;border-top-color:var(--panel);opacity:0;transition:opacity .18s;z-index:var(--z-tooltip)}
+.tell:hover::after,.tell:focus-visible::after{opacity:1;transform:translateX(-50%) translateY(0)}
+.tell:hover::before,.tell:focus-visible::before{opacity:1}
+.is-clean .tell::after,.is-clean .tell::before{display:none}
+
+/* instrument: the score scale */
+.instrument{margin-top:1.8rem;border-top:1px solid var(--line);padding-top:1.5rem;display:grid;grid-template-columns:1fr auto;gap:1.4rem 2rem;align-items:end}
+.scale{min-width:0}
+.scale-label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-bottom:.55rem}
+.scale-label b{color:var(--good);font-weight:600}
+.scale-label i{color:var(--flag-ink);font-style:normal;font-weight:600}
+.track{position:relative;height:8px;border-radius:99px;background:var(--paper-3);border:1px solid var(--line)}
+.ticks{position:absolute;inset:0;display:flex;justify-content:space-between;padding-inline:0}
+.ticks span{width:1px;height:100%;background:var(--line-2)}
+.marker{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:var(--flag);border:3px solid var(--paper);box-shadow:0 0 0 1px var(--flag);transform:translate(-50%,-50%);transition:left .9s var(--ease),background .6s var(--ease),box-shadow .6s var(--ease)}
+.is-clean .marker{background:var(--good);box-shadow:0 0 0 1px var(--good)}
+.ticknums{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.66rem;color:var(--muted);margin-top:.5rem}
+.score-block{text-align:right;line-height:1}
+.score-num{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,5vw,3.6rem);letter-spacing:-0.04em;font-variant-numeric:tabular-nums;color:var(--flag-ink);transition:color .6s var(--ease)}
+.is-clean .score-num{color:var(--good)}
+.score-den{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.grade{display:inline-flex;align-items:center;gap:.4rem;margin-top:.5rem;font-family:var(--mono);font-size:.78rem;color:var(--ink-soft)}
+.grade b{font-family:var(--display);font-weight:700;font-size:1.05rem;padding:.05rem .5rem;border-radius:7px;background:color-mix(in oklab,var(--flag) 16%,var(--paper));color:var(--flag-ink);transition:all .5s var(--ease)}
+.is-clean .grade b{background:color-mix(in oklab,var(--good) 18%,var(--paper));color:var(--good)}
+.readout-foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.2rem;border-top:1px solid var(--line);background:var(--paper-2);flex-wrap:wrap}
+.readout-foot .caption{font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.toggle{font-family:var(--mono);font-weight:500;font-size:.82rem;border:1px solid var(--ink);background:var(--ink);color:var(--paper);border-radius:9px;padding:.6rem .95rem;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;transition:background .25s var(--ease),transform .25s var(--ease)}
+.toggle:hover{transform:translateY(-1px)}
+.toggle .arrow{transition:transform .4s var(--ease)}
+.is-clean .toggle .arrow{transform:rotate(180deg)}
+
+/* ============================== generic section heads ============================== */
+.head{max-width:34ch}
+.head h2{font-size:clamp(1.85rem,3.6vw,2.85rem);letter-spacing:-0.02em}
+.head p{margin-top:.9rem;color:var(--ink-soft);max-width:56ch}
+
+/* ============================== fingerprint ============================== */
+.fingerprint{background:var(--paper-2);border-block:1px solid var(--line)}
+.fp-grid{margin-top:clamp(2rem,4vw,3rem);display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(1.5rem,3vw,3rem);align-items:start}
+@media(max-width:860px){.fp-grid{grid-template-columns:1fr}}
+.annotated{font-family:var(--serif);font-size:clamp(1.15rem,0.8vw + 1rem,1.42rem);line-height:1.65;color:var(--ink)}
+.annotated .tell{cursor:default}
+.legend{font-family:var(--display);position:sticky;top:80px}
+.legend dl{margin:0;display:grid;gap:0}
+.legend div{padding:.85rem 0;border-top:1px solid var(--line-2);display:grid;grid-template-columns:auto 1fr;gap:.4rem 1rem;align-items:baseline}
+.legend div:last-child{border-bottom:1px solid var(--line-2)}
+.legend dt{font-weight:700;font-size:.98rem;color:var(--ink);display:flex;align-items:center;gap:.55rem;white-space:nowrap}
+.legend dt .swatch{width:.7rem;height:.7rem;border-radius:3px;background:color-mix(in oklab,var(--flag) 40%,var(--paper))}
+.legend dd{margin:0;font-family:var(--serif);font-size:.95rem;color:var(--muted);line-height:1.45}
+
+/* ============================== voices ============================== */
+.voices .brief{font-family:var(--mono);font-size:.82rem;color:var(--ink-soft);margin-top:1.2rem;padding:.7rem .95rem;border:1px dashed var(--line-2);border-radius:10px;display:inline-block;background:var(--paper-2)}
+.voices .brief b{color:var(--flag-ink);font-weight:500}
+.specimens{margin-top:clamp(2rem,4vw,3rem);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(1.5rem,3vw,2.5rem)}
+.specimen{border:1px solid var(--line-2);border-radius:14px;padding:clamp(1.4rem,2.5vw,2rem);background:var(--paper);display:flex;flex-direction:column}
+.specimen .vname{font-family:var(--mono);font-size:.8rem;color:var(--brand);font-weight:600}
+.specimen .vchar{font-family:var(--display);font-weight:600;font-size:1.05rem;color:var(--ink-soft);margin-top:.3rem;line-height:1.3}
+.specimen .vbody{font-family:var(--serif);font-size:clamp(1.08rem,0.7vw + 0.95rem,1.32rem);line-height:1.56;margin-top:1.3rem;color:var(--ink)}
+.specimen .vbody p+p{margin-top:.85rem}
+.specimen .vbody em{font-style:italic}
+.specimen .vspec{margin-top:auto;padding-top:1.3rem;font-family:var(--mono);font-size:.74rem;color:var(--muted);display:flex;gap:.4rem;flex-wrap:wrap;align-items:center}
+.specimen .vspec .ok{color:var(--good);font-weight:600}
+.specimen .vspec .sep{color:var(--line-2)}
+
+/* catalogue */
+.catalogue{margin-top:clamp(2.5rem,5vw,4rem)}
+.catalogue h3{font-family:var(--display);font-size:1.15rem;font-weight:700;letter-spacing:-0.01em}
+.cat-list{margin-top:1.4rem;border-top:1px solid var(--line)}
+.cat-row{display:grid;grid-template-columns:minmax(140px,180px) 1fr;gap:.4rem 2rem;padding:1.15rem 0;border-bottom:1px solid var(--line);align-items:baseline}
+@media(max-width:620px){.cat-row{grid-template-columns:1fr;gap:.3rem}}
+.cat-row .name{font-family:var(--mono);font-weight:600;font-size:.98rem;color:var(--ink);display:flex;align-items:center;gap:.5rem}
+.cat-row .name::before{content:"";width:.45rem;height:.45rem;border-radius:2px;background:color-mix(in oklab,var(--brand) 55%,var(--paper))}
+.cat-row .desc{color:var(--ink-soft);font-size:1rem;line-height:1.5}
+.cat-row .desc .samp{display:block;margin-top:.45rem;font-family:var(--serif);font-style:italic;color:var(--muted);font-size:.98rem}
+.learn-note{margin-top:1.8rem;font-size:1rem;color:var(--ink-soft);max-width:60ch}
+.learn-note code{font-size:.86em;background:var(--paper-2);padding:.12em .4em;border-radius:5px;border:1px solid var(--line)}
+.profile-peek{margin-top:1.6rem;border:1px solid var(--line-2);border-radius:12px;overflow:hidden;background:var(--paper);box-shadow:0 1px 0 var(--line)}
+.profile-peek .pp-head{font-family:var(--mono);font-size:.73rem;color:var(--muted);padding:.6rem .95rem;border-bottom:1px solid var(--line);background:var(--paper-2);display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.profile-peek .pp-head .f{color:var(--ink-soft)}
+.profile-peek pre{margin:0;padding:1.05rem 1.15rem;font-family:var(--mono);font-size:.77rem;line-height:1.72;color:var(--ink-soft);overflow-x:auto;white-space:pre-wrap}
+.profile-peek .k{color:var(--brand);font-weight:600}
+.profile-peek .fm{color:var(--muted)}
+
+/* ============================== detector ============================== */
+.detector{background:var(--panel);color:var(--panel-ink);border-block:1px solid var(--panel-line)}
+.detector .head h2{color:var(--panel-ink)}
+.detector .head p{color:var(--panel-mut);line-height:1.7}
+.det-grid{margin-top:clamp(2rem,4vw,3rem);display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(1.8rem,4vw,3.5rem);align-items:start}
+@media(max-width:860px){.det-grid{grid-template-columns:1fr}}
+.terminal{background:var(--panel-2);border:1px solid var(--panel-line);border-radius:12px;overflow:hidden;font-family:var(--mono);font-size:.82rem;line-height:1.7}
+.terminal .tbar{display:flex;gap:.4rem;padding:.7rem .9rem;border-bottom:1px solid var(--panel-line)}
+.terminal .tbar i{width:.6rem;height:.6rem;border-radius:50%;background:var(--panel-line)}
+.terminal pre{margin:0;padding:1.1rem 1.1rem 1.3rem;overflow-x:auto;color:var(--panel-ink);white-space:pre}
+.terminal .cmd{color:var(--panel-good)}
+.terminal .cm{color:var(--panel-mut)}
+.terminal .flag{color:var(--panel-flag)}
+.measures dt{font-family:var(--mono);font-weight:600;font-size:.9rem;color:var(--panel-ink);display:flex;align-items:baseline;gap:.6rem}
+.measures dt .lead{color:var(--panel-good);font-weight:600}
+.measures div{padding:.8rem 0;border-top:1px solid var(--panel-line)}
+.measures div:first-child{border-top:none;padding-top:0}
+.measures dd{margin:.3rem 0 0;color:var(--panel-mut);font-size:.92rem;line-height:1.5}
+.det-foot{margin-top:1.5rem;font-family:var(--mono);font-size:.82rem;color:var(--panel-mut)}
+.det-foot b{color:var(--panel-flag);font-weight:500}
+
+/* ============================== commands ============================== */
+.cmds table{width:100%;border-collapse:collapse;margin-top:clamp(1.8rem,3vw,2.5rem)}
+.cmds caption{text-align:left}
+.cmds th,.cmds td{text-align:left;padding:1.05rem 1.1rem;border-bottom:1px solid var(--line);vertical-align:baseline}
+.cmds thead th{font-family:var(--display);font-size:.78rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line-2);padding-block:.7rem}
+.cmds tbody tr:hover{background:var(--paper-2)}
+.cmds td.c1{font-family:var(--mono);font-weight:600;font-size:.92rem;color:var(--ink);white-space:nowrap;width:1%}
+.cmds td.c1 .pre{color:var(--muted);font-weight:400}
+.cmds td.c1 .arg{color:var(--flag-ink);font-weight:400}
+.cmds td.c2{color:var(--ink-soft);font-size:1rem;line-height:1.5}
+@media(max-width:640px){.cmds th,.cmds td{padding:.85rem .6rem}.cmds td.c1{white-space:normal}}
+
+/* ============================== install ============================== */
+.install{background:var(--paper-2);border-block:1px solid var(--line)}
+.install-grid{margin-top:clamp(2rem,4vw,3rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,3vw,3rem);align-items:start}
+@media(max-width:780px){.install-grid{grid-template-columns:1fr}}
+.codeblock{background:var(--panel);border-radius:12px;padding:1.1rem 1.2rem;font-family:var(--mono);font-size:.84rem;line-height:1.75;color:var(--panel-ink);overflow-x:auto}
+.codeblock .cm{color:var(--panel-mut)}
+.codeblock .pr{color:var(--panel-good)}
+.codeblock+.codeblock{margin-top:1rem}
+.steps{font-family:var(--serif)}
+.steps p{margin-bottom:1.1rem;color:var(--ink-soft)}
+.steps p strong{color:var(--ink);font-weight:600}
+.status{margin-top:1.5rem;display:flex;align-items:center;gap:.7rem;font-family:var(--mono);font-size:.82rem;color:var(--ink-soft)}
+.status .v{padding:.2rem .55rem;border:1px solid var(--line-2);border-radius:6px;color:var(--brand);font-weight:600}
+
+/* ============================== footer ============================== */
+.foot{padding-block:clamp(3rem,6vw,5rem);border-top:1px solid var(--line)}
+.foot-grid{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start}
+@media(max-width:680px){.foot-grid{grid-template-columns:1fr}}
+.foot .tree{font-family:var(--mono);font-size:.76rem;line-height:1.7;color:var(--muted);white-space:pre}
+.foot .signoff{max-width:42ch}
+.foot .signoff p{color:var(--ink-soft);font-size:1rem;margin-top:.6rem}
+.foot .meta{margin-top:1.5rem;font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+
+/* ============================== reveal ============================== */
+/* Resting state is VISIBLE. The .in class plays an entrance animation, so content
+   never depends on JS/observer timing to appear — safe under no-JS, headless
+   renderers, and prefers-reduced-motion. */
+@media(prefers-reduced-motion:no-preference){
+  .js .reveal.in{animation:reveal-in .7s var(--ease) both}
+}
+@keyframes reveal-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+  .marker,.score-num,.spec-text{transition:none}
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="mark" href="#top"><span class="dot"></span>Cadence</a>
+    <nav>
+      <a class="navlink" href="#voices">Voices</a>
+      <a class="navlink" href="#detector">Detector</a>
+      <a class="navlink" href="#commands">Commands</a>
+      <a class="navlink" href="#install">Install</a>
+      <span class="chip">v0.1</span>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero wrap">
+    <p class="eyebrow-cmd reveal">/cadence · a Claude Code plugin for prose fluency</p>
+    <h1 class="reveal" style="margin-top:1rem">Make it sound like you wrote it.</h1>
+    <p class="lede reveal">Cadence learns a voice from writing you admire, then writes in it. Underneath, a deterministic detector scores any draft and names every AI tell — so a clean result is something you check, not just trust.</p>
+    <div class="hero-cta reveal">
+      <a class="btn btn-primary" href="#voices">See the voices</a>
+      <a class="btn btn-ghost" href="#detector">How the detector works</a>
+    </div>
+
+    <!-- signature: live readout -->
+    <div class="readout reveal" id="readout">
+      <div class="readout-head">
+        <span class="file">marketing-draft.txt</span>
+        <span class="state"><span class="tdot s-slop"></span><span id="stateLabel">flagged · grade D</span></span>
+      </div>
+
+      <div class="readout-body">
+        <div class="specimen-stack">
+          <p class="spec-text slop">
+            <span class="tell" tabindex="0" data-tell="cliché opener">In today's world</span>, finding the right productivity app can be a daunting task. Our <span class="tell" tabindex="0" data-tell="hollow confidence">cutting-edge</span> platform <span class="tell" tabindex="0" data-tell="hollow confidence">leverages</span> <span class="tell" tabindex="0" data-tell="hollow confidence">powerful</span> AI to <span class="tell" tabindex="0" data-tell="hollow confidence">seamlessly</span> <span class="tell" tabindex="0" data-tell="hollow confidence">streamline</span> your workflow. <span class="tell" tabindex="0" data-tell="banned phrase">Whether you're</span> a busy professional or a student, our <span class="tell" tabindex="0" data-tell="hollow confidence">comprehensive</span> solution empowers you to do more. <span class="tell" tabindex="0" data-tell="negation pivot">It's not just an app, it's a game-changer.</span> <span class="tell" tabindex="0" data-tell="cliché close">When it comes to getting things done</span>, we've got you covered.
+          </p>
+          <p class="spec-text clean">
+            Most productivity apps add work instead of removing it. This one starts with your real day. It reads what's due and what's blocking you, then shows the single next thing to do. Students use it. So do people running teams. You won't get a dashboard to admire. You'll get fewer open tabs.
+          </p>
+        </div>
+
+        <div class="instrument">
+          <div class="scale">
+            <div class="scale-label"><b>0 · clean</b><i>100 · slop</i></div>
+            <div class="track">
+              <div class="ticks"><span></span><span></span><span></span><span></span><span></span></div>
+              <div class="marker" id="marker" style="left:61%"></div>
+            </div>
+            <div class="ticknums"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+          </div>
+          <div class="score-block">
+            <div><span class="score-num" id="scoreNum">61</span><span class="score-den"> /100</span></div>
+            <div class="grade">grade <b id="gradeChip">D</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="readout-foot">
+        <span class="caption" id="caption">Real output from skills/cadence/scripts/deslop.mjs</span>
+        <button class="toggle" id="toggle" aria-pressed="false">
+          <span class="arrow">↻</span><span id="toggleLabel">Run /cadence recast</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINGERPRINT ============ -->
+  <section class="fingerprint" id="fingerprint">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2>The tell is the rhythm.</h2>
+        <p>Cadence is named for the thing models get wrong first. Flat prose holds one sentence length, leans on words that sound certain but carry nothing, and reaches for the same shapes on reflex. The detector measures each one.</p>
+      </div>
+
+      <div class="fp-grid">
+        <p class="annotated reveal">
+          <span class="tell" data-tell="cliché opener">In today's fast-paced landscape</span>, organizations must adapt. Our solution is <span class="tell" data-tell="hollow confidence">robust</span>, <span class="tell" data-tell="hollow confidence">scalable</span>, and <span class="tell" data-tell="reflexive triad">built for the future</span>. <span class="tell" data-tell="negation pivot">It isn't merely software — it's a partner.</span> <span class="tell" data-tell="hedge stacking">It's worth noting that, in some sense, results may vary.</span> Every sentence runs about the same length. <span class="tell" data-tell="flat rhythm">Every sentence runs about the same length.</span> The variance never moves, and that flatness is the loudest signal of all.
+        </p>
+
+        <div class="legend reveal">
+          <dl>
+            <div><dt><span class="swatch"></span>Flat rhythm</dt><dd>Sentence-length variance near zero. The strongest tell, weighted highest.</dd></div>
+            <div><dt><span class="swatch"></span>Hollow confidence</dt><dd>robust, powerful, seamless, comprehensive — words that assert without saying.</dd></div>
+            <div><dt><span class="swatch"></span>Reflexive triad</dt><dd>The three-part list reached for by habit, not because there are three things.</dd></div>
+            <div><dt><span class="swatch"></span>Negation pivot</dt><dd>The "it's not X, it's Y" seesaw, used to manufacture contrast.</dd></div>
+            <div><dt><span class="swatch"></span>Cliché opener</dt><dd>Throat-clearing that delays the first real sentence.</dd></div>
+            <div><dt><span class="swatch"></span>Hedge stacking</dt><dd>Qualifiers piled until the claim disappears.</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VOICES ============ -->
+  <section class="voices wrap" id="voices">
+    <div class="head reveal">
+      <h2>One idea. The voice does the rest.</h2>
+      <p>A voice is a profile Cadence measures from a sample and writes toward. Below, one brief in all five shipped profiles — read for the change in structure, not just the wording. Every score is real output from the detector.</p>
+    </div>
+    <p class="brief reveal">brief · <b>reassure someone who feels they're falling behind their peers</b></p>
+
+    <div class="specimens">
+      <article class="specimen reveal">
+        <div class="vname">counsel</div>
+        <div class="vchar">A philosopher answering a private worry — reframes your question into a better one.</div>
+        <div class="vbody">
+          <p>You open the app and everyone is ahead of you. Engaged, promoted, somewhere sunlit. Underneath is a quiet arithmetic: they have more, so I have less, so I must be less.</p>
+          <p>But notice what that smuggles in. It assumes one shared finish line, and that the people posting are reporting rather than performing. Neither holds. Nobody posts the afternoon they spent staring at the ceiling.</p>
+          <p>Here is a question to set beside <em>am I falling behind?</em> — behind whom, and toward what? Name the finish line and you usually can't. The race dissolves.</p>
+        </div>
+        <div class="vspec"><span class="ok">score 0/100 · grade A</span><span class="sep">·</span><span>rhythm CV 0.57</span></div>
+      </article>
+
+      <article class="specimen reveal">
+        <div class="vname">reckoning</div>
+        <div class="vchar">Scene first, then a hard truth. Aphoristic close.</div>
+        <div class="vbody">
+          <p>At your ten-year reunion someone will have the house, the title, the symmetrical children, and you will do the math on the drive home. Here is what the math leaves out. Every person in that room ran a different race on a different track, and the clock you keep reading was never theirs to begin with.</p>
+          <p>The comparison isn't wrong. It is measuring nothing. You are not behind. There is no line to be behind.</p>
+        </div>
+        <div class="vspec"><span class="ok">score 0/100 · grade A</span></div>
+      </article>
+
+      <article class="specimen reveal">
+        <div class="vname">plain</div>
+        <div class="vchar">Say it once, in the fewest honest words.</div>
+        <div class="vbody">
+          <p>Everyone you follow is ahead of you. That is what the feed is for. It collects the wins and hides the ordinary Tuesdays, then shows you the total as if it were one person's life. It isn't.</p>
+          <p>You are measuring your whole self against other people's edited parts. Do one thing today that matters to you. Then do another tomorrow.</p>
+        </div>
+        <div class="vspec"><span class="ok">score 0/100 · grade A</span><span class="sep">·</span><span>rhythm CV 0.67</span></div>
+      </article>
+
+      <article class="specimen reveal">
+        <div class="vname">punchy</div>
+        <div class="vchar">High contrast — a long build, then a short hit.</div>
+        <div class="vbody">
+          <p>You spend an hour scrolling and come away sure everyone has it figured out. They don't. The feed is a trophy case, not a life: the promotions and the beaches and the rings, never the 2 a.m. doubt or the rent that came late.</p>
+          <p>You are racing people who aren't running. Close the app. Build one real thing this week. That is the whole game.</p>
+        </div>
+        <div class="vspec"><span class="ok">score 0/100 · grade A</span><span class="sep">·</span><span>rhythm CV 0.73</span></div>
+      </article>
+
+      <article class="specimen reveal">
+        <div class="vname">measured-academic</div>
+        <div class="vchar">Careful first-person reasoning that concedes before it concludes.</div>
+        <div class="vbody">
+          <p>It helps to separate two claims that the feeling of falling behind tends to run together. The first is that one's peers have, in fact, achieved more; the second is that such achievement is the right measure of a life. Grant the first, for the sake of argument. The second does not follow.</p>
+          <p>A timeline records what is legible and public, and stays silent on everything that resists that format, which is to say most of what matters. So even where the comparison is accurate, it answers a question you never meant to ask.</p>
+        </div>
+        <div class="vspec"><span class="ok">score 0/100 · grade A</span><span class="sep">·</span><span>rhythm CV 0.47</span></div>
+      </article>
+    </div>
+
+    <div class="catalogue reveal">
+      <h3>Five voices ship with it</h3>
+      <div class="cat-list">
+        <div class="cat-row">
+          <span class="name">counsel</span>
+          <span class="desc">A philosopher answering a private worry; reframes your question into a better one.<span class="samp">“Name the finish line and you usually can't. The race dissolves.”</span></span>
+        </div>
+        <div class="cat-row">
+          <span class="name">reckoning</span>
+          <span class="desc">Scene first, then a hard truth.<span class="samp">“The comparison isn't wrong. It is measuring nothing.”</span></span>
+        </div>
+        <div class="cat-row">
+          <span class="name">measured-academic</span>
+          <span class="desc">Careful first-person reasoning that concedes before it concludes.<span class="samp">“Grant the first, for the sake of argument. The second does not follow.”</span></span>
+        </div>
+        <div class="cat-row">
+          <span class="name">plain</span>
+          <span class="desc">Say it once, in the fewest honest words.<span class="samp">“You won't get a dashboard to admire. You'll get fewer open tabs.”</span></span>
+        </div>
+        <div class="cat-row">
+          <span class="name">punchy</span>
+          <span class="desc">High contrast — a long build, then a short hit.<span class="samp">“Close the app. Build one real thing this week. That is the whole game.”</span></span>
+        </div>
+      </div>
+      <p class="learn-note">Add your own with <code>/cadence learn &lt;sample&gt;</code>. Cadence reads the sample, measures its real rhythm with the detector, and writes a profile to <code>voices/&lt;name&gt;.md</code>. Profiles are plain markdown — read them, edit them, share them.</p>
+
+      <div class="profile-peek reveal">
+        <div class="pp-head"><span class="f">voices/counsel.md</span> · the profile <code style="all:unset;color:var(--flag-ink)">/cadence learn</code> writes, abridged</div>
+<pre><span class="fm">---
+name:</span> <span class="k">counsel</span><span class="fm">
+label:</span> Counsel<span class="fm">
+register:</span> brand<span class="fm">
+---</span>
+
+<span class="k">Essence</span>  a philosopher answering a private worry: takes the
+         question you asked, finds the assumption inside it,
+         and hands back a better one.
+
+<span class="k">Rhythm</span>   ~16-word average, very wide swing (CV ~0.74) — a long
+         winding sentence, then a three-word verdict.
+<span class="k">Devices</span>  reframe to a better question · philosophy, then
+         something you can touch · question cascade in the
+         reader's voice · self-implication.
+<span class="k">Never</span>    closes on reassurance — it closes on a reframe.</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DETECTOR ============ -->
+  <section class="detector" id="detector">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2>A detector you can run yourself.</h2>
+        <p>The engine is plain Node — no dependencies, no network. Run it on any draft and the score comes back the same every time, with every tell named. Nothing about the result asks you to take it on faith.</p>
+      </div>
+
+      <div class="det-grid">
+        <div class="terminal reveal" role="img" aria-label="Terminal output of the deslop detector before and after recasting, showing the score drop from 61 to 0.">
+          <div class="tbar"><i></i><i></i><i></i></div>
+<pre><span class="cmd">$ node skills/cadence/scripts/deslop.mjs before.txt</span>
+
+Cadence de-slop  ·  <span class="flag">score 61/100  ·  grade D</span>
+  <span class="flag">banned-phrase (4)</span>: "In today's world", "When it comes to",
+                    "game-changer", "Whether you're"
+  <span class="flag">hollow-confidence (5)</span>: "seamlessly", "powerful",
+                    "comprehensive", "cutting-edge", "streamline"
+  <span class="flag">negation-pivot (1)</span>: "It's not just an app, it's…"
+  <span class="flag">cliche-opener (1)</span>: "When it comes to getting things done…"
+
+<span class="cm"># recast into the plain voice, then re-score:</span>
+<span class="cmd">$ node skills/cadence/scripts/deslop.mjs after.txt</span>
+
+Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grade A</span>     (61 → 0)</pre>
+        </div>
+
+        <div class="reveal">
+          <dl class="measures">
+            <div><dt><span class="lead">▍</span>Sentence-length variance</dt><dd>The strongest tell, weighted highest. Flat rhythm is what reads as machine-made.</dd></div>
+            <div><dt>Banned-phrase list</dt><dd>“In today's world,” “when it comes to,” and the rest of the stock openers and fillers.</dd></div>
+            <div><dt>Hollow-confidence words</dt><dd>Assertions that carry no content: seamless, robust, powerful, comprehensive.</dd></div>
+            <div><dt>Triad density · negation pivots</dt><dd>The reflexive three-part list and the “not X, it's Y” seesaw.</dd></div>
+            <div><dt>Hedge stacking · adverb · em-dash rate</dt><dd>Qualifier pile-ups and the punctuation habits that give a draft away.</dd></div>
+          </dl>
+          <p class="det-foot">Gate it in CI: <b>--strict</b> exits 1 when the score climbs past 25. A clean build is a clean draft.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COMMANDS ============ -->
+  <section class="cmds wrap" id="commands">
+    <div class="head reveal">
+      <h2>Five commands.</h2>
+      <p>You type these in Claude Code. Each takes a sample, a brief, or a block of text.</p>
+    </div>
+    <table class="reveal">
+      <thead><tr><th scope="col">Command</th><th scope="col">What it does</th></tr></thead>
+      <tbody>
+        <tr><td class="c1"><span class="pre">/cadence</span> learn <span class="arg">&lt;sample&gt;</span></td><td class="c2">Reads a book, article, or URL and extracts a reusable voice profile.</td></tr>
+        <tr><td class="c1"><span class="pre">/cadence</span> write <span class="arg">&lt;brief&gt;</span></td><td class="c2">Drafts new prose in a chosen voice.</td></tr>
+        <tr><td class="c1"><span class="pre">/cadence</span> recast <span class="arg">&lt;text&gt;</span></td><td class="c2">Rewrites existing text into a chosen voice, keeping the meaning.</td></tr>
+        <tr><td class="c1"><span class="pre">/cadence</span> deslop <span class="arg">&lt;text&gt;</span></td><td class="c2">Scores text and reports every AI tell — diagnose, then optionally fix.</td></tr>
+        <tr><td class="c1"><span class="pre">/cadence</span> voices</td><td class="c2">Lists the voices you've learned plus the shipped seeds.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ INSTALL ============ -->
+  <section class="install" id="install">
+    <div class="wrap">
+      <div class="head reveal">
+        <h2>Install it.</h2>
+        <p>Cadence ships as a Claude Code plugin. Add the marketplace once, install, and the commands are live in your next session.</p>
+      </div>
+      <div class="install-grid">
+        <div class="reveal">
+          <div class="codeblock"><span class="cm"># 1 · add the marketplace (note the capital C)</span>
+<span class="pr">&gt;</span> /plugin marketplace add wuisabel-gif/Cadence
+
+<span class="cm"># 2 · install the plugin — name@marketplace</span>
+<span class="pr">&gt;</span> /plugin install cadence@cadence</div>
+          <div class="codeblock"><span class="cm"># 3 · start a fresh session, then try</span>
+<span class="pr">&gt;</span> /cadence voices
+<span class="pr">&gt;</span> /cadence deslop &lt;paste a draft&gt;
+<span class="pr">&gt;</span> /cadence write a 150-word intro in the counsel voice</div>
+          <div class="status">status <span class="v">v0.1</span> · the detector and five seed voices work and are tested</div>
+        </div>
+        <div class="steps reveal">
+          <p>These run at the <strong>Claude Code prompt</strong> — a terminal dialog, not your shell. Add the marketplace once, install, then open a new session; skills load when a session starts.</p>
+          <p>Rather click than type? Run <strong>/plugin</strong>, open the Discover tab, and pick Cadence from the list.</p>
+          <p>Working on Cadence itself? Skip the marketplace and link the skill straight into your config:</p>
+          <div class="codeblock"><span class="cm"># develop locally</span>
+<span class="pr">$</span> ln -s "$(pwd)/skills/cadence" ~/.claude/skills/cadence
+<span class="pr">$</span> npm test   <span class="cm"># twelve tests over the detector</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot wrap">
+  <div class="foot-grid">
+    <div class="signoff">
+      <a class="mark" href="#top"><span class="dot"></span>Cadence</a>
+      <p>A detector for the AI fingerprint, and a voice to write toward instead. Diagnose first, then fix — then verify the result.</p>
+      <div class="meta">v0.1 · plain Node · no dependencies · built by <a href="https://github.com/wuisabel-gif">Isabel Wu</a></div>
+    </div>
+    <pre class="tree">cadence/
+├── .claude-plugin/
+│   ├── marketplace.json
+│   └── plugin.json
+├── skills/        # the /cadence skill + commands
+├── voices/        # shipped voice profiles
+└── tests/         # detector tests</pre>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- reveal on scroll (content visible by default if no JS / failsafe) ---------- */
+  /* Content is visible by default; .in only layers on the entrance animation.
+     No failsafe needed — nothing is ever hidden waiting for a class. */
+  if(!prefersReduced && 'IntersectionObserver' in window){
+    var reveals = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:0.08});
+    reveals.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---------- hero de-slop interaction ---------- */
+  var readout = document.getElementById('readout');
+  var toggle = document.getElementById('toggle');
+  var scoreNum = document.getElementById('scoreNum');
+  var marker = document.getElementById('marker');
+  var grade = document.getElementById('gradeChip');
+  var toggleLabel = document.getElementById('toggleLabel');
+  var stateLabel = document.getElementById('stateLabel');
+  var caption = document.getElementById('caption');
+  var clean = false;
+  var rafId;
+
+  function easeOutExpo(t){ return t===1?1:1-Math.pow(2,-10*t); }
+
+  function animateScore(from, to){
+    if(prefersReduced){ scoreNum.textContent = to; return; }
+    cancelAnimationFrame(rafId);
+    var start = null, dur = 850;
+    function step(ts){
+      if(start===null) start = ts;
+      var p = Math.min((ts-start)/dur, 1);
+      var v = Math.round(from + (to-from)*easeOutExpo(p));
+      scoreNum.textContent = v;
+      if(p<1) rafId = requestAnimationFrame(step);
+      else scoreNum.textContent = to;
+    }
+    rafId = requestAnimationFrame(step);
+  }
+
+  function setState(toClean){
+    clean = toClean;
+    readout.classList.toggle('is-clean', clean);
+    if(clean){
+      marker.style.left = '0%';
+      grade.textContent = 'A';
+      animateScore(61, 0);
+      toggleLabel.textContent = 'Reset';
+      toggle.setAttribute('aria-pressed','true');
+      stateLabel.textContent = 'clean · grade A';
+      document.querySelector('.state .tdot').className = 'tdot s-clean';
+      caption.textContent = 'Recast into the plain voice — 61 → 0';
+    } else {
+      marker.style.left = '61%';
+      grade.textContent = 'D';
+      animateScore(0, 61);
+      toggleLabel.textContent = 'Run /cadence recast';
+      toggle.setAttribute('aria-pressed','false');
+      stateLabel.textContent = 'flagged · grade D';
+      document.querySelector('.state .tdot').className = 'tdot s-slop';
+      caption.textContent = 'Real output from skills/cadence/scripts/deslop.mjs';
+    }
+  }
+
+  toggle.addEventListener('click', function(){ setState(!clean); });
+})();
+</script>
+</body>
+</html>
