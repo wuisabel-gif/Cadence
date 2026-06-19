@@ -38,10 +38,34 @@ paragraph — and rewrite it in a chosen voice without losing the meaning.
    → 0.55 · voice: plain`. Optionally show one or two before/after sentence pairs
    so the user can see the move.
 
+## Recasting a whole file in place (HTML, Markdown, text)
+
+When the user points at a file — "de-slop `index.html`", "recast this page" — rewrite
+the **prose only** and leave everything else byte-for-byte.
+
+1. **Score it first.** `deslop.mjs <file>` auto-detects `.html` (visible text) and
+   takes `--prose-only` for Markdown. Save the before-score.
+2. **Edit the words, never the structure.** Recast each block of visible copy in
+   place with the `Edit` tool:
+   - **HTML** — rewrite the text inside content elements (`<p>`, `<li>`, headings,
+     `<blockquote>`, link text). Never touch tags, attributes, classes, `<script>`,
+     `<style>`, or layout. The DOM shape stays identical; only the words change.
+   - **Markdown** — rewrite paragraphs; leave code fences, tables, frontmatter, and
+     link targets intact.
+   - Skip text that is *meant* to be slop (a quoted bad example, a demo). Ask if
+     unsure.
+3. **Re-score and report the delta** the same way (`deslop.mjs <file>` again), with
+   a couple of before/after sentence pairs. Confirm the markup is unchanged.
+
+This is the same recasting discipline as above, applied element by element. The user
+keeps their layout; the writing gets better.
+
 ## Pitfalls
 
 - **Over-recasting** drifts from the user's meaning to hit a voice. The meaning
   wins. A faithful B beats a stylish distortion.
+- **Breaking markup.** On a file recast, changing a tag, attribute, or class is a
+  bug. If a rewrite would need a structural change, leave it and flag it instead.
 - **Recasting already-good prose** can flatten it. If the original scores under
   ~15 and the user only wanted a voice shift, change diction and rhythm lightly;
   don't rebuild what isn't broken.
