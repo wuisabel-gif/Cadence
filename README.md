@@ -45,7 +45,8 @@ You type these in Claude Code as `/cadence <command>`:
 | `deslop <text>` | Scores text and reports every AI tell — diagnose, then optionally fix |
 | `voices` | Lists the voices you've learned plus the shipped seeds |
 
-Every command and CLI flag is documented in **[MANUAL.md](MANUAL.md)**.
+New here? **[SOP.md](SOP.md)** is the step-by-step playbook. Every command and CLI
+flag is documented in **[MANUAL.md](MANUAL.md)**.
 
 ## Examples
 
