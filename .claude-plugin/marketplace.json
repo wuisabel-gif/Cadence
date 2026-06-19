@@ -1,0 +1,25 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "cadence",
+  "metadata": {
+    "description": "Prose fluency for AI harnesses. Write in a voice you choose, with less AI tone."
+  },
+  "owner": {
+    "name": "Isabel Wu",
+    "email": "231155141+wuisabel-gif@users.noreply.github.com"
+  },
+  "plugins": [
+    {
+      "name": "cadence",
+      "description": "Write in a voice you choose, with less AI tone. One skill, 5 commands (/cadence write, learn, recast, deslop, voices) and a deterministic de-slop detector that scores prose and names every AI tell.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Isabel Wu",
+        "email": "231155141+wuisabel-gif@users.noreply.github.com"
+      },
+      "source": ".",
+      "category": "writing",
+      "tags": ["writing", "prose", "voice", "tone", "editing", "anti-slop", "skills", "commands"]
+    }
+  ]
+}

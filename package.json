@@ -1,0 +1,17 @@
+{
+  "name": "cadence-skill",
+  "version": "0.1.0",
+  "description": "A Claude Code skill that writes in a voice you choose and strips AI tone — with a deterministic de-slop detector.",
+  "type": "module",
+  "bin": {
+    "deslop": "skills/cadence/scripts/deslop.mjs"
+  },
+  "scripts": {
+    "test": "node --test tests/deslop.test.mjs",
+    "deslop": "node skills/cadence/scripts/deslop.mjs"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
