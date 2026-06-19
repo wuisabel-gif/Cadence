@@ -6,6 +6,12 @@
 
 <p align="center"><b>An AI-text humanizer for Claude Code — write in a voice you choose, with less AI tone.</b></p>
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/cadence-deslop"><img src="https://img.shields.io/npm/v/cadence-deslop?color=2348a1&label=npm%20%C2%B7%20cadence-deslop" alt="npm version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2348a1" alt="MIT license"></a>
+  <img src="https://img.shields.io/badge/dependencies-0-2348a1" alt="zero dependencies">
+</p>
+
 > 📐 **Verified by Cadence** — this README's own prose scores grade A on the detector. The slop quoted in the examples below is there on purpose.
 
 Cadence makes AI-written prose sound like a person wrote it — and, when you ask, like
@@ -156,26 +162,26 @@ text, same score, every time.
 
 ## Install
 
-Cadence is packaged as a Claude Code plugin, and this repo is its own marketplace.
-Plugins are free. There's no store, no review, no fee.
-
-**From GitHub (once this repo is pushed):**
+**The full plugin** — writes in voices, learns new ones from samples. Cadence is a
+Claude Code plugin, and this repo is its own marketplace; plugins are free, with no
+store, review, or fee:
 
 ```
-/plugin marketplace add <your-org>/cadence
+/plugin marketplace add wuisabel-gif/Cadence
 /plugin install cadence@cadence
 ```
 
-**From a local clone (works today):**
+Then `/cadence write …`, `/cadence deslop …`, `/cadence learn …`, etc. are available
+in a new session. New voices you create with `/cadence learn` are written to a
+`voices/` folder in whatever project you're working in. (Developing on Cadence? Point
+the marketplace at a local clone instead: `/plugin marketplace add ~/cadence`.)
 
-```
-/plugin marketplace add ~/cadence
-/plugin install cadence@cadence
-```
+**Just the detector** — score prose anywhere, no plugin:
 
-Then `/cadence write …`, `/cadence deslop …`, `/cadence learn …`, etc. are
-available in a new session. New voices you create with `/cadence learn` are written
-to a `voices/` folder in whatever project you're working in.
+```bash
+npx cadence-deslop draft.txt     # run it without installing
+npm install -g cadence-deslop    # or install the `cadence-deslop` / `deslop` command
+```
 
 ## Layout
 
