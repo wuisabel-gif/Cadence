@@ -198,7 +198,7 @@ cadence/
 │           ├── deslop.mjs       # the detector (real code, tested)
 │           └── extract-text.mjs # pure-Node prose extraction from .pdf/.txt/.md
 ├── voices/                      # shipped voice profiles (seed set)
-└── tests/                       # 21 tests — `npm test`
+└── tests/                       # 23 tests — `npm test`
     ├── deslop.test.mjs
     └── extract-text.test.mjs
 ```
@@ -206,7 +206,8 @@ cadence/
 ## Test
 
 ```bash
-npm test     # 21 tests over the detector and the PDF extractor
+npm test          # 23 tests over the detector and the PDF extractor
+npm run check:docs  # dogfood: the repo's own docs must score grade A
 ```
 
 ## Status

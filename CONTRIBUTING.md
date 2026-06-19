@@ -26,7 +26,7 @@ cd Cadence
 npm test
 ```
 
-Nothing to install. The detector, the PDF extractor, and their 21 tests run on
+Nothing to install. The detector, the PDF extractor, and their 23 tests run on
 Node ≥ 18 with no dependencies. Score a draft:
 
 ```bash
@@ -99,7 +99,9 @@ Commands are arguments to the one `cadence` skill, not separate skills.
 
 This is a writing tool, so its own copy should pass its own bar. Before you touch the
 README, the site, or a command editorial, run the prose through the detector and fix
-what it flags. Practice what we detect.
+what it flags. Practice what we detect. CI enforces this: `npm run check:docs` scores
+the docs with `--prose-only` (skipping code, quotes, and tables) and fails if any
+drops below grade A, so the "Verified by Cadence" badge can't quietly become a lie.
 
 ## Pull requests
 

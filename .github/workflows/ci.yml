@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Zero dependencies — nothing to install.
+      - name: Tests
+        run: npm test
+
+      # Dogfood the detector: the project's own docs must stay clean. Each step
+      # prints the score and fails if it exceeds the grade-A/clean threshold.
+      - name: Docs must stay clean
+        run: npm run check:docs

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { analyze, splitSentences, words } from '../skills/cadence/scripts/deslop.mjs';
+import { analyze, splitSentences, words, stripMarkdown } from '../skills/cadence/scripts/deslop.mjs';
 
 // Representative slop: banned phrases, hollow confidence, uniform rhythm,
 // a negation pivot, a triad, and a cliché opener — all the tells at once.
@@ -86,4 +86,33 @@ test('empty input is safe', () => {
 test('words() and splitSentences() are exported and pure', () => {
   assert.deepEqual(words('Hello, World!'), ['hello', 'world']);
   assert.equal(splitSentences('One. Two. Three.').length, 3);
+});
+
+test('stripMarkdown drops code, quotes, tables, headings, and HTML', () => {
+  const md = [
+    '# Heading',
+    '',
+    'Real prose stays here and reads fine.',
+    '',
+    '```',
+    "In today's world our seamless robust platform.",
+    '```',
+    '',
+    '> a quoted blockquote line',
+    '| a | table | row |',
+    '<p align="center">html scaffolding</p>',
+  ].join('\n');
+  const out = stripMarkdown(md);
+  assert.match(out, /Real prose stays here/);
+  assert.doesNotMatch(out, /Heading/);
+  assert.doesNotMatch(out, /seamless robust/); // fenced demo excluded
+  assert.doesNotMatch(out, /blockquote/);
+  assert.doesNotMatch(out, /table/);
+  assert.doesNotMatch(out, /scaffolding/);
+});
+
+test('prose-only: quoted slop in a fenced block does not inflate the score', () => {
+  const md = 'A clean human sentence that varies in length. Then a short one.\n\n'
+    + "```\nIn today's world our seamless robust platform leverages cutting-edge AI.\n```\n";
+  assert.ok(analyze(md).score > analyze(stripMarkdown(md)).score);
 });

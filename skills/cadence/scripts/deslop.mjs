@@ -268,6 +268,21 @@ export function formatReport(result) {
   return lines.join('\n');
 }
 
+// Strip Markdown scaffolding so the score reflects the prose a reader sees, not
+// fenced code, quoted demos, tables, or HTML. Used by --prose-only.
+export function stripMarkdown(md) {
+  const out = [];
+  let inFence = false;
+  for (const line of md.split('\n')) {
+    const s = line.trim();
+    if (s.startsWith('```') || s.startsWith('~~~')) { inFence = !inFence; continue; }
+    if (inFence) continue;
+    if (s.startsWith('>') || s.startsWith('|') || s.startsWith('#') || s.startsWith('<')) continue;
+    out.push(line.replace(/<[^>]+>/g, '')); // strip inline HTML tags
+  }
+  return out.join('\n');
+}
+
 // ─── CLI ────────────────────────────────────────────────────────────────────
 const HELP = `cadence-deslop — score prose for AI tells (0 clean … 100 slop)
 
@@ -278,8 +293,10 @@ Usage
   cadence-deslop --strict <file>   exit 1 when score > 25 (CI gate)
 
 Options
+  --prose-only   score Markdown prose only (skip code, quotes, tables, HTML)
   --json         output JSON instead of the report
   --strict       non-zero exit when the score exceeds 25
+  --max <n>      non-zero exit when the score exceeds n (overrides --strict)
   -h, --help     show this help
   -v, --version  print the version
 `;
@@ -309,11 +326,23 @@ if (isMain()) {
   if (args.includes('-h') || args.includes('--help')) { process.stdout.write(HELP); process.exit(0); }
   if (args.includes('-v') || args.includes('--version')) { process.stdout.write(version() + '\n'); process.exit(0); }
 
-  const file = args.find((a) => !a.startsWith('-'));
+  // positional file = first non-flag token, skipping the value after --max
+  const positionals = [];
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--max') { i++; continue; }
+    if (args[i].startsWith('-')) continue;
+    positionals.push(args[i]);
+  }
+  const file = positionals[0];
   if (!file && process.stdin.isTTY) { process.stdout.write(HELP); process.exit(0); }
 
-  const text = file ? readFileSync(file, 'utf8') : await readStdin();
+  let text = file ? readFileSync(file, 'utf8') : await readStdin();
+  if (args.includes('--prose-only')) text = stripMarkdown(text);
+
   const result = analyze(text);
   process.stdout.write((args.includes('--json') ? JSON.stringify(result, null, 2) : formatReport(result)) + '\n');
-  if (args.includes('--strict') && result.score > 25) process.exit(1);
+
+  const maxIdx = args.indexOf('--max');
+  const maxScore = maxIdx >= 0 ? Number(args[maxIdx + 1]) : (args.includes('--strict') ? 25 : null);
+  if (maxScore !== null && Number.isFinite(maxScore) && result.score > maxScore) process.exit(1);
 }
