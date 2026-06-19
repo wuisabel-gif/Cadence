@@ -7,8 +7,9 @@ Output is one file at `voices/<name>.md` following `voice-profile-schema.md`.
 
 A book, article, essay, transcript, or the user's own past writing — as a file
 (`.pdf`, `.txt`, `.md`, `.docx`), a pasted block, or a URL. For PDFs, extract
-text first (the bundled `scripts/extract-text.mjs` wraps `pypdf`; or use any
-available extractor). You need **at least ~500 words** of real prose to get a
+text with the bundled `scripts/extract-text.mjs` (pure Node, no dependencies). If
+a PDF uses custom-encoded subset fonts and extraction fails, convert it to `.txt`
+first. You need **at least ~500 words** of real prose to get a
 trustworthy profile; below that, say so and ask for more.
 
 ## Process

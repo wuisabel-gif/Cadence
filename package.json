@@ -7,7 +7,7 @@
     "deslop": "skills/cadence/scripts/deslop.mjs"
   },
   "scripts": {
-    "test": "node --test tests/deslop.test.mjs",
+    "test": "node --test tests/deslop.test.mjs tests/extract-text.test.mjs",
     "deslop": "node skills/cadence/scripts/deslop.mjs"
   },
   "license": "MIT",
