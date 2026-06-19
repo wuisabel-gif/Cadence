@@ -1,12 +1,22 @@
-# Cadence
+<p align="center">
+  <img src="assets/logo.svg" width="96" height="96" alt="Cadence logo: five rhythm bars of uneven height, one in red">
+</p>
 
-A Claude Code skill that makes AI-written prose sound like a person wrote it — and,
-when you ask, like a *particular* person or in a tone you've chosen.
+<h1 align="center">Cadence</h1>
 
-It learns a **voice** from a sample you give it (a book, an article, an essay,
+<p align="center"><b>An AI-text humanizer for Claude Code — write in a voice you choose, with less AI tone.</b></p>
+
+> 📐 **Verified by Cadence** — this README's own prose scores grade A on the detector. The slop quoted in the examples below is there on purpose.
+
+Cadence makes AI-written prose sound like a person wrote it — and, when you ask, like
+a *particular* person or in a tone you've chosen. It humanizes AI output the honest
+way: it learns a **voice** from a sample you give it (a book, an article, an essay,
 your own past writing), saves that voice as a portable file, and writes in it.
 Underneath sits a deterministic **de-slop detector** that scores any text and names
 every AI tell in it, so a clean result is something you can verify, not just trust.
+
+Think of it as an AI humanizer with its work shown: it doesn't just *claim* to remove
+AI tone — it measures it.
 
 ## Why it exists
 
@@ -173,16 +183,17 @@ cadence/
 │       ├── reference/           # one file per command + the voice schema
 │       └── scripts/
 │           ├── deslop.mjs       # the detector (real code, tested)
-│           └── extract-text.mjs # pull prose from .pdf/.txt/.md for learning
+│           └── extract-text.mjs # pure-Node prose extraction from .pdf/.txt/.md
 ├── voices/                      # shipped voice profiles (seed set)
-└── tests/
-    └── deslop.test.mjs          # 12 tests over the detector
+└── tests/                       # 21 tests — `npm test`
+    ├── deslop.test.mjs
+    └── extract-text.test.mjs
 ```
 
 ## Test
 
 ```bash
-npm test     # node --test tests/deslop.test.mjs
+npm test     # 21 tests over the detector and the PDF extractor
 ```
 
 ## Status

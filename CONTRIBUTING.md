@@ -26,8 +26,8 @@ cd Cadence
 npm test
 ```
 
-Nothing to install. The detector and its 12 tests run on Node ≥ 18 with no
-dependencies. Score a draft:
+Nothing to install. The detector, the PDF extractor, and their 21 tests run on
+Node ≥ 18 with no dependencies. Score a draft:
 
 ```bash
 node skills/cadence/scripts/deslop.mjs --json some-draft.txt
