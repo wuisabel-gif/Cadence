@@ -76,8 +76,8 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
 /* ============================== top bar ============================== */
 .bar{position:sticky;top:0;z-index:var(--z-sticky);background:color-mix(in oklab,var(--paper) 86%, transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .bar .wrap{display:flex;align-items:center;gap:1.5rem;height:60px}
-.mark{font-family:var(--display);font-weight:800;font-size:1.18rem;letter-spacing:-0.03em;color:var(--ink);text-decoration:none;display:flex;align-items:baseline;gap:.5rem}
-.mark .dot{width:.5rem;height:.5rem;border-radius:50%;background:var(--flag);display:inline-block;transform:translateY(-.05em)}
+.mark{font-family:var(--display);font-weight:800;font-size:1.18rem;letter-spacing:-0.03em;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.55rem}
+.mark .brandmark{height:1.2em;width:auto;display:block;flex:none}
 .bar nav{margin-left:auto;display:flex;gap:1.4rem;align-items:center;font-family:var(--display);font-size:.92rem;font-weight:500}
 .bar nav a{color:var(--ink-soft);text-decoration:none}
 .bar nav a:hover{color:var(--brand)}
@@ -274,7 +274,7 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
 
 <header class="bar">
   <div class="wrap">
-    <a class="mark" href="#top"><span class="dot"></span>Cadence</a>
+    <a class="mark" href="#top"><svg class="brandmark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><rect x="21" y="51" width="22" height="107" rx="11" fill="#2348a1"/><rect x="55" y="96" width="22" height="62" rx="11" fill="#2348a1"/><rect x="89" y="38" width="22" height="120" rx="11" fill="#2348a1"/><rect x="123" y="68" width="22" height="90" rx="11" fill="#db332c"/><rect x="157" y="108" width="22" height="50" rx="11" fill="#2348a1"/></svg>Cadence</a>
     <nav>
       <a class="navlink" href="#voices">Voices</a>
       <a class="navlink" href="#detector">Detector</a>
@@ -571,7 +571,7 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
 <footer class="foot wrap">
   <div class="foot-grid">
     <div class="signoff">
-      <a class="mark" href="#top"><span class="dot"></span>Cadence</a>
+      <a class="mark" href="#top"><svg class="brandmark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><rect x="21" y="51" width="22" height="107" rx="11" fill="#2348a1"/><rect x="55" y="96" width="22" height="62" rx="11" fill="#2348a1"/><rect x="89" y="38" width="22" height="120" rx="11" fill="#2348a1"/><rect x="123" y="68" width="22" height="90" rx="11" fill="#db332c"/><rect x="157" y="108" width="22" height="50" rx="11" fill="#2348a1"/></svg>Cadence</a>
       <p>A detector for the AI fingerprint, and a voice to write toward instead. Diagnose first, then fix — then verify the result.</p>
       <div class="meta">v0.1 · plain Node · no dependencies · built by <a href="https://github.com/wuisabel-gif">Isabel Wu</a></div>
     </div>
