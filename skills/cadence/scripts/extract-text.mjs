@@ -14,6 +14,7 @@
 import { readFileSync } from 'node:fs';
 import { extname } from 'node:path';
 import zlib from 'node:zlib';
+import { stripHtml } from './deslop.mjs';
 
 // ─── stream handling ────────────────────────────────────────────────────────
 function tryInflate(bytes) {
@@ -169,12 +170,19 @@ function extractPdf(buf) {
 function main() {
   const file = process.argv[2];
   if (!file) {
-    process.stderr.write('usage: node extract-text.mjs <file.pdf|.txt|.md>\n');
+    process.stderr.write('usage: node extract-text.mjs <file.pdf|.txt|.md|.html>\n');
     process.exit(2);
   }
   const ext = extname(file).toLowerCase();
   if (ext === '.txt' || ext === '.md' || ext === '') {
     process.stdout.write(readFileSync(file, 'utf8'));
+  } else if (ext === '.html' || ext === '.htm') {
+    const text = stripHtml(readFileSync(file, 'utf8'));
+    if (!text || text.replace(/\s/g, '').length < 20) {
+      process.stderr.write('No readable text found in this HTML file.\n');
+      process.exit(3);
+    }
+    process.stdout.write(text + '\n');
   } else if (ext === '.pdf') {
     const text = extractPdf(readFileSync(file));
     if (!text || text.replace(/\s/g, '').length < 20 || !looksReadable(text)) {
@@ -185,7 +193,7 @@ function main() {
     }
     process.stdout.write(text + '\n');
   } else {
-    process.stderr.write(`Unsupported file type: ${ext}. Use .pdf, .txt, or .md, ` +
+    process.stderr.write(`Unsupported file type: ${ext}. Use .pdf, .txt, .md, or .html, ` +
       'or paste the text directly.\n');
     process.exit(2);
   }

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { analyze, splitSentences, words, stripMarkdown } from '../skills/cadence/scripts/deslop.mjs';
+import { analyze, splitSentences, words, stripMarkdown, stripHtml } from '../skills/cadence/scripts/deslop.mjs';
 
 // Representative slop: banned phrases, hollow confidence, uniform rhythm,
 // a negation pivot, a triad, and a cliché opener — all the tells at once.
@@ -115,4 +115,22 @@ test('prose-only: quoted slop in a fenced block does not inflate the score', () 
   const md = 'A clean human sentence that varies in length. Then a short one.\n\n'
     + "```\nIn today's world our seamless robust platform leverages cutting-edge AI.\n```\n";
   assert.ok(analyze(md).score > analyze(stripMarkdown(md)).score);
+});
+
+test('stripHtml extracts visible text and drops scripts, styles, and tags', () => {
+  const html = '<html><head><style>body{color:red}</style></head><body>'
+    + '<h1>The Title</h1><p>Hello &amp; welcome to the page.</p>'
+    + '<script>var secret = 1;</script></body></html>';
+  const out = stripHtml(html);
+  assert.match(out, /The Title/);
+  assert.match(out, /Hello & welcome to the page\./); // entity decoded
+  assert.doesNotMatch(out, /color:red/);  // <style> body gone
+  assert.doesNotMatch(out, /secret/);     // <script> body gone
+  assert.doesNotMatch(out, /</);          // no tags survive
+});
+
+test('stripHtml breaks block elements onto separate lines', () => {
+  // Without line breaks these would merge into one run-on "sentence".
+  const out = stripHtml('<p>First idea here.</p><p>Second idea here.</p>');
+  assert.equal(splitSentences(out).length, 2);
 });

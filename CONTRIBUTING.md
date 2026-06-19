@@ -26,7 +26,7 @@ cd Cadence
 npm test
 ```
 
-Nothing to install. The detector, the PDF extractor, and their 23 tests run on
+Nothing to install. The detector, the extractors, and their 25 tests run on
 Node ≥ 18 with no dependencies. Score a draft:
 
 ```bash

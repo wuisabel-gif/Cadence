@@ -283,6 +283,27 @@ export function stripMarkdown(md) {
   return out.join('\n');
 }
 
+// Strip an HTML document to its visible text: drop <script>/<style>/comments,
+// turn block-element ends into line breaks so sentences don't merge, remove the
+// remaining tags, and decode common entities. Used by --html / .html files.
+const ENTITIES = {
+  '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'",
+  '&apos;': "'", '&nbsp;': ' ', '&mdash;': '—', '&ndash;': '–', '&hellip;': '…',
+  '&rsquo;': '’', '&lsquo;': '‘', '&ldquo;': '“', '&rdquo;': '”', '&middot;': '·',
+};
+export function stripHtml(html) {
+  let s = String(html);
+  s = s.replace(/<!--[\s\S]*?-->/g, ' ');
+  s = s.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ');
+  s = s.replace(/<\/(p|div|li|h[1-6]|section|article|header|footer|blockquote|tr|figcaption)\s*>/gi, '\n');
+  s = s.replace(/<br\s*\/?>/gi, '\n');
+  s = s.replace(/<[^>]+>/g, ' ');
+  s = s.replace(/&(amp|lt|gt|quot|#39|apos|nbsp|mdash|ndash|hellip|rsquo|lsquo|ldquo|rdquo|middot);/g, (m) => ENTITIES[m] ?? ' ');
+  s = s.replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)));
+  s = s.replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16)));
+  return s.replace(/[ \t]+/g, ' ').replace(/ *\n */g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
 // ─── CLI ────────────────────────────────────────────────────────────────────
 const HELP = `cadence-deslop — score prose for AI tells (0 clean … 100 slop)
 
@@ -293,6 +314,7 @@ Usage
   cadence-deslop --strict <file>   exit 1 when score > 25 (CI gate)
 
 Options
+  --html         score the visible text of an HTML file (auto-detected for .html)
   --prose-only   score Markdown prose only (skip code, quotes, tables, HTML)
   --json         output JSON instead of the report
   --strict       non-zero exit when the score exceeds 25
@@ -337,7 +359,8 @@ if (isMain()) {
   if (!file && process.stdin.isTTY) { process.stdout.write(HELP); process.exit(0); }
 
   let text = file ? readFileSync(file, 'utf8') : await readStdin();
-  if (args.includes('--prose-only')) text = stripMarkdown(text);
+  if (args.includes('--html') || /\.html?$/i.test(file || '')) text = stripHtml(text);
+  else if (args.includes('--prose-only')) text = stripMarkdown(text);
 
   const result = analyze(text);
   process.stdout.write((args.includes('--json') ? JSON.stringify(result, null, 2) : formatReport(result)) + '\n');

@@ -9,7 +9,10 @@ want) fix it. This is the pure-diagnostic command — no voice required.
    ```bash
    node "${CLAUDE_PLUGIN_ROOT:-.}/skills/cadence/scripts/deslop.mjs" draft.txt          # human report
    node "${CLAUDE_PLUGIN_ROOT:-.}/skills/cadence/scripts/deslop.mjs" --json draft.txt    # for programmatic use
+   node "${CLAUDE_PLUGIN_ROOT:-.}/skills/cadence/scripts/deslop.mjs" page.html           # .html → visible text only
    ```
+   It auto-detects `.html` (scores the visible page text, not the tags) and takes
+   `--prose-only` for Markdown (skips code, quotes, and tables).
    It returns a score (0 clean … 100 heavy slop), a letter grade, the rhythm
    metrics, and every lexical/structural finding grouped by rule.
 
