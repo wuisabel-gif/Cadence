@@ -17,8 +17,9 @@
  * threshold (default 25), so it can gate a writing pipeline.
  */
 
-import { readFileSync, realpathSync } from 'node:fs';
+import { readFileSync, realpathSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { relative, join } from 'node:path';
 import { extractPdf, extractDocx, fetchUrl, looksReadable } from './extract-text.mjs';
 
 // ─── Lexical rules ──────────────────────────────────────────────────────────
@@ -305,11 +306,76 @@ export function stripHtml(html) {
   return s.replace(/[ \t]+/g, ' ').replace(/ *\n */g, '\n').replace(/\n{3,}/g, '\n\n').trim();
 }
 
+// ─── repo / directory scan ──────────────────────────────────────────────────
+const SCAN_EXTS = new Set(['.md', '.markdown', '.mdx', '.txt', '.html', '.htm', '.rst']);
+const SKIP_DIRS = new Set(['node_modules', 'dist', 'build', 'out', 'target', 'vendor', 'coverage', '.next', '.cache']);
+
+function extLower(name) { const i = name.lastIndexOf('.'); return i < 0 ? '' : name.slice(i).toLowerCase(); }
+
+function walk(dir, found = []) {
+  let entries;
+  try { entries = readdirSync(dir, { withFileTypes: true }); } catch { return found; }
+  for (const e of entries) {
+    const full = join(dir, e.name);
+    if (e.isDirectory()) {
+      if (e.name.startsWith('.') || SKIP_DIRS.has(e.name)) continue;
+      walk(full, found);
+    } else if (SCAN_EXTS.has(extLower(e.name))) {
+      found.push(full);
+    }
+  }
+  return found;
+}
+
+// Read one prose file as text, applying the right strip for its type.
+function loadFileText(path) {
+  const raw = readFileSync(path, 'utf8');
+  const lower = path.toLowerCase();
+  if (/\.html?$/.test(lower)) return stripHtml(raw);
+  if (/\.(md|markdown|mdx)$/.test(lower)) return stripMarkdown(raw);
+  return raw;
+}
+
+// Score every prose file under a directory; returns rows sorted worst-first.
+export function scanDir(dir) {
+  const rows = [];
+  for (const f of walk(dir)) {
+    let text;
+    try { text = loadFileText(f); } catch { continue; }
+    if (text == null || text.replace(/\s/g, '').length < 20) continue;
+    const r = analyze(text);
+    rows.push({ file: relative(dir, f) || f, score: r.score, grade: r.grade });
+  }
+  return rows.sort((a, b) => b.score - a.score);
+}
+
+function runScan(dir, args) {
+  const rows = scanDir(dir);
+  if (!rows.length) {
+    process.stderr.write(`No prose files (.md, .txt, .html, …) found in ${dir}\n`);
+    process.exit(0);
+  }
+  if (args.includes('--json')) {
+    process.stdout.write(JSON.stringify(rows, null, 2) + '\n');
+  } else {
+    const lines = [`Cadence de-slop  ·  ${rows.length} files in ${dir}  (worst first)`, '─'.repeat(52)];
+    for (const r of rows) lines.push(`  ${r.grade}  ${String(r.score).padStart(3)}   ${r.file}`);
+    const avg = Math.round(rows.reduce((s, r) => s + r.score, 0) / rows.length);
+    lines.push('─'.repeat(52));
+    lines.push(`  ${rows.length} files   ·   avg ${avg}   ·   worst ${rows[0].score} (${rows[0].file})`);
+    process.stdout.write(lines.join('\n') + '\n');
+  }
+  const maxIdx = args.indexOf('--max');
+  const max = maxIdx >= 0 ? Number(args[maxIdx + 1]) : (args.includes('--strict') ? 25 : null);
+  if (max !== null && Number.isFinite(max) && rows.some((r) => r.score > max)) process.exit(1);
+}
+
 // ─── CLI ────────────────────────────────────────────────────────────────────
 const HELP = `cadence-deslop — score prose for AI tells (0 clean … 100 slop)
 
 Usage
   cadence-deslop <file>            human-readable report
+  cadence-deslop <dir>             scan a folder/repo, ranked worst-first
   cadence-deslop --json <file>     machine-readable JSON
   cat draft.txt | cadence-deslop   read from stdin
   cadence-deslop --strict <file>   exit 1 when score > 25 (CI gate)
@@ -357,6 +423,10 @@ if (isMain()) {
     positionals.push(args[i]);
   }
   const file = positionals[0];
+  if (file && !/^https?:\/\//i.test(file) && existsSync(file) && statSync(file).isDirectory()) {
+    runScan(file, args);
+    process.exit(0);
+  }
   if (!file && process.stdin.isTTY) { process.stdout.write(HELP); process.exit(0); }
 
   let text;

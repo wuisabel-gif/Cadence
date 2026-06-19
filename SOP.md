@@ -95,6 +95,7 @@ checking your own writing.
 
 ```bash
 npx cadence-deslop draft.md          # a file (.txt .md .pdf .html .docx)
+npx cadence-deslop ./a-repo          # scan an entire folder or repo, worst first
 npx cadence-deslop https://a.blog/x  # a live page
 pbpaste | npx cadence-deslop         # the clipboard
 npx cadence-deslop --strict post.md  # exit 1 above score 25, for CI

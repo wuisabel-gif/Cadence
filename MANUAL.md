@@ -42,6 +42,7 @@ cat draft.txt | cadence-deslop       # from stdin
 | Argument | Effect |
 |---|---|
 | `<file>` | Score a file. Auto-detects type by extension (see Input formats). |
+| `<dir>` | Scan a folder/repo: score every prose file (`.md`, `.txt`, `.html`, …), ranked worst-first. Skips `node_modules`, `dist`, `.git`, and friends. |
 | `<url>` | An `http(s)://` URL is fetched live; HTML is reduced to its visible text. |
 | *(stdin)* | With no file, reads text from standard input. |
 | `--html` | Treat input as HTML: score the visible text, skip tags/scripts/styles. Auto-enabled for `.html`/`.htm` files; use the flag for stdin. |
@@ -74,6 +75,7 @@ cat draft.txt | cadence-deslop       # from stdin
 
 ```bash
 cadence-deslop draft.txt                 # human report
+cadence-deslop ./some-repo               # scan a folder/repo, ranked worst-first
 cadence-deslop report.docx               # score a Word document
 cadence-deslop https://a.blog/post       # fetch a live page and score it
 cadence-deslop --json draft.md           # machine-readable

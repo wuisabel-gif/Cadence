@@ -1,6 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { analyze, splitSentences, words, stripMarkdown, stripHtml } from '../skills/cadence/scripts/deslop.mjs';
+import { mkdtempSync, writeFileSync, mkdirSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { analyze, splitSentences, words, stripMarkdown, stripHtml, scanDir } from '../skills/cadence/scripts/deslop.mjs';
 
 // Representative slop: banned phrases, hollow confidence, uniform rhythm,
 // a negation pivot, a triad, and a cliché opener — all the tells at once.
@@ -133,4 +136,19 @@ test('stripHtml breaks block elements onto separate lines', () => {
   // Without line breaks these would merge into one run-on "sentence".
   const out = stripHtml('<p>First idea here.</p><p>Second idea here.</p>');
   assert.equal(splitSentences(out).length, 2);
+});
+
+test('scanDir walks a repo, ranks worst-first, and skips node_modules', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'cadence-scan-'));
+  writeFileSync(join(dir, 'clean.md'),
+    'The river ran low all summer. Then the rains came back hard, and the water rose overnight.');
+  writeFileSync(join(dir, 'sloppy.md'),
+    "In today's world, our seamless and robust platform leverages cutting-edge AI to streamline everything for you.");
+  mkdirSync(join(dir, 'node_modules'));
+  writeFileSync(join(dir, 'node_modules', 'junk.md'),
+    "In today's world, seamless robust cutting-edge synergy that we leverage.");
+  const rows = scanDir(dir);
+  assert.equal(rows.length, 2);              // node_modules skipped
+  assert.equal(rows[0].file, 'sloppy.md');   // worst first
+  assert.ok(rows[0].score > rows[1].score);
 });
