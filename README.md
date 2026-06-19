@@ -7,6 +7,7 @@
 <p align="center"><b>An AI-text humanizer for Claude Code — write in a voice you choose, with less AI tone.</b></p>
 
 <p align="center">
+  <a href="https://github.com/wuisabel-gif/Cadence/actions/workflows/ci.yml"><img src="https://github.com/wuisabel-gif/Cadence/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://www.npmjs.com/package/cadence-deslop"><img src="https://img.shields.io/npm/v/cadence-deslop?color=2348a1&label=npm%20%C2%B7%20cadence-deslop" alt="npm version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2348a1" alt="MIT license"></a>
   <img src="https://img.shields.io/badge/dependencies-0-2348a1" alt="zero dependencies">
