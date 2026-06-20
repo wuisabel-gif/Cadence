@@ -13,6 +13,15 @@
   <img src="https://img.shields.io/badge/dependencies-0-2348a1" alt="zero dependencies">
 </p>
 
+<p align="center"><b>Ready to use in:</b></p>
+
+<p align="center">
+  <a href="#install"><img src="https://img.shields.io/badge/Claude%20Code-plugin-2348a1?logo=anthropic&logoColor=white" alt="Claude Code plugin"></a>
+  <a href="skills/cadence/AGENTS.md"><img src="https://img.shields.io/badge/Codex-AGENTS.md-2348a1?logo=openai&logoColor=white" alt="Codex skill"></a>
+  <a href="extension/README.md"><img src="https://img.shields.io/badge/Chrome-extension-2348a1?logo=googlechrome&logoColor=white" alt="Chrome extension"></a>
+  <a href="https://www.npmjs.com/package/cadence-deslop"><img src="https://img.shields.io/badge/CLI-npx%20cadence--deslop-2348a1?logo=npm&logoColor=white" alt="command-line tool"></a>
+</p>
+
 > 📐 **Verified by Cadence** — this README's own prose scores grade A on the detector. The slop quoted in the examples below is there on purpose.
 
 You can usually tell when a machine wrote something. Not from any single word — from
