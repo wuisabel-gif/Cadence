@@ -18,6 +18,7 @@
 <p align="center">
   <a href="#install"><img src="https://img.shields.io/badge/Claude%20Code-plugin-2348a1?logo=anthropic&logoColor=white" alt="Claude Code plugin"></a>
   <a href="skills/cadence/AGENTS.md"><img src="https://img.shields.io/badge/Codex-AGENTS.md-2348a1?logo=openai&logoColor=white" alt="Codex skill"></a>
+  <a href="integrations/gemini/README.md"><img src="https://img.shields.io/badge/Gemini%20CLI-extension-2348a1?logo=googlegemini&logoColor=white" alt="Gemini CLI extension"></a>
   <a href="extension/README.md"><img src="https://img.shields.io/badge/Chrome-extension-2348a1?logo=googlechrome&logoColor=white" alt="Chrome extension"></a>
   <a href="https://www.npmjs.com/package/cadence-deslop"><img src="https://img.shields.io/badge/CLI-npx%20cadence--deslop-2348a1?logo=npm&logoColor=white" alt="command-line tool"></a>
 </p>
@@ -234,6 +235,10 @@ works in Codex too. The detector is portable as-is (`npx cadence-deslop` runs in
 shell); to give a Codex agent the voices and writing laws, point it at
 [`skills/cadence/AGENTS.md`](skills/cadence/AGENTS.md) — drop it into your project's
 `AGENTS.md`, or copy the parts you want.
+
+**In Gemini CLI.** There's an installable extension at
+[`integrations/gemini/`](integrations/gemini/README.md) — symlink it into
+`~/.gemini/extensions/cadence` and the `GEMINI.md` context loads every session.
 
 ## Documentation
 

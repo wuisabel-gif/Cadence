@@ -31,6 +31,9 @@ so here, so a shifting number is never a surprise.
   folder drives Codex as well as Claude Code. The detector is already portable —
   `npx cadence-deslop` runs in any shell — and the `AGENTS.md` carries the writing laws
   and voices a Codex agent needs to recast and write.
+- **Gemini CLI extension.** An installable extension under `integrations/gemini/`
+  (`gemini-extension.json` + `GEMINI.md`). Symlink it into `~/.gemini/extensions/` and
+  the voices and writing laws load every session; the detector runs via `npx` as usual.
 - **Docs:** a consolidated MANUAL (install, workflows, full reference), a repo-scan
   tutorial, and CI that re-scores the project's
   own docs on every push and fails if any drops below grade A.

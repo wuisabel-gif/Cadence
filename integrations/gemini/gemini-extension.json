@@ -1,0 +1,6 @@
+{
+  "name": "cadence",
+  "version": "0.1.0",
+  "description": "Write like a human, in a voice you choose, with less AI tone. Includes the deterministic de-slop detector via npx.",
+  "contextFileName": "GEMINI.md"
+}
