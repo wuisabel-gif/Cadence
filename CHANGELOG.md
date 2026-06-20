@@ -21,7 +21,7 @@ so here, so a shifting number is never a surprise.
   `node_modules`, `dist`, `.git`, and the like.
 - **`--prose-only`** (Markdown-aware scoring, skipping code/quotes/tables) and
   **`--max <n>`** (a configurable exit gate).
-- **A sixth voice, `tutor`** — a demystifying literature-seminar register.
+- **A sixth voice, `seminar`** — a demystifying literature-seminar register.
 - **Docs:** SOP, MANUAL, a repo-scan tutorial, and CI that re-scores the project's
   own docs on every push and fails if any drops below grade A.
 

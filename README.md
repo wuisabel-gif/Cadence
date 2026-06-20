@@ -136,7 +136,7 @@ profile to `voices/<name>.md`. The shipped **counsel** voice was built this way.
   concludes.
 - **plain** — say it once, in the fewest honest words.
 - **punchy** — high contrast; long build, short hit.
-- **tutor** — a professor demystifying a hard text; direct, wry, metaphor-driven.
+- **seminar** — a professor demystifying a hard text; direct, wry, metaphor-driven.
 
 Add your own with `/cadence learn`. Profiles are plain markdown in `voices/`. Read
 them, edit them, share them.

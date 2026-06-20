@@ -1,11 +1,11 @@
 ---
-name: tutor
-label: Tutor
+name: seminar
+label: Seminar
 source: preset — literature-seminar register
 register: either
 ---
 
-# Tutor
+# Seminar
 
 **Essence** — a professor who makes a hard text feel climbable: talks straight to
 you, turns reading into a physical act, and deflates pretension with dry humor.

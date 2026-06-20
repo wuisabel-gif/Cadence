@@ -19,7 +19,7 @@ Install the plugin in Claude Code:
 ```
 
 Start a new session. Confirm it took with `/cadence voices` — you should see five
-voices: counsel, reckoning, measured-academic, plain, punchy, tutor.
+voices: counsel, reckoning, measured-academic, plain, punchy, seminar.
 
 For scoring outside Claude Code, the detector runs on its own: `npx cadence-deslop`.
 
@@ -116,7 +116,7 @@ still an empty argument.
 | `reckoning` | Persuasion: set a scene, then land a hard truth. |
 | `counsel` | Reflective, advisory writing that reframes the reader's question. |
 | `measured-academic` | Careful argument that concedes before it concludes. |
-| `tutor` | Teaching or explaining: demystify something hard, plainly and with wit. |
+| `seminar` | Teaching or explaining: demystify something hard, plainly and with wit. |
 
 No voice fits? Learn your own (§4).
 
