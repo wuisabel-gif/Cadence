@@ -220,6 +220,12 @@ npx cadence-deslop draft.txt     # run it without installing
 npm install -g cadence-deslop    # or install the `cadence-deslop` / `deslop` command
 ```
 
+**In Codex.** The skill ships an `AGENTS.md` next to `SKILL.md`, so the same folder
+works in Codex too. The detector is portable as-is (`npx cadence-deslop` runs in any
+shell); to give a Codex agent the voices and writing laws, point it at
+[`skills/cadence/AGENTS.md`](skills/cadence/AGENTS.md) — drop it into your project's
+`AGENTS.md`, or copy the parts you want.
+
 ## Documentation
 
 | Document | What it covers |
@@ -243,7 +249,8 @@ cadence/
 │   └── marketplace.json         # marketplace catalog (this repo lists itself)
 ├── skills/
 │   └── cadence/
-│       ├── SKILL.md             # router, shared writing laws, setup
+│       ├── SKILL.md             # router, shared writing laws, setup (Claude Code)
+│       ├── AGENTS.md            # the same skill for Codex
 │       ├── reference/           # one file per command + the voice schema
 │       └── scripts/
 │           ├── deslop.mjs       # the detector (real code, tested)

@@ -27,6 +27,10 @@ so here, so a shifting number is never a surprise.
 - **A Chrome extension** (`extension/`) — score any text for AI tone right in the
   browser, by popup or right-click. The detector runs locally and is generated from
   the same `deslop.mjs` so it can't drift (a test enforces it).
+- **Codex support.** The skill now ships an `AGENTS.md` beside `SKILL.md`, so the same
+  folder drives Codex as well as Claude Code. The detector is already portable —
+  `npx cadence-deslop` runs in any shell — and the `AGENTS.md` carries the writing laws
+  and voices a Codex agent needs to recast and write.
 - **Docs:** a consolidated MANUAL (install, workflows, full reference), a repo-scan
   tutorial, and CI that re-scores the project's
   own docs on every push and fails if any drops below grade A.
