@@ -15,23 +15,46 @@
 
 > 📐 **Verified by Cadence** — this README's own prose scores grade A on the detector. The slop quoted in the examples below is there on purpose.
 
-Cadence makes AI-written prose sound like a person wrote it — and, when you ask, like
-a *particular* person or in a tone you've chosen. It humanizes AI output the honest
-way: it learns a **voice** from a sample you give it (a book, an article, an essay,
-your own past writing), saves that voice as a portable file, and writes in it.
-Underneath sits a deterministic **de-slop detector** that scores any text and names
-every AI tell in it, so a clean result is something you can verify, not just trust.
+You can usually tell when a machine wrote something. Not from any single word — from
+the texture. The sentences come out the same length. Every paragraph opens with a
+transition. The point gets hedged, then the hedge gets hedged. There are three
+examples where one would have landed harder. You may not be able to underline the
+broken part, but you feel it, and the moment you feel it you start to skim.
 
-Think of it as an AI humanizer with its work shown: it doesn't just *claim* to remove
-AI tone — it measures it.
+Cadence exists to strip that signature out. (It's an AI-text humanizer, if you want
+the search term — but one that shows its work.)
 
-## Why it exists
+## What it's for
 
-Generic AI prose has a fingerprint: every sentence the same length, hollow
-confidence words ("seamless," "robust"), reflexive triads ("fast, reliable, and
-scalable"), the "it's not X, it's Y" seesaw, and throat-clearing openers ("In
-today's world…"). Cadence targets that fingerprint directly. It also gives you a
-voice to write *toward*, not just tells to avoid.
+Two things. It scores prose for how machine-made it reads, and it recasts prose so it
+reads like a person wrote it. The score is your baseline and your to-do list. The
+recast is the fix.
+
+**The one rule it never breaks:** Cadence works on the words, not the meaning or the
+layout. It changes how a sentence reads. It does not touch what the sentence claims, or
+how the document is built. A smoother line that quietly drops a fact is a failure, not
+a win.
+
+## Why rhythm, not grammar
+
+Slop isn't a grammar problem. AI prose is often spotless and still obviously synthetic,
+because the tell is rhythmic. Real writing breathes — a long, winding clause that earns
+its commas, then a stop. Machine writing flatlines at one comfortable length, sentence
+after sentence after sentence.
+
+So the number Cadence watches hardest is **rhythm variance** (CV). Even, same-length
+sentences are the loudest fingerprint there is. If a rewrite doesn't move the variance,
+it didn't rewrite anything; it swapped synonyms and called it done.
+
+## Why bother
+
+Flat prose costs you the reader. People trust writing that sounds like a person meant
+it. The moment a page reads as generated, your argument inherits the doubt — even a
+good argument, even a true one.
+
+A clean score is not the goal, though. Clarity is. A spotless score on an empty point
+is still an empty point. Find the real thing you have to say, say it in a voice, and
+let the low score fall out as a side effect.
 
 ## Commands
 
