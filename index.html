@@ -246,6 +246,22 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
 .steps p strong{color:var(--ink);font-weight:600}
 .status{margin-top:1.5rem;display:flex;align-items:center;gap:.7rem;font-family:var(--mono);font-size:.82rem;color:var(--ink-soft)}
 .status .v{padding:.2rem .55rem;border:1px solid var(--line-2);border-radius:6px;color:var(--brand);font-weight:600}
+.callout{margin-top:1.4rem;padding:1rem 1.15rem;border:1px solid var(--line-2);border-radius:12px;background:var(--paper);font-family:var(--serif);font-size:.98rem;line-height:1.55;color:var(--ink-soft)}
+.callout b{color:var(--ink);font-weight:600}
+.callout .no{color:var(--flag-ink);font-weight:600}
+.callout code{font-family:var(--mono);font-size:.85em;background:var(--paper-2);padding:.1em .35em;border-radius:4px;border:1px solid var(--line);color:var(--ink)}
+
+/* ============================== faq ============================== */
+.faq-list{margin-top:clamp(2rem,4vw,3rem);border-top:1px solid var(--line)}
+.faq-list details{border-bottom:1px solid var(--line)}
+.faq-list summary{font-family:var(--display);font-weight:600;font-size:clamp(1.05rem,0.5vw + .95rem,1.2rem);color:var(--ink);padding:1.15rem 0;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1.5rem}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary::after{content:"+";font-family:var(--mono);font-weight:400;font-size:1.2rem;color:var(--muted);flex:none}
+.faq-list details[open] summary{color:var(--brand)}
+.faq-list details[open] summary::after{content:"\2013"}
+.faq-list .a{padding:0 0 1.3rem;color:var(--ink-soft);font-family:var(--serif);font-size:1.04rem;line-height:1.62;max-width:66ch}
+.faq-list .a code{font-family:var(--mono);font-size:.84em;background:var(--paper-2);padding:.12em .4em;border-radius:5px;border:1px solid var(--line);color:var(--ink)}
+.faq-list .a .no{color:var(--flag-ink);font-weight:600}
 
 /* ============================== footer ============================== */
 .foot{padding-block:clamp(3rem,6vw,5rem);border-top:1px solid var(--line)}
@@ -280,6 +296,7 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
       <a class="navlink" href="#detector">Detector</a>
       <a class="navlink" href="#commands">Commands</a>
       <a class="navlink" href="#install">Install</a>
+      <a class="navlink" href="#faq">FAQ</a>
       <span class="chip">v0.1</span>
     </nav>
   </div>
@@ -567,7 +584,8 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
           <div class="status">status <span class="v">v0.1</span> · the detector and eight seed voices work and are tested</div>
         </div>
         <div class="steps reveal">
-          <p>These run at the <strong>Claude Code prompt</strong> — a terminal dialog, not your shell. Add the marketplace once, install, then open a new session; skills load when a session starts.</p>
+          <div class="callout"><b>Where it runs:</b> Cadence loads only in <b>Claude Code</b> — the <code>claude</code> command in a terminal, the VS&nbsp;Code / JetBrains extension, or the desktop app's Code mode. <span class="no">Not</span> the claude.ai website or the desktop app's regular chat. If <code>/cadence</code> isn't recognized, you're in a regular chat.</div>
+          <p>Both steps matter: <strong>marketplace add</strong> makes Cadence available; <strong>install</strong> turns it on. Then open a new session — skills load at startup.</p>
           <p>Rather click than type? Run <strong>/plugin</strong>, open the Discover tab, and pick Cadence from the list.</p>
           <p>Working on Cadence itself? Skip the marketplace and link the skill straight into your config:</p>
           <div class="codeblock"><span class="cm"># develop locally</span>
@@ -575,6 +593,44 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
 <span class="pr">$</span> npm test   <span class="cm"># run the test suite</span></div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq wrap" id="faq">
+    <div class="head reveal">
+      <h2>Questions.</h2>
+      <p>The ones that come up most — starting with the one that trips everyone up first.</p>
+    </div>
+    <div class="faq-list reveal">
+      <details>
+        <summary>Where does /cadence work?</summary>
+        <div class="a">Only in <b>Claude Code</b>: the <code>claude</code> command in a terminal, the VS&nbsp;Code / JetBrains extension, or the desktop app's Code mode. <span class="no">Not</span> the claude.ai website or the desktop app's regular chat. If you type <code>/cadence</code> and it isn't recognized, you're in a regular chat — switch to a Claude Code session.</div>
+      </details>
+      <details>
+        <summary>I added the marketplace but nothing happens.</summary>
+        <div class="a">Adding the marketplace only makes Cadence <em>available</em>. You also have to install it: <code>/plugin install cadence@cadence</code>, then start a fresh session.</div>
+      </details>
+      <details>
+        <summary>Will it change my meaning or my layout?</summary>
+        <div class="a"><span class="no">No.</span> Cadence works on the words only. It never alters what a sentence claims or how a document is built — recasting a file leaves every tag, class, and code fence exactly in place.</div>
+      </details>
+      <details>
+        <summary>Is a clean score the same as good writing?</summary>
+        <div class="a">No. The score measures AI fingerprints, not quality. A spotless score on an empty point is still an empty point. Have something to say first; let the low score fall out as a side effect.</div>
+      </details>
+      <details>
+        <summary>Can I use it without Claude Code?</summary>
+        <div class="a">Yes — the detector runs on its own. <code>npx cadence-deslop draft.txt</code> scores any file, a whole folder, or a live URL, with no install and no dependencies.</div>
+      </details>
+      <details>
+        <summary>How do I add my own voice?</summary>
+        <div class="a"><code>/cadence learn &lt;sample&gt;</code> — point it at about 500 words you admire (a file, a paste, or a URL). It measures the rhythm and writes a reusable profile you can call by name.</div>
+      </details>
+      <details>
+        <summary>What does it cost?</summary>
+        <div class="a">Nothing. Cadence is open source under the MIT license, and Claude Code plugins have no store and no fee.</div>
+      </details>
     </div>
   </section>
 
