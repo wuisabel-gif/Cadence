@@ -263,6 +263,17 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
 .faq-list .a code{font-family:var(--mono);font-size:.84em;background:var(--paper-2);padding:.12em .4em;border-radius:5px;border:1px solid var(--line);color:var(--ink)}
 .faq-list .a .no{color:var(--flag-ink);font-weight:600}
 
+/* ============================== what's new ============================== */
+.shipped{background:var(--paper-2);border-block:1px solid var(--line)}
+.changelog{margin-top:clamp(2rem,4vw,3rem);list-style:none;padding:0;border-top:1px solid var(--line)}
+.changelog li{display:grid;grid-template-columns:minmax(120px,150px) 1fr;gap:.4rem 1.8rem;padding:1.1rem 0;border-bottom:1px solid var(--line);align-items:baseline}
+@media(max-width:620px){.changelog li{grid-template-columns:1fr;gap:.35rem}}
+.changelog .date{font-family:var(--mono);font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:.55rem;white-space:nowrap}
+.changelog .new{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.05em;color:var(--paper);background:var(--flag);padding:.14rem .42rem;border-radius:5px}
+.changelog .entry{color:var(--ink-soft);font-size:1.02rem;line-height:1.5}
+.changelog .entry b{color:var(--ink);font-weight:600}
+.changelog .entry code{font-family:var(--mono);font-size:.85em;background:var(--paper);padding:.1em .35em;border-radius:5px;border:1px solid var(--line)}
+
 /* ============================== footer ============================== */
 .foot{padding-block:clamp(3rem,6vw,5rem);border-top:1px solid var(--line)}
 .foot-grid{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start}
@@ -295,6 +306,7 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
       <a class="navlink" href="#voices">Voices</a>
       <a class="navlink" href="#detector">Detector</a>
       <a class="navlink" href="#commands">Commands</a>
+      <a class="navlink" href="#whats-new">What's new</a>
       <a class="navlink" href="#install">Install</a>
       <a class="navlink" href="#faq">FAQ</a>
       <span class="chip">v0.1</span>
@@ -561,6 +573,32 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
         <tr><td class="c1"><span class="pre">/cadence</span> voices</td><td class="c2">Lists the voices you've learned plus the shipped seeds.</td></tr>
       </tbody>
     </table>
+  </section>
+
+  <!-- ============ WHAT'S NEW ============ -->
+  <section class="shipped wrap" id="whats-new">
+    <div class="head reveal">
+      <h2>Recently shipped.</h2>
+      <p>One detector, more places to use it. Newest first.</p>
+    </div>
+    <ul class="changelog reveal">
+      <li>
+        <span class="date">Jun 20, 2026</span>
+        <span class="entry"><span class="new">NEW</span> <b>Chrome extension.</b> Score any text for AI tone right in your browser — popup or right-click. Runs entirely on your machine.</span>
+      </li>
+      <li>
+        <span class="date">Jun 20, 2026</span>
+        <span class="entry"><span class="new">NEW</span> <b>EPUB, Word &amp; live URLs.</b> Learn a voice from a whole book (<code>.epub</code>), a <code>.docx</code>, or any web page — and scan an entire repo at once.</span>
+      </li>
+      <li>
+        <span class="date">Jun 20, 2026</span>
+        <span class="entry"><b>Three new voices.</b> <code>seminar</code>, <code>dispatch</code>, and <code>column</code> — eight shipped voices in all.</span>
+      </li>
+      <li>
+        <span class="date">Jun 19, 2026</span>
+        <span class="entry"><b>v0.1.0 launched.</b> On npm as <code>npx cadence-deslop</code> and as a Claude Code plugin.</span>
+      </li>
+    </ul>
   </section>
 
   <!-- ============ INSTALL ============ -->
