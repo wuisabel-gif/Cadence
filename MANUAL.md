@@ -62,7 +62,7 @@ load at startup.
 ```
 
 You should see nine voices: counsel, reckoning, measured-academic, plain, punchy,
-seminar, dispatch, column, dear. Once it loads, skip the slash command and just ask —
+seminar, dispatch, column, kin. Once it loads, skip the slash command and just ask —
 *"score this draft,"* *"recast this in the column voice."*
 
 ### If it won't activate
@@ -163,7 +163,7 @@ npx cadence-deslop --strict post.md  # exit 1 above score 25, for CI
 | `seminar` | Teaching: demystify something hard, plainly and with wit. |
 | `dispatch` | Storytelling that argues: open on a scene, pile up detail, then land it. |
 | `column` | Analysis: start from a fact, reason it through, hand over a usable principle. |
-| `dear` | An intimate letter to someone close: anchor each truth in the body, then a short imperative. |
+| `kin` | An intimate letter to someone close: anchor each truth in the body, then a short imperative. |
 
 No voice fits? Learn your own (§3).
 

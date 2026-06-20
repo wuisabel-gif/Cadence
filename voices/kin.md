@@ -1,11 +1,11 @@
 ---
-name: dear
-label: Dear
+name: kin
+label: Kin
 source: preset — epistolary memoir register (a parent's letter to a child)
 register: brand
 ---
 
-# Dear
+# Kin
 
 **Essence** — a parent writing one unsparing letter to a beloved child, anchoring
 every truth in the body and folding history into the personal until the two can't be

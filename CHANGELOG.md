@@ -24,7 +24,7 @@ so here, so a shifting number is never a surprise.
   **`--max <n>`** (a configurable exit gate).
 - **Three more voices:** `seminar` (a demystifying literature-seminar register),
   `dispatch` (narrative science-journalism), and `column` (a calm analytical essay).
-- **A ninth voice, `dear`** — a parent's unsparing letter to a child, every truth
+- **A ninth voice, `kin`** — a parent's unsparing letter to a child, every truth
   anchored in the body, landing on a short imperative. Learned from an epistolary
   memoir register.
 - **A Chrome extension** (`extension/`) — score any text for AI tone right in the
