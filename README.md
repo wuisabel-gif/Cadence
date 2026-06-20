@@ -209,6 +209,10 @@ in a new session. New voices you create with `/cadence learn` are written to a
 `voices/` folder in whatever project you're working in. (Developing on Cadence? Point
 the marketplace at a local clone instead: `/plugin marketplace add ~/cadence`.)
 
+`/cadence` not recognized? It runs only in **Claude Code** — not the claude.ai
+website or the desktop app's regular chat. [INSTALL.md](INSTALL.md) covers that and
+the rest of the activation pitfalls.
+
 **Just the detector.** Score prose anywhere, no plugin needed:
 
 ```bash
@@ -220,6 +224,7 @@ npm install -g cadence-deslop    # or install the `cadence-deslop` / `deslop` co
 
 | Document | What it covers |
 |---|---|
+| [INSTALL.md](INSTALL.md) | Installing & activating the plugin, with troubleshooting |
 | [SOP.md](SOP.md) | Step-by-step playbook: how to de-slop, write, recast, and learn a voice |
 | [tutorials/scan-a-repo.md](tutorials/scan-a-repo.md) | Tutorial: audit and de-slop an entire repo, then gate it in CI |
 | [MANUAL.md](MANUAL.md) | Full reference for every command, CLI flag, input format, and exit code |
