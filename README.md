@@ -4,7 +4,7 @@
 
 <h1 align="center">Cadence</h1>
 
-<p align="center"><b>An AI-text humanizer for Claude Code — write in a voice you choose, with less AI tone.</b></p>
+<p align="center"><b>An AI-text humanizer — write in a voice you choose, with less AI tone, in any AI agent or straight from the command line.</b></p>
 
 <p align="center">
   <a href="https://github.com/wuisabel-gif/Cadence/actions/workflows/ci.yml"><img src="https://github.com/wuisabel-gif/Cadence/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
