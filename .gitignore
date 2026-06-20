@@ -6,3 +6,6 @@ node_modules/
 /tmp/
 # local sample scratch
 *.local.txt
+
+# claude.ai skill upload bundle (generated)
+cadence-skill.zip
