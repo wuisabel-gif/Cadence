@@ -23,7 +23,7 @@ Install once, then type these at the Claude Code prompt, or just ask in plain wo
 frontmatter) untouched.
 
 **Shipped voices:** `counsel`, `reckoning`, `measured-academic`, `plain`, `punchy`,
-`seminar`.
+`seminar`, `dispatch`.
 Add your own with `/cadence learn`; profiles are plain Markdown in `voices/`.
 
 ---
