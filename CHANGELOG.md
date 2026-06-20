@@ -24,6 +24,9 @@ so here, so a shifting number is never a surprise.
   **`--max <n>`** (a configurable exit gate).
 - **Three more voices:** `seminar` (a demystifying literature-seminar register),
   `dispatch` (narrative science-journalism), and `column` (a calm analytical essay).
+- **A ninth voice, `epistle`** — a parent's unsparing letter to a child, every truth
+  anchored in the body, landing on a short imperative. Learned from an epistolary
+  memoir register.
 - **A Chrome extension** (`extension/`) — score any text for AI tone right in the
   browser, by popup or right-click. The detector runs locally and is generated from
   the same `deslop.mjs` so it can't drift (a test enforces it).

@@ -399,7 +399,7 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
   <section class="voices wrap" id="voices">
     <div class="head reveal">
       <h2>One idea. The voice does the rest.</h2>
-      <p>A voice is a profile Cadence measures from a sample and writes toward. Below, one brief in five of the eight shipped voices — read for the change in structure, not just the wording. Every score is real output from the detector.</p>
+      <p>A voice is a profile Cadence measures from a sample and writes toward. Below, one brief in five of the nine shipped voices — read for the change in structure, not just the wording. Every score is real output from the detector.</p>
     </div>
     <p class="brief reveal">brief · <b>reassure someone who feels they're falling behind their peers</b></p>
 
@@ -457,7 +457,7 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
     </div>
 
     <div class="catalogue reveal">
-      <h3>Eight voices ship with it</h3>
+      <h3>Nine voices ship with it</h3>
       <div class="cat-list">
         <div class="cat-row">
           <span class="name">counsel</span>
@@ -490,6 +490,10 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
         <div class="cat-row">
           <span class="name">column</span>
           <span class="desc">A calm analytical essay: start from a fact, reason it through, hand over a usable principle.<span class="samp">“It's worth pausing on how strange this is. We called the trade progress.”</span></span>
+        </div>
+        <div class="cat-row">
+          <span class="name">epistle</span>
+          <span class="desc">A parent's unsparing letter to a child; anchors every truth in the body, then lands on a short imperative.<span class="samp">“Hold your body close. It is the only country you will ever truly own.”</span></span>
         </div>
       </div>
       <p class="learn-note">Add your own with <code>/cadence learn &lt;sample&gt;</code>. Cadence reads the sample, measures its real rhythm with the detector, and writes a profile to <code>voices/&lt;name&gt;.md</code>. Profiles are plain markdown — read them, edit them, share them.</p>
@@ -584,11 +588,15 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
     <ul class="changelog reveal">
       <li>
         <span class="date">Jun 20, 2026</span>
+        <span class="entry"><span class="new">NEW</span> <b>A ninth voice: <code>epistle</code>.</b> A parent's unsparing letter to a child — every truth anchored in the body, then a short imperative. Nine voices ship now.</span>
+      </li>
+      <li>
+        <span class="date">Jun 20, 2026</span>
         <span class="entry"><span class="new">NEW</span> <b>Regular Claude chat &amp; DeepSeek.</b> Run <code>npm run build:claude-skill</code> for a <code>cadence-skill.zip</code> to upload at claude.ai → Settings → Skills, or paste the markdown Skill into DeepSeek's drawer.</span>
       </li>
       <li>
         <span class="date">Jun 20, 2026</span>
-        <span class="entry"><span class="new">NEW</span> <b>Gemini CLI extension.</b> Drop it into <code>~/.gemini/extensions</code> and the voices and writing laws load every session. Same detector, via <code>npx cadence-deslop</code>.</span>
+        <span class="entry"><b>Gemini CLI extension.</b> Drop it into <code>~/.gemini/extensions</code> and the voices and writing laws load every session. Same detector, via <code>npx cadence-deslop</code>.</span>
       </li>
       <li>
         <span class="date">Jun 20, 2026</span>
@@ -631,7 +639,7 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
 <span class="pr">&gt;</span> /cadence voices
 <span class="pr">&gt;</span> /cadence deslop &lt;paste a draft&gt;
 <span class="pr">&gt;</span> /cadence write a 150-word intro in the counsel voice</div>
-          <div class="status">status <span class="v">v0.1</span> · the detector and eight seed voices work and are tested</div>
+          <div class="status">status <span class="v">v0.1</span> · the detector and nine seed voices work and are tested</div>
         </div>
         <div class="steps reveal">
           <div class="callout"><b>Where it runs:</b> Cadence loads only in <b>Claude Code</b> — the <code>claude</code> command in a terminal, the VS&nbsp;Code / JetBrains extension, or the desktop app's Code mode. <span class="no">Not</span> the claude.ai website or the desktop app's regular chat. If <code>/cadence</code> isn't recognized, you're in a regular chat.</div>

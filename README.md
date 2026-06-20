@@ -173,6 +173,8 @@ profile to `voices/<name>.md`. The shipped **counsel** voice was built this way.
 - **seminar** — a professor demystifying a hard text; direct, wry, metaphor-driven.
 - **dispatch** — narrative science-journalism: open on a scene, then land the idea.
 - **column** — calm analytical essay: a fact, the reasoning, a usable principle.
+- **epistle** — a parent's unsparing letter to a child; every truth anchored in the
+  body, landing on a short imperative.
 
 Add your own with `/cadence learn`. Profiles are plain markdown in `voices/`. Read
 them, edit them, share them.
@@ -302,5 +304,5 @@ npm run check:docs  # dogfood: the repo's own docs must score grade A
 
 ## Status
 
-v0.1 — the detector and the eight seed voices work and are tested, and the plugin is
+v0.1 — the detector and the nine seed voices work and are tested, and the plugin is
 packaged for install from this repo. Not yet published to a public marketplace.

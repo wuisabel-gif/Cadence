@@ -61,8 +61,8 @@ load at startup.
 /cadence voices
 ```
 
-You should see eight voices: counsel, reckoning, measured-academic, plain, punchy,
-seminar, dispatch, column. Once it loads, skip the slash command and just ask —
+You should see nine voices: counsel, reckoning, measured-academic, plain, punchy,
+seminar, dispatch, column, epistle. Once it loads, skip the slash command and just ask —
 *"score this draft,"* *"recast this in the column voice."*
 
 ### If it won't activate
