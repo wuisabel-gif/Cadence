@@ -69,7 +69,7 @@ resolving a voice:
 
 - **Shipped seeds** at `${CLAUDE_PLUGIN_ROOT:-.}/voices/*.md` — `counsel`,
   `reckoning`, `measured-academic`, `plain`, `punchy`, `seminar`, `dispatch`,
-  `column`, `epistle`.
+  `column`, `dear`.
 - **The user's own voices** at `voices/*.md` in their current project root
   (this is where `/cadence learn` writes new profiles). A user voice with the
   same name overrides a seed.

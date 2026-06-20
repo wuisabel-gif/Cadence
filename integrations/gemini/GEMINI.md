@@ -61,7 +61,7 @@ Pick one to fit the job, or build one from a sample. Each is a way of moving:
 - **seminar** — a professor demystifying a hard text: direct, wry, metaphor-driven.
 - **dispatch** — narrative journalism: open on a scene, accumulate detail, land the idea.
 - **column** — calm analysis: a fact, the reasoning, a usable principle.
-- **epistle** — a parent's unsparing letter to a child; every truth anchored in the body, then a short imperative.
+- **dear** — a parent's unsparing letter to a child; every truth anchored in the body, then a short imperative.
 
 The full voice profiles — with measured rhythm numbers and a calibration line each —
 live in the repo's `voices/*.md`. Read the relevant one before writing in that voice.
