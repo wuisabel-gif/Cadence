@@ -19,6 +19,7 @@
   <a href="#install"><img src="https://img.shields.io/badge/Claude%20Code-plugin-2348a1?logo=anthropic&logoColor=white" alt="Claude Code plugin"></a>
   <a href="skills/cadence/AGENTS.md"><img src="https://img.shields.io/badge/Codex-AGENTS.md-2348a1?logo=openai&logoColor=white" alt="Codex skill"></a>
   <a href="integrations/gemini/README.md"><img src="https://img.shields.io/badge/Gemini%20CLI-extension-2348a1?logo=googlegemini&logoColor=white" alt="Gemini CLI extension"></a>
+  <a href="integrations/deepseek/README.md"><img src="https://img.shields.io/badge/DeepSeek-skill-2348a1?logo=deepseek&logoColor=white" alt="DeepSeek skill"></a>
   <a href="extension/README.md"><img src="https://img.shields.io/badge/Chrome-extension-2348a1?logo=googlechrome&logoColor=white" alt="Chrome extension"></a>
   <a href="https://www.npmjs.com/package/cadence-deslop"><img src="https://img.shields.io/badge/CLI-npx%20cadence--deslop-2348a1?logo=npm&logoColor=white" alt="command-line tool"></a>
 </p>
@@ -223,6 +224,19 @@ the marketplace at a local clone instead: `/plugin marketplace add ~/cadence`.)
 website or the desktop app's regular chat. [MANUAL.md](MANUAL.md#1-install--activate)
 covers that and the rest of the activation pitfalls.
 
+**In a regular Claude conversation (claude.ai or the desktop app).** That chat doesn't
+read the plugin marketplace — it takes an uploaded skill bundle instead. Build one and
+drag it in:
+
+```bash
+npm run build:claude-skill   # writes cadence-skill.zip (SKILL.md + scripts + voices)
+```
+
+Then **Settings → Skills → Add → Upload skill**, and drop in `cadence-skill.zip`. The
+voices and de-slop guidance work immediately; the live detector runs only where that
+conversation has code execution — otherwise score in a terminal with
+`npx cadence-deslop`.
+
 **Just the detector.** Score prose anywhere, no plugin needed:
 
 ```bash
@@ -239,6 +253,10 @@ shell); to give a Codex agent the voices and writing laws, point it at
 **In Gemini CLI.** There's an installable extension at
 [`integrations/gemini/`](integrations/gemini/README.md) — symlink it into
 `~/.gemini/extensions/cadence` and the `GEMINI.md` context loads every session.
+
+**In DeepSeek.** DeepSeek's Skills are markdown you toggle from the drawer. Paste in
+[`integrations/deepseek/cadence-skill.md`](integrations/deepseek/cadence-skill.md) and
+score drafts in a terminal with `npx cadence-deslop`.
 
 ## Documentation
 

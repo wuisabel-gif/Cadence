@@ -34,6 +34,11 @@ so here, so a shifting number is never a surprise.
 - **Gemini CLI extension.** An installable extension under `integrations/gemini/`
   (`gemini-extension.json` + `GEMINI.md`). Symlink it into `~/.gemini/extensions/` and
   the voices and writing laws load every session; the detector runs via `npx` as usual.
+- **DeepSeek skill** under `integrations/deepseek/` — a markdown Skill for DeepSeek's
+  drawer, with the writing laws and voices. The detector runs via `npx` in a terminal.
+- **`npm run build:claude-skill`.** Packages a self-contained `cadence-skill.zip`
+  (SKILL.md + scripts + voices, paths rewritten) for upload to claude.ai's Skills panel
+  — so Cadence works in a regular Claude conversation, not just Claude Code.
 - **Docs:** a consolidated MANUAL (install, workflows, full reference), a repo-scan
   tutorial, and CI that re-scores the project's
   own docs on every push and fails if any drops below grade A.
