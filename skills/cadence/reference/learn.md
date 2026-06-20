@@ -6,40 +6,48 @@ Output is one file at `voices/<name>.md` following `voice-profile-schema.md`.
 ## Input
 
 A book, article, essay, transcript, or the user's own past writing — as a file
-(`.pdf`, `.txt`, `.md`, `.html`, `.docx`), a pasted block, or a URL. The bundled
-`scripts/extract-text.mjs` handles `.pdf`, `.html`, `.docx`, and live `http(s)` URLs
-(it strips markup to the visible prose). For PDFs, extract
-text with the bundled `scripts/extract-text.mjs` (pure Node, no dependencies). If
-a PDF uses custom-encoded subset fonts and extraction fails, convert it to `.txt`
-first. You need **at least ~500 words** of real prose to get a
-trustworthy profile; below that, say so and ask for more.
+(`.pdf`, `.txt`, `.md`, `.html`, `.docx`), a pasted block, or a URL. You need **at
+least ~500 words** of real prose for a trustworthy profile; below that, say so and
+ask for more.
 
 ## Process
 
-1. **Read 3–6 representative passages.** Skip front-matter, tables of contents,
-   citations, and boilerplate. You want the author *writing*, not metadata.
-
-2. **Measure the rhythm with the detector — don't eyeball it.**
+1. **Get the text out first.** For anything that isn't already plain text the user
+   pasted — a `.pdf`, `.docx`, `.html`, or a URL — run the bundled extractor before
+   you do anything else. It is pure Node with zero dependencies:
    ```bash
-   node "${CLAUDE_PLUGIN_ROOT:-.}/skills/cadence/scripts/deslop.mjs" --json sample.txt
+   node "${CLAUDE_PLUGIN_ROOT:-.}/skills/cadence/scripts/extract-text.mjs" <file-or-url> > /tmp/cadence-sample.txt
+   ```
+   Do **not** try to open a PDF with the Read tool — extract it with this script and
+   work from the output. `.txt`/`.md` you can read directly. If the extractor reports
+   that a PDF uses custom-encoded subset fonts, it can't be read; ask the user to
+   convert it to `.txt` and try again.
+
+2. **Read 3–6 representative passages** from the extracted text. Skip front-matter,
+   tables of contents, citations, and boilerplate. You want the author *writing*,
+   not metadata.
+
+3. **Measure the rhythm with the detector — don't eyeball it.**
+   ```bash
+   node "${CLAUDE_PLUGIN_ROOT:-.}/skills/cadence/scripts/deslop.mjs" --json /tmp/cadence-sample.txt
    ```
    Pull `avgSentenceLength`, `sentenceLengthCV`, `adverbRate`, `emDashRate`,
    `triadDensity` from the JSON and write the real numbers into the profile's
    Rhythm section. A profile grounded in measured numbers beats one built on
    impression every time.
 
-3. **Name only devices you can see.** For each rhetorical move, find the actual
+4. **Name only devices you can see.** For each rhetorical move, find the actual
    passage that shows it. If you can't point to an example in the sample, it
    doesn't go in the profile. Inventing flattering devices is how a profile drifts
    toward generic.
 
-4. **Write the Never list by contrast.** Ask: what would instantly break the
+5. **Write the Never list by contrast.** Ask: what would instantly break the
    illusion that the author wrote this? Those are the bright lines.
 
-5. **Pick the single most characteristic sentence** as the Calibration line —
+6. **Pick the single most characteristic sentence** as the Calibration line —
    the one a reader of the author would recognize blind.
 
-6. **Write the file** to `voices/<kebab-name>.md`. Derive `<name>` from the
+7. **Write the file** to `voices/<kebab-name>.md`. Derive `<name>` from the
    author or the tone (`reckoning`, `my-newsletter`). Fill every schema
    section. Confirm the path back to the user and show the Essence + Calibration
    line so they can sanity-check the read.
