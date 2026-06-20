@@ -18,6 +18,8 @@ There are two ways to use Cadence:
   which runs inside **Claude Code**.
 - **The detector only** — `cadence-deslop`, the scorer on its own, which runs
   anywhere with Node and needs no Claude Code.
+- **The Chrome extension** — the detector in your browser (popup or right-click).
+  See [extension/README.md](extension/README.md).
 
 ### Where the plugin runs
 

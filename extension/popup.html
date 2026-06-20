@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="icons/icon-48.png" width="20" height="20" alt="">
+    <span class="brand">Cadence</span>
+    <span class="tag">de-slop</span>
+  </header>
+
+  <textarea id="input" placeholder="Paste or type prose to score it for AI tone…" spellcheck="false"></textarea>
+
+  <div id="readout" class="readout empty" data-grade="">
+    <div class="scoreline">
+      <span id="score" class="score">—</span><span class="den">/100</span>
+      <span id="grade" class="grade"></span>
+    </div>
+    <div id="metrics" class="metrics"></div>
+  </div>
+
+  <div id="findings" class="findings"></div>
+
+  <footer>Runs locally — nothing leaves your browser. · <a href="https://wuisabel-gif.github.io/Cadence/" target="_blank" rel="noopener">cadence</a></footer>
+
+  <script src="detector.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

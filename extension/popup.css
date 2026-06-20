@@ -1,0 +1,39 @@
+:root {
+  --paper: #f6f8fa; --ink: #172031; --ink-soft: #3a4253; --muted: #6b7280;
+  --indigo: #2348a1; --red: #db332c; --green: #317a45; --line: #e3e7ec;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; width: 380px;
+  font-family: -apple-system, system-ui, "Segoe UI", sans-serif;
+  font-size: 13px; background: var(--paper); color: var(--ink);
+}
+header { display: flex; align-items: center; gap: 8px; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+header img { display: block; }
+.brand { font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
+.tag { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+#input {
+  display: block; width: 100%; border: none; border-bottom: 1px solid var(--line);
+  padding: 12px 14px; min-height: 120px; max-height: 320px; resize: vertical;
+  font: inherit; line-height: 1.5; background: #fff; color: var(--ink); outline: none;
+}
+#input::placeholder { color: var(--muted); }
+
+.readout { padding: 12px 14px; display: flex; flex-direction: column; gap: 3px; }
+.readout.empty .scoreline { opacity: 0.35; }
+.scoreline { display: flex; align-items: baseline; gap: 6px; }
+.score { font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1; color: var(--red); font-variant-numeric: tabular-nums; }
+.readout[data-grade="A"] .score, .readout[data-grade="B"] .score { color: var(--green); }
+.den { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.grade { margin-left: auto; font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
+.metrics { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+.findings { padding: 0 14px 12px; display: flex; flex-direction: column; gap: 6px; }
+.findings .f { font-size: 12px; line-height: 1.45; color: var(--ink-soft); }
+.findings .f b { font-family: var(--mono); font-size: 11px; color: var(--red); font-weight: 600; margin-right: 5px; }
+.findings .clean { font-size: 12px; color: var(--green); }
+
+footer { padding: 9px 14px; border-top: 1px solid var(--line); font-size: 10.5px; color: var(--muted); }
+footer a { color: var(--indigo); text-decoration: none; }

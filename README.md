@@ -226,6 +226,7 @@ npm install -g cadence-deslop    # or install the `cadence-deslop` / `deslop` co
 |---|---|
 | [MANUAL.md](MANUAL.md) | The full guide: install & activation, workflows, and every command, flag, and exit code |
 | [tutorials/scan-a-repo.md](tutorials/scan-a-repo.md) | Tutorial: audit and de-slop an entire repo, then gate it in CI |
+| [extension/README.md](extension/README.md) | The Chrome extension — score text for AI tone in your browser |
 | [PHILOSOPHY.md](PHILOSOPHY.md) | The thinking behind it — *The Age of Taste* |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How the project is built and how to add a rule, voice, or command |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |

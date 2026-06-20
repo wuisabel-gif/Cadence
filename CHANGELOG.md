@@ -24,6 +24,9 @@ so here, so a shifting number is never a surprise.
   **`--max <n>`** (a configurable exit gate).
 - **Three more voices:** `seminar` (a demystifying literature-seminar register),
   `dispatch` (narrative science-journalism), and `column` (a calm analytical essay).
+- **A Chrome extension** (`extension/`) — score any text for AI tone right in the
+  browser, by popup or right-click. The detector runs locally and is generated from
+  the same `deslop.mjs` so it can't drift (a test enforces it).
 - **Docs:** a consolidated MANUAL (install, workflows, full reference), a repo-scan
   tutorial, and CI that re-scores the project's
   own docs on every push and fails if any drops below grade A.
