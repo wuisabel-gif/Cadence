@@ -149,5 +149,4 @@ the visible text. Skip them, or move the examples into fenced code blocks (which
 Markdown scan ignores).
 
 That's the whole loop: **scan → read → fix → re-scan**, then gate it so it stays
-clean. See [SOP.md](../SOP.md) for the day-to-day procedures and
-[MANUAL.md](../MANUAL.md) for every flag.
+clean. See [MANUAL.md](../MANUAL.md) for the day-to-day workflows and every flag.

@@ -68,8 +68,8 @@ You type these in Claude Code as `/cadence <command>`:
 | `deslop <text>` | Scores text and reports every AI tell — diagnose, then optionally fix |
 | `voices` | Lists the voices you've learned plus the shipped seeds |
 
-New here? **[SOP.md](SOP.md)** is the step-by-step playbook. Every command and CLI
-flag is documented in **[MANUAL.md](MANUAL.md)**.
+New here? **[MANUAL.md](MANUAL.md)** is the full guide — install, the workflows, and
+every command and flag, in one place.
 
 ## Examples
 
@@ -210,8 +210,8 @@ in a new session. New voices you create with `/cadence learn` are written to a
 the marketplace at a local clone instead: `/plugin marketplace add ~/cadence`.)
 
 `/cadence` not recognized? It runs only in **Claude Code** — not the claude.ai
-website or the desktop app's regular chat. [INSTALL.md](INSTALL.md) covers that and
-the rest of the activation pitfalls.
+website or the desktop app's regular chat. [MANUAL.md](MANUAL.md#1-install--activate)
+covers that and the rest of the activation pitfalls.
 
 **Just the detector.** Score prose anywhere, no plugin needed:
 
@@ -224,10 +224,8 @@ npm install -g cadence-deslop    # or install the `cadence-deslop` / `deslop` co
 
 | Document | What it covers |
 |---|---|
-| [INSTALL.md](INSTALL.md) | Installing & activating the plugin, with troubleshooting |
-| [SOP.md](SOP.md) | Step-by-step playbook: how to de-slop, write, recast, and learn a voice |
+| [MANUAL.md](MANUAL.md) | The full guide: install & activation, workflows, and every command, flag, and exit code |
 | [tutorials/scan-a-repo.md](tutorials/scan-a-repo.md) | Tutorial: audit and de-slop an entire repo, then gate it in CI |
-| [MANUAL.md](MANUAL.md) | Full reference for every command, CLI flag, input format, and exit code |
 | [PHILOSOPHY.md](PHILOSOPHY.md) | The thinking behind it — *The Age of Taste* |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How the project is built and how to add a rule, voice, or command |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
