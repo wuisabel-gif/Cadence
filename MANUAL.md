@@ -129,7 +129,7 @@ Short sequences you can follow start to finish.
 ### Learn a voice from writing you admire
 
 1. **Gather a real sample** — at least ~500 words. A file (`.pdf`, `.txt`, `.md`,
-   `.html`, `.docx`), a pasted block, or a URL.
+   `.html`, `.docx`, `.epub`), a pasted block, or a URL.
 2. **Ask** — *"learn a voice from this essay"* (`/cadence learn <source>`).
 3. Cadence measures the sample's real rhythm and writes a profile to
    `voices/<name>.md` in your project.
@@ -140,7 +140,7 @@ Short sequences you can follow start to finish.
 ### Score only (no plugin needed)
 
 ```bash
-npx cadence-deslop draft.md          # a file (.txt .md .pdf .html .docx)
+npx cadence-deslop draft.md          # a file (.txt .md .pdf .html .docx .epub)
 npx cadence-deslop ./a-repo          # scan an entire folder or repo, worst first
 npx cadence-deslop https://a.blog/x  # a live page
 pbpaste | npx cadence-deslop         # the clipboard
@@ -200,6 +200,7 @@ cat draft.txt | cadence-deslop       # from stdin
 | `.html`, `.htm` | Auto-stripped to visible text, then scored. |
 | `.pdf` | Text extracted with built-in `zlib` (no pypdf). Subset-font PDFs fail with a clear message — convert to `.txt`. |
 | `.docx` | Text pulled from the Word document (a ZIP of XML), also with built-in `zlib`. |
+| `.epub` | The book's chapters (a ZIP of XHTML) pulled out and reduced to prose — ideal for learning a voice from a whole book. |
 | `http(s)://…` | Fetched live; if it's HTML, reduced to visible text. The only thing that touches the network. |
 
 ### Exit codes
@@ -284,7 +285,7 @@ is good. A clean score on an empty argument is still an empty argument.
 directly if you like:
 
 ```bash
-node skills/cadence/scripts/extract-text.mjs <file.pdf|.txt|.md|.html|.docx | url>   # prose to stdout
+node skills/cadence/scripts/extract-text.mjs <file.pdf|.txt|.md|.html|.docx|.epub | url>   # prose to stdout
 ```
 
 From a clone, the npm scripts:

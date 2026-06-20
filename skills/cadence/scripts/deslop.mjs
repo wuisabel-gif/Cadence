@@ -20,7 +20,7 @@
 import { readFileSync, realpathSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { relative, join } from 'node:path';
-import { extractPdf, extractDocx, fetchUrl, looksReadable } from './extract-text.mjs';
+import { extractPdf, extractDocx, extractEpub, fetchUrl, looksReadable } from './extract-text.mjs';
 
 // ─── Lexical rules ──────────────────────────────────────────────────────────
 // Phrases that almost never survive a human editor. Each hit is one finding.
@@ -439,8 +439,9 @@ if (isMain()) {
     catch (e) { process.stderr.write(`Could not fetch ${file}: ${e.message}\n`); process.exit(3); }
   } else {
     const lower = file.toLowerCase();
-    if (lower.endsWith('.pdf') || lower.endsWith('.docx')) {
-      text = lower.endsWith('.pdf') ? extractPdf(readFileSync(file)) : extractDocx(readFileSync(file));
+    if (/\.(pdf|docx|epub)$/.test(lower)) {
+      const buf = readFileSync(file);
+      text = lower.endsWith('.pdf') ? extractPdf(buf) : lower.endsWith('.epub') ? extractEpub(buf) : extractDocx(buf);
       if (!text || text.replace(/\s/g, '').length < 20 || (lower.endsWith('.pdf') && !looksReadable(text))) {
         process.stderr.write('Could not extract readable text from that file. Convert it to .txt and try again.\n');
         process.exit(3);

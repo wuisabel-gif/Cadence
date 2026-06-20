@@ -14,8 +14,9 @@ so here, so a shifting number is never a surprise.
 ### Added
 
 - **More input formats.** The detector now reads `.html` (scored as visible text),
-  `.docx` (parsed from the Word ZIP), and live `http(s)` URLs — on top of `.txt`,
-  `.md`, and `.pdf`. PDF extraction was also wired into the CLI itself.
+  `.docx` (parsed from the Word ZIP), `.epub` (a book's XHTML chapters), and live
+  `http(s)` URLs — on top of `.txt`, `.md`, and `.pdf`. PDF extraction was also wired
+  into the CLI itself.
 - **Repo scan.** Point `cadence-deslop` at a directory to score every prose file
   under it, ranked worst-first, with an average and the worst offender. Skips
   `node_modules`, `dist`, `.git`, and the like.

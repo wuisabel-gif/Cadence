@@ -171,7 +171,7 @@ them, edit them, share them.
 The detector is the front door — try it in five seconds, no install:
 
 ```bash
-npx cadence-deslop draft.txt          # any file: .txt .md .pdf .html .docx
+npx cadence-deslop draft.txt          # any file: .txt .md .pdf .html .docx .epub
 npx cadence-deslop ./some-repo        # scan a whole folder/repo, ranked worst-first
 npx cadence-deslop page.html          # scores the visible text of a web page
 npx cadence-deslop https://a.blog/post  # fetch a live URL and score it

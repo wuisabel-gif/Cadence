@@ -6,14 +6,14 @@ Output is one file at `voices/<name>.md` following `voice-profile-schema.md`.
 ## Input
 
 A book, article, essay, transcript, or the user's own past writing — as a file
-(`.pdf`, `.txt`, `.md`, `.html`, `.docx`), a pasted block, or a URL. You need **at
+(`.pdf`, `.txt`, `.md`, `.html`, `.docx`, `.epub`), a pasted block, or a URL. You need **at
 least ~500 words** of real prose for a trustworthy profile; below that, say so and
 ask for more.
 
 ## Process
 
 1. **Get the text out first.** For anything that isn't already plain text the user
-   pasted — a `.pdf`, `.docx`, `.html`, or a URL — run the bundled extractor before
+   pasted — a `.pdf`, `.docx`, `.epub`, `.html`, or a URL — run the bundled extractor before
    you do anything else. It is pure Node with zero dependencies:
    ```bash
    node "${CLAUDE_PLUGIN_ROOT:-.}/skills/cadence/scripts/extract-text.mjs" <file-or-url> > /tmp/cadence-sample.txt

@@ -175,33 +175,40 @@ function decodeXml(s) {
     .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16)));
 }
 
-// Pull one named entry out of a ZIP via its central directory (always carries
-// real sizes, unlike local headers that may defer to a data descriptor).
-function readZipEntry(buf, name) {
+// Iterate a ZIP's central directory (it always carries real sizes, unlike local
+// headers that may defer to a data descriptor). Yields { name, method, compSize,
+// localOff } for every entry.
+function* eachZipEntry(buf) {
   let eocd = -1;
   for (let i = buf.length - 22; i >= 0 && i > buf.length - 22 - 65536; i--) {
     if (buf.readUInt32LE(i) === 0x06054b50) { eocd = i; break; }
   }
-  if (eocd < 0) return null;
+  if (eocd < 0) return;
   const count = buf.readUInt16LE(eocd + 10);
   let p = buf.readUInt32LE(eocd + 16);
   for (let n = 0; n < count; n++) {
     if (buf.readUInt32LE(p) !== 0x02014b50) break;
-    const method = buf.readUInt16LE(p + 10);
-    const compSize = buf.readUInt32LE(p + 20);
     const nameLen = buf.readUInt16LE(p + 28);
-    const extraLen = buf.readUInt16LE(p + 30);
-    const commentLen = buf.readUInt16LE(p + 32);
-    const localOff = buf.readUInt32LE(p + 42);
-    if (buf.toString('utf8', p + 46, p + 46 + nameLen) === name) {
-      const dataStart = localOff + 30 + buf.readUInt16LE(localOff + 26) + buf.readUInt16LE(localOff + 28);
-      const data = buf.subarray(dataStart, dataStart + compSize);
-      if (method === 0) return data;
-      if (method === 8) { try { return zlib.inflateRawSync(data); } catch { return null; } }
-      return null;
-    }
-    p += 46 + nameLen + extraLen + commentLen;
+    yield {
+      name: buf.toString('utf8', p + 46, p + 46 + nameLen),
+      method: buf.readUInt16LE(p + 10),
+      compSize: buf.readUInt32LE(p + 20),
+      localOff: buf.readUInt32LE(p + 42),
+    };
+    p += 46 + nameLen + buf.readUInt16LE(p + 30) + buf.readUInt16LE(p + 32);
   }
+}
+
+function unzipEntry(buf, e) {
+  const start = e.localOff + 30 + buf.readUInt16LE(e.localOff + 26) + buf.readUInt16LE(e.localOff + 28);
+  const data = buf.subarray(start, start + e.compSize);
+  if (e.method === 0) return data;
+  if (e.method === 8) { try { return zlib.inflateRawSync(data); } catch { return null; } }
+  return null;
+}
+
+function readZipEntry(buf, name) {
+  for (const e of eachZipEntry(buf)) if (e.name === name) return unzipEntry(buf, e);
   return null;
 }
 
@@ -212,6 +219,21 @@ export function extractDocx(buf) {
   s = s.replace(/<\/w:p>/g, '\n').replace(/<w:tab\b[^>]*\/?>/g, '\t').replace(/<w:br\b[^>]*\/?>/g, '\n');
   s = decodeXml(s.replace(/<[^>]+>/g, ''));
   return s.replace(/[ \t]+/g, ' ').replace(/ *\n */g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+// An .epub is a ZIP of XHTML chapters — pull the visible prose out of each content
+// document and join them. Reuses the ZIP reader and the HTML stripper.
+export function extractEpub(buf) {
+  const parts = [];
+  for (const e of eachZipEntry(buf)) {
+    if (!/\.x?html?$/i.test(e.name)) continue;                       // content docs only
+    if (/(^|\/)(nav|toc|cover|title(page)?|copyright)\b/i.test(e.name)) continue; // skip front/nav
+    const bytes = unzipEntry(buf, e);
+    if (!bytes) continue;
+    const t = stripHtml(bytes.toString('utf8'));
+    if (t.trim()) parts.push(t);
+  }
+  return parts.join('\n\n').replace(/\n{3,}/g, '\n\n').trim();
 }
 
 // ─── live URL ───────────────────────────────────────────────────────────────
@@ -228,7 +250,7 @@ export async function fetchUrl(url) {
 async function main() {
   const file = process.argv[2];
   if (!file) {
-    process.stderr.write('usage: node extract-text.mjs <file.pdf|.txt|.md|.html|.docx | http(s)://url>\n');
+    process.stderr.write('usage: node extract-text.mjs <file.pdf|.txt|.md|.html|.docx|.epub | http(s)://url>\n');
     process.exit(2);
   }
   if (/^https?:\/\//i.test(file)) {
@@ -255,6 +277,13 @@ async function main() {
       process.exit(3);
     }
     process.stdout.write(text + '\n');
+  } else if (ext === '.epub') {
+    const text = extractEpub(readFileSync(file));
+    if (!text || text.replace(/\s/g, '').length < 20) {
+      process.stderr.write('No readable text found in this .epub file.\n');
+      process.exit(3);
+    }
+    process.stdout.write(text + '\n');
   } else if (ext === '.docx') {
     const text = extractDocx(readFileSync(file));
     if (!text || text.replace(/\s/g, '').length < 20) {
@@ -272,7 +301,7 @@ async function main() {
     }
     process.stdout.write(text + '\n');
   } else {
-    process.stderr.write(`Unsupported file type: ${ext}. Use .pdf, .txt, .md, .html, or .docx ` +
+    process.stderr.write(`Unsupported file type: ${ext}. Use .pdf, .txt, .md, .html, .docx, or .epub ` +
       '(or an http(s):// URL), or paste the text directly.\n');
     process.exit(2);
   }
