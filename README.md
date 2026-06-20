@@ -136,6 +136,7 @@ profile to `voices/<name>.md`. The shipped **counsel** voice was built this way.
   concludes.
 - **plain** — say it once, in the fewest honest words.
 - **punchy** — high contrast; long build, short hit.
+- **tutor** — a professor demystifying a hard text; direct, wry, metaphor-driven.
 
 Add your own with `/cadence learn`. Profiles are plain markdown in `voices/`. Read
 them, edit them, share them.
@@ -233,5 +234,5 @@ npm run check:docs  # dogfood: the repo's own docs must score grade A
 
 ## Status
 
-v0.1 — the detector and the five seed voices work and are tested, and the plugin is
+v0.1 — the detector and the six seed voices work and are tested, and the plugin is
 packaged for install from this repo. Not yet published to a public marketplace.

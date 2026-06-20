@@ -9,6 +9,22 @@ the **`cadence-deslop` npm package** (the detector on its own). Their versions m
 together. Because detector rules affect scores, any release that changes a rule says
 so here, so a shifting number is never a surprise.
 
+## [Unreleased]
+
+### Added
+
+- **More input formats.** The detector now reads `.html` (scored as visible text),
+  `.docx` (parsed from the Word ZIP), and live `http(s)` URLs — on top of `.txt`,
+  `.md`, and `.pdf`. PDF extraction was also wired into the CLI itself.
+- **Repo scan.** Point `cadence-deslop` at a directory to score every prose file
+  under it, ranked worst-first, with an average and the worst offender. Skips
+  `node_modules`, `dist`, `.git`, and the like.
+- **`--prose-only`** (Markdown-aware scoring, skipping code/quotes/tables) and
+  **`--max <n>`** (a configurable exit gate).
+- **A sixth voice, `tutor`** — a demystifying literature-seminar register.
+- **Docs:** SOP, MANUAL, a repo-scan tutorial, and CI that re-scores the project's
+  own docs on every push and fails if any drops below grade A.
+
 ## [0.1.0] — 2026-06-19
 
 First public release.

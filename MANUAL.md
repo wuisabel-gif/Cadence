@@ -22,7 +22,8 @@ Install once, then type these at the Claude Code prompt, or just ask in plain wo
 `recast` edits the prose in place and leaves all markup (HTML tags, Markdown fences,
 frontmatter) untouched.
 
-**Shipped voices:** `counsel`, `reckoning`, `measured-academic`, `plain`, `punchy`.
+**Shipped voices:** `counsel`, `reckoning`, `measured-academic`, `plain`, `punchy`,
+`tutor`.
 Add your own with `/cadence learn`; profiles are plain Markdown in `voices/`.
 
 ---
