@@ -1,6 +1,6 @@
 {
   "name": "cadence-deslop",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Deterministic AI-slop detector for prose. Scores any text 0–100 and names every AI tell — uniform rhythm, hollow-confidence words, reflexive triads, negation pivots, cliché openers. Zero dependencies. The detector behind the Cadence writing plugin.",
   "type": "module",
   "bin": {

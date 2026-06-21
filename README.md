@@ -304,5 +304,6 @@ npm run check:docs  # dogfood: the repo's own docs must score grade A
 
 ## Status
 
-v0.1 — the detector and the nine seed voices work and are tested, and the plugin is
-packaged for install from this repo. Not yet published to a public marketplace.
+v0.2 — the detector and the nine seed voices work and are tested. The detector is on
+npm as `cadence-deslop`, and the writing skill runs across six surfaces: Claude Code,
+a regular Claude conversation, Codex, Gemini CLI, DeepSeek, and the Chrome extension.

@@ -9,10 +9,18 @@ the **`cadence-deslop` npm package** (the detector on its own). Their versions m
 together. Because detector rules affect scores, any release that changes a rule says
 so here, so a shifting number is never a surprise.
 
-## [Unreleased]
+## [0.2.0] — 2026-06-20
+
+Cadence goes multi-surface: the same writing skill now runs in Claude Code,
+a regular Claude conversation, Codex, Gemini CLI, and DeepSeek, alongside the
+Chrome extension and the `npx` detector. A ninth voice ships, and a bare
+`/cadence` now guides you to the right command.
 
 ### Added
 
+- **Guided `/cadence`.** Invoked with no command, it now shows a menu that routes
+  you by intent; when a command needs a voice and you haven't named one, it lists
+  all nine and lets you pick.
 - **More input formats.** The detector now reads `.html` (scored as visible text),
   `.docx` (parsed from the Word ZIP), `.epub` (a book's XHTML chapters), and live
   `http(s)` URLs — on top of `.txt`, `.md`, and `.pdf`. PDF extraction was also wired
@@ -81,4 +89,5 @@ First public release.
 - The detector is English-only for now (its function-word and phrase lists are
   English).
 
+[0.2.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.2.0
 [0.1.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.1.0
