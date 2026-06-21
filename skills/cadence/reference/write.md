@@ -5,10 +5,11 @@ human and matches a chosen voice.
 
 ## Process
 
-1. **Load the voice.** Read `voices/<name>.md`. If the user didn't name one, pick
-   from the Setup rules in SKILL.md (default `plain` for utilitarian copy). Read
-   the whole profile, then re-read the **Calibration line** last — it sets your
-   ear right before you write.
+1. **Load the voice.** Read `voices/<name>.md`. If the user didn't name one, run
+   the **voice picker** from SKILL.md (list all nine seeds and let them choose) —
+   don't silently pick, unless the copy is plainly utilitarian, where `plain` is
+   the default. Read the whole profile, then re-read the **Calibration line**
+   last — it sets your ear right before you write.
 
 2. **Get the substance straight first.** Know what you're actually saying — the
    claim, the example, the takeaway — before you style it. Voice is how it's

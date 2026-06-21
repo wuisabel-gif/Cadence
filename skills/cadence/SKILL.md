@@ -58,8 +58,29 @@ Before writing, establish two things:
 1. **Which voice?** Look for the user's choice in the request ("vivid,"
    "punchy," "like my last post"). If they named a sample, learn it
    first (see `reference/learn.md`). If they named a tone you have, load it
-   (see the two voice locations below). If neither, list what's available and
-   ask, or default to the `plain` seed for utilitarian copy.
+   (see the two voice locations below). If neither, **show the voice picker**
+   (below) and let them choose — don't silently pick for them. Default to the
+   `plain` seed without asking only when the copy is plainly utilitarian (docs,
+   UI strings, error text).
+
+### Voice picker
+
+When a command needs a voice and the user hasn't named one, read **every**
+`voices/*.md` (the shipped seeds plus any the user has learned) and present them
+as a numbered list — each voice's `label`, its one-line **Essence**, and a hint
+of when to reach for it. Build the list from the files, never from memory, so it
+always reflects what's installed (nine seeds ship today). Then ask the user to
+pick a number or name, or to describe the feel they want so you can choose for
+them. Example shape:
+
+```
+Pick a voice (or describe the feel you want):
+
+  1. plain     — say it once, in the fewest honest words. Docs, UI copy.
+  2. punchy    — long build, then a short hit. Landing pages, taglines.
+  3. reckoning — set a scene, then a hard truth. Persuasion.
+  …            — (continue through every file in voices/)
+```
 2. **What register?** Brand (design *is* the product — marketing, essays,
    landing) rewards distinctiveness; product (copy *serves* a UI — docs, app
    text) rewards plainness. Voice profiles carry a `register` hint.

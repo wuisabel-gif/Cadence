@@ -12,8 +12,9 @@ paragraph — and rewrite it in a chosen voice without losing the meaning.
    This is your before-number and your map: the findings list tells you exactly
    which tells to remove. Save the score to report the delta later.
 
-2. **Load the target voice** (`voices/<name>.md`). Read it, ending on the
-   Calibration line.
+2. **Load the target voice** (`voices/<name>.md`). If the user didn't name one,
+   run the **voice picker** from SKILL.md (list all nine seeds and let them
+   choose) before rewriting. Read the profile, ending on the Calibration line.
 
 3. **Preserve the argument, replace the surface.** Recast is not paraphrase and
    not summary. Keep every claim, fact, and piece of structure the user put
