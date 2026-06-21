@@ -90,6 +90,10 @@ Type these at the Claude Code prompt, or just ask in plain words.
 | `/cadence deslop <text\|file>` | Score text and name every AI tell (no edits) | `/cadence deslop draft.md` |
 | `/cadence voices` | List available voices | `/cadence voices` |
 
+**Not sure which to use?** Type `/cadence` on its own. It shows a short menu that
+routes you by what you're working on — a draft to score, text to rewrite, something
+new to write, or a sample to learn from — and you pick from there.
+
 **Diagnose vs. fix:** `deslop` only *reports*. `recast` *rewrites*. For a whole file,
 `recast` edits the prose in place and leaves all markup (HTML tags, Markdown fences,
 frontmatter) untouched.

@@ -87,6 +87,32 @@ follow it. If they just describe a task, route by intent.
 | `deslop <text>` | Strip AI tells; report the score and every finding | `reference/deslop.md` |
 | `voices` | List learned + seed voices and their essences | (read `voices/*.md` frontmatter) |
 
+### When `/cadence` is invoked with no command (or an empty / unclear argument)
+
+Do **not** guess a command and do **not** start writing. Present the menu below
+verbatim, then stop and wait for the user to choose. The whole point is to guide
+them to the right command — answer their situation, not a keyword.
+
+```
+**Cadence** — write in a voice, with less AI tone. What are you working on?
+
+| If you want to… | Use | Example |
+|---|---|---|
+| See how AI-sounding a draft is | `deslop` | `/cadence deslop draft.md` |
+| Rewrite text so it sounds human | `recast` | `/cadence recast post.md in the plain voice` |
+| Write something new in a voice | `write` | `/cadence write a 150-word intro, punchy voice` |
+| Teach Cadence a new voice from a sample | `learn` | `/cadence learn ~/essays/best.md` |
+| See the voices you can pick from | `voices` | `/cadence voices` |
+
+Not sure? Tell me what you have — a draft to fix, an idea to write, or a writer
+you want to sound like — and I'll route it. Nine voices ship today; run
+`/cadence voices` to read them.
+```
+
+After showing it, if the user describes a situation instead of naming a command,
+route by intent: a draft to diagnose → `deslop`; existing text to improve →
+`recast`; nothing written yet → `write`; a sample to imitate → `learn`.
+
 ## The detector is the ground truth
 
 Every command that produces prose ends by running it through the detector:
