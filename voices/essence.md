@@ -1,11 +1,11 @@
 ---
-name: tech-blog
-label: Tech Blog
+name: essence
+label: Essence
 source: preset — first-principles tech-blog register (a16z partner essay)
 register: brand
 ---
 
-# Tech Blog
+# Essence
 
 **Essence** — a technologist-investor who strips a complex domain down to its
 physical laws, reasons up from first principles, and arrives at a conviction

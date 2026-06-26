@@ -175,7 +175,7 @@ profile to `voices/<name>.md`. The shipped **counsel** voice was built this way.
 - **column** — calm analytical essay: a fact, the reasoning, a usable principle.
 - **kin** — a parent's unsparing letter to a child; every truth anchored in the
   body, landing on a short imperative.
-- **tech-blog** — first-principles tech-blog writing: strip a domain to its
+- **essence** — first-principles tech-blog writing: strip a domain to its
   laws, reason up, and land on conviction.
 
 Add your own with `/cadence learn`. Profiles are plain markdown in `voices/`. Read

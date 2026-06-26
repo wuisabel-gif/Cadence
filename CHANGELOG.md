@@ -13,7 +13,7 @@ so here, so a shifting number is never a surprise.
 
 ### Added
 
-- **A tenth voice, `tech-blog`** — first-principles tech-blog writing: strip a
+- **A tenth voice, `essence`** — first-principles tech-blog writing: strip a
   domain down to its physical or economic laws, reason up from there, and land on a
   conviction plain enough to act on. Learned from a16z partner essays.
 
