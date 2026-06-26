@@ -29,3 +29,7 @@ jobs:
       # The extension's detector is generated from deslop.mjs; fail if it's stale.
       - name: Browser detector stays in sync
         run: npm run build:extension && git diff --exit-code extension/detector.js
+
+      # The VS Code extension's detector is generated the same way; fail if stale.
+      - name: VS Code detector stays in sync
+        run: npm run build:vscode && git diff --exit-code integrations/vscode/detector.js

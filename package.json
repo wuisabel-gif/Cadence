@@ -15,9 +15,10 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node --test tests/deslop.test.mjs tests/extract-text.test.mjs tests/extension.test.mjs",
+    "test": "node --test tests/deslop.test.mjs tests/extract-text.test.mjs tests/extension.test.mjs tests/vscode.test.mjs",
     "deslop": "node skills/cadence/scripts/deslop.mjs",
     "build:extension": "node scripts/build-extension.mjs",
+    "build:vscode": "node scripts/build-vscode.mjs",
     "build:claude-skill": "node scripts/build-claude-skill.mjs",
     "check:docs": "node skills/cadence/scripts/deslop.mjs --prose-only --max 10 README.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 CONTRIBUTING.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 15 PHILOSOPHY.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 CHANGELOG.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 12 MANUAL.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 tutorials/scan-a-repo.md"
   },

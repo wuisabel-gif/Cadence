@@ -1,0 +1,72 @@
+{
+  "name": "cadence-deslop",
+  "displayName": "Cadence — AI-slop detector",
+  "description": "Score prose for AI tone right in the editor. Live grade in the status bar, the AI tells squiggled inline, and a full report on demand. Runs locally, zero dependencies.",
+  "version": "0.2.0",
+  "publisher": "cadence",
+  "license": "MIT",
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": ["Linters", "Other"],
+  "keywords": ["ai-slop", "ai-detector", "writing", "prose", "linter", "humanize"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wuisabel-gif/Cadence.git",
+    "directory": "integrations/vscode"
+  },
+  "homepage": "https://wuisabel-gif.github.io/Cadence/",
+  "bugs": { "url": "https://github.com/wuisabel-gif/Cadence/issues" },
+  "main": "./extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "contributes": {
+    "commands": [
+      {
+        "command": "cadence.scoreDocument",
+        "title": "Cadence: Score document for AI tone",
+        "category": "Cadence"
+      },
+      {
+        "command": "cadence.scoreSelection",
+        "title": "Cadence: Score selection for AI tone",
+        "category": "Cadence"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "cadence.scoreSelection",
+          "when": "editorHasSelection",
+          "group": "1_modification@99"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Cadence",
+      "properties": {
+        "cadence.statusBar.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the live Cadence grade for the active editor in the status bar."
+        },
+        "cadence.diagnostics.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Squiggle AI tells (banned phrases, hollow-confidence words, triads, negation pivots, cliché openers) inline as you type."
+        },
+        "cadence.proseOnly": {
+          "type": "boolean",
+          "default": false,
+          "description": "Before scoring, strip Markdown/HTML scaffolding (fenced code, quotes, tables, tags) so the score reflects only the prose a reader sees. Affects the status-bar grade and the report; diagnostics always point at real positions in the file."
+        },
+        "cadence.languages": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["markdown", "mdx", "plaintext", "git-commit", "latex", "quarto", "asciidoc", "restructuredtext"],
+          "description": "Language IDs the status bar and live diagnostics analyze automatically. The score commands work in any file regardless of this list."
+        }
+      }
+    }
+  }
+}

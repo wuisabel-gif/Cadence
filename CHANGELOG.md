@@ -16,6 +16,11 @@ so here, so a shifting number is never a surprise.
 - **A tenth voice, `essence`** — first-principles tech-blog writing: strip a
   domain down to its physical or economic laws, reason up from there, and land on a
   conviction plain enough to act on. Learned from venture-firm tech essays.
+- **A VS Code extension** (`integrations/vscode/`) — score prose for AI tone in the
+  editor: a live grade in the status bar, the AI tells squiggled inline, and a
+  score-on-demand report for the document or a selection. The detector is generated
+  from the same `deslop.mjs` as the CLI and Chrome extension, so the surfaces can't
+  drift (a test enforces it). Build with `npm run build:vscode`.
 
 ## [0.2.0] — 2026-06-20
 

@@ -21,6 +21,7 @@
   <a href="integrations/gemini/README.md"><img src="https://img.shields.io/badge/Gemini%20CLI-extension-2348a1?logo=googlegemini&logoColor=white" alt="Gemini CLI extension"></a>
   <a href="integrations/deepseek/README.md"><img src="https://img.shields.io/badge/DeepSeek-skill-2348a1?logo=deepseek&logoColor=white" alt="DeepSeek skill"></a>
   <a href="extension/README.md"><img src="https://img.shields.io/badge/Chrome-extension-2348a1?logo=googlechrome&logoColor=white" alt="Chrome extension"></a>
+  <a href="integrations/vscode/README.md"><img src="https://img.shields.io/badge/VS%20Code-extension-2348a1?logo=visualstudiocode&logoColor=white" alt="VS Code extension"></a>
   <a href="https://www.npmjs.com/package/cadence-deslop"><img src="https://img.shields.io/badge/CLI-npx%20cadence--deslop-2348a1?logo=npm&logoColor=white" alt="command-line tool"></a>
 </p>
 
@@ -262,6 +263,11 @@ shell); to give a Codex agent the voices and writing laws, point it at
 [`integrations/deepseek/cadence-skill.md`](integrations/deepseek/cadence-skill.md) and
 score drafts in a terminal with `npx cadence-deslop`.
 
+**In VS Code.** There's an extension at
+[`integrations/vscode/`](integrations/vscode/README.md) — a live grade in the status
+bar, the AI tells squiggled inline, and a score-on-demand report. Build it with
+`npm run build:vscode`, then press **F5** to try it or package a `.vsix` to install.
+
 ## Documentation
 
 | Document | What it covers |
@@ -269,6 +275,7 @@ score drafts in a terminal with `npx cadence-deslop`.
 | [MANUAL.md](MANUAL.md) | The full guide: install & activation, workflows, and every command, flag, and exit code |
 | [tutorials/scan-a-repo.md](tutorials/scan-a-repo.md) | Tutorial: audit and de-slop an entire repo, then gate it in CI |
 | [extension/README.md](extension/README.md) | The Chrome extension — score text for AI tone in your browser |
+| [integrations/vscode/README.md](integrations/vscode/README.md) | The VS Code extension — live grade, inline tells, and a score report |
 | [PHILOSOPHY.md](PHILOSOPHY.md) | The thinking behind it — *The Age of Taste* |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How the project is built and how to add a rule, voice, or command |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
@@ -292,7 +299,10 @@ cadence/
 │           ├── deslop.mjs       # the detector (real code, tested)
 │           └── extract-text.mjs # pure-Node prose extraction from .pdf/.txt/.md
 ├── voices/                      # shipped voice profiles (seed set)
-└── tests/                       # 27 tests — `npm test`
+├── extension/                   # the Chrome extension (generated detector)
+├── integrations/                # Codex, Gemini, DeepSeek, and VS Code surfaces
+│   └── vscode/                  # the VS Code extension (generated detector)
+└── tests/                       # 32 tests — `npm test`
     ├── deslop.test.mjs
     └── extract-text.test.mjs
 ```
@@ -300,12 +310,13 @@ cadence/
 ## Test
 
 ```bash
-npm test          # 27 tests over the detector and the extractors
+npm test          # 32 tests over the detector, the extractors, and the bundled builds
 npm run check:docs  # dogfood: the repo's own docs must score grade A
 ```
 
 ## Status
 
 v0.2 — the detector and the ten seed voices work and are tested. The detector is on
-npm as `cadence-deslop`, and the writing skill runs across six surfaces: Claude Code,
-a regular Claude conversation, Codex, Gemini CLI, DeepSeek, and the Chrome extension.
+npm as `cadence-deslop`, and Cadence runs across seven surfaces: Claude Code,
+a regular Claude conversation, Codex, Gemini CLI, DeepSeek, the Chrome extension, and
+the VS Code extension.
