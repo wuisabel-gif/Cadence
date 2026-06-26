@@ -1,7 +1,7 @@
 ---
 name: essence
 label: Essence
-source: preset — first-principles tech-blog register (a16z partner essay)
+source: preset — first-principles tech-blog register (venture-firm tech essays)
 register: brand
 ---
 

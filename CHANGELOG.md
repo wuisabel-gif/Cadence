@@ -15,7 +15,7 @@ so here, so a shifting number is never a surprise.
 
 - **A tenth voice, `essence`** — first-principles tech-blog writing: strip a
   domain down to its physical or economic laws, reason up from there, and land on a
-  conviction plain enough to act on. Learned from a16z partner essays.
+  conviction plain enough to act on. Learned from venture-firm tech essays.
 
 ## [0.2.0] — 2026-06-20
 
