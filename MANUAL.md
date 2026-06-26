@@ -61,8 +61,8 @@ load at startup.
 /cadence voices
 ```
 
-You should see nine voices: counsel, reckoning, measured-academic, plain, punchy,
-seminar, dispatch, column, kin. Once it loads, skip the slash command and just ask —
+You should see ten voices: counsel, reckoning, measured-academic, plain, punchy,
+seminar, dispatch, column, kin, tech-blog. Once it loads, skip the slash command and just ask —
 *"score this draft,"* *"recast this in the column voice."*
 
 ### If it won't activate
@@ -168,6 +168,7 @@ npx cadence-deslop --strict post.md  # exit 1 above score 25, for CI
 | `dispatch` | Storytelling that argues: open on a scene, pile up detail, then land it. |
 | `column` | Analysis: start from a fact, reason it through, hand over a usable principle. |
 | `kin` | An intimate letter to someone close: anchor each truth in the body, then a short imperative. |
+| `tech-blog` | First-principles argument: strip a domain to its laws, reason up, land on conviction. |
 
 No voice fits? Learn your own (§3).
 

@@ -69,7 +69,7 @@ When a command needs a voice and the user hasn't named one, read **every**
 `voices/*.md` (the shipped seeds plus any the user has learned) and present them
 as a numbered list — each voice's `label`, its one-line **Essence**, and a hint
 of when to reach for it. Build the list from the files, never from memory, so it
-always reflects what's installed (nine seeds ship today). Then ask the user to
+always reflects what's installed (ten seeds ship today). Then ask the user to
 pick a number or name, or to describe the feel they want so you can choose for
 them. Example shape:
 
@@ -90,7 +90,7 @@ resolving a voice:
 
 - **Shipped seeds** at `${CLAUDE_PLUGIN_ROOT:-.}/voices/*.md` — `counsel`,
   `reckoning`, `measured-academic`, `plain`, `punchy`, `seminar`, `dispatch`,
-  `column`, `kin`.
+  `column`, `kin`, `tech-blog`.
 - **The user's own voices** at `voices/*.md` in their current project root
   (this is where `/cadence learn` writes new profiles). A user voice with the
   same name overrides a seed.

@@ -13,7 +13,7 @@ paragraph — and rewrite it in a chosen voice without losing the meaning.
    which tells to remove. Save the score to report the delta later.
 
 2. **Load the target voice** (`voices/<name>.md`). If the user didn't name one,
-   run the **voice picker** from SKILL.md (list all nine seeds and let them
+   run the **voice picker** from SKILL.md (list all ten seeds and let them
    choose) before rewriting. Read the profile, ending on the Calibration line.
 
 3. **Preserve the argument, replace the surface.** Recast is not paraphrase and

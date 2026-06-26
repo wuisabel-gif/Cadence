@@ -6,7 +6,7 @@ human and matches a chosen voice.
 ## Process
 
 1. **Load the voice.** Read `voices/<name>.md`. If the user didn't name one, run
-   the **voice picker** from SKILL.md (list all nine seeds and let them choose) —
+   the **voice picker** from SKILL.md (list all ten seeds and let them choose) —
    don't silently pick, unless the copy is plainly utilitarian, where `plain` is
    the default. Read the whole profile, then re-read the **Calibration line**
    last — it sets your ear right before you write.

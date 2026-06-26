@@ -9,6 +9,14 @@ the **`cadence-deslop` npm package** (the detector on its own). Their versions m
 together. Because detector rules affect scores, any release that changes a rule says
 so here, so a shifting number is never a surprise.
 
+## [Unreleased]
+
+### Added
+
+- **A tenth voice, `tech-blog`** — first-principles tech-blog writing: strip a
+  domain down to its physical or economic laws, reason up from there, and land on a
+  conviction plain enough to act on. Learned from a16z partner essays.
+
 ## [0.2.0] — 2026-06-20
 
 Cadence goes multi-surface: the same writing skill now runs in Claude Code,

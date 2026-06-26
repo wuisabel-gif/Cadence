@@ -175,6 +175,8 @@ profile to `voices/<name>.md`. The shipped **counsel** voice was built this way.
 - **column** — calm analytical essay: a fact, the reasoning, a usable principle.
 - **kin** — a parent's unsparing letter to a child; every truth anchored in the
   body, landing on a short imperative.
+- **tech-blog** — first-principles tech-blog writing: strip a domain to its
+  laws, reason up, and land on conviction.
 
 Add your own with `/cadence learn`. Profiles are plain markdown in `voices/`. Read
 them, edit them, share them.
@@ -304,6 +306,6 @@ npm run check:docs  # dogfood: the repo's own docs must score grade A
 
 ## Status
 
-v0.2 — the detector and the nine seed voices work and are tested. The detector is on
+v0.2 — the detector and the ten seed voices work and are tested. The detector is on
 npm as `cadence-deslop`, and the writing skill runs across six surfaces: Claude Code,
 a regular Claude conversation, Codex, Gemini CLI, DeepSeek, and the Chrome extension.

@@ -62,6 +62,7 @@ Pick one to fit the job, or build one from a sample. Each is a way of moving:
 - **dispatch** — narrative journalism: open on a scene, accumulate detail, land the idea.
 - **column** — calm analysis: a fact, the reasoning, a usable principle.
 - **kin** — a parent's unsparing letter to a child; every truth anchored in the body, then a short imperative.
+- **tech-blog** — first-principles tech-blog writing: strip to the laws, reason up, land on conviction.
 
 The full voice profiles — with measured rhythm numbers and a calibration line each —
 live in the repo's `voices/*.md`. Read the relevant one before writing in that voice.
