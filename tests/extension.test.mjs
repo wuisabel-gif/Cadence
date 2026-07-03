@@ -16,8 +16,9 @@ const SAMPLES = [
   'A short one. Then a much longer sentence that winds through several clauses before it finally arrives at its point.',
 ];
 
-test('the extension exposes cadenceAnalyze', () => {
+test('the extension exposes cadenceAnalyze and cadenceAnalyzeParagraphs', () => {
   assert.equal(typeof win.cadenceAnalyze, 'function');
+  assert.equal(typeof win.cadenceAnalyzeParagraphs, 'function');
 });
 
 test('the browser detector matches deslop.mjs exactly (run `npm run build:extension` if this fails)', () => {

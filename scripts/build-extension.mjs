@@ -26,6 +26,7 @@ function buildDetector() {
 (function (global) {
 ${core}
   global.cadenceAnalyze = analyze;
+  global.cadenceAnalyzeParagraphs = analyzeParagraphs;
 })(typeof window !== 'undefined' ? window : globalThis);
 `;
   writeFileSync(ROOT + 'extension/detector.js', out);

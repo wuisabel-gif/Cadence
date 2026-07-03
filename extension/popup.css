@@ -30,7 +30,19 @@ header img { display: block; }
 .grade { margin-left: auto; font-family: var(--mono); font-size: 12px; color: var(--ink-soft); }
 .metrics { font-family: var(--mono); font-size: 11px; color: var(--muted); }
 
-.findings { padding: 0 14px 12px; display: flex; flex-direction: column; gap: 6px; }
+.heatmap { padding: 0 14px; display: flex; flex-direction: column; gap: 4px; }
+.heatmap:empty { padding: 0; }
+.hm-label { font-family: var(--mono); font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin: 4px 0 1px; }
+.hm-row { display: flex; align-items: baseline; gap: 8px; padding: 4px 8px; background: #fff; border-left: 3px solid var(--muted); border-radius: 0 4px 4px 0; }
+.hm-row[data-grade="A"] { border-left-color: #317a45; }
+.hm-row[data-grade="B"] { border-left-color: #5a9e3f; }
+.hm-row[data-grade="C"] { border-left-color: #c9a227; }
+.hm-row[data-grade="D"] { border-left-color: #e2703a; }
+.hm-row[data-grade="F"] { border-left-color: #db332c; }
+.hm-score { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--ink-soft); font-variant-numeric: tabular-nums; min-width: 20px; }
+.hm-text { font-size: 12px; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.findings { padding: 12px 14px 12px; display: flex; flex-direction: column; gap: 6px; }
 .findings .f { font-size: 12px; line-height: 1.45; color: var(--ink-soft); }
 .findings .f b { font-family: var(--mono); font-size: 11px; color: var(--red); font-weight: 600; margin-right: 5px; }
 .findings .clean { font-size: 12px; color: var(--green); }

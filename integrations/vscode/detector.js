@@ -43,11 +43,23 @@ const HEDGES = [
   'it could be argued', 'one could say',
 ];
 
+// Word-boundary matchers so "usually" inside "unusually" (or "might" inside
+// "mighty", "often" inside "soften") doesn't register as a hedge.
+const HEDGE_RES = HEDGES.map((h) => new RegExp(`\\b${h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`));
+
 // ─── Tokenizing ─────────────────────────────────────────────────────────────
 const ABBREV = new Set([
   'mr', 'mrs', 'ms', 'dr', 'prof', 'sr', 'jr', 'st', 'vs', 'etc', 'e.g',
   'i.e', 'cf', 'al', 'fig', 'no', 'inc', 'ltd', 'co',
 ]);
+
+// Fold typographic quotes to ASCII so the phrase and regex detectors match
+// real-world prose — curly apostrophes from the web, Word, and Substack would
+// otherwise slip every "it's"/"whether you're" rule. A 1:1 char swap, so snippet
+// offsets stay aligned with the original text.
+function normalizeQuotes(text) {
+  return text.replace(/[‘’‛ʼ]/g, "'").replace(/[“”]/g, '"');
+}
 
 function splitSentences(text) {
   const cleaned = text.replace(/\s+/g, ' ').trim();
@@ -61,7 +73,15 @@ function splitSentences(text) {
     if (m) {
       const word = tokens[i].replace(/[.!?"')\]]+$/, '').toLowerCase();
       const lastWord = word.split(/[^a-z.]/).pop();
-      if (!ABBREV.has(lastWord) && !/^[a-z]\.$/.test(tokens[i].toLowerCase())) {
+      // A dotted initialism (U.S., p.m.) ends a sentence only when the next word
+      // is capitalized: "U.S. economy" stays joined, "5 p.m. He" splits. Known
+      // abbreviations and titles (Dr., e.g.) never end one.
+      const isInitialism = /^[a-z](?:\.[a-z])*\.?["')\]]*$/.test(tokens[i].toLowerCase());
+      let nextWord = '';
+      for (let j = i + 1; j < tokens.length; j++) { if (tokens[j].trim()) { nextWord = tokens[j]; break; } }
+      const nextIsCapital = /^["'(\[]*[A-Z]/.test(nextWord);
+      const terminal = ABBREV.has(lastWord) ? false : isInitialism ? nextIsCapital : true;
+      if (terminal) {
         out.push(buf.trim());
         buf = '';
       }
@@ -96,7 +116,7 @@ function findPhrases(text, list, rule, severity) {
       const before = at === 0 ? ' ' : lower[at - 1];
       const after = lower[at + phrase.length] ?? ' ';
       if (/[^a-z']/.test(before) && /[^a-z']/.test(after)) {
-        findings.push({ rule, severity, snippet: text.slice(at, at + phrase.length) });
+        findings.push({ rule, severity, snippet: text.slice(at, at + phrase.length), start: at, end: at + phrase.length });
       }
       from = at + phrase.length;
     }
@@ -136,7 +156,7 @@ function detectHedgeStacking(sentences) {
   const findings = [];
   for (const s of sentences) {
     const lower = s.toLowerCase();
-    const hits = HEDGES.filter((h) => lower.includes(h));
+    const hits = HEDGE_RES.filter((re) => re.test(lower));
     if (hits.length >= 2) {
       findings.push({ rule: 'hedge-stack', severity: 'low', snippet: s.slice(0, 80) });
     }
@@ -159,7 +179,10 @@ function detectClicheOpeners(sentences) {
 }
 
 // ─── Main analysis ──────────────────────────────────────────────────────────
-function analyze(text) {
+function analyze(rawText) {
+  // Normalize typographic quotes once, before any detector runs, so curly-quote
+  // prose (and stripHtml's decoded &rsquo;) matches the same rules as ASCII text.
+  const text = normalizeQuotes(rawText);
   const sentences = splitSentences(text);
   const allWords = words(text);
   const wordCount = allWords.length;
@@ -248,15 +271,44 @@ function formatReport(result) {
   return lines.join('\n');
 }
 
+// Score each blank-line-separated paragraph on its own so a heatmap (CLI or UI)
+// can show *which* block drags the document down, not just that it does. Reuses
+// analyze, so a block's number matches what the whole-document score would give
+// that text. Rhythm CV is weak on a one-sentence block — the lexical tells carry.
+function analyzeParagraphs(text) {
+  const out = [];
+  let index = 0;
+  for (const raw of String(text).split(/\n[ \t]*\n/)) {
+    const block = raw.trim();
+    if (!block) continue;
+    const r = analyze(block);
+    if (!r.metrics.words) continue;
+    out.push({
+      index: index++,
+      snippet: block.replace(/\s+/g, ' ').slice(0, 80),
+      words: r.metrics.words,
+      score: r.score,
+      grade: r.grade,
+      findings: r.findings,
+    });
+  }
+  return out;
+}
+
 // Strip Markdown scaffolding so the score reflects the prose a reader sees, not
 // fenced code, quoted demos, tables, or HTML. Used by --prose-only.
 function stripMarkdown(md) {
   const out = [];
-  let inFence = false;
+  let fence = null; // the marker that opened the current fence: '```' or '~~~'
   for (const line of md.split('\n')) {
     const s = line.trim();
-    if (s.startsWith('```') || s.startsWith('~~~')) { inFence = !inFence; continue; }
-    if (inFence) continue;
+    const marker = s.startsWith('```') ? '```' : s.startsWith('~~~') ? '~~~' : null;
+    if (marker) {
+      if (!fence) fence = marker;              // open
+      else if (fence === marker) fence = null; // close only on the matching marker
+      continue;
+    }
+    if (fence) continue;
     if (s.startsWith('>') || s.startsWith('|') || s.startsWith('#') || s.startsWith('<')) continue;
     out.push(line.replace(/<[^>]+>/g, '')); // strip inline HTML tags
   }
@@ -271,6 +323,10 @@ const ENTITIES = {
   '&apos;': "'", '&nbsp;': ' ', '&mdash;': '—', '&ndash;': '–', '&hellip;': '…',
   '&rsquo;': '’', '&lsquo;': '‘', '&ldquo;': '“', '&rdquo;': '”', '&middot;': '·',
 };
+// Decode a numeric character reference safely — out-of-range code points (bad
+// input) yield nothing instead of throwing, and astral chars (emoji, U+1xxxx)
+// decode whole instead of splitting into lone surrogates.
+const codePoint = (n) => (Number.isInteger(n) && n >= 0 && n <= 0x10ffff ? String.fromCodePoint(n) : '');
 function stripHtml(html) {
   let s = String(html);
   s = s.replace(/<!--[\s\S]*?-->/g, ' ');
@@ -279,8 +335,8 @@ function stripHtml(html) {
   s = s.replace(/<br\s*\/?>/gi, '\n');
   s = s.replace(/<[^>]+>/g, ' ');
   s = s.replace(/&(amp|lt|gt|quot|#39|apos|nbsp|mdash|ndash|hellip|rsquo|lsquo|ldquo|rdquo|middot);/g, (m) => ENTITIES[m] ?? ' ');
-  s = s.replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)));
-  s = s.replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16)));
+  s = s.replace(/&#(\d+);/g, (_, n) => codePoint(Number(n)));
+  s = s.replace(/&#x([0-9a-f]+);/gi, (_, n) => codePoint(parseInt(n, 16)));
   return s.replace(/[ \t]+/g, ' ').replace(/ *\n */g, '\n').replace(/\n{3,}/g, '\n\n').trim();
 }
 

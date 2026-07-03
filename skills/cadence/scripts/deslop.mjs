@@ -20,6 +20,7 @@
 import { readFileSync, realpathSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { relative, join } from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { extractPdf, extractDocx, extractEpub, fetchUrl, looksReadable } from './extract-text.mjs';
 
 // ─── Lexical rules ──────────────────────────────────────────────────────────
@@ -65,11 +66,23 @@ const HEDGES = [
   'it could be argued', 'one could say',
 ];
 
+// Word-boundary matchers so "usually" inside "unusually" (or "might" inside
+// "mighty", "often" inside "soften") doesn't register as a hedge.
+const HEDGE_RES = HEDGES.map((h) => new RegExp(`\\b${h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`));
+
 // ─── Tokenizing ─────────────────────────────────────────────────────────────
 const ABBREV = new Set([
   'mr', 'mrs', 'ms', 'dr', 'prof', 'sr', 'jr', 'st', 'vs', 'etc', 'e.g',
   'i.e', 'cf', 'al', 'fig', 'no', 'inc', 'ltd', 'co',
 ]);
+
+// Fold typographic quotes to ASCII so the phrase and regex detectors match
+// real-world prose — curly apostrophes from the web, Word, and Substack would
+// otherwise slip every "it's"/"whether you're" rule. A 1:1 char swap, so snippet
+// offsets stay aligned with the original text.
+export function normalizeQuotes(text) {
+  return text.replace(/[‘’‛ʼ]/g, "'").replace(/[“”]/g, '"');
+}
 
 export function splitSentences(text) {
   const cleaned = text.replace(/\s+/g, ' ').trim();
@@ -83,7 +96,15 @@ export function splitSentences(text) {
     if (m) {
       const word = tokens[i].replace(/[.!?"')\]]+$/, '').toLowerCase();
       const lastWord = word.split(/[^a-z.]/).pop();
-      if (!ABBREV.has(lastWord) && !/^[a-z]\.$/.test(tokens[i].toLowerCase())) {
+      // A dotted initialism (U.S., p.m.) ends a sentence only when the next word
+      // is capitalized: "U.S. economy" stays joined, "5 p.m. He" splits. Known
+      // abbreviations and titles (Dr., e.g.) never end one.
+      const isInitialism = /^[a-z](?:\.[a-z])*\.?["')\]]*$/.test(tokens[i].toLowerCase());
+      let nextWord = '';
+      for (let j = i + 1; j < tokens.length; j++) { if (tokens[j].trim()) { nextWord = tokens[j]; break; } }
+      const nextIsCapital = /^["'(\[]*[A-Z]/.test(nextWord);
+      const terminal = ABBREV.has(lastWord) ? false : isInitialism ? nextIsCapital : true;
+      if (terminal) {
         out.push(buf.trim());
         buf = '';
       }
@@ -118,7 +139,7 @@ function findPhrases(text, list, rule, severity) {
       const before = at === 0 ? ' ' : lower[at - 1];
       const after = lower[at + phrase.length] ?? ' ';
       if (/[^a-z']/.test(before) && /[^a-z']/.test(after)) {
-        findings.push({ rule, severity, snippet: text.slice(at, at + phrase.length) });
+        findings.push({ rule, severity, snippet: text.slice(at, at + phrase.length), start: at, end: at + phrase.length });
       }
       from = at + phrase.length;
     }
@@ -158,7 +179,7 @@ function detectHedgeStacking(sentences) {
   const findings = [];
   for (const s of sentences) {
     const lower = s.toLowerCase();
-    const hits = HEDGES.filter((h) => lower.includes(h));
+    const hits = HEDGE_RES.filter((re) => re.test(lower));
     if (hits.length >= 2) {
       findings.push({ rule: 'hedge-stack', severity: 'low', snippet: s.slice(0, 80) });
     }
@@ -181,7 +202,10 @@ function detectClicheOpeners(sentences) {
 }
 
 // ─── Main analysis ──────────────────────────────────────────────────────────
-export function analyze(text) {
+export function analyze(rawText) {
+  // Normalize typographic quotes once, before any detector runs, so curly-quote
+  // prose (and stripHtml's decoded &rsquo;) matches the same rules as ASCII text.
+  const text = normalizeQuotes(rawText);
   const sentences = splitSentences(text);
   const allWords = words(text);
   const wordCount = allWords.length;
@@ -270,15 +294,44 @@ export function formatReport(result) {
   return lines.join('\n');
 }
 
+// Score each blank-line-separated paragraph on its own so a heatmap (CLI or UI)
+// can show *which* block drags the document down, not just that it does. Reuses
+// analyze, so a block's number matches what the whole-document score would give
+// that text. Rhythm CV is weak on a one-sentence block — the lexical tells carry.
+export function analyzeParagraphs(text) {
+  const out = [];
+  let index = 0;
+  for (const raw of String(text).split(/\n[ \t]*\n/)) {
+    const block = raw.trim();
+    if (!block) continue;
+    const r = analyze(block);
+    if (!r.metrics.words) continue;
+    out.push({
+      index: index++,
+      snippet: block.replace(/\s+/g, ' ').slice(0, 80),
+      words: r.metrics.words,
+      score: r.score,
+      grade: r.grade,
+      findings: r.findings,
+    });
+  }
+  return out;
+}
+
 // Strip Markdown scaffolding so the score reflects the prose a reader sees, not
 // fenced code, quoted demos, tables, or HTML. Used by --prose-only.
 export function stripMarkdown(md) {
   const out = [];
-  let inFence = false;
+  let fence = null; // the marker that opened the current fence: '```' or '~~~'
   for (const line of md.split('\n')) {
     const s = line.trim();
-    if (s.startsWith('```') || s.startsWith('~~~')) { inFence = !inFence; continue; }
-    if (inFence) continue;
+    const marker = s.startsWith('```') ? '```' : s.startsWith('~~~') ? '~~~' : null;
+    if (marker) {
+      if (!fence) fence = marker;              // open
+      else if (fence === marker) fence = null; // close only on the matching marker
+      continue;
+    }
+    if (fence) continue;
     if (s.startsWith('>') || s.startsWith('|') || s.startsWith('#') || s.startsWith('<')) continue;
     out.push(line.replace(/<[^>]+>/g, '')); // strip inline HTML tags
   }
@@ -293,6 +346,10 @@ const ENTITIES = {
   '&apos;': "'", '&nbsp;': ' ', '&mdash;': '—', '&ndash;': '–', '&hellip;': '…',
   '&rsquo;': '’', '&lsquo;': '‘', '&ldquo;': '“', '&rdquo;': '”', '&middot;': '·',
 };
+// Decode a numeric character reference safely — out-of-range code points (bad
+// input) yield nothing instead of throwing, and astral chars (emoji, U+1xxxx)
+// decode whole instead of splitting into lone surrogates.
+const codePoint = (n) => (Number.isInteger(n) && n >= 0 && n <= 0x10ffff ? String.fromCodePoint(n) : '');
 export function stripHtml(html) {
   let s = String(html);
   s = s.replace(/<!--[\s\S]*?-->/g, ' ');
@@ -301,8 +358,8 @@ export function stripHtml(html) {
   s = s.replace(/<br\s*\/?>/gi, '\n');
   s = s.replace(/<[^>]+>/g, ' ');
   s = s.replace(/&(amp|lt|gt|quot|#39|apos|nbsp|mdash|ndash|hellip|rsquo|lsquo|ldquo|rdquo|middot);/g, (m) => ENTITIES[m] ?? ' ');
-  s = s.replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)));
-  s = s.replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16)));
+  s = s.replace(/&#(\d+);/g, (_, n) => codePoint(Number(n)));
+  s = s.replace(/&#x([0-9a-f]+);/gi, (_, n) => codePoint(parseInt(n, 16)));
   return s.replace(/[ \t]+/g, ' ').replace(/ *\n */g, '\n').replace(/\n{3,}/g, '\n\n').trim();
 }
 
@@ -349,25 +406,135 @@ export function scanDir(dir) {
   return rows.sort((a, b) => b.score - a.score);
 }
 
-function runScan(dir, args) {
-  const rows = scanDir(dir);
-  if (!rows.length) {
-    process.stderr.write(`No prose files (.md, .txt, .html, …) found in ${dir}\n`);
-    process.exit(0);
-  }
+// Print a table of {file, score, grade} rows (or JSON) and apply the score gate.
+function reportRows(rows, header, args) {
   if (args.includes('--json')) {
     process.stdout.write(JSON.stringify(rows, null, 2) + '\n');
   } else {
-    const lines = [`Cadence de-slop  ·  ${rows.length} files in ${dir}  (worst first)`, '─'.repeat(52)];
+    const lines = [header, '─'.repeat(52)];
     for (const r of rows) lines.push(`  ${r.grade}  ${String(r.score).padStart(3)}   ${r.file}`);
     const avg = Math.round(rows.reduce((s, r) => s + r.score, 0) / rows.length);
     lines.push('─'.repeat(52));
     lines.push(`  ${rows.length} files   ·   avg ${avg}   ·   worst ${rows[0].score} (${rows[0].file})`);
     process.stdout.write(lines.join('\n') + '\n');
   }
-  const maxIdx = args.indexOf('--max');
-  const max = maxIdx >= 0 ? Number(args[maxIdx + 1]) : (args.includes('--strict') ? 25 : null);
-  if (max !== null && Number.isFinite(max) && rows.some((r) => r.score > max)) process.exit(1);
+  const max = resolveMax(args);
+  if (max !== null && rows.some((r) => r.score > max)) process.exit(1);
+}
+
+function runScan(dir, args) {
+  const rows = scanDir(dir);
+  if (!rows.length) {
+    process.stderr.write(`No prose files (.md, .txt, .html, …) found in ${dir}\n`);
+    process.exit(0);
+  }
+  reportRows(rows, `Cadence de-slop  ·  ${rows.length} files in ${dir}  (worst first)`, args);
+}
+
+// ─── diff mode (--diff) ──────────────────────────────────────────────────────
+// Parse a unified diff and return the added prose per file, so a CI gate scores
+// only what a change introduces — not the legacy files it happens to touch.
+// Pure (no git), so it's testable; runDiff feeds it real `git diff` output.
+export function addedProseByFile(diffText) {
+  const byFile = new Map();
+  let cur = null;
+  for (const line of diffText.split('\n')) {
+    if (line.startsWith('+++ ')) {
+      const p = line.slice(4).replace(/^b\//, '').replace(/\t.*$/, '').trim();
+      cur = (p !== '/dev/null' && SCAN_EXTS.has(extLower(p))) ? p : null;
+      continue;
+    }
+    if (cur && line.startsWith('+') && !line.startsWith('+++')) {
+      byFile.set(cur, (byFile.get(cur) || '') + line.slice(1) + '\n');
+    }
+  }
+  return byFile;
+}
+
+function runDiff(args, ref) {
+  let raw;
+  try {
+    // -U0: added/removed lines only, no surrounding context to mistake for new prose.
+    raw = execFileSync('git', ['diff', '--unified=0', ref], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  } catch (e) {
+    process.stderr.write(`git diff ${ref} failed: ${e.message.split('\n')[0]}\n`);
+    process.exit(3);
+  }
+  const rows = [];
+  for (const [file, text] of addedProseByFile(raw)) {
+    // ponytail: fragments out of context, so rhythm CV is weak here; the lexical
+    // tells (banned phrases, hollow words) are what diff mode is really for.
+    if (text.replace(/\s/g, '').length < 20) continue;
+    const r = analyze(text);
+    rows.push({ file, score: r.score, grade: r.grade });
+  }
+  rows.sort((a, b) => b.score - a.score);
+  if (!rows.length) {
+    process.stderr.write(`No added prose to score in the diff against ${ref}.\n`);
+    process.exit(0);
+  }
+  reportRows(rows, `Cadence de-slop  ·  added prose vs ${ref}  (worst first)`, args);
+}
+
+// ─── mechanical fixes (--fix) ───────────────────────────────────────────────
+// Only edits that can't change meaning or grammar: part-of-speech-preserving
+// word swaps, plus deletions of content-free throat-clears. Rewrites that need
+// judgment (triads, negation pivots, most banned phrases) stay findings.
+// Keys are lowercase; '' means delete the phrase.
+const FIXES = {
+  seamless: 'smooth', seamlessly: 'smoothly', robust: 'solid', powerful: 'strong',
+  comprehensive: 'complete', 'cutting-edge': 'new', 'state-of-the-art': 'advanced',
+  revolutionary: 'new', groundbreaking: 'new', innovative: 'new',
+  leverage: 'use', leveraging: 'using', elevate: 'raise', streamline: 'simplify',
+  optimize: 'improve', myriad: 'many', plethora: 'many', meticulous: 'careful',
+  meticulously: 'carefully', vibrant: 'lively', bustling: 'busy', crucial: 'key',
+  vital: 'key', pivotal: 'key', delve: 'dig', underscore: 'highlight',
+  "in today's world": '', 'in the modern world': '', 'it is important to note': '',
+  "it's worth noting": '', 'needless to say': '', 'first and foremost': '',
+  'last but not least': '', 'in conclusion': '', 'in summary': '',
+};
+
+function matchCase(original, repl) {
+  return repl && /^[A-Z]/.test(original) ? repl[0].toUpperCase() + repl.slice(1) : repl;
+}
+
+// Apply the mechanical subset of fixes to `text` using finding offsets, working
+// right-to-left so earlier offsets stay valid. Offsets index the normalized
+// text, but normalizeQuotes is a 1:1 swap, so they're valid on the raw text too
+// (which lets us preserve the user's curly quotes everywhere we didn't touch).
+export function applyFixes(text, findings) {
+  const fixable = findings
+    .filter((f) => f.start != null && f.snippet && FIXES[f.snippet.toLowerCase()] != null)
+    .sort((a, b) => b.start - a.start);
+  let out = text;
+  let applied = 0;
+  for (const f of fixable) {
+    const repl = FIXES[f.snippet.toLowerCase()];
+    let end = f.end;
+    if (repl === '') {
+      // swallow the ", " or " that " a deleted throat-clear leaves behind
+      const m = out.slice(end).match(/^\s*,?\s*(?:that\s+)?/i);
+      if (m) end += m[0].length;
+    }
+    out = out.slice(0, f.start) + matchCase(out.slice(f.start, f.end), repl) + out.slice(end);
+    applied++;
+  }
+  out = out
+    .replace(/[ \t]{2,}/g, ' ')
+    .replace(/[ \t]+([,.;:!?])/g, '$1')          // no space before punctuation
+    .replace(/^[\s,;]+/, '')                       // no leading comma from a deleted opener
+    .replace(/(^|[.!?]\s+)([a-z])/g, (_, pre, c) => pre + c.toUpperCase()); // recapitalize
+  return { text: out, applied, skipped: findings.length - applied };
+}
+
+function formatParagraphs(rows) {
+  const lines = [`Cadence de-slop  ·  ${rows.length} paragraph${rows.length === 1 ? '' : 's'}  (worst first)`, '─'.repeat(52)];
+  for (const p of [...rows].sort((a, b) => b.score - a.score)) {
+    const tells = p.findings.length ? [...new Set(p.findings.map((f) => f.rule))].slice(0, 4).join(', ') : 'clean';
+    const cut = p.snippet.length >= 80 ? '…' : '';
+    lines.push(`  ${p.grade}  ${String(p.score).padStart(3)}   ¶${p.index + 1}  “${p.snippet}${cut}”  · ${p.words}w · ${tells}`);
+  }
+  return lines.join('\n');
 }
 
 // ─── CLI ────────────────────────────────────────────────────────────────────
@@ -379,16 +546,41 @@ Usage
   cadence-deslop --json <file>     machine-readable JSON
   cat draft.txt | cadence-deslop   read from stdin
   cadence-deslop --strict <file>   exit 1 when score > 25 (CI gate)
+  cadence-deslop --fix <file>      rewrite the mechanical tells, print fixed text
+  cadence-deslop --diff [ref]      score only prose added vs ref (default HEAD)
+  cadence-deslop --paragraphs <f>  score each paragraph — which block is the problem
 
 Options
   --html         score the visible text of an HTML file (auto-detected for .html)
   --prose-only   score Markdown prose only (skip code, quotes, tables, HTML)
+  --paragraphs   score each blank-line-separated paragraph on its own, worst
+                 first, so you can see which block drags the score; pairs with
+                 --json/--max
+  --diff [ref]   score only the prose a change adds (git diff vs ref, default
+                 HEAD) so a CI gate ignores legacy files; pairs with --max/--json
+  --fix          rewrite the safe, mechanical tells (word swaps + throat-clear
+                 deletions) to stdout; a summary and before/after score to stderr
   --json         output JSON instead of the report
   --strict       non-zero exit when the score exceeds 25
   --max <n>      non-zero exit when the score exceeds n (overrides --strict)
   -h, --help     show this help
   -v, --version  print the version
 `;
+
+// Resolve the score ceiling from flags. An explicit --max with a missing or
+// non-numeric value is a hard error (exit 2), never a silently-disabled gate.
+function resolveMax(args) {
+  const i = args.indexOf('--max');
+  if (i >= 0) {
+    const v = Number(args[i + 1]);
+    if (!Number.isFinite(v)) {
+      process.stderr.write(`--max needs a number (got: ${args[i + 1] ?? '(nothing)'})\n`);
+      process.exit(2);
+    }
+    return v;
+  }
+  return args.includes('--strict') ? 25 : null;
+}
 
 function version() {
   try {
@@ -414,6 +606,12 @@ if (isMain()) {
   const args = process.argv.slice(2);
   if (args.includes('-h') || args.includes('--help')) { process.stdout.write(HELP); process.exit(0); }
   if (args.includes('-v') || args.includes('--version')) { process.stdout.write(version() + '\n'); process.exit(0); }
+
+  if (args.includes('--diff')) {
+    const next = args[args.indexOf('--diff') + 1];
+    runDiff(args, next && !next.startsWith('-') ? next : 'HEAD');
+    process.exit(0);
+  }
 
   // positional file = first non-flag token, skipping the value after --max
   const positionals = [];
@@ -441,7 +639,9 @@ if (isMain()) {
     const lower = file.toLowerCase();
     if (/\.(pdf|docx|epub)$/.test(lower)) {
       const buf = readFileSync(file);
-      text = lower.endsWith('.pdf') ? extractPdf(buf) : lower.endsWith('.epub') ? extractEpub(buf) : extractDocx(buf);
+      try {
+        text = lower.endsWith('.pdf') ? extractPdf(buf) : lower.endsWith('.epub') ? extractEpub(buf) : extractDocx(buf);
+      } catch { text = ''; } // corrupt/truncated archive → fall through to the friendly error
       if (!text || text.replace(/\s/g, '').length < 20 || (lower.endsWith('.pdf') && !looksReadable(text))) {
         process.stderr.write('Could not extract readable text from that file. Convert it to .txt and try again.\n');
         process.exit(3);
@@ -454,9 +654,28 @@ if (isMain()) {
   }
 
   const result = analyze(text);
+
+  if (args.includes('--paragraphs')) {
+    const rows = analyzeParagraphs(text);
+    if (!rows.length) { process.stderr.write('No paragraphs to score.\n'); process.exit(0); }
+    process.stdout.write((args.includes('--json') ? JSON.stringify(rows, null, 2) : formatParagraphs(rows)) + '\n');
+    const max = resolveMax(args);
+    if (max !== null && rows.some((p) => p.score > max)) process.exit(1);
+    process.exit(0);
+  }
+
+  if (args.includes('--fix')) {
+    const fixed = applyFixes(text, result.findings);
+    const after = analyze(fixed.text);
+    process.stderr.write(
+      `cadence --fix: ${fixed.applied} auto-fixed, ${result.findings.length - fixed.applied} need manual attention` +
+      `  ·  score ${result.score} → ${after.score}\n`);
+    process.stdout.write(fixed.text.endsWith('\n') ? fixed.text : fixed.text + '\n');
+    process.exit(0);
+  }
+
   process.stdout.write((args.includes('--json') ? JSON.stringify(result, null, 2) : formatReport(result)) + '\n');
 
-  const maxIdx = args.indexOf('--max');
-  const maxScore = maxIdx >= 0 ? Number(args[maxIdx + 1]) : (args.includes('--strict') ? 25 : null);
-  if (maxScore !== null && Number.isFinite(maxScore) && result.score > maxScore) process.exit(1);
+  const maxScore = resolveMax(args);
+  if (maxScore !== null && result.score > maxScore) process.exit(1);
 }

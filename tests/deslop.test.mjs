@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, writeFileSync, mkdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { analyze, splitSentences, words, stripMarkdown, stripHtml, scanDir } from '../skills/cadence/scripts/deslop.mjs';
+import { analyze, splitSentences, words, stripMarkdown, stripHtml, scanDir, applyFixes, addedProseByFile, analyzeParagraphs } from '../skills/cadence/scripts/deslop.mjs';
 
 // Representative slop: banned phrases, hollow confidence, uniform rhythm,
 // a negation pivot, a triad, and a cliché opener — all the tells at once.
@@ -68,6 +68,60 @@ test('flags uniform rhythm and rewards variance', () => {
 test('sentence splitter respects abbreviations', () => {
   const s = splitSentences('Dr. Smith arrived at 5 p.m. He was late.');
   assert.equal(s.length, 2, `expected 2 sentences, got ${s.length}: ${JSON.stringify(s)}`);
+});
+
+test('applyFixes swaps hollow words, deletes throat-clears, keeps grammar', () => {
+  const src = "In today's world, we leverage robust tools. It's worth noting that this is comprehensive.";
+  const r = analyze(src);
+  const { text, applied } = applyFixes(src, r.findings);
+  assert.ok(applied >= 3, `expected >=3 fixes, got ${applied}: ${text}`);
+  assert.ok(!/\bleverage\b|\brobust\b|\bcomprehensive\b/i.test(text), `swaps left over: ${text}`);
+  assert.ok(!/in today's world/i.test(text), `throat-clear left: ${text}`);
+  assert.ok(/^[A-Z]/.test(text.trim()), `should stay capitalized: ${text}`);
+  assert.ok(!/\s[,.]/.test(text), `space-before-punctuation left: ${text}`);
+  assert.ok(analyze(text).score < r.score, 'score should drop after fixing');
+});
+
+test('applyFixes preserves curly quotes it did not touch and is offset-safe', () => {
+  const src = 'We leverage “smart” tools that are robust — really robust.';
+  const { text } = applyFixes(src, analyze(src).findings);
+  assert.ok(text.includes('“smart”'), `curly quotes lost: ${text}`);
+  assert.ok(!/\brobust\b/i.test(text), `robust left: ${text}`);
+  assert.match(text, /^We use /);
+});
+
+test('addedProseByFile keeps added prose lines, skips code files and removals', () => {
+  const diff = [
+    'diff --git a/post.md b/post.md',
+    '--- a/post.md',
+    '+++ b/post.md',
+    '@@ -1 +1,2 @@',
+    '-an old sentence that should be ignored',
+    "+In today's world, we leverage synergy to move fast.",
+    '+A second added line of prose here.',
+    'diff --git a/app.js b/app.js',
+    '--- a/app.js',
+    '+++ b/app.js',
+    '@@ -0,0 +1 @@',
+    '+const notProse = 1;',
+  ].join('\n');
+  const map = addedProseByFile(diff);
+  assert.ok(map.has('post.md'), 'prose file present');
+  assert.ok(!map.has('app.js'), 'code file skipped');
+  assert.match(map.get('post.md'), /leverage synergy/);
+  assert.ok(!/old sentence/.test(map.get('post.md')), 'removed lines excluded');
+});
+
+test('analyzeParagraphs scores each block and isolates the slop paragraph', () => {
+  const clean = 'The river ran low all summer. Then the rains came back, hard and sudden, and the water rose overnight past the old marker.';
+  const slop = "In today's world, our seamless and robust platform leverages cutting-edge synergy to unlock transformative, scalable outcomes.";
+  const rows = analyzeParagraphs(`${clean}\n\n${slop}`);
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].index, 0);
+  const bySlop = rows.find((p) => p.score === Math.max(...rows.map((x) => x.score)));
+  assert.ok(bySlop.snippet.startsWith('In today'), `worst block should be the slop: ${bySlop.snippet}`);
+  assert.ok(bySlop.score > rows.find((p) => p.index === 0).score, 'slop block scores worse than clean block');
+  assert.ok(bySlop.findings.length > 0);
 });
 
 test('triad detection fires on three-item lists', () => {

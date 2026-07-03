@@ -11,8 +11,9 @@
  * from custom-encoded subset fonts may extract imperfectly; convert those to
  * .txt first.
  */
-import { readFileSync } from 'node:fs';
+import { readFileSync, realpathSync } from 'node:fs';
 import { extname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import zlib from 'node:zlib';
 import { stripHtml } from './deslop.mjs';
 
@@ -112,7 +113,14 @@ function textFromContent(content) {
   while (i < n) {
     const c = content[i];
     if (c === '(') { const [s, ni] = readLiteral(i); out += s; i = ni; }
-    else if (c === '<' && content[i + 1] !== '<') { const [s, ni] = readHex(i); out += s; i = ni; }
+    else if (c === '<' && content[i + 1] === '<') {
+      // marked-content / inline dictionary (e.g. /P <</MCID 0>> BDC) — skip it,
+      // else its bytes leak in as bogus hex-string text. ponytail: flat >> scan,
+      // fine for MCID tags; a depth counter only if nested dicts show up.
+      const close = content.indexOf('>>', i + 2);
+      i = close < 0 ? n : close + 2;
+    }
+    else if (c === '<') { const [s, ni] = readHex(i); out += s; i = ni; }
     else if (c === '[') {
       let j = i + 1;
       while (j < n && content[j] !== ']') {
@@ -167,12 +175,13 @@ function extractPdf(buf) {
 }
 
 // ─── .docx (a ZIP of XML) ───────────────────────────────────────────────────
+const safeCp = (n) => (Number.isInteger(n) && n >= 0 && n <= 0x10ffff ? String.fromCodePoint(n) : '');
 function decodeXml(s) {
   return s
     .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"').replace(/&apos;/g, "'")
-    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
-    .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16)));
+    .replace(/&#(\d+);/g, (_, n) => safeCp(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n) => safeCp(parseInt(n, 16)));
 }
 
 // Iterate a ZIP's central directory (it always carries real sizes, unlike local
@@ -184,27 +193,31 @@ function* eachZipEntry(buf) {
     if (buf.readUInt32LE(i) === 0x06054b50) { eocd = i; break; }
   }
   if (eocd < 0) return;
-  const count = buf.readUInt16LE(eocd + 10);
-  let p = buf.readUInt32LE(eocd + 16);
-  for (let n = 0; n < count; n++) {
-    if (buf.readUInt32LE(p) !== 0x02014b50) break;
-    const nameLen = buf.readUInt16LE(p + 28);
-    yield {
-      name: buf.toString('utf8', p + 46, p + 46 + nameLen),
-      method: buf.readUInt16LE(p + 10),
-      compSize: buf.readUInt32LE(p + 20),
-      localOff: buf.readUInt32LE(p + 42),
-    };
-    p += 46 + nameLen + buf.readUInt16LE(p + 30) + buf.readUInt16LE(p + 32);
-  }
+  try {
+    const count = buf.readUInt16LE(eocd + 10);
+    let p = buf.readUInt32LE(eocd + 16);
+    for (let n = 0; n < count; n++) {
+      if (p + 46 > buf.length || buf.readUInt32LE(p) !== 0x02014b50) break;
+      const nameLen = buf.readUInt16LE(p + 28);
+      yield {
+        name: buf.toString('utf8', p + 46, p + 46 + nameLen),
+        method: buf.readUInt16LE(p + 10),
+        compSize: buf.readUInt32LE(p + 20),
+        localOff: buf.readUInt32LE(p + 42),
+      };
+      p += 46 + nameLen + buf.readUInt16LE(p + 30) + buf.readUInt16LE(p + 32);
+    }
+  } catch { /* truncated central directory — stop iterating */ }
 }
 
 function unzipEntry(buf, e) {
-  const start = e.localOff + 30 + buf.readUInt16LE(e.localOff + 26) + buf.readUInt16LE(e.localOff + 28);
-  const data = buf.subarray(start, start + e.compSize);
-  if (e.method === 0) return data;
-  if (e.method === 8) { try { return zlib.inflateRawSync(data); } catch { return null; } }
-  return null;
+  try {
+    const start = e.localOff + 30 + buf.readUInt16LE(e.localOff + 26) + buf.readUInt16LE(e.localOff + 28);
+    const data = buf.subarray(start, start + e.compSize);
+    if (e.method === 0) return data;
+    if (e.method === 8) { try { return zlib.inflateRawSync(data); } catch { return null; } }
+    return null;
+  } catch { return null; } // truncated local header
 }
 
 function readZipEntry(buf, name) {
@@ -238,7 +251,11 @@ export function extractEpub(buf) {
 
 // ─── live URL ───────────────────────────────────────────────────────────────
 export async function fetchUrl(url) {
-  const res = await fetch(url, { headers: { 'user-agent': 'cadence-deslop' }, redirect: 'follow' });
+  const res = await fetch(url, {
+    headers: { 'user-agent': 'cadence-deslop' },
+    redirect: 'follow',
+    signal: AbortSignal.timeout(15000), // don't hang CI on a stalled server
+  });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const body = await res.text();
   const ct = res.headers.get('content-type') || '';
@@ -307,8 +324,15 @@ async function main() {
   }
 }
 
-// Run as CLI unless imported by a test.
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Run as CLI unless imported by a test. Compare resolved real paths so it holds
+// up for bin symlinks and paths that need URL-encoding (spaces, non-ASCII);
+// `file://${argv[1]}` string equality silently fails on both.
+function isMain() {
+  if (!process.argv[1]) return false;
+  try { return realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url)); }
+  catch { return false; }
+}
+if (isMain()) {
   main().catch((e) => { process.stderr.write(String(e?.message || e) + '\n'); process.exit(1); });
 }
 
