@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Cadence — AI-slop detector",
   "version": "0.1.0",
-  "description": "Score any text for AI tone — uniform rhythm, hollow-confidence words, triads, clichés. Runs locally, no account, no network.",
+  "description": "Score any text for AI tone, plus a live impression check and draft-in-your-voice in the Gmail and WhatsApp Web compose box. The score runs locally.",
   "action": {
     "default_popup": "popup.html",
     "default_title": "Cadence — score for AI tone",
@@ -10,5 +10,14 @@
   },
   "icons": { "16": "icons/icon-16.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" },
   "background": { "service_worker": "background.js" },
-  "permissions": ["contextMenus", "storage"]
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*", "https://web.whatsapp.com/*"],
+      "js": ["detector.js", "assistant.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_page": "options.html",
+  "permissions": ["contextMenus", "storage"],
+  "host_permissions": ["https://api.anthropic.com/*"]
 }
