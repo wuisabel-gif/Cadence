@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cadence — score your writing for AI tone</title>
   <meta name="description" content="Paste your writing and see how much it reads like AI. Cadence scores it 0–100 and names every tell — in your browser, nothing sent.">
+  <meta property="og:title" content="Cadence — is it you, or does it read like AI?">
+  <meta property="og:description" content="Paste anything and see the grade plus every tell. Runs in your browser; nothing is sent.">
+  <meta property="og:image" content="https://wuisabel-gif.github.io/Cadence/docs/screenshots/score-card.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -281,7 +286,8 @@
   document.getElementById('clear').addEventListener('click',function(){ ta.value=''; render(); ta.focus(); });
 
   var shared=decodeShare(location.hash);
-  if(shared) showShared(shared); else render();
+  if(shared) showShared(shared);
+  else { if(location.hash==='#demo') ta.value=EXAMPLE; render(); }
 })();
 </script>
 </body>

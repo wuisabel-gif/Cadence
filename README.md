@@ -36,6 +36,10 @@ broken part, but you feel it, and the moment you feel it you start to skim.
 Cadence exists to strip that signature out. (It's an AI-text humanizer, if you want
 the search term — but one that shows its work.)
 
+[![The hosted score page grading a paragraph of AI marketing copy at grade D, with every tell named](docs/screenshots/score-page.png)](https://wuisabel-gif.github.io/Cadence/check.html)
+
+*The [hosted score page](https://wuisabel-gif.github.io/Cadence/check.html): paste anything, see the grade and every tell, all in your browser.*
+
 ## What it's for
 
 Two things. It scores prose for how machine-made it reads, and it recasts prose so it
@@ -285,6 +289,8 @@ button reads what you've written on the page — your posts on Instagram, Facebo
 LinkedIn, or your own sent messages on WhatsApp and Telegram — and distills your
 sentence-usage traits into that voice profile. Build it with
 `npm run build:extension`, then load the folder unpacked.
+
+![The in-page Cadence panel drafting a birthday message that draws on the pasted conversation, marked grade A](docs/screenshots/extension-panel.png)
 
 ## Documentation
 
