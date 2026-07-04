@@ -66,6 +66,17 @@
     .hm-s{font-family:var(--mono);font-size:.82rem;font-weight:600;color:var(--ink-soft);min-width:1.7rem}
     .hm-t{font-size:.9rem;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .empty{color:var(--muted);font-family:var(--mono);font-size:.85rem;margin-top:1.4rem}
+    .share{display:flex;align-items:center;gap:.7rem;margin-top:.9rem;flex-wrap:wrap}
+    .share button{font-family:var(--mono);font-size:.78rem;color:var(--brand);background:var(--card);
+      border:1px solid var(--line);border-radius:8px;padding:.4rem .7rem;cursor:pointer}
+    .share button:hover{border-color:var(--brand)}
+    .share .msg{font-family:var(--mono);font-size:.74rem;color:var(--good)}
+    .banner{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--brand);
+      border-radius:0 10px 10px 0;padding:.7rem .9rem;margin-bottom:1.1rem;font-size:.95rem;color:var(--ink-soft);
+      display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+    .banner button{font-family:var(--display);font-weight:600;font-size:.9rem;color:var(--brand);
+      background:none;border:0;cursor:pointer;padding:0}
+    .banner button:hover{text-decoration:underline}
     footer{margin-top:2.6rem;padding-top:1.2rem;border-top:1px solid var(--line);
       font-family:var(--mono);font-size:.76rem;color:var(--muted);line-height:1.7}
   </style>
@@ -89,6 +100,10 @@
   </div>
 
   <div id="results" class="results">
+    <div class="banner" id="banner" style="display:none">
+      Someone shared this Cadence score with you.
+      <button id="scoreown" type="button">Score your own writing →</button>
+    </div>
     <div class="card">
       <div class="scoreline">
         <span class="grade" id="grade">—</span><span class="score"><span id="score">0</span>/100</span>
@@ -96,6 +111,11 @@
       </div>
       <div class="metrics" id="metrics"></div>
       <div class="findings" id="findings"></div>
+    </div>
+    <div class="share" id="share">
+      <button id="copylink" type="button">Copy share link</button>
+      <button id="saveimg" type="button">Save card image</button>
+      <span class="msg" id="sharemsg"></span>
     </div>
     <div class="hm" id="hm"></div>
   </div>
@@ -115,7 +135,10 @@
       results=document.getElementById('results'), empty=document.getElementById('empty'),
       gradeEl=document.getElementById('grade'), scoreEl=document.getElementById('score'),
       verdictEl=document.getElementById('verdict'), metricsEl=document.getElementById('metrics'),
-      findingsEl=document.getElementById('findings'), hmEl=document.getElementById('hm');
+      findingsEl=document.getElementById('findings'), hmEl=document.getElementById('hm'),
+      shareRow=document.getElementById('share'), banner=document.getElementById('banner'),
+      sharemsg=document.getElementById('sharemsg');
+  var last=null;   // most recent {grade,score,words,tells} — what Share encodes
 
   var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];});};
   var bucket=function(g){return g==='A'||g==='B'?'good':g==='C'?'warn':'bad';};
@@ -133,8 +156,10 @@
     wc.textContent=n+(n===1?' word':' words');
     if(typeof window.cadenceAnalyze!=='function'||n<6){ results.classList.remove('on'); empty.style.display=n?'block':'block'; return; }
     empty.style.display='none'; results.classList.add('on');
+    banner.style.display='none'; shareRow.style.display='flex'; sharemsg.textContent='';
 
     var r=window.cadenceAnalyze(text);
+    last={grade:r.grade,score:r.score,words:r.metrics.words,tells:topTells(r.findings)};
     gradeEl.textContent=r.grade; gradeEl.className='grade '+bucket(r.grade);
     scoreEl.textContent=r.score; verdictEl.textContent=VERDICT[r.grade]||'';
 
@@ -167,10 +192,96 @@
       : '';
   }
 
+  // ── Share: encode grade/score/top-tells into the URL fragment (never the text) ──
+  function topTells(findings){
+    var by={}; findings.forEach(function(f){by[f.rule]=(by[f.rule]||0)+1;});
+    return Object.keys(by).sort(function(a,b){return by[b]-by[a];}).slice(0,3);
+  }
+  function b64url(s){ return btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
+  function unb64url(s){ return decodeURIComponent(escape(atob(s.replace(/-/g,'+').replace(/_/g,'/')))); }
+  function encodeShare(d){ return 'r='+b64url(JSON.stringify({g:d.grade,s:d.score,t:d.tells,w:d.words})); }
+  function decodeShare(hash){
+    var m=/(?:^#?|&)r=([^&]+)/.exec(hash||''); if(!m) return null;
+    try{
+      var o=JSON.parse(unb64url(m[1]));
+      if(typeof o.g!=='string'||typeof o.s!=='number'||!/^[A-F]$/.test(o.g)) return null;
+      return {grade:o.g,score:Math.max(0,Math.min(100,o.s|0)),words:o.w|0,tells:Array.isArray(o.t)?o.t.slice(0,3).map(String):[]};
+    }catch(e){ return null; }
+  }
+
+  function showShared(d){
+    empty.style.display='none'; results.classList.add('on');
+    banner.style.display='flex'; shareRow.style.display='flex'; sharemsg.textContent='';
+    last=d;
+    gradeEl.textContent=d.grade; gradeEl.className='grade '+bucket(d.grade);
+    scoreEl.textContent=d.score; verdictEl.textContent=VERDICT[d.grade]||'';
+    metricsEl.innerHTML=(d.words?d.words+' words <span style="opacity:.4">·</span> ':'')+'scored with Cadence';
+    findingsEl.innerHTML=d.tells.length
+      ? '<div class="f"><b>top tells</b>'+d.tells.map(esc).join(', ')+'</div>'
+      : '<div class="clean">No lexical tells — this reads like a person wrote it.</div>';
+    hmEl.innerHTML='';
+  }
+
+  // ── Canvas card: the shareable image (OG-sized), drawn client-side ──
+  var HEX={ink:'#1e2733',soft:'#3b4657',muted:'#6b7280',line:'#dfe3ea',paper:'#f5f6f9',
+           good:'#2f7d52',amber:'#b9822b',flag:'#db332c',brand:'#2348a1'};
+  function gradeHex(g){ var b=bucket(g); return b==='good'?HEX.good:b==='warn'?HEX.amber:HEX.flag; }
+  function rrect(c,x,y,w,h,r){ c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); }
+  function drawCard(d){
+    var W=1200,H=630,cv=document.createElement('canvas'); cv.width=W; cv.height=H;
+    var c=cv.getContext('2d');
+    c.fillStyle=HEX.paper; c.fillRect(0,0,W,H);
+    c.strokeStyle=HEX.line; c.lineWidth=2; rrect(c,20,20,W-40,H-40,24); c.stroke();
+    // rhythm-bars logo + wordmark
+    var bx=80,by=80, bars=[[0,64,150],[34,42,108],[68,30,150],[102,50,120],[136,68,90]];
+    bars.forEach(function(b,i){ c.fillStyle=i===3?HEX.flag:HEX.brand; var h=b[2]*0.5; rrect(c,bx+b[0]*0.7,by+ (150-b[2])*0.5*0.5,15,h,7); c.fill(); });
+    c.fillStyle=HEX.ink; c.font='700 40px "Bricolage Grotesque",system-ui,sans-serif'; c.textBaseline='alphabetic';
+    c.fillText('Cadence',bx+130,by+62);
+    // grade + score
+    c.fillStyle=gradeHex(d.grade); c.font='700 300px "JetBrains Mono",monospace';
+    c.fillText(d.grade,80,430);
+    c.fillStyle=HEX.muted; c.font='500 46px "JetBrains Mono",monospace';
+    c.fillText(d.score+'/100',330,300);
+    c.fillStyle=HEX.soft; c.font='italic 40px "Spectral",Georgia,serif';
+    c.fillText(VERDICT[d.grade]||'',330,360);
+    // tells
+    c.fillStyle=HEX.muted; c.font='500 28px "JetBrains Mono",monospace';
+    var tells=d.tells.length?('tells: '+d.tells.join(', ')):'no lexical tells';
+    c.fillText(tells.slice(0,52),80,510);
+    // footer
+    c.fillStyle=HEX.muted; c.font='500 26px "JetBrains Mono",monospace';
+    c.fillText('Score your own writing — runs in your browser, nothing sent',80,570);
+    return cv;
+  }
+
+  document.getElementById('copylink').addEventListener('click',function(){
+    if(!last) return;
+    var url=location.origin+location.pathname+'#'+encodeShare(last);
+    (navigator.clipboard&&navigator.clipboard.writeText(url)||Promise.reject())
+      .then(function(){ sharemsg.textContent='Link copied'; },
+            function(){ prompt('Copy this link:',url); });
+  });
+  document.getElementById('saveimg').addEventListener('click',function(){
+    if(!last) return;
+    drawCard(last).toBlob(function(blob){
+      var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+      a.download='cadence-score-'+last.grade+'.png'; document.body.appendChild(a); a.click();
+      a.remove(); setTimeout(function(){URL.revokeObjectURL(a.href);},1000);
+      sharemsg.textContent='Image saved';
+    });
+  });
+  document.getElementById('scoreown').addEventListener('click',function(){
+    if(location.hash) history.replaceState(null,'',location.pathname);
+    banner.style.display='none'; ta.value=''; render(); ta.focus();
+    ta.scrollIntoView({behavior:'smooth',block:'center'});
+  });
+
   ta.addEventListener('input',render);
   document.getElementById('example').addEventListener('click',function(){ ta.value=EXAMPLE; render(); ta.focus(); });
   document.getElementById('clear').addEventListener('click',function(){ ta.value=''; render(); ta.focus(); });
-  render();
+
+  var shared=decodeShare(location.hash);
+  if(shared) showShared(shared); else render();
 })();
 </script>
 </body>

@@ -13,6 +13,15 @@ so here, so a shifting number is never a surprise.
 
 ### Added
 
+- **An accuracy benchmark** (`benchmark/`) — a labeled corpus and `npm run bench`
+  that measure how well the score separates human writing from AI output. On the
+  seed corpus it catches 75% of AI text with zero false alarms on human text
+  (100% specificity). `npm run bench:check` gates CI so accuracy can't regress,
+  and the report prints the full precision/recall curve across grade cutoffs.
+- **A shareable result on the score page.** Any result on `check.html` now has a
+  copy-link button that encodes the grade plus its top tells into the URL (never
+  the text itself), opening to a read-only card. A second button saves the card
+  as a PNG. Both run in the browser, so nothing is sent.
 - **A tenth voice, `essence`** — first-principles tech-blog writing: strip a
   domain down to its physical or economic laws, reason up from there, and land on a
   conviction plain enough to act on. Learned from venture-firm tech essays.
@@ -21,6 +30,13 @@ so here, so a shifting number is never a surprise.
   score-on-demand report for the document or a selection. The detector is generated
   from the same `deslop.mjs` as the CLI and Chrome extension, so the surfaces can't
   drift (a test enforces it). Build with `npm run build:vscode`.
+
+### Changed
+
+- **Negation-pivot detection now catches contraction forms** of the rhetorical
+  seesaw, which the rule previously missed, and weighs a pivot more heavily
+  because it almost never shows up in human writing. Copy built on that pattern
+  now scores a few points higher.
 
 ## [0.2.0] — 2026-06-20
 
