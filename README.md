@@ -268,11 +268,12 @@ score drafts in a terminal with `npx cadence-deslop`.
 bar, the AI tells squiggled inline, and a score-on-demand report. Build it with
 `npm run build:vscode`, then press **F5** to try it or package a `.vsix` to install.
 
-**In Gmail and WhatsApp Web.** The Chrome extension at
-[`extension/`](extension/README.md) scores your reply as you type — on-device — and,
-with your own Anthropic key, drafts one in your voice. It writes, scores the draft
-locally, then redrafts to clear any AI tells before dropping it in the box. Build it
-with `npm run build:extension`, then load the folder unpacked.
+**In your inbox and chats.** The Chrome extension at
+[`extension/`](extension/README.md) works in Gmail, WhatsApp Web, Telegram, LinkedIn
+and Instagram: it scores your reply as you type — on-device — and, with your own
+Anthropic key, drafts one in your voice. It writes, scores the draft locally, then
+redrafts to clear any AI tells before dropping it in the box. Build it with
+`npm run build:extension`, then load the folder unpacked.
 
 ## Documentation
 
@@ -280,7 +281,7 @@ with `npm run build:extension`, then load the folder unpacked.
 |---|---|
 | [MANUAL.md](MANUAL.md) | The full guide: install & activation, workflows, and every command, flag, and exit code |
 | [tutorials/scan-a-repo.md](tutorials/scan-a-repo.md) | Tutorial: audit and de-slop an entire repo, then gate it in CI |
-| [extension/README.md](extension/README.md) | The Chrome extension — score prose anywhere, plus a live impression check and draft-in-your-voice in Gmail and WhatsApp Web |
+| [extension/README.md](extension/README.md) | The Chrome extension — score prose anywhere, plus a live impression check and draft-in-your-voice in Gmail, WhatsApp Web, Telegram, LinkedIn and Instagram |
 | [integrations/vscode/README.md](integrations/vscode/README.md) | The VS Code extension — live grade, inline tells, and a score report |
 | [PHILOSOPHY.md](PHILOSOPHY.md) | The thinking behind it — *The Age of Taste* |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How the project is built and how to add a rule, voice, or command |

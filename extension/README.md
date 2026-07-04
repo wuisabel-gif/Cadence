@@ -1,8 +1,8 @@
 # Cadence — Chrome extension
 
 Score any text for AI tone, and get a live assistant right in your compose box —
-in Gmail and WhatsApp Web. The detector is bundled, so scoring runs on your
-machine: no account, no network, nothing leaves the page.
+in Gmail, WhatsApp Web, Telegram, LinkedIn and Instagram. The detector is bundled,
+so scoring runs on your machine: no account, no network, nothing leaves the page.
 
 ## Try it now (load unpacked)
 
@@ -15,8 +15,8 @@ Then two things work:
 - **Anywhere** — click the Cadence icon and paste prose to see the score and every
   named tell, or select text on a page, right-click, and choose **Score with
   Cadence**.
-- **In Gmail or WhatsApp Web** — start a reply. A small Cadence panel appears by the
-  compose box.
+- **In a compose box** — Gmail, WhatsApp Web, Telegram, LinkedIn or Instagram — start
+  a reply. A small Cadence panel appears by the compose box.
 
 ## What the in-page assistant does
 
@@ -45,9 +45,10 @@ button. The options copy says so plainly.
 ## Adding a surface
 
 Each site is a small adapter in `assistant.js` — a compose selector, a way to read
-the thread, and an insert strategy. Adding one (Telegram, LinkedIn, Instagram) is
-about ten lines plus a `matches` entry in `manifest.json`. Site selectors are
-DOM-dependent and may need a nudge when a site ships a redesign.
+the thread, and an insert strategy. Five ship today: Gmail, WhatsApp Web, Telegram,
+LinkedIn and Instagram. Adding another is about ten lines plus a `matches` entry in
+`manifest.json`. Site selectors are DOM-dependent and may need a nudge when a site
+ships a redesign.
 
 ## How the detector stays honest
 
