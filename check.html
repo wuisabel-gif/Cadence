@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cadence — score your writing for AI tone</title>
+  <meta name="description" content="Paste your writing and see how much it reads like AI. Cadence scores it 0–100 and names every tell — in your browser, nothing sent.">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400;500;600&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper:oklch(0.977 0.004 255); --ink:oklch(0.245 0.035 262); --ink-soft:oklch(0.395 0.030 262);
+      --muted:oklch(0.505 0.022 262); --brand:oklch(0.430 0.150 264); --brand-deep:oklch(0.345 0.130 264);
+      --flag:oklch(0.585 0.205 28); --good:oklch(0.520 0.110 150); --amber:oklch(0.640 0.150 75);
+      --line:oklch(0.885 0.006 255); --card:#fff;
+      --display:"Bricolage Grotesque",-apple-system,system-ui,"Segoe UI",sans-serif;
+      --serif:"Spectral",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
+      font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+    a{color:var(--brand);text-decoration:none} a:hover{text-decoration:underline}
+    .wrap{max-width:820px;margin:0 auto;padding:clamp(1.1rem,4vw,2.2rem)}
+    header{display:flex;align-items:center;gap:.6rem;margin-bottom:2.2rem}
+    .mark{display:flex;align-items:center;gap:.55rem;font-family:var(--display);font-weight:800;
+      font-size:1.18rem;letter-spacing:-0.03em;color:var(--ink)}
+    .mark svg{width:26px;height:26px}
+    header .back{margin-left:auto;font-family:var(--display);font-size:.92rem;font-weight:500;color:var(--muted)}
+    h1{font-family:var(--display);font-weight:700;letter-spacing:-0.02em;line-height:1.05;
+      font-size:clamp(1.9rem,5vw,2.7rem);margin:0 0 .5rem;text-wrap:balance}
+    .sub{color:var(--ink-soft);max-width:56ch;margin:0 0 1.4rem}
+    textarea{width:100%;min-height:200px;resize:vertical;font-family:var(--serif);font-size:1.05rem;
+      line-height:1.6;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:14px;
+      padding:16px 18px;outline:none}
+    textarea:focus{border-color:var(--brand)}
+    textarea::placeholder{color:var(--muted)}
+    .controls{display:flex;align-items:center;gap:1rem;margin:.7rem 2px 0;font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+    .controls button{font-family:var(--mono);font-size:.8rem;color:var(--brand);background:none;border:0;cursor:pointer;padding:0}
+    .controls button:hover{text-decoration:underline}
+    .controls .sp{margin-left:auto}
+
+    .results{margin-top:1.6rem;display:none}
+    .results.on{display:block}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.4rem 1.5rem;
+      box-shadow:0 1px 2px rgba(20,27,41,.04),0 18px 40px -30px rgba(20,27,41,.3)}
+    .scoreline{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap}
+    .grade{font-family:var(--mono);font-weight:600;font-size:3.4rem;line-height:1;color:var(--flag)}
+    .grade.good{color:var(--good)} .grade.warn{color:var(--amber)} .grade.bad{color:var(--flag)}
+    .score{font-family:var(--mono);font-size:1.05rem;color:var(--muted)}
+    .verdict{margin-left:auto;font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--ink-soft);text-align:right}
+    .metrics{font-family:var(--mono);font-size:.82rem;color:var(--muted);margin-top:1rem;
+      display:flex;flex-wrap:wrap;gap:.4rem 1.1rem}
+    .metrics .flat{color:var(--flag)}
+    .findings{margin-top:1.1rem;border-top:1px solid var(--line);padding-top:1rem;display:flex;flex-direction:column;gap:.55rem}
+    .f{font-size:.95rem;line-height:1.5;color:var(--ink-soft)}
+    .f b{font-family:var(--mono);font-size:.76rem;color:var(--flag);font-weight:600;margin-right:.5rem}
+    .clean{color:var(--good);font-size:.98rem}
+    .hm{margin-top:1.3rem}
+    .hm-h{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+    .hm-row{display:flex;align-items:baseline;gap:.7rem;padding:.5rem .7rem;background:var(--paper);
+      border-left:3px solid var(--muted);border-radius:0 6px 6px 0;margin-bottom:5px}
+    .hm-row[data-g="A"],.hm-row[data-g="B"]{border-left-color:var(--good)}
+    .hm-row[data-g="C"]{border-left-color:var(--amber)} .hm-row[data-g="D"],.hm-row[data-g="F"]{border-left-color:var(--flag)}
+    .hm-s{font-family:var(--mono);font-size:.82rem;font-weight:600;color:var(--ink-soft);min-width:1.7rem}
+    .hm-t{font-size:.9rem;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .empty{color:var(--muted);font-family:var(--mono);font-size:.85rem;margin-top:1.4rem}
+    footer{margin-top:2.6rem;padding-top:1.2rem;border-top:1px solid var(--line);
+      font-family:var(--mono);font-size:.76rem;color:var(--muted);line-height:1.7}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="mark" href="./"><svg viewBox="0 0 200 200" fill="none" aria-hidden="true"><rect x="21" y="51" width="22" height="107" rx="11" fill="#2348a1"/><rect x="55" y="96" width="22" height="62" rx="11" fill="#2348a1"/><rect x="89" y="38" width="22" height="120" rx="11" fill="#2348a1"/><rect x="123" y="68" width="22" height="90" rx="11" fill="#db332c"/><rect x="157" y="108" width="22" height="50" rx="11" fill="#2348a1"/></svg>Cadence</a>
+    <a class="back" href="./">the writing tool →</a>
+  </header>
+
+  <h1>Is it you, or does it read like AI?</h1>
+  <p class="sub">Paste anything — an email, a post, a paragraph. Cadence scores how much it reads like a machine wrote it and names every tell. It runs in your browser; the text never leaves the page.</p>
+
+  <textarea id="in" placeholder="Paste your writing here…" spellcheck="false"></textarea>
+  <div class="controls">
+    <span id="wc">0 words</span>
+    <span class="sp"></span>
+    <button id="example" type="button">Load an example</button>
+    <button id="clear" type="button">Clear</button>
+  </div>
+
+  <div id="results" class="results">
+    <div class="card">
+      <div class="scoreline">
+        <span class="grade" id="grade">—</span><span class="score"><span id="score">0</span>/100</span>
+        <span class="verdict" id="verdict"></span>
+      </div>
+      <div class="metrics" id="metrics"></div>
+      <div class="findings" id="findings"></div>
+    </div>
+    <div class="hm" id="hm"></div>
+  </div>
+  <div class="empty" id="empty">Write or paste at least a sentence or two to get a score.</div>
+
+  <footer>
+    Runs entirely in your browser — nothing is sent. Same deterministic detector as the CLI
+    (<code>npx cadence-deslop</code>) and the Chrome extension.<br>
+    <a href="./">cadence</a> · <a href="https://github.com/wuisabel-gif/Cadence">source</a>
+  </footer>
+</div>
+
+<script src="extension/detector.js"></script>
+<script>
+(function(){
+  var ta=document.getElementById('in'), wc=document.getElementById('wc'),
+      results=document.getElementById('results'), empty=document.getElementById('empty'),
+      gradeEl=document.getElementById('grade'), scoreEl=document.getElementById('score'),
+      verdictEl=document.getElementById('verdict'), metricsEl=document.getElementById('metrics'),
+      findingsEl=document.getElementById('findings'), hmEl=document.getElementById('hm');
+
+  var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];});};
+  var bucket=function(g){return g==='A'||g==='B'?'good':g==='C'?'warn':'bad';};
+  var VERDICT={A:'Reads human.',B:'Mostly human — a couple of tells.',C:'Some AI texture.',D:'Reads machine-made.',F:'Heavy AI slop.'};
+
+  var EXAMPLE="In today's world, finding the right productivity app can be a daunting task. "+
+    "Our cutting-edge platform leverages powerful AI to seamlessly streamline your workflow. "+
+    "Whether you're a busy professional or a student, our comprehensive solution empowers you to do more. "+
+    "It's not just an app, it's a game-changer. When it comes to getting things done, we've got you covered.";
+
+  function words(t){return (t||'').replace(/\s+/g,' ').trim().split(' ').filter(Boolean).length;}
+
+  function render(){
+    var text=ta.value, n=words(text);
+    wc.textContent=n+(n===1?' word':' words');
+    if(typeof window.cadenceAnalyze!=='function'||n<6){ results.classList.remove('on'); empty.style.display=n?'block':'block'; return; }
+    empty.style.display='none'; results.classList.add('on');
+
+    var r=window.cadenceAnalyze(text);
+    gradeEl.textContent=r.grade; gradeEl.className='grade '+bucket(r.grade);
+    scoreEl.textContent=r.score; verdictEl.textContent=VERDICT[r.grade]||'';
+
+    var m=r.metrics;
+    metricsEl.innerHTML=[
+      m.words+' words', m.sentences+' sentences',
+      'avg len '+m.avgSentenceLength,
+      '<span class="'+(m.uniformRhythm?'flat':'')+'">rhythm CV '+m.sentenceLengthCV+(m.uniformRhythm?' ⚠ too flat':'')+'</span>',
+      'adverbs '+m.adverbRate+'/100', 'em-dashes '+m.emDashRate+'/100'
+    ].join('<span style="opacity:.4">·</span> ');
+
+    var by={};
+    r.findings.forEach(function(f){(by[f.rule]=by[f.rule]||[]).push(f.snippet);});
+    var rules=Object.keys(by);
+    findingsEl.innerHTML=rules.length
+      ? rules.map(function(rule){
+          var snips=by[rule].slice(0,5).map(function(x){return '“'+esc(x)+'”';}).join(', ');
+          var more=by[rule].length>5?' +'+(by[rule].length-5):'';
+          return '<div class="f"><b>'+esc(rule)+'</b>'+snips+more+'</div>';
+        }).join('')
+      : '<div class="clean">No lexical tells found — this reads like a person wrote it.</div>';
+
+    var paras=window.cadenceAnalyzeParagraphs?window.cadenceAnalyzeParagraphs(text):[];
+    hmEl.innerHTML = paras.length>1
+      ? '<div class="hm-h">by paragraph — worst first</div>' +
+        paras.slice().sort(function(a,b){return b.score-a.score;}).map(function(p){
+          return '<div class="hm-row" data-g="'+p.grade+'"><span class="hm-s">'+p.score+'</span>'+
+                 '<span class="hm-t">'+esc(p.snippet)+'</span></div>';
+        }).join('')
+      : '';
+  }
+
+  ta.addEventListener('input',render);
+  document.getElementById('example').addEventListener('click',function(){ ta.value=EXAMPLE; render(); ta.focus(); });
+  document.getElementById('clear').addEventListener('click',function(){ ta.value=''; render(); ta.focus(); });
+  render();
+})();
+</script>
+</body>
+</html>
