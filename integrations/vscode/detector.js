@@ -143,10 +143,12 @@ function detectNegationPivot(sentences) {
     /\bnot (?:just|only|merely) [^.,;]{2,40}?(?:,|;| but| but rather| but also)\b/i,
     /\bisn'?t (?:about|just) [^.,;]{2,40}?[,;.]?\s*it'?s\b/i,
     /\bthis isn'?t [^.,;]{2,40}?\.\s*(?:this is|it'?s)\b/i,
+    // Contraction seesaw: "we don't just build X; we build Y", "doesn't just do X, it Y".
+    /\b(?:do|does|did|is|was|are|were|ca|wo|would|could|should)n'?t (?:just|only|merely) [^.,;]{2,40}?[,;]/i,
   ];
   for (const s of sentences) {
     if (patterns.some((p) => p.test(s))) {
-      findings.push({ rule: 'negation-pivot', severity: 'med', snippet: s.slice(0, 80) });
+      findings.push({ rule: 'negation-pivot', severity: 'high', snippet: s.slice(0, 80) });
     }
   }
   return findings;

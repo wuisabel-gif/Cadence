@@ -209,6 +209,14 @@ hollow-confidence words, triad density, negation pivots, hedge-stacking, adverb 
 em-dash rates. It returns a transparent 0–100 score plus a letter grade. Same
 text, same score, every time.
 
+## Accuracy
+
+The claims are checkable. On a labeled corpus of human and AI samples, Cadence
+catches 75% of the AI text and leaves 100% of the human text alone. It never
+mislabels a person. Run `npm run bench` for the full table and the
+precision/recall curve, or read [benchmark/](benchmark/). CI fails if the
+accuracy drops below its floor.
+
 ## Install
 
 **The full plugin.** It writes in voices and learns new ones from samples. Cadence is

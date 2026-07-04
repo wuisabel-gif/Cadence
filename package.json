@@ -17,6 +17,8 @@
   "scripts": {
     "test": "node --test tests/deslop.test.mjs tests/extract-text.test.mjs tests/extension.test.mjs tests/vscode.test.mjs",
     "deslop": "node skills/cadence/scripts/deslop.mjs",
+    "bench": "node benchmark/bench.mjs",
+    "bench:check": "node benchmark/bench.mjs --check",
     "build:extension": "node scripts/build-extension.mjs",
     "build:vscode": "node scripts/build-vscode.mjs",
     "build:claude-skill": "node scripts/build-claude-skill.mjs",
