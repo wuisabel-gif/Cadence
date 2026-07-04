@@ -19,8 +19,7 @@
       host: /(^|\.)mail\.google\.com$/,
       compose: 'div[aria-label="Message Body"], div[g_editable="true"][contenteditable="true"]',
       incoming: function () {
-        var m = document.querySelectorAll('.a3s');            // rendered message bodies
-        return m.length ? (m[m.length - 1].innerText || '').slice(0, 4000) : '';
+        return lastMessages('.a3s', null, 4);                 // recent thread bodies
       },
       insert: execInsert,
     },
@@ -29,8 +28,8 @@
       host: /(^|\.)web\.whatsapp\.com$/,
       compose: 'footer div[contenteditable="true"][role="textbox"], div[contenteditable="true"][data-tab="10"]',
       incoming: function () {
-        var m = document.querySelectorAll('.message-in span.selectable-text, .message-in .copyable-text');
-        return m.length ? (m[m.length - 1].innerText || '').slice(0, 2000) : '';
+        return lastMessages('.message-in span.selectable-text, .message-in .copyable-text',
+                            '.message-out span.selectable-text, .message-out .copyable-text', 10);
       },
       insert: execInsert,
       postSel: '.message-out span.selectable-text, .message-out .copyable-text',   // learn from your sent messages
@@ -40,8 +39,8 @@
       host: /(^|\.)web\.telegram\.org$/,
       compose: 'div.input-message-input[contenteditable="true"], #editable-message-text',
       incoming: function () {
-        var m = document.querySelectorAll('.bubble.is-in .message, .Message:not(.own) .text-content');
-        return m.length ? (m[m.length - 1].innerText || '').slice(0, 2000) : '';
+        return lastMessages('.bubble.is-in .message, .Message:not(.own) .text-content',
+                            '.bubble.is-out .message, .Message.own .text-content', 10);
       },
       insert: execInsert,
       postSel: '.bubble.is-out .message, .Message.own .text-content',               // your sent messages
@@ -51,8 +50,7 @@
       host: /(^|\.)linkedin\.com$/,
       compose: 'div.msg-form__contenteditable[contenteditable="true"]',
       incoming: function () {
-        var m = document.querySelectorAll('.msg-s-event-listitem__body');
-        return m.length ? (m[m.length - 1].innerText || '').slice(0, 3000) : '';
+        return lastMessages('.msg-s-event-listitem__body', null, 10);
       },
       insert: execInsert,
       postSel: '.feed-shared-update-v2 .update-components-text, .feed-shared-update-v2', // your posts / activity
@@ -88,6 +86,24 @@
       });
     });
     return lines.join('\n').slice(0, 8000);
+  }
+
+  // Pull the last `n` messages of the open conversation as a short transcript, so a
+  // draft can lean on shared history (a name, a prior plan, an inside joke). When an
+  // outgoing selector is given, messages are labeled Them/You and interleaved in DOM
+  // order; otherwise the bodies are returned plain (e.g. a Gmail thread).
+  function lastMessages(inSel, outSel, n) {
+    var nodes = [];
+    document.querySelectorAll(inSel).forEach(function (e) { nodes.push([e, outSel ? 'Them' : '']); });
+    if (outSel) document.querySelectorAll(outSel).forEach(function (e) { nodes.push([e, 'You']); });
+    nodes.sort(function (a, b) {
+      return (a[0].compareDocumentPosition(b[0]) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+    });
+    return nodes.slice(-n).map(function (x) {
+      var t = (x[0].innerText || '').trim().replace(/\s+/g, ' ').slice(0, 500);
+      if (!t) return '';
+      return x[1] ? x[1] + ': ' + t : t;
+    }).filter(Boolean).join('\n').slice(0, 4000);
   }
 
   // Read the current text, whether the box is a contenteditable or a <textarea>.
@@ -162,7 +178,7 @@
   meter.id = 'cadence-meter';
   meter.innerHTML =
     '<div class="row"><span class="lbl">CADENCE</span>' +
-    '<button class="draft" type="button">Draft in my voice</button></div>' +
+    '<button class="draft" type="button" title="Type a note or an occasion (e.g. &quot;happy birthday&quot;), then draft. It reads the thread for shared context.">Draft in my voice</button></div>' +
     '<div class="read"><div class="hd"><span class="g">—</span><span class="s"></span></div>' +
     '<div class="m"></div><div class="t"></div></div>' +
     '<div class="msg"></div>';

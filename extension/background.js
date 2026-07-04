@@ -83,9 +83,13 @@ async function cadenceDraft({ draft, incoming }) {
     ? '\n\nThis is how the person writes — match its rhythm, diction, and length:\n"""\n' + cadenceVoice + '\n"""'
     : '');
   const parts = [];
-  if (incoming) parts.push('The message I am replying to:\n"""\n' + incoming + '\n"""');
+  if (incoming) parts.push('Our recent conversation, oldest to newest:\n"""\n' + incoming + '\n"""');
   parts.push(draft ? 'My rough notes for the reply:\n"""\n' + draft + '\n"""' : 'I have not written anything yet — draft a natural reply.');
-  parts.push('Write my reply now.');
+  if (incoming) parts.push(
+    'Ground the reply in that conversation: use the names, plans, and shared details that are actually there, ' +
+    'and match how close we are. If my notes call for an occasion message (a birthday, a thank-you, congratulations), ' +
+    'write the whole thing. Never invent facts that are not in the thread.');
+  parts.push('Write my reply now. Output only the reply.');
 
   const analyze = (typeof globalThis !== 'undefined' && globalThis.cadenceAnalyze) || null;
   const messages = [{ role: 'user', content: parts.join('\n\n') }];

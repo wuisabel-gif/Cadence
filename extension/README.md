@@ -29,6 +29,11 @@ Then two things work:
   it scores the draft locally, and if the writing still reads as AI, it hands the
   model the exact tells and redrafts, keeping the better version. The button
   reports the final grade.
+  - **It reads the thread.** The draft is grounded in the last several messages of
+    the open conversation (labeled you/them), so it can use the names, plans, and
+    shared details already there. Type a short note or an occasion — "happy
+    birthday", "congrats on the new job" — and it writes the whole message to fit
+    that relationship, without inventing facts the thread doesn't contain.
 - **Learn my voice.** A "Learn my voice" button reads what you've written on the page
   you're looking at — your posts on Instagram, Facebook or LinkedIn, or your own sent
   messages on WhatsApp and Telegram — and distills your sentence-usage traits (rhythm,
