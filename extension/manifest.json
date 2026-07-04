@@ -12,7 +12,13 @@
   "background": { "service_worker": "background.js" },
   "content_scripts": [
     {
-      "matches": ["https://mail.google.com/*", "https://web.whatsapp.com/*"],
+      "matches": [
+        "https://mail.google.com/*",
+        "https://web.whatsapp.com/*",
+        "https://web.telegram.org/*",
+        "https://*.linkedin.com/*",
+        "https://www.instagram.com/*"
+      ],
       "js": ["detector.js", "assistant.js"],
       "run_at": "document_idle"
     }

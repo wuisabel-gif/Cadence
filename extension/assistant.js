@@ -34,11 +34,46 @@
       },
       insert: execInsert,
     },
+    {
+      name: 'Telegram',
+      host: /(^|\.)web\.telegram\.org$/,
+      compose: 'div.input-message-input[contenteditable="true"], #editable-message-text',
+      incoming: function () {
+        var m = document.querySelectorAll('.bubble.is-in .message, .Message:not(.own) .text-content');
+        return m.length ? (m[m.length - 1].innerText || '').slice(0, 2000) : '';
+      },
+      insert: execInsert,
+    },
+    {
+      name: 'LinkedIn',
+      host: /(^|\.)linkedin\.com$/,
+      compose: 'div.msg-form__contenteditable[contenteditable="true"]',
+      incoming: function () {
+        var m = document.querySelectorAll('.msg-s-event-listitem__body');
+        return m.length ? (m[m.length - 1].innerText || '').slice(0, 3000) : '';
+      },
+      insert: execInsert,
+    },
+    {
+      name: 'Instagram',
+      host: /(^|\.)instagram\.com$/,
+      compose: 'textarea[placeholder^="Message"], div[contenteditable="true"][aria-label^="Message"]',
+      incoming: function () { return ''; },   // Instagram's DM DOM is obfuscated; draft from your own notes
+      insert: execInsert,
+    },
   ];
+
+  // Read the current text, whether the box is a contenteditable or a <textarea>.
+  function readBox(el) { return el ? (el.tagName === 'TEXTAREA' ? el.value : el.innerText) : ''; }
 
   // Replace the compose contents with `text`, then let the site's editor notice.
   function execInsert(box, text) {
     box.focus();
+    if (box.tagName === 'TEXTAREA') {
+      box.value = text;
+      box.dispatchEvent(new InputEvent('input', { bubbles: true }));
+      return;
+    }
     try {
       document.execCommand('selectAll', false, null);
       document.execCommand('insertText', false, text);
@@ -130,7 +165,7 @@
   function schedule(el) {
     activeBox = el;
     clearTimeout(timer);
-    timer = setTimeout(function () { render(activeBox && activeBox.innerText); }, 250);
+    timer = setTimeout(function () { render(readBox(activeBox)); }, 250);
   }
   function boxOf(node) { return node && node.closest ? node.closest(site.compose) : null; }
 
@@ -138,7 +173,7 @@
   draftBtn.addEventListener('click', function () {
     if (!activeBox) return;
     if (!hasRuntime) { setMsg('Draft needs the installed extension.'); return; }
-    var payload = { type: 'cadenceDraft', draft: (activeBox.innerText || '').trim(), incoming: site.incoming() };
+    var payload = { type: 'cadenceDraft', draft: readBox(activeBox).trim(), incoming: site.incoming() };
     draftBtn.disabled = true;
     setMsg('Drafting in your voice…');
     chrome.runtime.sendMessage(payload, function (resp) {
@@ -155,7 +190,7 @@
       var note = 'Drafted in your voice';
       if (resp.grade) note += ' — grade ' + esc(resp.grade) + (resp.rounds > 1 ? ', auto-fixed' : '');
       setMsg(note + '. Edit freely, then send.');
-      render(activeBox.innerText);
+      render(readBox(activeBox));
     });
   });
 
