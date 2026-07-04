@@ -34,6 +34,9 @@ Then two things work:
     shared details already there. Type a short note or an occasion — "happy
     birthday", "congrats on the new job" — and it writes the whole message to fit
     that relationship, without inventing facts the thread doesn't contain.
+  - **Where the thread can't be read** (Instagram and Facebook obfuscate their DM
+    markup) the panel shows a small box to paste the recent messages into. Paste
+    is optional; anything you paste becomes the context the draft is built on.
 - **Learn my voice.** A "Learn my voice" button reads what you've written on the page
   you're looking at — your posts on Instagram, Facebook or LinkedIn, or your own sent
   messages on WhatsApp and Telegram — and distills your sentence-usage traits (rhythm,

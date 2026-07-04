@@ -59,7 +59,8 @@
       name: 'Instagram',
       host: /(^|\.)instagram\.com$/,
       compose: 'textarea[placeholder^="Message"], div[contenteditable="true"][aria-label^="Message"]',
-      incoming: function () { return ''; },   // Instagram's DM DOM is obfuscated; draft from your own notes
+      incoming: function () { return ''; },   // Instagram's DM DOM is obfuscated — paste the thread instead
+      paste: true,
       insert: execInsert,
       postSel: 'article, div[role="article"]',   // "Learn my voice" reads visible posts/captions
     },
@@ -68,6 +69,7 @@
       host: /(^|\.)facebook\.com$/,
       compose: 'div[contenteditable="true"][role="textbox"][aria-label*="message" i]',
       incoming: function () { return ''; },
+      paste: true,
       insert: execInsert,
       postSel: 'div[role="article"]',
     },
@@ -157,6 +159,10 @@
     '#cadence-meter .t{font-size:11.5px;line-height:1.45;color:#3a4253}',
     '#cadence-meter .t b{color:#db332c;font-weight:600}',
     '#cadence-meter .clean{color:#317a45;font-size:11.5px}',
+    '#cadence-meter .paste{width:100%;box-sizing:border-box;resize:vertical;margin-bottom:8px;',
+    'font:11.5px -apple-system,system-ui,sans-serif;color:#172031;background:#f7f8fa;',
+    'border:1px solid #e3e7ec;border-radius:7px;padding:6px 8px;outline:none}',
+    '#cadence-meter .paste:focus{border-color:#2348a1}',
     '#cadence-meter .msg{font-size:11.5px;color:#6b7280;margin-top:8px;line-height:1.4}',
     '#cadence-meter .msg a{color:#2348a1;cursor:pointer;text-decoration:underline}',
     '#cadence-meter[data-grade="A"] .g,#cadence-meter[data-grade="B"] .g{color:#317a45}',
@@ -181,11 +187,13 @@
     '<button class="draft" type="button" title="Type a note or an occasion (e.g. &quot;happy birthday&quot;), then draft. It reads the thread for shared context.">Draft in my voice</button></div>' +
     '<div class="read"><div class="hd"><span class="g">—</span><span class="s"></span></div>' +
     '<div class="m"></div><div class="t"></div></div>' +
+    (site.paste ? '<textarea class="paste" rows="3" placeholder="Paste the recent messages here so the draft can use them (optional)"></textarea>' : '') +
     '<div class="msg"></div>';
   document.documentElement.appendChild(meter);
   var gEl = meter.querySelector('.g'), sEl = meter.querySelector('.s'),
       mEl = meter.querySelector('.m'), tEl = meter.querySelector('.t'),
-      draftBtn = meter.querySelector('.draft'), msgEl = meter.querySelector('.msg');
+      draftBtn = meter.querySelector('.draft'), msgEl = meter.querySelector('.msg'),
+      pasteBox = meter.querySelector('.paste');
 
   var esc = function (x) {
     return String(x).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; });
@@ -227,7 +235,8 @@
   draftBtn.addEventListener('click', function () {
     if (!activeBox) return;
     if (!hasRuntime) { setMsg('Draft needs the installed extension.'); return; }
-    var payload = { type: 'cadenceDraft', draft: readBox(activeBox).trim(), incoming: site.incoming() };
+    var ctx = site.incoming() || (pasteBox ? pasteBox.value.trim() : '');
+    var payload = { type: 'cadenceDraft', draft: readBox(activeBox).trim(), incoming: ctx };
     draftBtn.disabled = true;
     setMsg('Drafting in your voice…');
     chrome.runtime.sendMessage(payload, function (resp) {
