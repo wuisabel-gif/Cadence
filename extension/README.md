@@ -29,10 +29,11 @@ Then two things work:
   it scores the draft locally, and if the writing still reads as AI, it hands the
   model the exact tells and redrafts, keeping the better version. The button
   reports the final grade.
-- **Learn my voice.** On your Instagram or Facebook page, a "Learn my voice" button
-  reads the posts rendered on screen — the ones you're already looking at — and
-  distills your sentence-usage traits (rhythm, diction, habits) into a voice profile
-  it saves for you. It reads only what's visible; it doesn't scrape via any API.
+- **Learn my voice.** A "Learn my voice" button reads what you've written on the page
+  you're looking at — your posts on Instagram, Facebook or LinkedIn, or your own sent
+  messages on WhatsApp and Telegram — and distills your sentence-usage traits (rhythm,
+  diction, habits) into a voice profile it saves for you. It reads only what's
+  visible; it doesn't scrape via any API.
 
 ## Settings
 

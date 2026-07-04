@@ -272,8 +272,9 @@ bar, the AI tells squiggled inline, and a score-on-demand report. Build it with
 [`extension/`](extension/README.md) works in Gmail, WhatsApp Web, Telegram, LinkedIn,
 Instagram and Facebook: it scores your reply as you type — on-device — and, with your
 own Anthropic key, drafts one in your voice. It writes, scores the draft locally, then
-redrafts to clear any AI tells before dropping it in the box. On your Instagram or
-Facebook page, a "Learn my voice" button reads your visible posts and distills your
+redrafts to clear any AI tells before dropping it in the box. A "Learn my voice"
+button reads what you've written on the page — your posts on Instagram, Facebook or
+LinkedIn, or your own sent messages on WhatsApp and Telegram — and distills your
 sentence-usage traits into that voice profile. Build it with
 `npm run build:extension`, then load the folder unpacked.
 

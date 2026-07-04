@@ -33,6 +33,7 @@
         return m.length ? (m[m.length - 1].innerText || '').slice(0, 2000) : '';
       },
       insert: execInsert,
+      postSel: '.message-out span.selectable-text, .message-out .copyable-text',   // learn from your sent messages
     },
     {
       name: 'Telegram',
@@ -43,6 +44,7 @@
         return m.length ? (m[m.length - 1].innerText || '').slice(0, 2000) : '';
       },
       insert: execInsert,
+      postSel: '.bubble.is-out .message, .Message.own .text-content',               // your sent messages
     },
     {
       name: 'LinkedIn',
@@ -53,6 +55,7 @@
         return m.length ? (m[m.length - 1].innerText || '').slice(0, 3000) : '';
       },
       insert: execInsert,
+      postSel: '.feed-shared-update-v2 .update-components-text, .feed-shared-update-v2', // your posts / activity
     },
     {
       name: 'Instagram',
@@ -79,7 +82,7 @@
     document.querySelectorAll(sel).forEach(function (el) {
       (el.innerText || '').split('\n').forEach(function (raw) {
         var s = raw.trim();
-        if (s.length < 30 || !/\s/.test(s)) return;
+        if (s.length < 20 || !/\s/.test(s)) return;   // keep short messages, drop "ok"/"lol"
         if (/^(like|comment|share|reply|follow|following|see more|view|edited|\d+\s*(likes?|comments?|shares?)|\d+[hdwmy]|·)/i.test(s)) return;
         if (!seen[s]) { seen[s] = 1; lines.push(s); }
       });
@@ -142,7 +145,7 @@
     '#cadence-meter .msg a{color:#2348a1;cursor:pointer;text-decoration:underline}',
     '#cadence-meter[data-grade="A"] .g,#cadence-meter[data-grade="B"] .g{color:#317a45}',
     '#cadence-meter[data-grade="C"] .g{color:#c9922a}',
-    '#cadence-learn{position:fixed;right:16px;bottom:16px;z-index:2147483647;width:242px;',
+    '#cadence-learn{position:fixed;right:16px;top:16px;z-index:2147483647;width:242px;',
     'font-family:-apple-system,system-ui,"Segoe UI",sans-serif;background:#fff;color:#172031;',
     'border:1px solid #e3e7ec;border-radius:12px;box-shadow:0 8px 30px -10px rgba(20,27,41,.35);padding:10px 12px}',
     '#cadence-learn .lbtn{width:100%;background:#2348a1;color:#fff;border:0;border-radius:8px;padding:8px 10px;',
