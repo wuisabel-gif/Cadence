@@ -269,10 +269,12 @@ bar, the AI tells squiggled inline, and a score-on-demand report. Build it with
 `npm run build:vscode`, then press **F5** to try it or package a `.vsix` to install.
 
 **In your inbox and chats.** The Chrome extension at
-[`extension/`](extension/README.md) works in Gmail, WhatsApp Web, Telegram, LinkedIn
-and Instagram: it scores your reply as you type — on-device — and, with your own
-Anthropic key, drafts one in your voice. It writes, scores the draft locally, then
-redrafts to clear any AI tells before dropping it in the box. Build it with
+[`extension/`](extension/README.md) works in Gmail, WhatsApp Web, Telegram, LinkedIn,
+Instagram and Facebook: it scores your reply as you type — on-device — and, with your
+own Anthropic key, drafts one in your voice. It writes, scores the draft locally, then
+redrafts to clear any AI tells before dropping it in the box. On your Instagram or
+Facebook page, a "Learn my voice" button reads your visible posts and distills your
+sentence-usage traits into that voice profile. Build it with
 `npm run build:extension`, then load the folder unpacked.
 
 ## Documentation

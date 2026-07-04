@@ -60,8 +60,32 @@
       compose: 'textarea[placeholder^="Message"], div[contenteditable="true"][aria-label^="Message"]',
       incoming: function () { return ''; },   // Instagram's DM DOM is obfuscated; draft from your own notes
       insert: execInsert,
+      postSel: 'article, div[role="article"]',   // "Learn my voice" reads visible posts/captions
+    },
+    {
+      name: 'Facebook',
+      host: /(^|\.)facebook\.com$/,
+      compose: 'div[contenteditable="true"][role="textbox"][aria-label*="message" i]',
+      incoming: function () { return ''; },
+      insert: execInsert,
+      postSel: 'div[role="article"]',
     },
   ];
+
+  // "Learn my voice": pull prose lines out of the posts rendered on this page,
+  // drop the UI chrome (Like / Comment / timestamps), dedupe, and cap the length.
+  function harvest(sel) {
+    var lines = [], seen = {};
+    document.querySelectorAll(sel).forEach(function (el) {
+      (el.innerText || '').split('\n').forEach(function (raw) {
+        var s = raw.trim();
+        if (s.length < 30 || !/\s/.test(s)) return;
+        if (/^(like|comment|share|reply|follow|following|see more|view|edited|\d+\s*(likes?|comments?|shares?)|\d+[hdwmy]|·)/i.test(s)) return;
+        if (!seen[s]) { seen[s] = 1; lines.push(s); }
+      });
+    });
+    return lines.join('\n').slice(0, 8000);
+  }
 
   // Read the current text, whether the box is a contenteditable or a <textarea>.
   function readBox(el) { return el ? (el.tagName === 'TEXTAREA' ? el.value : el.innerText) : ''; }
@@ -88,6 +112,7 @@
   for (var i = 0; i < ADAPTERS.length; i++) { if (ADAPTERS[i].host.test(hostname)) { site = ADAPTERS[i]; break; } }
   if (!site) return;                                          // not a surface we handle
   window.__cadenceAdapter = site.name;
+  window.__cadenceHarvest = function () { return site.postSel ? harvest(site.postSel) : ''; };  // test seam
 
   var hasRuntime = typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage;
 
@@ -116,7 +141,17 @@
     '#cadence-meter .msg{font-size:11.5px;color:#6b7280;margin-top:8px;line-height:1.4}',
     '#cadence-meter .msg a{color:#2348a1;cursor:pointer;text-decoration:underline}',
     '#cadence-meter[data-grade="A"] .g,#cadence-meter[data-grade="B"] .g{color:#317a45}',
-    '#cadence-meter[data-grade="C"] .g{color:#c9922a}'
+    '#cadence-meter[data-grade="C"] .g{color:#c9922a}',
+    '#cadence-learn{position:fixed;right:16px;bottom:16px;z-index:2147483647;width:242px;',
+    'font-family:-apple-system,system-ui,"Segoe UI",sans-serif;background:#fff;color:#172031;',
+    'border:1px solid #e3e7ec;border-radius:12px;box-shadow:0 8px 30px -10px rgba(20,27,41,.35);padding:10px 12px}',
+    '#cadence-learn .lbtn{width:100%;background:#2348a1;color:#fff;border:0;border-radius:8px;padding:8px 10px;',
+    'font:600 12.5px -apple-system,system-ui,sans-serif;cursor:pointer}',
+    '#cadence-learn .lbtn:hover{background:#1b3a85}',
+    '#cadence-learn .lbtn:disabled{opacity:.55;cursor:default}',
+    '#cadence-learn .lres{font-size:11.5px;line-height:1.45;color:#3a4253;margin-top:8px;max-height:170px;overflow:auto;white-space:pre-wrap}',
+    '#cadence-learn .lres:empty{display:none}',
+    '#cadence-learn .lres b{color:#317a45}'
   ].join('');
   document.documentElement.appendChild(style);
 
@@ -193,6 +228,30 @@
       render(readBox(activeBox));
     });
   });
+
+  // ── learn my voice (posts on this page → a saved voice profile) ──
+  if (site.postSel) {
+    var learn = document.createElement('div');
+    learn.id = 'cadence-learn';
+    learn.innerHTML = '<button class="lbtn" type="button">✦ Learn my voice</button><div class="lres"></div>';
+    document.documentElement.appendChild(learn);
+    var lbtn = learn.querySelector('.lbtn'), lres = learn.querySelector('.lres');
+    lbtn.addEventListener('click', function () {
+      if (!hasRuntime) { lres.textContent = 'Learning needs the installed extension.'; return; }
+      var text = harvest(site.postSel);
+      if (text.replace(/\s/g, '').length < 120) { lres.textContent = 'Scroll to load a few of your posts, then try again.'; return; }
+      lbtn.disabled = true; lres.textContent = 'Reading your posts…';
+      chrome.runtime.sendMessage({ type: 'cadenceLearn', text: text }, function (resp) {
+        lbtn.disabled = false;
+        if (chrome.runtime.lastError || !resp) { lres.textContent = 'No response — reload the page and try again.'; return; }
+        if (resp.error === 'not-enough') { lres.textContent = 'Not enough of your writing on this page yet.'; return; }
+        if (resp.error) { lres.textContent = 'Couldn’t learn: ' + esc(resp.error); return; }
+        lbtn.textContent = '✦ Voice learned';
+        var p = resp.preview || '';
+        lres.innerHTML = '<b>Saved.</b> ' + esc(p.slice(0, 220)) + (p.length > 220 ? '…' : '');
+      });
+    });
+  }
 
   document.addEventListener('input', function (e) {
     var b = boxOf(e.target);

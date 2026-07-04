@@ -1,8 +1,9 @@
 # Cadence — Chrome extension
 
 Score any text for AI tone, and get a live assistant right in your compose box —
-in Gmail, WhatsApp Web, Telegram, LinkedIn and Instagram. The detector is bundled,
-so scoring runs on your machine: no account, no network, nothing leaves the page.
+in Gmail, WhatsApp Web, Telegram, LinkedIn, Instagram and Facebook. The detector is
+bundled, so scoring runs on your machine: no account, no network, nothing leaves the
+page.
 
 ## Try it now (load unpacked)
 
@@ -28,6 +29,10 @@ Then two things work:
   it scores the draft locally, and if the writing still reads as AI, it hands the
   model the exact tells and redrafts, keeping the better version. The button
   reports the final grade.
+- **Learn my voice.** On your Instagram or Facebook page, a "Learn my voice" button
+  reads the posts rendered on screen — the ones you're already looking at — and
+  distills your sentence-usage traits (rhythm, diction, habits) into a voice profile
+  it saves for you. It reads only what's visible; it doesn't scrape via any API.
 
 ## Settings
 
@@ -45,10 +50,10 @@ button. The options copy says so plainly.
 ## Adding a surface
 
 Each site is a small adapter in `assistant.js` — a compose selector, a way to read
-the thread, and an insert strategy. Five ship today: Gmail, WhatsApp Web, Telegram,
-LinkedIn and Instagram. Adding another is about ten lines plus a `matches` entry in
-`manifest.json`. Site selectors are DOM-dependent and may need a nudge when a site
-ships a redesign.
+the thread, and an insert strategy. Six ship today: Gmail, WhatsApp Web, Telegram,
+LinkedIn, Instagram and Facebook. Adding another is about ten lines plus a `matches`
+entry in `manifest.json`. Site selectors are DOM-dependent and may need a nudge when
+a site ships a redesign.
 
 ## How the detector stays honest
 

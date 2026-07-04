@@ -105,7 +105,35 @@ async function cadenceDraft({ draft, incoming }) {
   return best;
 }
 
+// Learn a voice from posts the content script scraped off the page you're viewing.
+// With a key we distill the sentence-usage traits into a compact profile; without
+// one we just keep the raw posts (still a usable sample). Saved as the voice the
+// "Draft in my voice" loop then writes toward.
+const CADENCE_LEARN_SYSTEM =
+  "Extract a compact VOICE PROFILE from the writing samples so a model can imitate this person. Describe:\n" +
+  "- Rhythm: typical sentence length and how much it varies (do they swing long-then-short, or stay even?).\n" +
+  "- Diction: words and phrases they favor; words or punctuation they avoid.\n" +
+  "- Devices and habits: fragments, questions, emoji, capitalization, sign-offs.\n" +
+  "- Tone and stance.\n" +
+  "Then add two or three short verbatim lines that best show the voice. Keep the whole thing under 180 words. Output the profile only — no preamble.";
+
+async function cadenceLearn({ text }) {
+  var clean = (text || '').trim();
+  if (clean.replace(/\s/g, '').length < 120) return { error: 'not-enough' };
+  const { cadenceApiKey } = await chrome.storage.local.get('cadenceApiKey');
+
+  if (!cadenceApiKey) {
+    await chrome.storage.local.set({ cadenceVoice: clean.slice(0, 4000) });
+    return { saved: 'raw', preview: 'Saved your posts as a voice sample. Add an API key to distill the traits — and to draft.' };
+  }
+  const out = await callClaude(cadenceApiKey, CADENCE_LEARN_SYSTEM, [{ role: 'user', content: 'Samples:\n"""\n' + clean.slice(0, 12000) + '\n"""' }]);
+  if (out.error) return { error: out.error };
+  await chrome.storage.local.set({ cadenceVoice: out.text });
+  return { saved: 'profile', preview: out.text };
+}
+
 chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
   if (msg && msg.type === 'cadenceDraft') { cadenceDraft(msg).then(sendResponse); return true; }
+  if (msg && msg.type === 'cadenceLearn') { cadenceLearn(msg).then(sendResponse); return true; }
   if (msg && msg.type === 'openOptions') { chrome.runtime.openOptionsPage(); }
 });
