@@ -297,6 +297,21 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
   *{animation-duration:.001ms !important;transition-duration:.001ms !important}
   .marker,.score-num,.spec-text{transition:none}
 }
+
+/* ============================== try it ============================== */
+.try{background:var(--paper-2)}
+.try-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(1.6rem,4vw,3.2rem);align-items:center;margin-top:2.2rem}
+.try-cta{display:flex;gap:.7rem;flex-wrap:wrap}
+.try-points{list-style:none;padding:0;margin:1.7rem 0 0;display:flex;flex-direction:column;gap:.75rem}
+.try-points li{color:var(--ink-soft);font-size:1rem;line-height:1.5;padding-left:1.35rem;position:relative}
+.try-points li::before{content:"";position:absolute;left:0;top:.52em;width:.45rem;height:.45rem;border-radius:2px;background:var(--brand)}
+.try-points b{color:var(--ink);font-weight:700}
+.try-url{margin-top:1.6rem;font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.try-url a{color:var(--brand)}
+.try-shot{display:block;border:1px solid var(--line-2);border-radius:14px;overflow:hidden;background:var(--paper);box-shadow:0 1px 2px rgba(20,27,41,.05),0 26px 55px -34px rgba(20,27,41,.45);transition:transform .25s var(--ease)}
+.try-shot:hover{transform:translateY(-3px)}
+.try-shot img{display:block;width:100%;height:auto;max-height:480px;object-fit:cover;object-position:top center}
+@media(max-width:720px){.try-grid{grid-template-columns:1fr}.try-shot{order:-1}}
 </style>
 </head>
 <body>
@@ -399,6 +414,31 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
           </dl>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ============ TRY IT ============ -->
+  <section class="try wrap" id="try">
+    <div class="head reveal">
+      <h2>Try it now. Nothing to install.</h2>
+      <p>The same detector runs as a web page. Paste any text and see the grade plus every tell, entirely in your browser. On a phone, add it to your home screen and it runs offline like an app.</p>
+    </div>
+    <div class="try-grid">
+      <div class="try-copy reveal">
+        <div class="try-cta">
+          <a class="btn btn-primary" href="check.html">Score your writing →</a>
+          <a class="btn btn-ghost" href="https://wuisabel-gif.github.io/Cadence/check.html" target="_blank" rel="noopener">Open on your phone</a>
+        </div>
+        <ul class="try-points">
+          <li><b>Runs on-device.</b> The text never leaves the page; nothing is sent anywhere.</li>
+          <li><b>The same engine.</b> Identical scores to the CLI and the editor extensions.</li>
+          <li><b>Installable.</b> On iPhone, tap Share, then Add to Home Screen for an offline app.</li>
+        </ul>
+        <div class="try-url">Live at <a href="https://wuisabel-gif.github.io/Cadence/check.html">wuisabel-gif.github.io/Cadence/check.html</a></div>
+      </div>
+      <a class="try-shot reveal" href="check.html" aria-label="Open the Cadence score page">
+        <img src="docs/screenshots/score-page.png" alt="The Cadence score page grading a paragraph of AI marketing copy at grade D, with every tell named." loading="lazy">
+      </a>
     </div>
   </section>
 
