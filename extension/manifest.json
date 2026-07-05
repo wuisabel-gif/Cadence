@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Cadence — AI-slop detector",
+  "name": "Cadence: AI-slop detector",
   "version": "0.1.0",
   "description": "Score any text for AI tone, plus a live impression check and draft-in-your-voice in the Gmail and WhatsApp Web compose box. The score runs locally.",
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Cadence — score for AI tone",
+    "default_title": "Cadence: score for AI tone",
     "default_icon": { "16": "icons/icon-16.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" }
   },
   "icons": { "16": "icons/icon-16.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" },

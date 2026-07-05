@@ -23,19 +23,20 @@ chrome.contextMenus.onClicked.addListener((info) => {
   }
 });
 
-// ─── "Draft in my voice" — the one part that needs a model ────────────────────
+// ─── "Draft in my voice", the one part that needs a model ────────────────────
 // The content script sends the reply context here; we call Claude with the
 // user's own key (from options) and their voice sample, and hand back the draft.
 // The key lives in the background, never in the page.
 const CADENCE_MODEL = 'claude-opus-4-8';
 const CADENCE_SYSTEM =
   "You draft replies that read like a real person wrote them, not AI. Follow these laws:\n" +
-  "1. Vary sentence length on purpose — a long one, then a short one. Never flatline at one length.\n" +
+  "1. Vary sentence length on purpose: a long one, then a short one. Never flatline at one length.\n" +
   "2. No hollow-confidence words (seamless, robust, leverage, powerful, comprehensive).\n" +
   "3. No throat-clearing openers (\"In today's world\", \"It's important to note\", \"When it comes to\"). Start on the real first idea.\n" +
   "4. No template rhetoric: no negation-pivot (\"It's not just X, it's Y\"), no reflexive triads.\n" +
   "5. Plain exact words over decorated vague ones. Contractions and short fragments are fine.\n" +
-  "Match the person's own voice. Output ONLY the reply text — no preamble, no quotation marks, no meta commentary.";
+  "6. Never use em-dashes. A period, comma, or colon does the job.\n" +
+  "Match the person's own voice. Output ONLY the reply text. No preamble, no quotation marks, no meta commentary.";
 
 // One API round-trip. Returns { text } or { error }.
 async function callClaude(apiKey, system, messages) {
@@ -80,11 +81,11 @@ async function cadenceDraft({ draft, incoming }) {
   if (!cadenceApiKey) return { error: 'no-key' };
 
   const system = CADENCE_SYSTEM + (cadenceVoice
-    ? '\n\nThis is how the person writes — match its rhythm, diction, and length:\n"""\n' + cadenceVoice + '\n"""'
+    ? '\n\nThis is how the person writes. Match its rhythm, diction, and length:\n"""\n' + cadenceVoice + '\n"""'
     : '');
   const parts = [];
   if (incoming) parts.push('Our recent conversation, oldest to newest:\n"""\n' + incoming + '\n"""');
-  parts.push(draft ? 'My rough notes for the reply:\n"""\n' + draft + '\n"""' : 'I have not written anything yet — draft a natural reply.');
+  parts.push(draft ? 'My rough notes for the reply:\n"""\n' + draft + '\n"""' : 'I have not written anything yet. Draft a natural reply.');
   if (incoming) parts.push(
     'Ground the reply in that conversation: use the names, plans, and shared details that are actually there, ' +
     'and match how close we are. If my notes call for an occasion message (a birthday, a thank-you, congratulations), ' +
@@ -103,7 +104,7 @@ async function cadenceDraft({ draft, incoming }) {
     if (!analyze || r.score <= 25) break;             // grade A/B (or no scorer) → done
     messages.push({ role: 'assistant', content: out.text });
     messages.push({ role: 'user', content:
-      'That still reads like AI — it scored ' + r.score + '/100. Named tells: ' + tellSummary(r) +
+      'That still reads like AI. It scored ' + r.score + '/100. Named tells: ' + tellSummary(r) +
       '. Rewrite the reply so none of those remain. Keep my meaning and my voice, and vary sentence length. Output only the reply.' });
   }
   return best;
@@ -119,7 +120,7 @@ const CADENCE_LEARN_SYSTEM =
   "- Diction: words and phrases they favor; words or punctuation they avoid.\n" +
   "- Devices and habits: fragments, questions, emoji, capitalization, sign-offs.\n" +
   "- Tone and stance.\n" +
-  "Then add two or three short verbatim lines that best show the voice. Keep the whole thing under 180 words. Output the profile only — no preamble.";
+  "Then add two or three short verbatim lines that best show the voice. Keep the whole thing under 180 words. Output the profile only. No preamble.";
 
 async function cadenceLearn({ text }) {
   var clean = (text || '').trim();
@@ -128,7 +129,7 @@ async function cadenceLearn({ text }) {
 
   if (!cadenceApiKey) {
     await chrome.storage.local.set({ cadenceVoice: clean.slice(0, 4000) });
-    return { saved: 'raw', preview: 'Saved your posts as a voice sample. Add an API key to distill the traits — and to draft.' };
+    return { saved: 'raw', preview: 'Saved your posts as a voice sample. Add an API key to distill the traits, and to draft.' };
   }
   const out = await callClaude(cadenceApiKey, CADENCE_LEARN_SYSTEM, [{ role: 'user', content: 'Samples:\n"""\n' + clean.slice(0, 12000) + '\n"""' }]);
   if (out.error) return { error: out.error };

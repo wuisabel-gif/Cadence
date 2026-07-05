@@ -1,4 +1,4 @@
-// Cadence — the AI-slop detector, in your editor.
+// Cadence: the AI-slop detector, in your editor.
 //
 // The detector itself lives in ./detector.js, generated from the one source
 // (skills/cadence/scripts/deslop.mjs) so it can never drift. This file is just
@@ -8,12 +8,12 @@ const { analyze, formatReport, stripMarkdown, stripHtml } = require('./detector.
 
 // One human-readable line per rule the detector can name.
 const RULE_LABEL = {
-  'banned-phrase': 'AI cliché phrase — almost never survives a human editor',
-  'hollow-confidence': 'Hollow-confidence word — asserts quality instead of showing it',
-  'triad': 'Reflexive triad ("A, B, and C") — fine once, a tell in bulk',
-  'negation-pivot': 'Negation pivot ("not X, it\'s Y") — the AI rhetorical seesaw',
-  'hedge-stack': 'Stacked hedges — two or more qualifiers draining one sentence',
-  'cliche-opener': 'Templated opener — signals a generated structure',
+  'banned-phrase': 'AI cliché phrase, almost never survives a human editor',
+  'hollow-confidence': 'Hollow-confidence word, asserts quality instead of showing it',
+  'triad': 'Reflexive triad ("A, B, and C"), fine once, a tell in bulk',
+  'negation-pivot': 'Negation pivot ("not X, it\'s Y"), the AI rhetorical seesaw',
+  'hedge-stack': 'Stacked hedges, two or more qualifiers draining one sentence',
+  'cliche-opener': 'Templated opener, signals a generated structure',
 };
 
 const SEVERITY = {
@@ -108,7 +108,7 @@ function activate(context) {
     const m = r.metrics;
     status.text = `$(pencil) Cadence ${r.grade}·${r.score}`;
     status.tooltip = new vscode.MarkdownString(
-      `**Cadence de-slop** — score \`${r.score}/100\`, grade \`${r.grade}\`\n\n` +
+      `**Cadence de-slop**: score \`${r.score}/100\`, grade \`${r.grade}\`\n\n` +
       `words ${m.words} · sentences ${m.sentences} · avg len ${m.avgSentenceLength}\n\n` +
       `rhythm CV ${m.sentenceLengthCV}${m.uniformRhythm ? ' ⚠ too uniform' : ''} · ` +
       `${r.findings.length} tell${r.findings.length === 1 ? '' : 's'}\n\n_Click for the full report._`
@@ -145,14 +145,14 @@ function activate(context) {
     vscode.commands.registerCommand('cadence.scoreDocument', () => {
       const ed = vscode.window.activeTextEditor;
       if (!ed) { vscode.window.showInformationMessage('Cadence: open a file to score.'); return; }
-      report(`${ed.document.fileName || 'document'} — whole document`, scoringText(ed.document));
+      report(`${ed.document.fileName || 'document'} (whole document)`, scoringText(ed.document));
     }),
     vscode.commands.registerCommand('cadence.scoreSelection', () => {
       const ed = vscode.window.activeTextEditor;
       if (!ed) { vscode.window.showInformationMessage('Cadence: open a file to score.'); return; }
       const sel = ed.document.getText(ed.selection);
       if (!sel.trim()) { vscode.window.showInformationMessage('Cadence: select some text first.'); return; }
-      report(`${ed.document.fileName || 'document'} — selection`, sel);
+      report(`${ed.document.fileName || 'document'} (selection)`, sel);
     }),
   );
 

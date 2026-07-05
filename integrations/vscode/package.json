@@ -1,6 +1,6 @@
 {
   "name": "cadence-deslop",
-  "displayName": "Cadence — AI-slop detector",
+  "displayName": "Cadence: AI-slop detector",
   "description": "Score prose for AI tone right in the editor. Live grade in the status bar, the AI tells squiggled inline, and a full report on demand. Runs locally, zero dependencies.",
   "version": "0.2.0",
   "publisher": "cadence",

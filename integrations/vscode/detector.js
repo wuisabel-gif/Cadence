@@ -1,4 +1,4 @@
-// AUTO-GENERATED from skills/cadence/scripts/deslop.mjs — do not edit by hand.
+// AUTO-GENERATED from skills/cadence/scripts/deslop.mjs. Do not edit by hand.
 // Regenerate with: npm run build:vscode
 // ─── Lexical rules ──────────────────────────────────────────────────────────
 // Phrases that almost never survive a human editor. Each hit is one finding.
@@ -54,7 +54,7 @@ const ABBREV = new Set([
 ]);
 
 // Fold typographic quotes to ASCII so the phrase and regex detectors match
-// real-world prose — curly apostrophes from the web, Word, and Substack would
+// real-world prose. Curly apostrophes from the web, Word, and Substack would
 // otherwise slip every "it's"/"whether you're" rule. A 1:1 char swap, so snippet
 // offsets stay aligned with the original text.
 function normalizeQuotes(text) {
@@ -136,7 +136,7 @@ function detectTriads(sentences) {
 }
 
 function detectNegationPivot(sentences) {
-  // "It's not X, it's Y" / "not just X but Y" — the AI rhetorical seesaw.
+  // "It's not X, it's Y" / "not just X but Y": the AI rhetorical seesaw.
   const findings = [];
   const patterns = [
     /\bit'?s not (?:about |just )?[^.,;]{2,40}?[,;.]?\s*it'?s\b/i,
@@ -214,7 +214,7 @@ function analyze(rawText) {
   const emDashRate = per100(emDashes);
   const triadDensity = sentences.length ? findings.filter((f) => f.rule === 'triad').length / sentences.length : 0;
 
-  // Uniform rhythm is the single strongest AI tell — flag it only with enough
+  // Uniform rhythm is the single strongest AI tell. Flag it only with enough
   // sentences to be meaningful.
   const uniformRhythm = sentences.length >= 5 && lengthCV < 0.4;
 
@@ -276,7 +276,7 @@ function formatReport(result) {
 // Score each blank-line-separated paragraph on its own so a heatmap (CLI or UI)
 // can show *which* block drags the document down, not just that it does. Reuses
 // analyze, so a block's number matches what the whole-document score would give
-// that text. Rhythm CV is weak on a one-sentence block — the lexical tells carry.
+// that text. Rhythm CV is weak on a one-sentence block; the lexical tells carry.
 function analyzeParagraphs(text) {
   const out = [];
   let index = 0;
@@ -325,7 +325,7 @@ const ENTITIES = {
   '&apos;': "'", '&nbsp;': ' ', '&mdash;': '—', '&ndash;': '–', '&hellip;': '…',
   '&rsquo;': '’', '&lsquo;': '‘', '&ldquo;': '“', '&rdquo;': '”', '&middot;': '·',
 };
-// Decode a numeric character reference safely — out-of-range code points (bad
+// Decode a numeric character reference safely. Out-of-range code points (bad
 // input) yield nothing instead of throwing, and astral chars (emoji, U+1xxxx)
 // decode whole instead of splitting into lone surrogates.
 const codePoint = (n) => (Number.isInteger(n) && n >= 0 && n <= 0x10ffff ? String.fromCodePoint(n) : '');

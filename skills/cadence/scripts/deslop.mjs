@@ -4,7 +4,7 @@
  *
  * Deterministic prose analysis: given text, it finds the structural and lexical
  * tells of generic AI writing and reports them with a transparent score. No LLM,
- * no network — pure functions over the text so the same input always scores the
+ * no network. Pure functions over the text so the same input always scores the
  * same. The skill's /deslop, /critique, and /write commands all read these
  * numbers instead of guessing.
  *
@@ -77,7 +77,7 @@ const ABBREV = new Set([
 ]);
 
 // Fold typographic quotes to ASCII so the phrase and regex detectors match
-// real-world prose — curly apostrophes from the web, Word, and Substack would
+// real-world prose. Curly apostrophes from the web, Word, and Substack would
 // otherwise slip every "it's"/"whether you're" rule. A 1:1 char swap, so snippet
 // offsets stay aligned with the original text.
 export function normalizeQuotes(text) {
@@ -159,7 +159,7 @@ function detectTriads(sentences) {
 }
 
 function detectNegationPivot(sentences) {
-  // "It's not X, it's Y" / "not just X but Y" — the AI rhetorical seesaw.
+  // "It's not X, it's Y" / "not just X but Y": the AI rhetorical seesaw.
   const findings = [];
   const patterns = [
     /\bit'?s not (?:about |just )?[^.,;]{2,40}?[,;.]?\s*it'?s\b/i,
@@ -237,7 +237,7 @@ export function analyze(rawText) {
   const emDashRate = per100(emDashes);
   const triadDensity = sentences.length ? findings.filter((f) => f.rule === 'triad').length / sentences.length : 0;
 
-  // Uniform rhythm is the single strongest AI tell — flag it only with enough
+  // Uniform rhythm is the single strongest AI tell. Flag it only with enough
   // sentences to be meaningful.
   const uniformRhythm = sentences.length >= 5 && lengthCV < 0.4;
 
@@ -299,7 +299,7 @@ export function formatReport(result) {
 // Score each blank-line-separated paragraph on its own so a heatmap (CLI or UI)
 // can show *which* block drags the document down, not just that it does. Reuses
 // analyze, so a block's number matches what the whole-document score would give
-// that text. Rhythm CV is weak on a one-sentence block — the lexical tells carry.
+// that text. Rhythm CV is weak on a one-sentence block; the lexical tells carry.
 export function analyzeParagraphs(text) {
   const out = [];
   let index = 0;
@@ -348,7 +348,7 @@ const ENTITIES = {
   '&apos;': "'", '&nbsp;': ' ', '&mdash;': '—', '&ndash;': '–', '&hellip;': '…',
   '&rsquo;': '’', '&lsquo;': '‘', '&ldquo;': '“', '&rdquo;': '”', '&middot;': '·',
 };
-// Decode a numeric character reference safely — out-of-range code points (bad
+// Decode a numeric character reference safely. Out-of-range code points (bad
 // input) yield nothing instead of throwing, and astral chars (emoji, U+1xxxx)
 // decode whole instead of splitting into lone surrogates.
 const codePoint = (n) => (Number.isInteger(n) && n >= 0 && n <= 0x10ffff ? String.fromCodePoint(n) : '');
@@ -435,7 +435,7 @@ function runScan(dir, args) {
 
 // ─── diff mode (--diff) ──────────────────────────────────────────────────────
 // Parse a unified diff and return the added prose per file, so a CI gate scores
-// only what a change introduces — not the legacy files it happens to touch.
+// only what a change introduces, not the legacy files it happens to touch.
 // Pure (no git), so it's testable; runDiff feeds it real `git diff` output.
 export function addedProseByFile(diffText) {
   const byFile = new Map();
@@ -540,7 +540,7 @@ function formatParagraphs(rows) {
 }
 
 // ─── CLI ────────────────────────────────────────────────────────────────────
-const HELP = `cadence-deslop — score prose for AI tells (0 clean … 100 slop)
+const HELP = `cadence-deslop: score prose for AI tells (0 clean … 100 slop)
 
 Usage
   cadence-deslop <file>            human-readable report
@@ -550,7 +550,7 @@ Usage
   cadence-deslop --strict <file>   exit 1 when score > 25 (CI gate)
   cadence-deslop --fix <file>      rewrite the mechanical tells, print fixed text
   cadence-deslop --diff [ref]      score only prose added vs ref (default HEAD)
-  cadence-deslop --paragraphs <f>  score each paragraph — which block is the problem
+  cadence-deslop --paragraphs <f>  score each paragraph: which block is the problem
 
 Options
   --html         score the visible text of an HTML file (auto-detected for .html)

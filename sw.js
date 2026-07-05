@@ -1,4 +1,4 @@
-// Cadence PWA service worker — cache the score page and detector so the installed
+// Cadence PWA service worker: cache the score page and detector so the installed
 // app opens instantly and works with no network. Bump CACHE to ship an update.
 const CACHE = 'cadence-v1';
 const ASSETS = [

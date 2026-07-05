@@ -4,7 +4,7 @@
  *   - extension/detector.js : the detector, generated from the single source
  *     (skills/cadence/scripts/deslop.mjs) so it can never drift.
  *   - extension/icons/*.png : the rhythm-bars logo, rendered with a tiny pure-Node
- *     PNG encoder (built-in zlib only — no dependencies).
+ *     PNG encoder (built-in zlib only, no dependencies).
  *
  * Run:  node scripts/build-extension.mjs   (or: npm run build:extension)
  */
@@ -18,10 +18,10 @@ function buildDetector() {
   const src = readFileSync(ROOT + 'skills/cadence/scripts/deslop.mjs', 'utf8');
   const start = src.indexOf('// ─── Lexical rules');
   const end = src.indexOf('// ─── repo / directory scan');
-  if (start < 0 || end < 0) throw new Error('deslop.mjs markers not found — did the file structure change?');
+  if (start < 0 || end < 0) throw new Error('deslop.mjs markers not found. Did the file structure change?');
   const core = src.slice(start, end).replace(/^export /gm, '').trim();
   const out =
-`// AUTO-GENERATED from skills/cadence/scripts/deslop.mjs — do not edit by hand.
+`// AUTO-GENERATED from skills/cadence/scripts/deslop.mjs. Do not edit by hand.
 // Regenerate with: npm run build:extension
 (function (global) {
 ${core}

@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cadence — score your writing for AI tone</title>
-  <meta name="description" content="Paste your writing and see how much it reads like AI. Cadence scores it 0–100 and names every tell — in your browser, nothing sent.">
-  <meta property="og:title" content="Cadence — is it you, or does it read like AI?">
+  <title>Cadence: score your writing for AI tone</title>
+  <meta name="description" content="Paste your writing and see how much it reads like AI. Cadence scores it 0–100 and names every tell. In your browser, nothing sent.">
+  <meta property="og:title" content="Cadence: is it you, or does it read like AI?">
   <meta property="og:description" content="Paste anything and see the grade plus every tell. Runs in your browser; nothing is sent.">
   <meta property="og:image" content="https://wuisabel-gif.github.io/Cadence/docs/screenshots/score-card.png">
   <meta property="og:type" content="website">
@@ -100,7 +100,7 @@
   </header>
 
   <h1>Is it you, or does it read like AI?</h1>
-  <p class="sub">Paste anything — an email, a post, a paragraph. Cadence scores how much it reads like a machine wrote it and names every tell. It runs in your browser; the text never leaves the page.</p>
+  <p class="sub">Paste anything: an email, a post, a paragraph. Cadence scores how much it reads like a machine wrote it and names every tell. It runs in your browser; the text never leaves the page.</p>
 
   <textarea id="in" placeholder="Paste your writing here…" spellcheck="false"></textarea>
   <div class="controls">
@@ -117,7 +117,7 @@
     </div>
     <div class="card">
       <div class="scoreline">
-        <span class="grade" id="grade">—</span><span class="score"><span id="score">0</span>/100</span>
+        <span class="grade" id="grade">·</span><span class="score"><span id="score">0</span>/100</span>
         <span class="verdict" id="verdict"></span>
       </div>
       <div class="metrics" id="metrics"></div>
@@ -133,7 +133,7 @@
   <div class="empty" id="empty">Write or paste at least a sentence or two to get a score.</div>
 
   <footer>
-    Runs entirely in your browser — nothing is sent. Same deterministic detector as the CLI
+    Runs entirely in your browser. Nothing is sent. Same deterministic detector as the CLI
     (<code>npx cadence-deslop</code>) and the Chrome extension.<br>
     <a href="./">cadence</a> · <a href="https://github.com/wuisabel-gif/Cadence">source</a>
   </footer>
@@ -149,11 +149,11 @@
       findingsEl=document.getElementById('findings'), hmEl=document.getElementById('hm'),
       shareRow=document.getElementById('share'), banner=document.getElementById('banner'),
       sharemsg=document.getElementById('sharemsg');
-  var last=null;   // most recent {grade,score,words,tells} — what Share encodes
+  var last=null;   // most recent {grade,score,words,tells}, what Share encodes
 
   var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];});};
   var bucket=function(g){return g==='A'||g==='B'?'good':g==='C'?'warn':'bad';};
-  var VERDICT={A:'Reads human.',B:'Mostly human — a couple of tells.',C:'Some AI texture.',D:'Reads machine-made.',F:'Heavy AI slop.'};
+  var VERDICT={A:'Reads human.',B:'Mostly human. A couple of tells.',C:'Some AI texture.',D:'Reads machine-made.',F:'Heavy AI slop.'};
 
   var EXAMPLE="In today's world, finding the right productivity app can be a daunting task. "+
     "Our cutting-edge platform leverages powerful AI to seamlessly streamline your workflow. "+
@@ -191,11 +191,11 @@
           var more=by[rule].length>5?' +'+(by[rule].length-5):'';
           return '<div class="f"><b>'+esc(rule)+'</b>'+snips+more+'</div>';
         }).join('')
-      : '<div class="clean">No lexical tells found — this reads like a person wrote it.</div>';
+      : '<div class="clean">No lexical tells found. This reads like a person wrote it.</div>';
 
     var paras=window.cadenceAnalyzeParagraphs?window.cadenceAnalyzeParagraphs(text):[];
     hmEl.innerHTML = paras.length>1
-      ? '<div class="hm-h">by paragraph — worst first</div>' +
+      ? '<div class="hm-h">by paragraph, worst first</div>' +
         paras.slice().sort(function(a,b){return b.score-a.score;}).map(function(p){
           return '<div class="hm-row" data-g="'+p.grade+'"><span class="hm-s">'+p.score+'</span>'+
                  '<span class="hm-t">'+esc(p.snippet)+'</span></div>';
@@ -229,7 +229,7 @@
     metricsEl.innerHTML=(d.words?d.words+' words <span style="opacity:.4">·</span> ':'')+'scored with Cadence';
     findingsEl.innerHTML=d.tells.length
       ? '<div class="f"><b>top tells</b>'+d.tells.map(esc).join(', ')+'</div>'
-      : '<div class="clean">No lexical tells — this reads like a person wrote it.</div>';
+      : '<div class="clean">No lexical tells. This reads like a person wrote it.</div>';
     hmEl.innerHTML='';
   }
 
@@ -261,7 +261,7 @@
     c.fillText(tells.slice(0,52),80,510);
     // footer
     c.fillStyle=HEX.muted; c.font='500 26px "JetBrains Mono",monospace';
-    c.fillText('Score your own writing — runs in your browser, nothing sent',80,570);
+    c.fillText('Score your own writing. Runs in your browser, nothing sent',80,570);
     return cv;
   }
 

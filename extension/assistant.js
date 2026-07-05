@@ -1,14 +1,14 @@
 // Cadence in-page compose assistant.
 //
-//   • Impression check — scores the reply you're drafting, locally, with the same
+//   • Impression check, scores the reply you're drafting, locally, with the same
 //     deterministic detector as the popup (window.cadenceAnalyze). No network.
-//   • Draft in my voice — sends the reply context to the background worker, which
+//   • Draft in my voice, sends the reply context to the background worker, which
 //     drafts with your own key + voice sample, scores it locally, and auto-fixes
 //     the AI tells before handing it back. The key never touches the page.
 //
 // Each site is a small adapter: where the compose box is, how to read the thread,
 // and how to insert text. Adding a surface is ~10 lines. Selectors are DOM-
-// dependent and can drift when a site ships a redesign — update the adapter then.
+// dependent and can drift when a site ships a redesign. Update the adapter then.
 (function () {
   if (window.__cadenceAssistant) return;
   window.__cadenceAssistant = true;
@@ -59,7 +59,7 @@
       name: 'Instagram',
       host: /(^|\.)instagram\.com$/,
       compose: 'textarea[placeholder^="Message"], div[contenteditable="true"][aria-label^="Message"]',
-      incoming: function () { return ''; },   // Instagram's DM DOM is obfuscated — paste the thread instead
+      incoming: function () { return ''; },   // Instagram's DM DOM is obfuscated. Paste the thread instead
       paste: true,
       insert: execInsert,
       postSel: 'article, div[role="article"]',   // "Learn my voice" reads visible posts/captions
@@ -185,7 +185,7 @@
   meter.innerHTML =
     '<div class="row"><span class="lbl">CADENCE</span>' +
     '<button class="draft" type="button" title="Type a note or an occasion (e.g. &quot;happy birthday&quot;), then draft. It reads the thread for shared context.">Draft in my voice</button></div>' +
-    '<div class="read"><div class="hd"><span class="g">—</span><span class="s"></span></div>' +
+    '<div class="read"><div class="hd"><span class="g">·</span><span class="s"></span></div>' +
     '<div class="m"></div><div class="t"></div></div>' +
     (site.paste ? '<textarea class="paste" rows="3" placeholder="Paste the recent messages here so the draft can use them (optional)"></textarea>' : '') +
     '<div class="msg"></div>';
@@ -241,7 +241,7 @@
     setMsg('Drafting in your voice…');
     chrome.runtime.sendMessage(payload, function (resp) {
       draftBtn.disabled = false;
-      if (chrome.runtime.lastError || !resp) { setMsg('No response — reload the page and try again.'); return; }
+      if (chrome.runtime.lastError || !resp) { setMsg('No response. Reload the page and try again.'); return; }
       if (resp.error === 'no-key') {
         setMsg('Add your Anthropic API key in <a id="cad-opts">settings</a> to draft.');
         var l = document.getElementById('cad-opts');
@@ -251,7 +251,7 @@
       if (resp.error) { setMsg('Couldn’t draft: ' + esc(resp.error)); return; }
       site.insert(activeBox, resp.text);
       var note = 'Drafted in your voice';
-      if (resp.grade) note += ' — grade ' + esc(resp.grade) + (resp.rounds > 1 ? ', auto-fixed' : '');
+      if (resp.grade) note += ', grade ' + esc(resp.grade) + (resp.rounds > 1 ? ', auto-fixed' : '');
       setMsg(note + '. Edit freely, then send.');
       render(readBox(activeBox));
     });
@@ -271,7 +271,7 @@
       lbtn.disabled = true; lres.textContent = 'Reading your posts…';
       chrome.runtime.sendMessage({ type: 'cadenceLearn', text: text }, function (resp) {
         lbtn.disabled = false;
-        if (chrome.runtime.lastError || !resp) { lres.textContent = 'No response — reload the page and try again.'; return; }
+        if (chrome.runtime.lastError || !resp) { lres.textContent = 'No response. Reload the page and try again.'; return; }
         if (resp.error === 'not-enough') { lres.textContent = 'Not enough of your writing on this page yet.'; return; }
         if (resp.error) { lres.textContent = 'Couldn’t learn: ' + esc(resp.error); return; }
         lbtn.textContent = '✦ Voice learned';

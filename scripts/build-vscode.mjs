@@ -19,10 +19,10 @@ function buildDetector() {
   const src = readFileSync(ROOT + 'skills/cadence/scripts/deslop.mjs', 'utf8');
   const start = src.indexOf('// ─── Lexical rules');
   const end = src.indexOf('// ─── repo / directory scan');
-  if (start < 0 || end < 0) throw new Error('deslop.mjs markers not found — did the file structure change?');
+  if (start < 0 || end < 0) throw new Error('deslop.mjs markers not found. Did the file structure change?');
   const core = src.slice(start, end).replace(/^export /gm, '').trim();
   const out =
-`// AUTO-GENERATED from skills/cadence/scripts/deslop.mjs — do not edit by hand.
+`// AUTO-GENERATED from skills/cadence/scripts/deslop.mjs. Do not edit by hand.
 // Regenerate with: npm run build:vscode
 ${core}
 

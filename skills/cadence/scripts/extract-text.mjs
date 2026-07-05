@@ -5,7 +5,7 @@
  *   node extract-text.mjs <file.pdf|.txt|.md>   → prose on stdout
  *
  * .txt / .md are read directly. .pdf is parsed with a small pure-Node extractor
- * that uses only the built-in `zlib` — no pip packages, no native deps. It works
+ * that uses only the built-in `zlib`. No pip packages, no native deps. It works
  * on any machine that has Node, and handles the common case (FlateDecode or
  * uncompressed content streams, literal and hex strings). PDFs built entirely
  * from custom-encoded subset fonts may extract imperfectly; convert those to
@@ -52,7 +52,7 @@ function decodeStream(st) {
     return out ? out.toString('latin1') : null;
   }
   if (!/\/Filter/.test(st.dict)) return st.raw.toString('latin1'); // uncompressed
-  return null; // other filters (image codecs, etc.) — not text
+  return null; // other filters (image codecs, etc.), not text
 }
 
 // ─── content-stream text extraction ─────────────────────────────────────────
@@ -114,7 +114,7 @@ function textFromContent(content) {
     const c = content[i];
     if (c === '(') { const [s, ni] = readLiteral(i); out += s; i = ni; }
     else if (c === '<' && content[i + 1] === '<') {
-      // marked-content / inline dictionary (e.g. /P <</MCID 0>> BDC) — skip it,
+      // marked-content / inline dictionary (e.g. /P <</MCID 0>> BDC), skip it,
       // else its bytes leak in as bogus hex-string text. ponytail: flat >> scan,
       // fine for MCID tags; a depth counter only if nested dicts show up.
       const close = content.indexOf('>>', i + 2);
@@ -207,7 +207,7 @@ function* eachZipEntry(buf) {
       };
       p += 46 + nameLen + buf.readUInt16LE(p + 30) + buf.readUInt16LE(p + 32);
     }
-  } catch { /* truncated central directory — stop iterating */ }
+  } catch { /* truncated central directory, stop iterating */ }
 }
 
 function unzipEntry(buf, e) {
@@ -234,7 +234,7 @@ export function extractDocx(buf) {
   return s.replace(/[ \t]+/g, ' ').replace(/ *\n */g, '\n').replace(/\n{3,}/g, '\n\n').trim();
 }
 
-// An .epub is a ZIP of XHTML chapters — pull the visible prose out of each content
+// An .epub is a ZIP of XHTML chapters. Pull the visible prose out of each content
 // document and join them. Reuses the ZIP reader and the HTML stripper.
 export function extractEpub(buf) {
   const parts = [];

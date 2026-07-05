@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Cadence — settings</title>
+  <title>Cadence: settings</title>
   <style>
     :root{ --indigo:#2348a1; --ink:#172031; --muted:#6b7280; --line:#e3e7ec; --paper:#f6f8fa; }
     *{ box-sizing:border-box; }
@@ -27,16 +27,16 @@
   </style>
 </head>
 <body>
-  <h1>Cadence — settings</h1>
+  <h1>Cadence: settings</h1>
   <p class="sub">The impression score runs on your device with no key. Drafting a reply <em>in your voice</em> uses the Claude API, so it needs your own key.</p>
 
   <label for="key">Anthropic API key
-    <span class="hint">— stored only in this browser; used only to draft your replies.</span>
+    <span class="hint">(stored only in this browser; used only to draft your replies)</span>
   </label>
   <input id="key" type="password" placeholder="sk-ant-..." autocomplete="off" spellcheck="false">
 
-  <label for="voice">Your voice sample <span class="hint">— optional. Paste a few of your own messages, or use “Learn my voice” on your Instagram or Facebook page to fill this in.</span></label>
-  <textarea id="voice" placeholder="Paste 2–3 things you've actually written — a few sent emails or texts. The more it sounds like you, the better the drafts."></textarea>
+  <label for="voice">Your voice sample <span class="hint">(optional) Paste a few of your own messages, or use “Learn my voice” on your Instagram or Facebook page to fill this in.</span></label>
+  <textarea id="voice" placeholder="Paste 2–3 things you've actually written, a few sent emails or texts. The more it sounds like you, the better the drafts."></textarea>
 
   <div class="row">
     <button id="save">Save</button>

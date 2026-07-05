@@ -12,7 +12,7 @@ function render(text) {
   if (!text.trim()) {
     readout.classList.add('empty');
     readout.dataset.grade = '';
-    scoreEl.textContent = '—';
+    scoreEl.textContent = '·';
     gradeEl.textContent = '';
     metricsEl.textContent = '';
     findingsEl.innerHTML = '';
@@ -27,7 +27,7 @@ function render(text) {
   const m = r.metrics;
   metricsEl.textContent = `${m.words} words · ${m.sentences} sentences · rhythm CV ${m.sentenceLengthCV}` + (m.uniformRhythm ? '  ⚠ too flat' : '');
 
-  // Per-paragraph heatmap: only worth showing when there's more than one block —
+  // Per-paragraph heatmap: only worth showing when there's more than one block,
   // one paragraph is already the overall score. Worst-first so the problem leads.
   const paras = window.cadenceAnalyzeParagraphs ? window.cadenceAnalyzeParagraphs(text) : [];
   heatmapEl.innerHTML = paras.length > 1
