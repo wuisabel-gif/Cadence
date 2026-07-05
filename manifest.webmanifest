@@ -1,0 +1,16 @@
+{
+  "name": "Cadence — score your writing",
+  "short_name": "Cadence",
+  "description": "Paste anything and see how much it reads like AI. Scores it 0-100 and names every tell, in your browser.",
+  "start_url": "check.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f6f9",
+  "theme_color": "#2348a1",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

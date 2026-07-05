@@ -38,7 +38,7 @@ the search term — but one that shows its work.)
 
 [![The hosted score page grading a paragraph of AI marketing copy at grade D, with every tell named](docs/screenshots/score-page.png)](https://wuisabel-gif.github.io/Cadence/check.html)
 
-*The [hosted score page](https://wuisabel-gif.github.io/Cadence/check.html): paste anything, see the grade and every tell, all in your browser.*
+*The [hosted score page](https://wuisabel-gif.github.io/Cadence/check.html): paste anything, see the grade and every tell, all in your browser. On a phone, tap Share then Add to Home Screen — it installs as an app and runs offline.*
 
 ## What it's for
 
