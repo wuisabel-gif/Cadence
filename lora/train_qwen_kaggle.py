@@ -78,38 +78,46 @@ grade_table({"base": f"{REPO}/lora/sample/base.jsonl",
 # %% [markdown]
 # ## Phase 1 - dataset (the bottleneck)
 #
-# Provide `raw_pairs.jsonl` of `{"instruction","input","output"}` where each `output`
-# is a prompt-`recast` humanization (generated with your API key, offline/before this
-# notebook). Also provide `heldout_slop.jsonl` of `{"id","input"}` the model never
-# trains on. In DRY_RUN we synthesize tiny stand-ins from the sample data so the flow
-# runs without those files.
+# Give it ONE file: `raw_pairs.jsonl` of `{"instruction","input","output"}` (each
+# `output` a prompt-`recast` humanization made with your API key, before this notebook;
+# add an optional `"source"` field per row for a leak-free split). The notebook then
+# filters to grade-A targets and carves out the held-out eval set itself. In DRY_RUN it
+# synthesizes a tiny raw file from the sample data so the whole flow runs.
 
 # %%
-import json
+import json, hashlib
 
-TRAIN_PAIRS = "/kaggle/working/train_pairs.jsonl"     # verified, after the grade-A filter
-HELDOUT = "/kaggle/working/heldout_slop.jsonl"
+TRAIN_PAIRS = "/kaggle/working/train_pairs.jsonl"     # verified + train-split
+HELDOUT = "/kaggle/working/heldout_slop.jsonl"        # auto-carved, model never sees these
+HOLDOUT_FRAC = 0.15
 
 def read_jsonl(p): return [json.loads(l) for l in open(p) if l.strip()]
 def write_jsonl(p, rows): open(p, "w").write("\n".join(json.dumps(r) for r in rows) + "\n")
 
 if DRY_RUN:
-    # Toy stand-ins: sample recast pairs become training data; sample base becomes held-out slop.
     base = read_jsonl(f"{REPO}/lora/sample/base.jsonl")
     recast = read_jsonl(f"{REPO}/lora/sample/recast.jsonl")
-    raw = [{"instruction": HUMANIZE, "input": b["text"], "output": r["text"]}
-           for b, r in zip(base, recast)]
-    write_jsonl("/kaggle/working/raw_pairs.jsonl", raw)
-    write_jsonl(HELDOUT, [{"id": b["id"], "input": b["text"]} for b in base])
+    write_jsonl("/kaggle/working/raw_pairs.jsonl",
+                [{"id": b["id"], "source": "sample", "instruction": HUMANIZE,
+                  "input": b["text"], "output": r["text"]} for b, r in zip(base, recast)])
     RAW = "/kaggle/working/raw_pairs.jsonl"
 else:
     RAW = "/kaggle/input/YOUR_DATASET/raw_pairs.jsonl"   # <-- point at your data
-    # heldout must also exist at HELDOUT; copy it from your dataset here.
 
 # The key gate: keep only pairs whose target the detector verifies as grade-A.
-filter_pairs(RAW, TRAIN_PAIRS, max_score=GRADE_A_MAX)
-pairs = read_jsonl(TRAIN_PAIRS)
-print(f"{len(pairs)} verified training pairs; {len(read_jsonl(HELDOUT))} held-out slop inputs")
+filter_pairs(RAW, "/kaggle/working/verified.jsonl", max_score=GRADE_A_MAX)
+verified = read_jsonl("/kaggle/working/verified.jsonl")
+
+# Auto held-out split: group by source (so a whole source is held out, not leaked
+# across the split), deterministic, no manual second file.
+verified.sort(key=lambda r: (str(r.get("source", "")),
+                             hashlib.sha1(r.get("input", "").encode()).hexdigest()))
+k = max(1, round(len(verified) * HOLDOUT_FRAC))
+held, train = verified[:k], verified[k:]
+write_jsonl(TRAIN_PAIRS, train)
+write_jsonl(HELDOUT, [{"id": r.get("id", f"h{i}"), "input": r["input"]} for i, r in enumerate(held)])
+pairs = train
+print(f"{len(verified)} verified -> {len(train)} train / {len(held)} held-out (split by source)")
 
 # %% [markdown]
 # ## Phase 2 - train the QLoRA
@@ -121,8 +129,9 @@ if not DRY_RUN:
     import subprocess as _sp
     _sp.run(["pip", "install", "-q", "unsloth"], check=True)
 
-    from unsloth import FastLanguageModel
     import torch
+    assert torch.cuda.is_available(), "No GPU. Set Accelerator -> GPU T4 in the notebook settings."
+    from unsloth import FastLanguageModel
 
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=BASE_MODEL, max_seq_length=MAX_SEQ, load_in_4bit=True, dtype=None)
@@ -178,10 +187,13 @@ heldout = read_jsonl(HELDOUT)
 OUT_BASE, OUT_LORA = "/kaggle/working/out_base.jsonl", "/kaggle/working/out_lora.jsonl"
 
 if DRY_RUN:
-    # No model: exercise grading with the sample arms so the table renders.
-    import shutil as _sh
-    _sh.copy(f"{REPO}/lora/sample/base.jsonl", OUT_BASE)     # stands in for "base arm"
-    _sh.copy(f"{REPO}/lora/sample/recast.jsonl", OUT_LORA)   # stands in for "lora arm"
+    # No model: build both arms from the held-out ids using the sample texts, so the
+    # arms line up with the split and the table renders.
+    held_ids = [r["id"] for r in heldout]
+    sb = {x["id"]: x["text"] for x in read_jsonl(f"{REPO}/lora/sample/base.jsonl")}
+    sr = {x["id"]: x["text"] for x in read_jsonl(f"{REPO}/lora/sample/recast.jsonl")}
+    write_jsonl(OUT_BASE, [{"id": i, "text": sb[i]} for i in held_ids if i in sb])
+    write_jsonl(OUT_LORA, [{"id": i, "text": sr[i]} for i in held_ids if i in sr])
 else:
     gen = make_generate()
     with model.disable_adapter():                            # base = adapter off
