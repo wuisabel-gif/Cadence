@@ -51,6 +51,20 @@ drops the rest, so the adapter trains on verified-good targets only. This is the
 key step in Phase 1; the detector filter is a quality gate, not a guarantee, so
 still hand-read a sample.
 
+## The Kaggle notebook
+
+[train_qwen_kaggle.ipynb](train_qwen_kaggle.ipynb) (authored as
+[train_qwen_kaggle.py](train_qwen_kaggle.py), percent-format) runs the whole flow:
+rank-16 QLoRA on Qwen2.5-3B, Phase-1 grade-A filter, train, generate each arm's
+outputs, and grade with the real detector. Cell 3 proves the `deslop.mjs` wiring on
+sample data before any GPU time. Leave `DRY_RUN = True` to execute end-to-end on the
+sample data with no training; set it to False once your dataset is in place.
+
+Turn on GPU and Internet in the Kaggle settings, and cache the base model as a
+Kaggle Dataset after the first run. The grading and filter cells are verified; the
+Unsloth/trl training cells follow the current quickstart and may need small tweaks as
+those libraries drift.
+
 ## How the Kaggle notebook uses this
 
 Node ships in Kaggle images. Add this repo as a Kaggle Dataset, then from the
