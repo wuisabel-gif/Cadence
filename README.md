@@ -200,6 +200,10 @@ npx cadence-deslop --json draft.txt   # machine-readable JSON
 npx cadence-deslop --strict draft.txt # exit 1 if score > 25 (CI gate)
 ```
 
+Prefer a browser? The [hosted score page](check.html) runs the same detector on
+anything you paste, entirely on-device. On a phone it installs to your home screen
+and works offline, so it behaves like a small app.
+
 `deslop.mjs` is the engine — pure Node, zero dependencies. It only reaches the
 network if you hand it a URL. Run it from a clone the same way:
 
@@ -220,6 +224,16 @@ catches 75% of the AI text and leaves 100% of the human text alone. It never
 mislabels a person. Run `npm run bench` for the full table and the
 precision/recall curve, or read [benchmark/](benchmark/). CI fails if the
 accuracy drops below its floor.
+
+## Train a humanizer (LoRA-Cadence)
+
+An experiment that turns the detector into a training signal: fine-tune a small
+QLoRA that rewrites AI slop into clean prose, and grade it with the real
+`deslop.mjs` rather than a self-graded benchmark. The rig in [lora/](lora/) scores
+model outputs three ways (base, adapter, prompt-based recast) and reports score,
+rhythm CV, and per-tell deltas. It filters training pairs to detector-verified
+grade-A targets, and a Kaggle notebook runs the whole flow on a free GPU. The
+measurement half needs no GPU and reproduces anywhere Node runs.
 
 ## Install
 
@@ -300,6 +314,8 @@ sentence-usage traits into that voice profile. Build it with
 | [tutorials/scan-a-repo.md](tutorials/scan-a-repo.md) | Tutorial: audit and de-slop an entire repo, then gate it in CI |
 | [extension/README.md](extension/README.md) | The Chrome extension — score prose anywhere, plus a live impression check and draft-in-your-voice in Gmail, WhatsApp Web, Telegram, LinkedIn and Instagram |
 | [integrations/vscode/README.md](integrations/vscode/README.md) | The VS Code extension — live grade, inline tells, and a score report |
+| [benchmark/README.md](benchmark/README.md) | The accuracy benchmark: labeled corpus, published precision and recall, and the CI gate |
+| [lora/README.md](lora/README.md) | LoRA-Cadence: train a slop-humanizing QLoRA graded by the detector, plus the Kaggle notebook |
 | [PHILOSOPHY.md](PHILOSOPHY.md) | The thinking behind it — *The Age of Taste* |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How the project is built and how to add a rule, voice, or command |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
@@ -323,10 +339,15 @@ cadence/
 │           ├── deslop.mjs       # the detector (real code, tested)
 │           └── extract-text.mjs # pure-Node prose extraction from .pdf/.txt/.md
 ├── voices/                      # shipped voice profiles (seed set)
+├── check.html                   # hosted score page, installable as an offline app
+├── manifest.webmanifest         # PWA manifest + sw.js + assets/icons for the app
+├── benchmark/                   # accuracy benchmark: corpus + bench.mjs + CI gate
+├── lora/                        # LoRA-Cadence: eval rig + Kaggle training notebook
+├── docs/screenshots/            # example shots used in this README
 ├── extension/                   # the Chrome extension (generated detector)
 ├── integrations/                # Codex, Gemini, DeepSeek, and VS Code surfaces
 │   └── vscode/                  # the VS Code extension (generated detector)
-└── tests/                       # 32 tests — `npm test`
+└── tests/                       # 36 tests — `npm test`
     ├── deslop.test.mjs
     └── extract-text.test.mjs
 ```
@@ -334,8 +355,9 @@ cadence/
 ## Test
 
 ```bash
-npm test          # 32 tests over the detector, the extractors, and the bundled builds
+npm test          # 36 tests over the detector, the extractors, and the bundled builds
 npm run check:docs  # dogfood: the repo's own docs must score grade A
+npm run bench       # accuracy benchmark: precision, recall, and the tell breakdown
 ```
 
 ## Status
