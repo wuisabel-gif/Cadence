@@ -201,15 +201,45 @@ results = grade_json(arms)
 json.dump(results, open("/kaggle/working/results.json", "w"), indent=2)
 print("\nsaved results.json")
 
-# %% [markdown]
-# ## Phase 4 - honest writeup
-#
-# Fill the numbers into one paragraph. Two gates, non-negotiable:
-# - **No score without CV.** A lower score with flat rhythm CV = the model gamed the
-#   scorer by deleting phrases without learning to vary sentence length. Say so.
-# - **Hand-check meaning.** Read ~10 `lora` outputs against their `input`. The detector
-#   cannot catch a smoother sentence that dropped a fact.
-#
-# Commit `cadence_lora/` (the small adapter), `train_pairs.jsonl`, `heldout_slop.jsonl`,
-# and `results.json` back to the repo so the run is reproducible from GitHub. Do NOT
-# commit the multi-GB base model; keep it as a Kaggle Dataset.
+# %%
+# ---- Phase 4: writeup + the two honesty gates, computed not narrated ----
+R = {a["name"]: a for a in results["arms"]}
+base, lora, prompt = R.get("base"), R.get("lora"), R.get("prompt")
+dom_grade = lambda a: max(a["grades"], key=lambda k: a["grades"][k])
+
+para = []
+if base and lora:
+    ds = lora["meanScore"] - base["meanScore"]
+    dcv = lora["meanCV"] - base["meanCV"]
+    para.append(f"Rank-{LORA_R} QLoRA on {BASE_MODEL}, {len(pairs)} training pairs verified "
+                f"grade-A by Cadence's detector, evaluated on {lora['n']} held-out slop samples.")
+    line = (f"Base model: mean {base['meanScore']} (grade {dom_grade(base)}). "
+            f"LoRA: mean {lora['meanScore']} (grade {dom_grade(lora)}).")
+    if prompt:
+        gap = base["meanScore"] - prompt["meanScore"]
+        closed = (base["meanScore"] - lora["meanScore"]) / gap if gap > 0 else float("nan")
+        line += (f" Prompt-based recast: mean {prompt['meanScore']} (grade {dom_grade(prompt)})."
+                 f" The adapter closed {closed*100:.0f}% of the base-to-prompt gap.")
+    line += f" Rhythm CV moved base->LoRA by {dcv:+.3f}."
+    fixed = [k for k in base["tells"] if base["tells"][k] > lora["tells"].get(k, 0)]
+    missed = [k for k, v in lora["tells"].items() if v > 0]
+    line += f" Fixed: {', '.join(fixed) or 'none'}. Still present: {', '.join(missed) or 'none'}."
+    para.append(line)
+    # Gate 1 - no score without CV: flag a drop that rhythm variance didn't earn.
+    if ds < -5 and abs(dcv) < 0.03:
+        para.append("WARNING: score fell but rhythm CV barely moved. The adapter likely deleted "
+                    "flagged phrases without learning to vary sentence length. Report this, not just the score.")
+
+writeup = "\n\n".join(para) or "Need both a base and a lora arm to write up."
+open("/kaggle/working/writeup.md", "w").write(writeup + "\n")
+print(writeup)
+
+# Gate 2 - tee up the hand meaning-check the detector cannot do.
+print("\n--- read for dropped facts (input vs LoRA output) ---")
+ho = {r["id"]: r["input"] for r in read_jsonl(HELDOUT)}
+for r in read_jsonl(OUT_LORA)[:10]:
+    print(f"\n[{r['id']}] IN : {ho.get(r['id'], '')[:200]}")
+    print(f"[{r['id']}] OUT: {r['text'][:200]}")
+
+print("\nArtifacts to commit (NOT the base model): "
+      "cadence_lora/, train_pairs.jsonl, heldout_slop.jsonl, results.json, writeup.md")
