@@ -249,6 +249,15 @@ grade-A targets, and a Kaggle notebook runs the whole flow on a free GPU. Whatev
 the numbers say, a partial or negative result included, that is the reportable
 outcome. The measurement half needs no GPU and reproduces anywhere Node runs.
 
+**Grounding in the literature.** The adapter is a QLoRA ([Dettmers et al., NeurIPS
+2023](https://arxiv.org/abs/2305.14314)) over low-rank adapters ([Hu et al.,
+2021](https://arxiv.org/abs/2106.09685)). The insistence on an independent grader
+and verified targets is not fussiness: training on recursively generated data can
+degrade a model into *model collapse*, shown by [Shumailov et al., Nature
+2024](https://www.nature.com/articles/s41586-024-07566-y). Filtering every synthetic
+target through a detector the model cannot influence is the disciplined way to train
+on generated data without inheriting that failure.
+
 ## Install
 
 **The full plugin.** It writes in voices and learns new ones from samples. Cadence is

@@ -8,7 +8,10 @@ negative result is a valid outcome.
 
 The detector (`deslop.mjs`) was built before and independently of this adapter,
 so it is not a self-graded benchmark. Every number below comes from the real
-detector, not a reimplementation.
+detector, not a reimplementation. That independence is the point: training on
+generated data without an outside check can collapse a model (Shumailov et al.,
+Nature 2024), so every synthetic target here is filtered by a grader the model
+cannot influence. See [References](#references).
 
 ## The eval rig ([eval.mjs](eval.mjs))
 
@@ -89,3 +92,20 @@ detector is pure Node with zero dependencies.
 [sample/base.jsonl](sample/base.jsonl) and [sample/recast.jsonl](sample/recast.jsonl)
 are a four-line wiring demo, not real results — enough to prove the rig runs and
 the table renders before any training happens.
+
+## References
+
+The method, and the reason the grading is kept independent:
+
+- Hu, E. et al. (2021). *LoRA: Low-Rank Adaptation of Large Language Models.*
+  arXiv:2106.09685. <https://arxiv.org/abs/2106.09685>
+- Dettmers, T. et al. (2023). *QLoRA: Efficient Finetuning of Quantized LLMs.*
+  NeurIPS 2023. arXiv:2305.14314. <https://arxiv.org/abs/2305.14314>
+- Shumailov, I. et al. (2024). *AI models collapse when trained on recursively
+  generated data.* Nature 631, 755–759. doi:10.1038/s41586-024-07566-y.
+  <https://www.nature.com/articles/s41586-024-07566-y>
+
+The first two are what the adapter is (low-rank adapters, quantized finetuning).
+The third is why the eval is graded by a detector the model never sees: it
+documents how training on generated data degrades a model, which is exactly the
+trap a verified-target, independently-graded loop is built to avoid.
