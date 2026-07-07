@@ -576,7 +576,7 @@ register:</span> brand<span class="fm">
     <div class="wrap">
       <div class="head reveal">
         <h2>A detector you can run yourself.</h2>
-        <p>The engine is plain Node: no dependencies, no network. Run it on any draft and the score comes back the same every time, with every tell named. Nothing about the result asks you to take it on faith.</p>
+        <p>The engine is plain Node: no dependencies, no network. Run it on any draft and the score comes back the same every time, with every tell named. Nothing about the result asks you to take it on faith. On a labeled corpus of human and AI writing it catches 75% of the AI text and never flags a human.</p>
       </div>
 
       <div class="det-grid">
@@ -638,8 +638,20 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
     </div>
     <ul class="changelog reveal">
       <li>
+        <span class="date">Jul 7, 2026</span>
+        <span class="entry"><span class="new">NEW</span> <b>Score any text in your browser, and put it on your phone.</b> The hosted <a href="check.html">score page</a> runs the same detector on anything you paste, on-device, and names every tell. On a phone it installs to your home screen and works offline, like a small app. Share a result as a link or save it as a card image.</span>
+      </li>
+      <li>
+        <span class="date">Jul 7, 2026</span>
+        <span class="entry"><b>A published accuracy benchmark.</b> On a labeled corpus of human and AI writing, Cadence catches 75% of the AI text and leaves every human sample alone. Run <code>npm run bench</code> for the full precision and recall table; CI fails if the accuracy drops below its floor.</span>
+      </li>
+      <li>
+        <span class="date">Jul 7, 2026</span>
+        <span class="entry"><b>LoRA-Cadence.</b> An experiment that trains a small local adapter to humanize slop, graded by the detector itself instead of a self-graded benchmark. The eval rig and a Kaggle notebook live in <code>lora/</code>.</span>
+      </li>
+      <li>
         <span class="date">Jul 3, 2026</span>
-        <span class="entry"><span class="new">NEW</span> <b>Draft replies in your voice, and learn that voice from your posts.</b> The Chrome extension now works in Gmail, WhatsApp Web, Telegram, LinkedIn, Instagram and Facebook: it scores your reply as you type, on-device, and with your own key drafts one in your voice, writing, scoring, then redrafting to clear the AI tells. And “Learn my voice” reads what you've written on the page (your posts on Instagram, Facebook or LinkedIn, or your own sent messages on WhatsApp and Telegram) and distills your sentence-usage traits into that voice.</span>
+        <span class="entry"><b>Draft replies in your voice, and learn that voice from your posts.</b> The Chrome extension now works in Gmail, WhatsApp Web, Telegram, LinkedIn, Instagram and Facebook: it scores your reply as you type, on-device, and with your own key drafts one in your voice, writing, scoring, then redrafting to clear the AI tells. And “Learn my voice” reads what you've written on the page (your posts on Instagram, Facebook or LinkedIn, or your own sent messages on WhatsApp and Telegram) and distills your sentence-usage traits into that voice.</span>
       </li>
       <li>
         <span class="date">Jun 26, 2026</span>
@@ -655,7 +667,7 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
       </li>
       <li>
         <span class="date">Jun 20, 2026</span>
-        <span class="entry"><span class="new">NEW</span> <b>Regular Claude chat &amp; DeepSeek.</b> Run <code>npm run build:claude-skill</code> for a <code>cadence-skill.zip</code> to upload at claude.ai → Settings → Skills, or paste the markdown Skill into DeepSeek's drawer.</span>
+        <span class="entry"><b>Regular Claude chat &amp; DeepSeek.</b> Run <code>npm run build:claude-skill</code> for a <code>cadence-skill.zip</code> to upload at claude.ai → Settings → Skills, or paste the markdown Skill into DeepSeek's drawer.</span>
       </li>
       <li>
         <span class="date">Jun 20, 2026</span>
