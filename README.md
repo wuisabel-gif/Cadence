@@ -227,13 +227,27 @@ accuracy drops below its floor.
 
 ## Train a humanizer (LoRA-Cadence)
 
-An experiment that turns the detector into a training signal: fine-tune a small
-QLoRA that rewrites AI slop into clean prose, and grade it with the real
-`deslop.mjs` rather than a self-graded benchmark. The rig in [lora/](lora/) scores
-model outputs three ways (base, adapter, prompt-based recast) and reports score,
-rhythm CV, and per-tell deltas. It filters training pairs to detector-verified
-grade-A targets, and a Kaggle notebook runs the whole flow on a free GPU. The
-measurement half needs no GPU and reproduces anywhere Node runs.
+Once a detector exists, it can become a training signal, and that raises an honest
+question worth testing: can a small local model learn to humanize slop as well as a
+prompt on a frontier model already does? [lora/](lora/) puts it to the test. It
+fine-tunes a rank-16 QLoRA to rewrite AI slop into clean prose, then grades the
+result with the real `deslop.mjs`.
+
+**Why grade it this way.** Most self-improvement loops grade their own output,
+which proves nothing. Cadence's detector was written before and independently of
+this adapter, so it judges the work instead of reflecting it. The rig scores three
+arms on the same held-out text (the base model, the adapter, and the prompt-based
+`recast`) and reports the slop score next to rhythm CV and the per-tell breakdown.
+That pairing is the honesty check: a lower score that came from deleting flagged
+phrases, rather than learning to vary sentence length, shows up as flat rhythm
+variance instead of hiding.
+
+**Why it is worth doing.** A local adapter is private and cheap where an API call
+is neither, and the result answers something a prompt cannot: whether this skill is
+learnable, not just promptable. Training pairs are filtered to detector-verified
+grade-A targets, and a Kaggle notebook runs the whole flow on a free GPU. Whatever
+the numbers say, a partial or negative result included, that is the reportable
+outcome. The measurement half needs no GPU and reproduces anywhere Node runs.
 
 ## Install
 
