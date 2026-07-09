@@ -13,49 +13,51 @@ node benchmark/bench.mjs --sweep     # full precision/recall curve
 
 ## Results
 
-Corpus: 24 labeled samples (12 human, 12 AI), each a short real-world passage —
-emails, messages, posts, product copy. A sample counts as "flagged" when its
-score crosses the A/B grade boundary (score > 10), the point where the two
-populations separate: every human sample scores at or below 5.
+Corpus: 48 labeled samples (24 human, 24 AI). The human set mixes short modern
+writing (texts, reviews, journal entries, a terse commit message) with four
+verbatim public-domain passages (Thoreau, Douglass, Twain, Austen) that were
+plainly not written to dodge a detector. The AI set spans many registers, from
+blatant marketing slop to clean, plain assistant replies. A sample counts as
+"flagged" when its score crosses the A/B grade boundary (score > 10). Numbers
+carry a Wilson 95% interval, because on 24 samples a point estimate is not the
+honest figure.
 
 | metric | value | |
 | --- | --- | --- |
-| recall (AI caught) | **75.0%** | 9 of 12 |
-| specificity (human left clean) | **100.0%** | 12 of 12 |
-| precision | **100.0%** | no false alarms |
-| false-positive rate | **0.0%** | |
-| F1 | **85.7%** | |
-| accuracy | **87.5%** | 21 of 24 |
+| precision | **90.9%** | when it flags AI, it is usually right |
+| specificity (human left clean) | **95.8%** (95% CI 80 to 99%) | 23 of 24 |
+| recall (AI caught) | **41.7%** (95% CI 25 to 61%) | 10 of 24 |
+| F1 | **57.1%** | |
+| accuracy | **68.8%** | 33 of 48 |
 
-Precision/recall tradeoff across grade cutoffs:
+Precision/recall tradeoff across cutoffs:
 
 | flag when score > | recall | specificity | precision |
 | --- | --- | --- | --- |
-| 5 | 83.3% | 100% | 100% |
-| 10 (A/B boundary) | 75.0% | 100% | 100% |
-| 15 | 75.0% | 100% | 100% |
-| 20 | 41.7% | 100% | 100% |
-| 25 (C, the fix-loop cutoff) | 33.3% | 100% | 100% |
+| 5 | 58.3% | 95.8% | 93.3% |
+| 10 (A/B boundary) | 41.7% | 95.8% | 90.9% |
+| 15 | 41.7% | 100% | 100% |
+| 20 | 20.8% | 100% | 100% |
+| 25 (C, the fix-loop cutoff) | 16.7% | 100% | 100% |
 
-Two things this shows. First, Cadence is tuned for precision: it never
-mislabels a human sample, at any threshold. Second, the letter grades are
-calibrated for editing your own writing ("does this need a cleanup pass?"), not
-for a binary human-or-machine verdict — for detection, the A/B boundary is the
-right cut. The three misses are the deliberately hard cases: a warm one-line
-sympathy message, a clean short reply, and a bland meeting recap. Short,
-plainly-written AI text with no lexical tells is genuinely hard to separate from
-a terse human, and a detector that flagged it would also start flagging real
-people. We would rather miss those than accuse a person.
+The honest read: Cadence is **precision-first**. When it flags text as AI it is
+right about nine times in ten, and it rarely accuses a human. Its weakness is
+recall. It reliably catches text that leans on the stock tells (banned phrases,
+uniform rhythm, reflexive triads), but a lot of modern AI writing avoids those and
+scores grade A, so the detector calls most of this AI set "clean." The one false
+positive is a real Austen sentence whose four-item list trips the triad rule,
+which is a fair example of the tool over-reading a genuine human habit. This is a
+weaker headline than an easy corpus would give, and it is the accurate one.
 
 ## Honesty caveat
 
-This is a seed corpus of representative samples, hand-labeled, not a blind
-third-party evaluation. The samples were written to span common human and AI
-registers, but the author knew what the detector looks for, so treat these
-numbers as a regression floor and a sanity check, not a peer-reviewed accuracy
-claim. Real validation needs a larger held-out corpus of genuine texts. The
-corpus is easy to grow: add entries to [corpus.json](corpus.json) with a
-`label` of `human` or `ai` and rerun.
+The AI samples and most of the human samples are hand-labeled and authored, so the
+author knew what the detector looks for. The public-domain passages reduce that
+bias on the human side, but this is still a seed corpus, not a blind third-party
+evaluation. Treat the numbers as a regression guard and an honest sanity check, not
+a peer-reviewed accuracy claim. Real validation needs a larger held-out corpus of
+genuine texts. The corpus is easy to grow: add entries to [corpus.json](corpus.json)
+with a `label` of `human` or `ai` and rerun.
 
 ## How it works
 

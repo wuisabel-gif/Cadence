@@ -13,11 +13,13 @@ so here, so a shifting number is never a surprise.
 
 ### Added
 
-- **An accuracy benchmark** (`benchmark/`) — a labeled corpus and `npm run bench`
-  that measure how well the score separates human writing from AI output. On the
-  seed corpus it catches 75% of AI text with zero false alarms on human text
-  (100% specificity). `npm run bench:check` gates CI so accuracy can't regress,
-  and the report prints the full precision/recall curve across grade cutoffs.
+- **An accuracy benchmark** (`benchmark/`) — a 48-sample labeled corpus (human
+  writing including public-domain classics, AI across many registers) and `npm run
+  bench` that measure how well the score separates the two. It reports Wilson
+  confidence intervals, not bare point estimates. The honest read: precision-first,
+  about 91% precision with high specificity, and recall as the weak spot near 42%
+  because the detector misses AI that avoids the common tells. `npm run bench:check`
+  gates CI against regression, and the report prints the full sweep across cutoffs.
 - **A shareable result on the score page.** Any result on `check.html` now has a
   copy-link button that encodes the grade plus its top tells into the URL (never
   the text itself), opening to a read-only card. A second button saves the card

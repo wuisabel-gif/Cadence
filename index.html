@@ -576,7 +576,7 @@ register:</span> brand<span class="fm">
     <div class="wrap">
       <div class="head reveal">
         <h2>A detector you can run yourself.</h2>
-        <p>The engine is plain Node: no dependencies, no network. Run it on any draft and the score comes back the same every time, with every tell named. Nothing about the result asks you to take it on faith. On a labeled corpus of human and AI writing it catches 75% of the AI text and never flags a human.</p>
+        <p>The engine is plain Node: no dependencies, no network. Run it on any draft and the score comes back the same every time, with every tell named. Nothing about the result asks you to take it on faith. On a 48-sample labeled corpus it flags AI with about 91% precision and rarely mislabels a human, though it misses subtler AI, so recall sits near 42%.</p>
       </div>
 
       <div class="det-grid">
@@ -643,7 +643,7 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
       </li>
       <li>
         <span class="date">Jul 7, 2026</span>
-        <span class="entry"><b>A published accuracy benchmark.</b> On a labeled corpus of human and AI writing, Cadence catches 75% of the AI text and leaves every human sample alone. Run <code>npm run bench</code> for the full precision and recall table; CI fails if the accuracy drops below its floor.</span>
+        <span class="entry"><b>A published accuracy benchmark.</b> On a 48-sample labeled corpus of human and AI writing, Cadence flags AI with about 91% precision and rarely mislabels a human, though recall is the weak spot near 42%. Run <code>npm run bench</code> for the full table with confidence intervals; CI fails if it regresses.</span>
       </li>
       <li>
         <span class="date">Jul 7, 2026</span>

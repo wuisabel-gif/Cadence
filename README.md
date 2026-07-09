@@ -219,11 +219,14 @@ text, same score, every time.
 
 ## Accuracy
 
-The claims are checkable. On a labeled corpus of human and AI samples, Cadence
-catches 75% of the AI text and leaves 100% of the human text alone. It never
-mislabels a person. Run `npm run bench` for the full table and the
-precision/recall curve, or read [benchmark/](benchmark/). CI fails if the
-accuracy drops below its floor.
+The claims are checkable, and the honest picture is mixed. On a 48-sample labeled
+corpus (human writing including public-domain classics, AI across many registers),
+Cadence is precision-first: when it flags text as AI it is right about 91% of the
+time, and it rarely mislabels a human (specificity 96%, with one false alarm on a
+real sentence that packs a long list). Recall is the weak spot. It catches obvious
+slop but misses AI that avoids the common tells, so it flags about 42% of the AI
+text (95% CI 25 to 61%). Run `npm run bench` for the full table with confidence
+intervals, or read [benchmark/](benchmark/). CI fails if accuracy regresses.
 
 ## Train a humanizer (LoRA-Cadence)
 
