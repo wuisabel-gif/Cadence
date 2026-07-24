@@ -20,6 +20,21 @@
       "source": ".",
       "category": "writing",
       "tags": ["writing", "prose", "voice", "tone", "editing", "anti-slop", "skills", "commands"]
+    },
+    {
+      "name": "readme-auto-update",
+      "description": "Create and refresh evidence-based GitHub profile or project READMEs from repository activity, with free structural templates (icons, badges, table, and more) — no agent or API key. Pairs with Cadence to humanize the prose.",
+      "version": "1.0.1",
+      "author": {
+        "name": "Isabel Wu",
+        "email": "231155141+wuisabel-gif@users.noreply.github.com"
+      },
+      "source": {
+        "source": "github",
+        "repo": "wuisabel-gif/readme-auto-update"
+      },
+      "category": "productivity",
+      "tags": ["readme", "github-profile", "documentation", "skills", "github-action"]
     }
   ]
 }
