@@ -4,7 +4,7 @@
 
 <h1 align="center">Cadence</h1>
 
-<p align="center"><b>An AI-text humanizer — write in a voice you choose, with less AI tone, in any AI agent or straight from the command line.</b></p>
+<p align="center"><b>Catches writing that sounds robotic, and shows you why. Then rewrite it in a voice you choose, in any AI agent or from the command line.</b></p>
 
 <p align="center">
   <a href="https://github.com/wuisabel-gif/Cadence/actions/workflows/ci.yml"><img src="https://github.com/wuisabel-gif/Cadence/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
@@ -33,8 +33,9 @@ transition. The point gets hedged, then the hedge gets hedged. There are three
 examples where one would have landed harder. You may not be able to underline the
 broken part, but you feel it, and the moment you feel it you start to skim.
 
-Cadence exists to strip that signature out. (It's an AI-text humanizer, if you want
-the search term — but one that shows its work.)
+Cadence exists to strip that signature out. The enemy is not machines, it is flat,
+hollow writing. When a person writes that way it reads just as badly, and Cadence
+flags it the same. It does not care who wrote the text, only how the text reads.
 
 [![The hosted score page grading a paragraph of AI marketing copy at grade D, with every tell named](docs/screenshots/score-page.png)](https://wuisabel-gif.github.io/Cadence/check.html)
 
@@ -50,6 +51,26 @@ recast is the fix.
 layout. It changes how a sentence reads. It does not touch what the sentence claims, or
 how the document is built. A smoother line that quietly drops a fact is a failure, not
 a win.
+
+## How it works
+
+Three steps, and one rule holding them together.
+
+First, **diagnose.** The checker reads your text, scores it, and names each tell it
+found: the flat rhythm, a hedge stacked on a hedge, a point padded out well past where
+it landed. You see what reads as machine-made, and why.
+
+Second, **recast the words, not the meaning.** Rewrite the flagged lines yourself, or
+hand them to an AI writing in a voice you chose. What a sentence claims stays fixed;
+only how it reads changes.
+
+Third, **verify.** Score the rewrite. If the rhythm variance hasn't moved, nothing has.
+You swapped synonyms and stopped. The number has to be earned.
+
+The rule under all three: the checker is deterministic and it shows its work. A low
+score means the prose genuinely reads like a person wrote it, not that it slipped past
+a filter. That is the line Cadence stays on. It is here to make honest writing read
+like you, not to disguise what a machine wrote as something it isn't.
 
 ## Why rhythm, not grammar
 
@@ -186,9 +207,9 @@ profile to `voices/<name>.md`. The shipped **counsel** voice was built this way.
 Add your own with `/cadence learn`. Profiles are plain markdown in `voices/`. Read
 them, edit them, share them.
 
-## The detector
+## The checker
 
-The detector is the front door — try it in five seconds, no install:
+The checker is the front door. Try it in five seconds, no install:
 
 ```bash
 npx cadence-deslop draft.txt          # any file: .txt .md .pdf .html .docx .epub
@@ -200,11 +221,11 @@ npx cadence-deslop --json draft.txt   # machine-readable JSON
 npx cadence-deslop --strict draft.txt # exit 1 if score > 25 (CI gate)
 ```
 
-Prefer a browser? The [hosted score page](check.html) runs the same detector on
+Prefer a browser? The [hosted score page](check.html) runs the same checker on
 anything you paste, entirely on-device. On a phone it installs to your home screen
 and works offline, so it behaves like a small app.
 
-`deslop.mjs` is the engine — pure Node, zero dependencies. It only reaches the
+`deslop.mjs` is the engine. Pure Node, zero dependencies. It only reaches the
 network if you hand it a URL. Run it from a clone the same way:
 
 ```bash
@@ -217,16 +238,20 @@ hollow-confidence words, triad density, negation pivots, hedge-stacking, adverb 
 em-dash rates. It returns a transparent 0–100 score plus a letter grade. Same
 text, same score, every time.
 
-## Accuracy
+## Why trust the score
 
-The claims are checkable, and the honest picture is mixed. On a 48-sample labeled
-corpus (human writing including public-domain classics, AI across many registers),
-Cadence is precision-first: when it flags text as AI it is right about 91% of the
-time, and it rarely mislabels a human (specificity 96%, with one false alarm on a
-real sentence that packs a long list). Recall is the weak spot. It catches obvious
-slop but misses AI that avoids the common tells, so it flags about 42% of the AI
-text (95% CI 25 to 61%). Run `npm run bench` for the full table with confidence
-intervals, or read [benchmark/](benchmark/). CI fails if accuracy regresses.
+The score is deterministic. Same text, same number, every time, and it names every
+tell it found, so you can check its work by eye. That is the honesty: not a
+confidence percentage you have to take on faith, but a list of exactly what it
+flagged and where. It is not guessing who wrote your text. It measures how the
+writing reads.
+
+If you want authorship numbers anyway, they exist. On a 48-sample labeled corpus it
+flags machine-written text with about 91% precision and rarely mislabels a human,
+though it misses plenty of AI that avoids the common tells. That recall gap does not
+worry us, because catching every machine is not the job. Catching slop is, whoever
+wrote it. Run `npm run bench` for the full table, or read [benchmark/](benchmark/).
+CI fails if the numbers regress.
 
 ## Train a humanizer (LoRA-Cadence)
 
@@ -357,6 +382,13 @@ sentence-usage traits into that voice profile. Build it with
 | [LICENSE](LICENSE) | MIT |
 
 Each of these is scored by the detector on every push and must stay grade A.
+
+## Built with Cadence
+
+[linkedin-message-drafter](https://github.com/wuisabel-gif/linkedin-message-drafter) is
+a small CLI for LinkedIn outreach. It owns the outreach-specific plumbing (batch and
+CSV drafts, the hard 300-character connection-note limit) and hands voice-matching and
+de-slop back to Cadence, so the wording quality lives in one place.
 
 ## Layout
 
