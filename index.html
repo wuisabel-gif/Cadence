@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cadence: write in a voice you choose, with less AI tone</title>
+<title>Cadence: catch robotic writing, write in a voice you choose</title>
 <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
-<meta name="description" content="Cadence writes in a voice you choose, with less AI tone, in Claude, Codex, Gemini, your browser, or the command line. It learns a voice from writing you admire, writes in it, and runs a deterministic detector that scores any draft and names every AI tell.">
-<meta property="og:title" content="Cadence: write in a voice you choose, with less AI tone">
-<meta property="og:description" content="Write in a voice you choose, with less AI tone. A deterministic detector scores any draft and names every AI tell.">
+<meta name="description" content="Cadence catches writing that sounds robotic and rewrites it in a voice you choose, in Claude, Codex, Gemini, your browser, or the command line. It learns a voice from writing you admire, writes in it, and runs a deterministic checker that scores any draft and names every tell.">
+<meta property="og:title" content="Cadence: catch robotic writing, write in a voice you choose">
+<meta property="og:description" content="Catch writing that sounds robotic and rewrite it in a voice you choose. A deterministic checker scores any draft and names every tell.">
 <meta property="og:type" content="website">
 <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -341,7 +341,7 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
   <section class="hero wrap">
     <p class="eyebrow-cmd reveal">cadence · prose fluency for any AI agent or the command line</p>
     <h1 class="reveal" style="margin-top:1rem">Make it sound like you wrote it.</h1>
-    <p class="lede reveal">Cadence learns a voice from writing you admire, then writes in it. Underneath, a deterministic detector scores any draft and names every AI tell, so a clean result is something you check, not just trust.</p>
+    <p class="lede reveal">Cadence learns a voice from writing you admire, then writes in it. Underneath, a deterministic checker scores any draft and names every tell, so a clean result is something you check, not just trust.</p>
     <div class="hero-cta reveal">
       <a class="btn btn-primary" href="check.html">Score your writing →</a>
       <a class="btn btn-ghost" href="#voices">See the voices</a>
@@ -624,7 +624,7 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
         <tr><td class="c1"><span class="pre">/cadence</span> learn <span class="arg">&lt;sample&gt;</span></td><td class="c2">Reads a book, article, or URL and extracts a reusable voice profile.</td></tr>
         <tr><td class="c1"><span class="pre">/cadence</span> write <span class="arg">&lt;brief&gt;</span></td><td class="c2">Drafts new prose in a chosen voice.</td></tr>
         <tr><td class="c1"><span class="pre">/cadence</span> recast <span class="arg">&lt;text&gt;</span></td><td class="c2">Rewrites existing text into a chosen voice, keeping the meaning.</td></tr>
-        <tr><td class="c1"><span class="pre">/cadence</span> deslop <span class="arg">&lt;text&gt;</span></td><td class="c2">Scores text and reports every AI tell: diagnose, then optionally fix.</td></tr>
+        <tr><td class="c1"><span class="pre">/cadence</span> deslop <span class="arg">&lt;text&gt;</span></td><td class="c2">Scores text and reports every tell: diagnose, then optionally fix.</td></tr>
         <tr><td class="c1"><span class="pre">/cadence</span> voices</td><td class="c2">Lists the voices you've learned plus the shipped seeds.</td></tr>
       </tbody>
     </table>
@@ -651,11 +651,11 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
       </li>
       <li>
         <span class="date">Jul 3, 2026</span>
-        <span class="entry"><b>Draft replies in your voice, and learn that voice from your posts.</b> The Chrome extension now works in Gmail, WhatsApp Web, Telegram, LinkedIn, Instagram and Facebook: it scores your reply as you type, on-device, and with your own key drafts one in your voice, writing, scoring, then redrafting to clear the AI tells. And “Learn my voice” reads what you've written on the page (your posts on Instagram, Facebook or LinkedIn, or your own sent messages on WhatsApp and Telegram) and distills your sentence-usage traits into that voice.</span>
+        <span class="entry"><b>Draft replies in your voice, and learn that voice from your posts.</b> The Chrome extension now works in Gmail, WhatsApp Web, Telegram, LinkedIn, Instagram and Facebook: it scores your reply as you type, on-device, and with your own key drafts one in your voice, writing, scoring, then redrafting to clear the tells. And “Learn my voice” reads what you've written on the page (your posts on Instagram, Facebook or LinkedIn, or your own sent messages on WhatsApp and Telegram) and distills your sentence-usage traits into that voice.</span>
       </li>
       <li>
         <span class="date">Jun 26, 2026</span>
-        <span class="entry"><b>VS Code extension.</b> Score prose for AI tone in the editor: a live grade in the status bar, the AI tells squiggled inline, and a score-on-demand report. Same detector, generated from the one source. Build with <code>npm run build:vscode</code>.</span>
+        <span class="entry"><b>VS Code extension.</b> Score prose for robotic tone in the editor: a live grade in the status bar, the tells squiggled inline, and a score-on-demand report. Same detector, generated from the one source. Build with <code>npm run build:vscode</code>.</span>
       </li>
       <li>
         <span class="date">Jun 26, 2026</span>
@@ -679,7 +679,7 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
       </li>
       <li>
         <span class="date">Jun 20, 2026</span>
-        <span class="entry"><b>Chrome extension.</b> Score any text for AI tone right in your browser: popup or right-click. Runs entirely on your machine.</span>
+        <span class="entry"><b>Chrome extension.</b> Score any text for robotic tone right in your browser: popup or right-click. Runs entirely on your machine.</span>
       </li>
       <li>
         <span class="date">Jun 20, 2026</span>

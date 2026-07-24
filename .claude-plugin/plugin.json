@@ -1,6 +1,6 @@
 {
   "name": "cadence",
-  "description": "Write in a voice you choose, with less AI tone. One skill, 5 commands (/cadence write, learn, recast, deslop, voices) and a deterministic de-slop detector that scores prose and names every AI tell.",
+  "description": "Catch robotic-sounding writing and rewrite it in a voice you choose. One skill, 5 commands (/cadence write, learn, recast, deslop, voices) and a deterministic checker that scores prose and names every tell.",
   "version": "0.2.0",
   "author": {
     "name": "Isabel Wu",

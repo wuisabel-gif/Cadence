@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cadence: score your writing for AI tone</title>
+  <title>Cadence: score how robotic your writing reads</title>
   <meta name="description" content="Paste your writing and see how much it reads like AI. Cadence scores it 0–100 and names every tell. In your browser, nothing sent.">
   <meta property="og:title" content="Cadence: is it you, or does it read like AI?">
   <meta property="og:description" content="Paste anything and see the grade plus every tell. Runs in your browser; nothing is sent.">
@@ -152,7 +152,7 @@
 
   var esc=function(s){return String(s).replace(/[&<>"]/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];});};
   var bucket=function(g){return g==='A'||g==='B'?'good':g==='C'?'warn':'bad';};
-  var VERDICT={A:'Reads human.',B:'Mostly human. A couple of tells.',C:'Some AI texture.',D:'Reads machine-made.',F:'Heavy AI slop.'};
+  var VERDICT={A:'Reads human.',B:'Mostly human. A couple of tells.',C:'Some robotic texture.',D:'Reads machine-made.',F:'Heavily robotic.'};
 
   var EXAMPLE="In today's world, finding the right productivity app can be a daunting task. "+
     "Our cutting-edge platform leverages powerful AI to seamlessly streamline your workflow. "+
