@@ -51,6 +51,26 @@ layout. It changes how a sentence reads. It does not touch what the sentence cla
 how the document is built. A smoother line that quietly drops a fact is a failure, not
 a win.
 
+## How it works
+
+Three steps, and one rule holding them together.
+
+First, **diagnose.** The detector reads your text, scores it, and names each tell it
+found — the flat rhythm, a hedge stacked on a hedge, a point padded out well past where
+it landed. You see what reads as machine-made, and why.
+
+Second, **recast the words, not the meaning.** Rewrite the flagged lines yourself, or
+hand them to an AI writing in a voice you chose. What a sentence claims stays fixed;
+only how it reads changes.
+
+Third, **verify.** Score the rewrite. If the rhythm variance hasn't moved, nothing has —
+you swapped synonyms and stopped. The number has to be earned.
+
+The rule under all three: the detector is deterministic and it shows its work. A low
+score means the prose genuinely reads like a person wrote it — not that it slipped past
+a checker. That is the line Cadence stays on: it is here to make honest writing read
+like you, not to disguise what a machine wrote as something it isn't.
+
 ## Why rhythm, not grammar
 
 Slop isn't a grammar problem. AI prose is often spotless and still obviously synthetic,
@@ -348,6 +368,13 @@ sentence-usage traits into that voice profile. Build it with
 | [LICENSE](LICENSE) | MIT |
 
 Each of these is scored by the detector on every push and must stay grade A.
+
+## Built with Cadence
+
+[linkedin-message-drafter](https://github.com/wuisabel-gif/linkedin-message-drafter) —
+a small CLI for LinkedIn outreach. It owns the outreach-specific plumbing (batch and
+CSV drafts, the hard 300-character connection-note limit) and hands voice-matching and
+de-slop back to Cadence, so the wording quality lives in one place.
 
 ## Layout
 
