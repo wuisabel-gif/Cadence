@@ -277,6 +277,15 @@ in a new session. New voices you create with `/cadence learn` are written to a
 `voices/` folder in whatever project you're working in. (Developing on Cadence? Point
 the marketplace at a local clone instead: `/plugin marketplace add ~/cadence`.)
 
+**Also in this marketplace: [README Auto Update](https://github.com/wuisabel-gif/readme-auto-update).**
+It builds evidence-based GitHub profile and project READMEs with free structural templates — no
+agent, no API key — and pairs with Cadence: generate the README's structure there, then humanize its
+prose here.
+
+```
+/plugin install readme-auto-update@cadence
+```
+
 `/cadence` not recognized? It runs only in **Claude Code** — not the claude.ai
 website or the desktop app's regular chat. [MANUAL.md](MANUAL.md#1-install--activate)
 covers that and the rest of the activation pitfalls.
