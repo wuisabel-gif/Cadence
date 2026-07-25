@@ -43,10 +43,11 @@ flags it the same. It does not care who wrote the text, only how the text reads.
 
 ## Built with Cadence
 
-Two of my other projects lean on Cadence for their writing quality:
+Three of my other projects lean on Cadence for their writing quality:
 
 - **[linkedin-message-drafter](https://github.com/wuisabel-gif/linkedin-message-drafter)** drafts LinkedIn outreach from the command line. It handles the outreach plumbing (batch and CSV input, the hard 300-character connection-note limit) and hands voice-matching and de-slop back to Cadence.
 - **[readme-auto-update](https://github.com/wuisabel-gif/readme-auto-update)** builds and refreshes GitHub READMEs from what a repo actually does, then runs the prose through Cadence so it doesn't read robotic.
+- **[elegance](https://github.com/wuisabel-gif/elegance)** builds PHP + Bootstrap websites, and runs the site copy through Cadence so a small-business site reads like a person wrote it, not a machine.
 
 ## What it's for
 
