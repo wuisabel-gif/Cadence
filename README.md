@@ -41,6 +41,13 @@ flags it the same. It does not care who wrote the text, only how the text reads.
 
 *The [hosted score page](https://wuisabel-gif.github.io/Cadence/check.html): paste anything, see the grade and every tell, all in your browser. On a phone, tap Share then Add to Home Screen — it installs as an app and runs offline.*
 
+## Built with Cadence
+
+Two of my other projects lean on Cadence for their writing quality:
+
+- **[linkedin-message-drafter](https://github.com/wuisabel-gif/linkedin-message-drafter)** drafts LinkedIn outreach from the command line. It handles the outreach plumbing (batch and CSV input, the hard 300-character connection-note limit) and hands voice-matching and de-slop back to Cadence.
+- **[readme-auto-update](https://github.com/wuisabel-gif/readme-auto-update)** builds and refreshes GitHub READMEs from what a repo actually does, then runs the prose through Cadence so it doesn't read robotic.
+
 ## What it's for
 
 Two things. It scores prose for how machine-made it reads, and it recasts prose so it
@@ -382,13 +389,6 @@ sentence-usage traits into that voice profile. Build it with
 | [LICENSE](LICENSE) | MIT |
 
 Each of these is scored by the detector on every push and must stay grade A.
-
-## Built with Cadence
-
-[linkedin-message-drafter](https://github.com/wuisabel-gif/linkedin-message-drafter) is
-a small CLI for LinkedIn outreach. It owns the outreach-specific plumbing (batch and
-CSV drafts, the hard 300-character connection-note limit) and hands voice-matching and
-de-slop back to Cadence, so the wording quality lives in one place.
 
 ## Layout
 
