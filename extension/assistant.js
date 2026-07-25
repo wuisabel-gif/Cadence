@@ -219,7 +219,7 @@
           var snips = by[rule].slice(0, 2).map(function (x) { return '“' + esc(x) + '”'; }).join(', ');
           return '<b>' + esc(rule) + '</b> ' + snips;
         }).join('<br>')
-      : '<span class="clean">Reads human. No AI tells.</span>';
+      : '<span class="clean">Reads human. No tells.</span>';
     meter.classList.add('scored');
   }
 

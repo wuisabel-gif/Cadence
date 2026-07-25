@@ -2,7 +2,7 @@
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "cadence",
   "metadata": {
-    "description": "Prose fluency for AI harnesses. Write in a voice you choose, with less AI tone."
+    "description": "Prose fluency for any AI agent. Catch robotic-sounding writing and rewrite it in a voice you choose."
   },
   "owner": {
     "name": "Isabel Wu",
@@ -11,7 +11,7 @@
   "plugins": [
     {
       "name": "cadence",
-      "description": "Write in a voice you choose, with less AI tone. One skill, 5 commands (/cadence write, learn, recast, deslop, voices) and a deterministic de-slop detector that scores prose and names every AI tell.",
+      "description": "Catch robotic-sounding writing and rewrite it in a voice you choose. One skill, 5 commands (/cadence write, learn, recast, deslop, voices) and a deterministic checker that scores prose and names every tell.",
       "version": "0.2.0",
       "author": {
         "name": "Isabel Wu",

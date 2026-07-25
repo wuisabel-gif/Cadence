@@ -115,7 +115,7 @@ verbatim, then stop and wait for the user to choose. The whole point is to guide
 them to the right command — answer their situation, not a keyword.
 
 ```
-**Cadence** — write in a voice, with less AI tone. What are you working on?
+**Cadence** — write in a voice, and catch writing that sounds robotic. What are you working on?
 
 | If you want to… | Use | Example |
 |---|---|---|
