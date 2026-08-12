@@ -384,6 +384,7 @@ sentence-usage traits into that voice profile. Build it with
 | [integrations/vscode/README.md](integrations/vscode/README.md) | The VS Code extension — live grade, inline tells, and a score report |
 | [SCORING.md](SCORING.md) | Detector scoring formulas, thresholds, grade boundaries, and calibration guidance |
 | [benchmark/README.md](benchmark/README.md) | The accuracy benchmark: labeled corpus, published precision and recall, and the CI gate |
+| [benchmark/EVALUATION.md](benchmark/EVALUATION.md) | Evaluation protocol for regression fixtures, provenance, leakage, and held-out data |
 | [lora/README.md](lora/README.md) | LoRA-Cadence: train a slop-humanizing QLoRA graded by the detector, plus the Kaggle notebook |
 | [PHILOSOPHY.md](PHILOSOPHY.md) | The thinking behind it — *The Age of Taste* |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How the project is built and how to add a rule, voice, or command |

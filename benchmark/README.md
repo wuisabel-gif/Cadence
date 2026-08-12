@@ -8,6 +8,8 @@ The scoring arithmetic and the distinction between grades, benchmark cutoffs,
 and CLI strict mode are documented in [SCORING.md](../SCORING.md). The benchmark
 also reports score distributions and sample-level lexical rule diagnostics so
 threshold changes can be reviewed without treating the detector as ground truth.
+The proposed separation between regression fixtures and held-out evaluation is
+documented in [EVALUATION.md](EVALUATION.md).
 
 ```
 npm run bench          # human-readable report + threshold sweep
