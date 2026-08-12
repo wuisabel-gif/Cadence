@@ -181,7 +181,7 @@ The detector on its own. Pure Node, zero dependencies. Run it three ways:
 CLI input is limited to 5 MiB per file, stdin stream, or extracted document. This
 prevents accidental multi-megabyte scans from consuming unbounded memory. URLs
 are subject to the extractor's own response handling as well as the analyzer
-limit.
+limit; the limit is checked after the response is received.
 
 ```bash
 npx cadence-deslop <file>            # no install

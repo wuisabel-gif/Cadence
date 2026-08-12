@@ -45,8 +45,15 @@ const HEDGES = [
 
 const MAX_INPUT_BYTES = 5 * 1024 * 1024;
 
+function utf8ByteLength(text) {
+  if (typeof TextEncoder !== 'undefined') return new TextEncoder().encode(text).length;
+  let bytes = 0;
+  for (const cp of text) bytes += cp.codePointAt(0) <= 0x7f ? 1 : cp.codePointAt(0) <= 0x7ff ? 2 : cp.codePointAt(0) <= 0xffff ? 3 : 4;
+  return bytes;
+}
+
 function assertInputSize(text, label = 'input') {
-  const bytes = Buffer.byteLength(text, 'utf8');
+  const bytes = utf8ByteLength(text);
   if (bytes > MAX_INPUT_BYTES) throw new RangeError(`${label} exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit`);
 }
 
