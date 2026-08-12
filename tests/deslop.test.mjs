@@ -70,6 +70,19 @@ test('sentence splitter respects abbreviations', () => {
   assert.equal(s.length, 2, `expected 2 sentences, got ${s.length}: ${JSON.stringify(s)}`);
 });
 
+test('sentence splitter handles ellipses, decimals, and terminal punctuation', () => {
+  const cases = [
+    ['Wait... Really? Yes.', 3],
+    ['He paused… Then left.', 2],
+    ['The value is 3.14. Next value.', 2],
+    ['She said "Done." Next step.', 2],
+    ['Really?! Yes.', 2],
+  ];
+  for (const [input, expected] of cases) {
+    assert.equal(splitSentences(input).length, expected, `${input} should split into ${expected} sentences`);
+  }
+});
+
 test('applyFixes swaps hollow words, deletes throat-clears, keeps grammar', () => {
   const src = "In today's world, we leverage robust tools. It's worth noting that this is comprehensive.";
   const r = analyze(src);
