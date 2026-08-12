@@ -183,6 +183,7 @@ function detectClicheOpeners(sentences) {
 
 // ─── Main analysis ──────────────────────────────────────────────────────────
 function analyze(rawText) {
+  assertInputSize(String(rawText));
   // Normalize typographic quotes once, before any detector runs, so curly-quote
   // prose (and stripHtml's decoded &rsquo;) matches the same rules as ASCII text.
   const text = normalizeQuotes(rawText);
