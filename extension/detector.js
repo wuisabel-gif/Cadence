@@ -44,6 +44,20 @@ const HEDGES = [
   'it could be argued', 'one could say',
 ];
 
+const MAX_INPUT_BYTES = 5 * 1024 * 1024;
+
+function utf8ByteLength(text) {
+  if (typeof TextEncoder !== 'undefined') return new TextEncoder().encode(text).length;
+  let bytes = 0;
+  for (const cp of text) bytes += cp.codePointAt(0) <= 0x7f ? 1 : cp.codePointAt(0) <= 0x7ff ? 2 : cp.codePointAt(0) <= 0xffff ? 3 : 4;
+  return bytes;
+}
+
+function assertInputSize(text, label = 'input') {
+  const bytes = utf8ByteLength(text);
+  if (bytes > MAX_INPUT_BYTES) throw new RangeError(`${label} exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit`);
+}
+
 // Word-boundary matchers so "usually" inside "unusually" (or "might" inside
 // "mighty", "often" inside "soften") doesn't register as a hedge.
 const HEDGE_RES = HEDGES.map((h) => new RegExp(`\\b${h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`));
@@ -183,6 +197,7 @@ function detectClicheOpeners(sentences) {
 
 // ─── Main analysis ──────────────────────────────────────────────────────────
 function analyze(rawText) {
+  assertInputSize(String(rawText));
   // Normalize typographic quotes once, before any detector runs, so curly-quote
   // prose (and stripHtml's decoded &rsquo;) matches the same rules as ASCII text.
   const text = normalizeQuotes(rawText);

@@ -66,6 +66,20 @@ const HEDGES = [
   'it could be argued', 'one could say',
 ];
 
+export const MAX_INPUT_BYTES = 5 * 1024 * 1024;
+
+function utf8ByteLength(text) {
+  if (typeof TextEncoder !== 'undefined') return new TextEncoder().encode(text).length;
+  let bytes = 0;
+  for (const cp of text) bytes += cp.codePointAt(0) <= 0x7f ? 1 : cp.codePointAt(0) <= 0x7ff ? 2 : cp.codePointAt(0) <= 0xffff ? 3 : 4;
+  return bytes;
+}
+
+function assertInputSize(text, label = 'input') {
+  const bytes = utf8ByteLength(text);
+  if (bytes > MAX_INPUT_BYTES) throw new RangeError(`${label} exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit`);
+}
+
 // Word-boundary matchers so "usually" inside "unusually" (or "might" inside
 // "mighty", "often" inside "soften") doesn't register as a hedge.
 const HEDGE_RES = HEDGES.map((h) => new RegExp(`\\b${h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`));
@@ -205,6 +219,7 @@ function detectClicheOpeners(sentences) {
 
 // ─── Main analysis ──────────────────────────────────────────────────────────
 export function analyze(rawText) {
+  assertInputSize(String(rawText));
   // Normalize typographic quotes once, before any detector runs, so curly-quote
   // prose (and stripHtml's decoded &rsquo;) matches the same rules as ASCII text.
   const text = normalizeQuotes(rawText);
@@ -600,7 +615,10 @@ function isMain() {
 
 async function readStdin() {
   const chunks = [];
+  let bytes = 0;
   for await (const c of process.stdin) chunks.push(c);
+  for (const c of chunks) bytes += c.length;
+  if (bytes > MAX_INPUT_BYTES) throw new RangeError(`stdin exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit`);
   return Buffer.concat(chunks).toString('utf8');
 }
 
@@ -631,7 +649,8 @@ if (isMain()) {
 
   let text;
   if (!file) {
-    text = await readStdin();
+    try { text = await readStdin(); }
+    catch (e) { process.stderr.write(`${e.message}\n`); process.exit(2); }
     if (args.includes('--html')) text = stripHtml(text);
     else if (args.includes('--prose-only')) text = stripMarkdown(text);
   } else if (/^https?:\/\//i.test(file)) {
@@ -640,6 +659,10 @@ if (isMain()) {
   } else {
     const lower = file.toLowerCase();
     if (/\.(pdf|docx|epub)$/.test(lower)) {
+      if (statSync(file).size > MAX_INPUT_BYTES) {
+        process.stderr.write(`${file} exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit\n`);
+        process.exit(2);
+      }
       const buf = readFileSync(file);
       try {
         text = lower.endsWith('.pdf') ? extractPdf(buf) : lower.endsWith('.epub') ? extractEpub(buf) : extractDocx(buf);
@@ -649,6 +672,10 @@ if (isMain()) {
         process.exit(3);
       }
     } else {
+      if (statSync(file).size > MAX_INPUT_BYTES) {
+        process.stderr.write(`${file} exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit\n`);
+        process.exit(2);
+      }
       text = readFileSync(file, 'utf8');
       if (args.includes('--html') || /\.html?$/i.test(lower)) text = stripHtml(text);
       else if (args.includes('--prose-only')) text = stripMarkdown(text);

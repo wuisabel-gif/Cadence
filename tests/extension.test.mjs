@@ -27,3 +27,14 @@ test('the browser detector matches deslop.mjs exactly (run `npm run build:extens
     assert.equal(win.cadenceAnalyze(s).grade, analyze(s).grade);
   }
 });
+
+test('the browser detector enforces input limits without Node Buffer', () => {
+  const saved = globalThis.Buffer;
+  try {
+    globalThis.Buffer = undefined;
+    assert.doesNotThrow(() => win.cadenceAnalyze('A normal browser input.'));
+    assert.throws(() => win.cadenceAnalyze('x'.repeat(5 * 1024 * 1024 + 1)), /exceeds/);
+  } finally {
+    globalThis.Buffer = saved;
+  }
+});
