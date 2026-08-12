@@ -387,6 +387,7 @@ sentence-usage traits into that voice profile. Build it with
 | [benchmark/README.md](benchmark/README.md) | The accuracy benchmark: labeled corpus, published precision and recall, and the CI gate |
 | [benchmark/EVALUATION.md](benchmark/EVALUATION.md) | Evaluation protocol for regression fixtures, provenance, leakage, and held-out data |
 | [lora/README.md](lora/README.md) | LoRA-Cadence: train a slop-humanizing QLoRA graded by the detector, plus the Kaggle notebook |
+| [lora/DATASET_FEASIBILITY.md](lora/DATASET_FEASIBILITY.md) | License, provenance, leakage, and evaluation gate for external LoRA datasets |
 | [PHILOSOPHY.md](PHILOSOPHY.md) | The thinking behind it — *The Age of Taste* |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How the project is built and how to add a rule, voice, or command |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |

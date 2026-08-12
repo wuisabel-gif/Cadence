@@ -126,7 +126,7 @@ them to the right command — answer their situation, not a keyword.
 | See the voices you can pick from | `voices` | `/cadence voices` |
 
 Not sure? Tell me what you have — a draft to fix, an idea to write, or a writer
-you want to sound like — and I'll route it. Nine voices ship today; run
+you want to sound like — and I'll route it. Ten voices ship today; run
 `/cadence voices` to read them.
 ```
 
