@@ -383,6 +383,7 @@ sentence-usage traits into that voice profile. Build it with
 | [extension/README.md](extension/README.md) | The Chrome extension — score prose anywhere, plus a live impression check and draft-in-your-voice in Gmail, WhatsApp Web, Telegram, LinkedIn and Instagram |
 | [integrations/vscode/README.md](integrations/vscode/README.md) | The VS Code extension — live grade, inline tells, and a score report |
 | [SCORING.md](SCORING.md) | Detector scoring formulas, thresholds, grade boundaries, and calibration guidance |
+| [SECURITY.md](SECURITY.md) | Vulnerability reporting, permissions, network boundaries, and privacy guidance |
 | [benchmark/README.md](benchmark/README.md) | The accuracy benchmark: labeled corpus, published precision and recall, and the CI gate |
 | [lora/README.md](lora/README.md) | LoRA-Cadence: train a slop-humanizing QLoRA graded by the detector, plus the Kaggle notebook |
 | [PHILOSOPHY.md](PHILOSOPHY.md) | The thinking behind it — *The Age of Taste* |
