@@ -45,6 +45,28 @@ function wilson(k, n) {
 }
 const ci = (k, n) => { const [lo, hi] = wilson(k, n); return `95% CI ${pct(lo)}-${pct(hi)}%`; };
 
+// Diagnostics are sample-level: a rule that fires three times in one sample
+// still counts as one sample containing that rule. This keeps per-rule rates
+// comparable across rules with different numbers of findings.
+const corpusHuman = corpus.filter((s) => s.label === 'human').length;
+const corpusAI = corpus.filter((s) => s.label === 'ai').length;
+const RULES = [...new Set(scored.flatMap((s) => s.r.findings.map((f) => f.rule)))].sort();
+const scoreSummary = (label) => {
+  const values = scored.filter((s) => !label || s.label === label).map((s) => s.r.score).sort((a, b) => a - b);
+  if (!values.length) return { samples: 0, min: 0, max: 0, mean: 0, median: 0 };
+  const mid = Math.floor(values.length / 2);
+  const median = values.length % 2 ? values[mid] : (values[mid - 1] + values[mid]) / 2;
+  return { samples: values.length, min: values[0], max: values.at(-1), mean: +(values.reduce((sum, x) => sum + x, 0) / values.length).toFixed(1), median };
+};
+const scoreDistributions = Object.fromEntries(['human', 'ai'].map((label) => [label, scoreSummary(label)]));
+const ruleDiagnostics = RULES.map((rule) => {
+  const samples = scored.filter((s) => s.r.findings.some((f) => f.rule === rule));
+  const human = samples.filter((s) => s.label === 'human').length;
+  const ai = samples.filter((s) => s.label === 'ai').length;
+  return { rule, samples: samples.length, human, ai,
+    humanRate: +(human / (corpusHuman || 1)).toFixed(3), aiRate: +(ai / (corpusAI || 1)).toFixed(3) };
+});
+
 // Confusion counts + derived metrics for a given "flag when score > threshold" cut.
 function scoreAt(threshold) {
   let tp = 0, fp = 0, tn = 0, fn = 0;
@@ -75,7 +97,7 @@ const metrics = {
   recall: +recall.toFixed(3), recallCI: wilson(tp, nAI).map((x) => +x.toFixed(3)),
   specificity: +specificity.toFixed(3), specificityCI: wilson(tn, nHuman).map((x) => +x.toFixed(3)),
   fpr: +fpr.toFixed(3), precision: +precision.toFixed(3), f1: +f1.toFixed(3),
-  accuracy: +accuracy.toFixed(3), confusion: { tp, fp, tn, fn },
+  accuracy: +accuracy.toFixed(3), confusion: { tp, fp, tn, fn }, scoreDistributions, ruleDiagnostics,
 };
 
 if (args.includes('--json')) {
@@ -90,6 +112,15 @@ if (args.includes('--json')) {
   L.push(`precision                 ${pct(precision)}%`);
   L.push(`F1                        ${pct(f1)}%`);
   L.push(`accuracy                  ${pct(accuracy)}%`);
+  L.push('score distribution:');
+  for (const label of ['human', 'ai']) {
+    const d = scoreDistributions[label];
+    L.push(`  ${label.padEnd(6)} min ${String(d.min).padStart(3)}  median ${String(d.median).padStart(4)}  mean ${d.mean.toFixed(1).padStart(5)}  max ${String(d.max).padStart(3)}`);
+  }
+  L.push('rule diagnostics (human rate / AI rate):');
+  for (const d of ruleDiagnostics) {
+    L.push(`  ${d.rule.padEnd(20)} ${(d.humanRate * 100).toFixed(1)}% / ${(d.aiRate * 100).toFixed(1)}%`);
+  }
   L.push('─'.repeat(58));
   const misses = rows.filter((r) => !r.correct);
   if (misses.length) {

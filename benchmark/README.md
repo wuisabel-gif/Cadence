@@ -4,6 +4,11 @@ How well does Cadence's score separate human writing from AI output? This
 directory measures it and publishes the numbers, so the claim isn't just "trust
 us."
 
+The scoring arithmetic and the distinction between grades, benchmark cutoffs,
+and CLI strict mode are documented in [SCORING.md](../SCORING.md). The benchmark
+also reports score distributions and sample-level lexical rule diagnostics so
+threshold changes can be reviewed without treating the detector as ground truth.
+
 ```
 npm run bench          # human-readable report + threshold sweep
 npm run bench:check     # CI gate: fails if recall or specificity drops
