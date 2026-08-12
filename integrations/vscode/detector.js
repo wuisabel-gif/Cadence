@@ -234,14 +234,24 @@ function analyze(rawText) {
   const uniformRhythm = sentences.length >= 5 && lengthCV < 0.4;
 
   // ── Transparent score: 0 (clean) … 100 (heavy slop) ──
+  const breakdown = {
+    lexical: { high: 0, med: 0, low: 0, total: 0 },
+    structural: { uniformRhythm: 0, adverbs: 0, emDashes: 0, triads: 0, total: 0 },
+  };
   let score = 0;
   for (const f of findings) {
-    score += f.severity === 'high' ? 6 : f.severity === 'med' ? 4 : 2;
+    const points = f.severity === 'high' ? 6 : f.severity === 'med' ? 4 : 2;
+    breakdown.lexical[f.severity] += points;
+    breakdown.lexical.total += points;
+    score += points;
   }
-  if (uniformRhythm) score += Math.round((0.4 - lengthCV) * 60); // up to +24
-  if (adverbRate > 5) score += Math.round((adverbRate - 5) * 2);
-  if (emDashRate > 2.5) score += Math.round((emDashRate - 2.5) * 3);
-  if (triadDensity > 0.25) score += Math.round((triadDensity - 0.25) * 40);
+  if (uniformRhythm) breakdown.structural.uniformRhythm = Math.round((0.4 - lengthCV) * 60); // up to +24
+  if (adverbRate > 5) breakdown.structural.adverbs = Math.round((adverbRate - 5) * 2);
+  if (emDashRate > 2.5) breakdown.structural.emDashes = Math.round((emDashRate - 2.5) * 3);
+  if (triadDensity > 0.25) breakdown.structural.triads = Math.round((triadDensity - 0.25) * 40);
+  breakdown.structural.total = Object.values(breakdown.structural).reduce((sum, points) => sum + points, 0) - breakdown.structural.total;
+  score += breakdown.structural.total;
+  breakdown.total = breakdown.lexical.total + breakdown.structural.total;
   score = Math.max(0, Math.min(100, Math.round(score)));
 
   const grade = score <= 10 ? 'A' : score <= 25 ? 'B' : score <= 45 ? 'C' : score <= 70 ? 'D' : 'F';
@@ -249,6 +259,7 @@ function analyze(rawText) {
   return {
     score,
     grade,
+    breakdown,
     metrics: {
       words: wordCount,
       sentences: sentences.length,

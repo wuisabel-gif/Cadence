@@ -19,6 +19,11 @@ Each finding contributes one severity weight:
 A finding is counted each time its detector matches. The score starts at zero and
 adds the weights for all findings.
 
+The programmatic result also exposes `breakdown.lexical` with the high, medium,
+and low subtotals, plus `breakdown.structural` with one contribution per signal.
+Their totals sum to `breakdown.total`, which is the returned score after the
+0–100 clamp.
+
 ## Structural contributions
 
 Structural rates are normalized per 100 words unless noted otherwise.

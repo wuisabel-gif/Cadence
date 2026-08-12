@@ -38,6 +38,16 @@ test('slop scores strictly worse than human', () => {
   assert.ok(analyze(SLOP).score > analyze(HUMAN).score);
 });
 
+test('score breakdown sums to the deterministic score', () => {
+  const r = analyze(SLOP);
+  assert.equal(r.breakdown.total, r.score);
+  assert.equal(r.breakdown.lexical.total,
+    r.breakdown.lexical.high + r.breakdown.lexical.med + r.breakdown.lexical.low);
+  assert.equal(r.breakdown.structural.total,
+    r.breakdown.structural.uniformRhythm + r.breakdown.structural.adverbs
+    + r.breakdown.structural.emDashes + r.breakdown.structural.triads);
+});
+
 test('catches banned phrases', () => {
   const r = analyze(SLOP);
   const banned = r.findings.filter((f) => f.rule === 'banned-phrase');
