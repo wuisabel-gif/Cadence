@@ -23,13 +23,6 @@ import { relative, join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { extractPdf, extractDocx, extractEpub, fetchUrl, looksReadable } from './extract-text.mjs';
 
-export const MAX_INPUT_BYTES = 5 * 1024 * 1024;
-
-function assertInputSize(text, label = 'input') {
-  const bytes = Buffer.byteLength(text, 'utf8');
-  if (bytes > MAX_INPUT_BYTES) throw new RangeError(`${label} exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit`);
-}
-
 // ─── Lexical rules ──────────────────────────────────────────────────────────
 // Phrases that almost never survive a human editor. Each hit is one finding.
 const BANNED_PHRASES = [
@@ -72,6 +65,13 @@ const HEDGES = [
   'seemingly', 'kind of', 'sort of', 'in some ways', 'to some extent',
   'it could be argued', 'one could say',
 ];
+
+export const MAX_INPUT_BYTES = 5 * 1024 * 1024;
+
+function assertInputSize(text, label = 'input') {
+  const bytes = Buffer.byteLength(text, 'utf8');
+  if (bytes > MAX_INPUT_BYTES) throw new RangeError(`${label} exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit`);
+}
 
 // Word-boundary matchers so "usually" inside "unusually" (or "might" inside
 // "mighty", "often" inside "soften") doesn't register as a hedge.

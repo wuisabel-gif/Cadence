@@ -44,6 +44,13 @@ const HEDGES = [
   'it could be argued', 'one could say',
 ];
 
+const MAX_INPUT_BYTES = 5 * 1024 * 1024;
+
+function assertInputSize(text, label = 'input') {
+  const bytes = Buffer.byteLength(text, 'utf8');
+  if (bytes > MAX_INPUT_BYTES) throw new RangeError(`${label} exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit`);
+}
+
 // Word-boundary matchers so "usually" inside "unusually" (or "might" inside
 // "mighty", "often" inside "soften") doesn't register as a hedge.
 const HEDGE_RES = HEDGES.map((h) => new RegExp(`\\b${h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`));
