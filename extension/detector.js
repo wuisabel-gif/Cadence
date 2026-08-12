@@ -70,7 +70,7 @@ function splitSentences(text) {
   const tokens = cleaned.split(/(\s+)/);
   for (let i = 0; i < tokens.length; i++) {
     buf += tokens[i];
-    const m = tokens[i].match(/([.!?]+)["')\]]?$/);
+    const m = tokens[i].match(/([.!?…]+)["')\]]?$/);
     if (m) {
       const word = tokens[i].replace(/[.!?"')\]]+$/, '').toLowerCase();
       const lastWord = word.split(/[^a-z.]/).pop();
