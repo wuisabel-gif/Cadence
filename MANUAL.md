@@ -178,6 +178,11 @@ No voice fits? Learn your own (§3).
 
 The detector on its own. Pure Node, zero dependencies. Run it three ways:
 
+CLI input is limited to 5 MiB per file, stdin stream, or extracted document. This
+prevents accidental multi-megabyte scans from consuming unbounded memory. URLs
+are subject to the extractor's own response handling as well as the analyzer
+limit.
+
 ```bash
 npx cadence-deslop <file>            # no install
 node skills/cadence/scripts/deslop.mjs <file>   # from a clone
@@ -218,6 +223,7 @@ cat draft.txt | cadence-deslop       # from stdin
 | `0` | Ran (and, under `--strict`/`--max`, stayed within the limit). |
 | `1` | `--strict`/`--max` threshold exceeded. |
 | `3` | A `.pdf`/`.docx`/URL produced no readable text (convert it to `.txt`). |
+| `2` | Input exceeded the 5 MiB limit or a `--max` value was invalid. |
 
 ### Examples
 

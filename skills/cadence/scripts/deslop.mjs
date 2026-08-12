@@ -23,6 +23,13 @@ import { relative, join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { extractPdf, extractDocx, extractEpub, fetchUrl, looksReadable } from './extract-text.mjs';
 
+export const MAX_INPUT_BYTES = 5 * 1024 * 1024;
+
+function assertInputSize(text, label = 'input') {
+  const bytes = Buffer.byteLength(text, 'utf8');
+  if (bytes > MAX_INPUT_BYTES) throw new RangeError(`${label} exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit`);
+}
+
 // ─── Lexical rules ──────────────────────────────────────────────────────────
 // Phrases that almost never survive a human editor. Each hit is one finding.
 const BANNED_PHRASES = [
@@ -205,6 +212,7 @@ function detectClicheOpeners(sentences) {
 
 // ─── Main analysis ──────────────────────────────────────────────────────────
 export function analyze(rawText) {
+  assertInputSize(String(rawText));
   // Normalize typographic quotes once, before any detector runs, so curly-quote
   // prose (and stripHtml's decoded &rsquo;) matches the same rules as ASCII text.
   const text = normalizeQuotes(rawText);
@@ -600,7 +608,10 @@ function isMain() {
 
 async function readStdin() {
   const chunks = [];
+  let bytes = 0;
   for await (const c of process.stdin) chunks.push(c);
+  for (const c of chunks) bytes += c.length;
+  if (bytes > MAX_INPUT_BYTES) throw new RangeError(`stdin exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit`);
   return Buffer.concat(chunks).toString('utf8');
 }
 
@@ -631,7 +642,8 @@ if (isMain()) {
 
   let text;
   if (!file) {
-    text = await readStdin();
+    try { text = await readStdin(); }
+    catch (e) { process.stderr.write(`${e.message}\n`); process.exit(2); }
     if (args.includes('--html')) text = stripHtml(text);
     else if (args.includes('--prose-only')) text = stripMarkdown(text);
   } else if (/^https?:\/\//i.test(file)) {
@@ -640,6 +652,10 @@ if (isMain()) {
   } else {
     const lower = file.toLowerCase();
     if (/\.(pdf|docx|epub)$/.test(lower)) {
+      if (statSync(file).size > MAX_INPUT_BYTES) {
+        process.stderr.write(`${file} exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit\n`);
+        process.exit(2);
+      }
       const buf = readFileSync(file);
       try {
         text = lower.endsWith('.pdf') ? extractPdf(buf) : lower.endsWith('.epub') ? extractEpub(buf) : extractDocx(buf);
@@ -649,6 +665,10 @@ if (isMain()) {
         process.exit(3);
       }
     } else {
+      if (statSync(file).size > MAX_INPUT_BYTES) {
+        process.stderr.write(`${file} exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit\n`);
+        process.exit(2);
+      }
       text = readFileSync(file, 'utf8');
       if (args.includes('--html') || /\.html?$/i.test(lower)) text = stripHtml(text);
       else if (args.includes('--prose-only')) text = stripMarkdown(text);

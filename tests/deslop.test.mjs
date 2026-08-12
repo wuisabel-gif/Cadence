@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, writeFileSync, mkdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { analyze, splitSentences, words, stripMarkdown, stripHtml, scanDir, applyFixes, addedProseByFile, analyzeParagraphs } from '../skills/cadence/scripts/deslop.mjs';
+import { analyze, splitSentences, words, stripMarkdown, stripHtml, scanDir, applyFixes, addedProseByFile, analyzeParagraphs, MAX_INPUT_BYTES } from '../skills/cadence/scripts/deslop.mjs';
 
 // Representative slop: banned phrases, hollow confidence, uniform rhythm,
 // a negation pivot, a triad, and a cliché opener — all the tells at once.
@@ -138,6 +138,10 @@ test('empty input is safe', () => {
   const r = analyze('');
   assert.equal(r.score, 0);
   assert.equal(r.metrics.sentences, 0);
+});
+
+test('analyze rejects input over the documented limit', () => {
+  assert.throws(() => analyze('x'.repeat(MAX_INPUT_BYTES + 1)), /exceeds/);
 });
 
 test('words() and splitSentences() are exported and pure', () => {
