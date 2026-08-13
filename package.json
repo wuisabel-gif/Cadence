@@ -16,7 +16,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node --test tests/deslop.test.mjs tests/extract-text.test.mjs tests/extension.test.mjs tests/vscode.test.mjs tests/benchmark.test.mjs",
+    "test": "node --test tests/deslop.test.mjs tests/extract-text.test.mjs tests/extension.test.mjs tests/vscode.test.mjs tests/benchmark.test.mjs tests/voices.test.mjs",
     "deslop": "node skills/cadence/scripts/deslop.mjs",
     "bench": "node benchmark/bench.mjs",
     "bench:check": "node benchmark/bench.mjs --check",
