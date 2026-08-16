@@ -10,18 +10,21 @@
 # the base model as a Kaggle Dataset after the first run to protect your quota.
 #
 # The notebook proves the grading wiring on sample data FIRST (cell 3), before any
-# GPU time. Leave `DRY_RUN = True` to execute end-to-end on the repo's sample data;
+# GPU time. Start with `RUN_MODE = "dry"` to execute end-to-end on the repo's sample data;
 # set it to False once your own dataset is in place.
 
 # %%
 # ---- config ----
-DRY_RUN = True   # True: run the whole flow on repo sample data, no training. False: real run.
+RUN_MODE = "dry"  # one of: dry (no GPU), smoke (2 GPU steps), train (full run)
+DATASET_PATH = None  # e.g. "/kaggle/input/my-cadence-pairs"
+OUTPUT_DIR = "/kaggle/working/cadence-output"
+SEED = 42
 
 BASE_MODEL = "unsloth/Qwen2.5-3B-Instruct-bnb-4bit"
 LORA_R, LORA_ALPHA, LORA_DROPOUT = 16, 32, 0.05
 MAX_SEQ = 2048
 GRADE_A_MAX = 10          # target quality floor for training pairs (Cadence grade A = score <= 10)
-MAX_TRAIN_STEPS = 200     # keep short on a small set to avoid overfitting
+MAX_TRAIN_STEPS = 200 if RUN_MODE == "train" else 2
 
 # The one instruction both training and inference use.
 HUMANIZE = ("Rewrite the text so it reads like a person wrote it: vary sentence length, "
@@ -30,11 +33,27 @@ HUMANIZE = ("Rewrite the text so it reads like a person wrote it: vary sentence 
 
 # %%
 # ---- cell 3: wire and PROVE the real detector before any GPU time ----
-import os, subprocess, json, shutil
+import os, subprocess, json, shutil, random, platform, pathlib, zipfile
+
+assert RUN_MODE in {"dry", "smoke", "train"}, "RUN_MODE must be dry, smoke, or train"
+random.seed(SEED)
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+def fail(message):
+    raise RuntimeError(f"Kaggle setup: {message}")
+
+def preflight():
+    print(f"Python {platform.python_version()} · mode={RUN_MODE} · seed={SEED}")
+    if RUN_MODE in {"smoke", "train"}:
+        import torch
+        if not torch.cuda.is_available(): fail("select a GPU accelerator before smoke/train mode")
+        print("GPU:", torch.cuda.get_device_name(0))
+
+preflight()
 
 # Get the Cadence repo. Prefer it added as a Kaggle Dataset; else clone it.
 REPO = None
-for cand in ["/kaggle/input/cadence", "/kaggle/input/Cadence", "/kaggle/working/Cadence"]:
+for cand in ["/kaggle/input/cadence", "/kaggle/input/Cadence", "/kaggle/working/Cadence", os.getcwd()]:
     if os.path.exists(os.path.join(cand, "lora", "eval.mjs")):
         REPO = cand; break
 if REPO is None:
@@ -81,32 +100,41 @@ grade_table({"base": f"{REPO}/lora/sample/base.jsonl",
 # Give it ONE file: `raw_pairs.jsonl` of `{"instruction","input","output"}` (each
 # `output` a prompt-`recast` humanization made with your API key, before this notebook;
 # add an optional `"source"` field per row for a leak-free split). The notebook then
-# filters to grade-A targets and carves out the held-out eval set itself. In DRY_RUN it
+# filters to grade-A targets and carves out the held-out eval set itself. In dry mode it
 # synthesizes a tiny raw file from the sample data so the whole flow runs.
 
 # %%
 import json, hashlib
 
-TRAIN_PAIRS = "/kaggle/working/train_pairs.jsonl"     # verified + train-split
-HELDOUT = "/kaggle/working/heldout_slop.jsonl"        # auto-carved, model never sees these
+TRAIN_PAIRS = os.path.join(OUTPUT_DIR, "train_pairs.jsonl")     # verified + train-split
+HELDOUT = os.path.join(OUTPUT_DIR, "heldout_slop.jsonl")        # auto-carved, model never sees these
 HOLDOUT_FRAC = 0.15
 
 def read_jsonl(p): return [json.loads(l) for l in open(p) if l.strip()]
 def write_jsonl(p, rows): open(p, "w").write("\n".join(json.dumps(r) for r in rows) + "\n")
 
-if DRY_RUN:
+if RUN_MODE == "dry":
     base = read_jsonl(f"{REPO}/lora/sample/base.jsonl")
     recast = read_jsonl(f"{REPO}/lora/sample/recast.jsonl")
-    write_jsonl("/kaggle/working/raw_pairs.jsonl",
+    write_jsonl(os.path.join(OUTPUT_DIR, "raw_pairs.jsonl"),
                 [{"id": b["id"], "source": "sample", "instruction": HUMANIZE,
                   "input": b["text"], "output": r["text"]} for b, r in zip(base, recast)])
-    RAW = "/kaggle/working/raw_pairs.jsonl"
+    RAW = os.path.join(OUTPUT_DIR, "raw_pairs.jsonl")
 else:
-    RAW = "/kaggle/input/YOUR_DATASET/raw_pairs.jsonl"   # <-- point at your data
+    candidates = list(pathlib.Path("/kaggle/input").glob("**/raw_pairs.jsonl")) if os.path.isdir("/kaggle/input") else []
+    if DATASET_PATH:
+        RAW = os.path.join(DATASET_PATH, "raw_pairs.jsonl")
+    elif len(candidates) == 1:
+        RAW = str(candidates[0])
+    else:
+        fail("attach one dataset containing raw_pairs.jsonl or set DATASET_PATH")
 
 # The key gate: keep only pairs whose target the detector verifies as grade-A.
-filter_pairs(RAW, "/kaggle/working/verified.jsonl", max_score=GRADE_A_MAX)
-verified = read_jsonl("/kaggle/working/verified.jsonl")
+verified_path = os.path.join(OUTPUT_DIR, "verified.jsonl")
+filter_pairs(RAW, verified_path, max_score=GRADE_A_MAX)
+verified = read_jsonl(verified_path)
+if not verified:
+    fail("no pairs survived the Cadence grade-A filter")
 
 # Auto held-out split: group by source (so a whole source is held out, not leaked
 # across the split), deterministic, no manual second file.
@@ -121,11 +149,11 @@ print(f"{len(verified)} verified -> {len(train)} train / {len(held)} held-out (s
 
 # %% [markdown]
 # ## Phase 2 - train the QLoRA
-# Skipped entirely under DRY_RUN. Unsloth's API drifts; if an import fails, check the
+# Skipped entirely under dry mode. Unsloth's API drifts; if an import fails, check the
 # current Unsloth Kaggle quickstart and adjust the two cells below.
 
 # %%
-if not DRY_RUN:
+if RUN_MODE in {"smoke", "train"}:
     import subprocess as _sp
     _sp.run(["pip", "install", "-q", "unsloth"], check=True)
 
@@ -142,7 +170,7 @@ if not DRY_RUN:
         use_gradient_checkpointing="unsloth", random_state=42)
 
 # %%
-if not DRY_RUN:
+if RUN_MODE in {"smoke", "train"}:
     from datasets import Dataset
     from trl import SFTTrainer
     from transformers import TrainingArguments
@@ -163,15 +191,15 @@ if not DRY_RUN:
             fp16=not bf16, bf16=bf16, logging_steps=10, optim="adamw_8bit",
             weight_decay=0.01, lr_scheduler_type="linear", seed=42, output_dir="outputs"))
     trainer.train()
-    model.save_pretrained("/kaggle/working/cadence_lora")   # the tiny adapter
-    tokenizer.save_pretrained("/kaggle/working/cadence_lora")
+    model.save_pretrained(os.path.join(OUTPUT_DIR, "cadence_lora"))   # the tiny adapter
+    tokenizer.save_pretrained(os.path.join(OUTPUT_DIR, "cadence_lora"))
 
 # %% [markdown]
 # ## Phase 3 - generate each arm's outputs, then grade with the real detector
 
 # %%
 def make_generate():
-    if DRY_RUN:
+    if RUN_MODE == "dry":
         return None
     from unsloth import FastLanguageModel
     FastLanguageModel.for_inference(model)
@@ -184,9 +212,9 @@ def make_generate():
     return gen
 
 heldout = read_jsonl(HELDOUT)
-OUT_BASE, OUT_LORA = "/kaggle/working/out_base.jsonl", "/kaggle/working/out_lora.jsonl"
+OUT_BASE, OUT_LORA = os.path.join(OUTPUT_DIR, "out_base.jsonl"), os.path.join(OUTPUT_DIR, "out_lora.jsonl")
 
-if DRY_RUN:
+if RUN_MODE == "dry":
     # No model: build both arms from the held-out ids using the sample texts, so the
     # arms line up with the split and the table renders.
     held_ids = [r["id"] for r in heldout]
@@ -203,14 +231,14 @@ else:
 # Optional Arm C (the ceiling): outputs from the prompt-based recast on a frontier
 # model, generated with your API key elsewhere, dropped in as out_prompt.jsonl.
 arms = {"base": OUT_BASE, "lora": OUT_LORA}
-if os.path.exists("/kaggle/working/out_prompt.jsonl"):
-    arms["prompt"] = "/kaggle/working/out_prompt.jsonl"
+if os.path.exists(os.path.join(OUTPUT_DIR, "out_prompt.jsonl")):
+    arms["prompt"] = os.path.join(OUTPUT_DIR, "out_prompt.jsonl")
 
 # %%
 # ---- the result: score + rhythm CV + per-tell, from the real detector ----
 grade_table(arms)
 results = grade_json(arms)
-json.dump(results, open("/kaggle/working/results.json", "w"), indent=2)
+json.dump(results, open(os.path.join(OUTPUT_DIR, "results.json"), "w"), indent=2)
 print("\nsaved results.json")
 
 # %%
@@ -243,7 +271,7 @@ if base and lora:
                     "flagged phrases without learning to vary sentence length. Report this, not just the score.")
 
 writeup = "\n\n".join(para) or "Need both a base and a lora arm to write up."
-open("/kaggle/working/writeup.md", "w").write(writeup + "\n")
+open(os.path.join(OUTPUT_DIR, "writeup.md"), "w").write(writeup + "\n")
 print(writeup)
 
 # Gate 2 - tee up the hand meaning-check the detector cannot do.
@@ -253,5 +281,9 @@ for r in read_jsonl(OUT_LORA)[:10]:
     print(f"\n[{r['id']}] IN : {ho.get(r['id'], '')[:200]}")
     print(f"[{r['id']}] OUT: {r['text'][:200]}")
 
-print("\nArtifacts to commit (NOT the base model): "
-      "cadence_lora/, train_pairs.jsonl, heldout_slop.jsonl, results.json, writeup.md")
+config = {"run_mode": RUN_MODE, "base_model": BASE_MODEL, "seed": SEED, "grade_a_max": GRADE_A_MAX, "max_train_steps": MAX_TRAIN_STEPS}
+json.dump(config, open(os.path.join(OUTPUT_DIR, "run-config.json"), "w"), indent=2)
+with zipfile.ZipFile(os.path.join(OUTPUT_DIR, "cadence-output.zip"), "w", zipfile.ZIP_DEFLATED) as z:
+    for p in pathlib.Path(OUTPUT_DIR).rglob("*"):
+        if p.name != "cadence-output.zip" and p.is_file(): z.write(p, p.relative_to(OUTPUT_DIR))
+print(f"\nArtifacts are in {OUTPUT_DIR}; download cadence-output.zip from the Kaggle Output tab.")

@@ -60,13 +60,32 @@ still hand-read a sample.
 [train_qwen_kaggle.py](train_qwen_kaggle.py), percent-format) runs the whole flow:
 rank-16 QLoRA on Qwen2.5-3B, Phase-1 grade-A filter, train, generate each arm's
 outputs, and grade with the real detector. Cell 3 proves the `deslop.mjs` wiring on
-sample data before any GPU time. Leave `DRY_RUN = True` to execute end-to-end on the
-sample data with no training; set it to False once your dataset is in place.
+sample data before any GPU time. The notebook uses three modes: `dry` (default,
+sample data and no GPU), `smoke` (two GPU training steps), and `train` (the full
+configured run).
 
-Turn on GPU and Internet in the Kaggle settings, and cache the base model as a
-Kaggle Dataset after the first run. The grading and filter cells are verified; the
-Unsloth/trl training cells follow the current quickstart and may need small tweaks as
-those libraries drift.
+### Run it on Kaggle
+
+1. Open or upload `train_qwen_kaggle.ipynb` in Kaggle.
+2. Attach a Kaggle Dataset containing `raw_pairs.jsonl` with `instruction`, `input`,
+   and `output` fields. Set `DATASET_PATH` only when automatic discovery cannot find
+   it.
+3. Start with `RUN_MODE = "dry"`. Select a T4/P100 GPU only for `smoke` or `train`.
+   Enable Internet when installing Unsloth or downloading the base model.
+4. Run `smoke` before a full job. The notebook validates Node, CUDA, the dataset,
+   and the grade-A filter before spending training time.
+5. Download `cadence-output.zip` from the notebook Output panel. It contains the
+   filtered pairs, held-out inputs, generated arms, detector results, writeup, and
+   run configuration; it never includes the base model.
+
+The Python file is the canonical source. Regenerate the notebook after editing it:
+
+```bash
+python3 scripts/build-kaggle-notebook.py
+```
+
+The dry path is the reproducible wiring check. Full GPU training remains dependent
+on the Kaggle image's current Unsloth, TRL, CUDA, and PyTorch versions.
 
 ## How the Kaggle notebook uses this
 
