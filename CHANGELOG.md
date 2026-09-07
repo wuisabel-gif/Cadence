@@ -21,6 +21,11 @@ Because detector rules affect scores, any release that changes a rule says so he
   measure the original and result, report the tells, and preserve document markup.
   No project `AGENTS.md` or Codex settings are overwritten. The npm package now
   includes the `cadence-install-codex` command.
+- **Shared agent-skill installation** for Kimi Code CLI, ZCode Agent, standalone
+  Claude Code, and OpenCode. `cadence-install-skill --agent <host>` bundles one
+  workflow and the existing detector, without setting a model or provider.
+  Kimi honors `KIMI_CODE_HOME`. ZCode installs user-wide; project scope uses its
+  documented import UI. Existing Codex commands remain compatible.
 - **Scoring documentation and diagnostics** (#9, #11). `SCORING.md` records the
   weights and formulas. `analyze()` returns the exact lexical and structural
   contributions; `breakdown.total` is the raw total before the score's 0–100 cap.

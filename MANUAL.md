@@ -23,6 +23,9 @@ Choose the integration for your workspace:
 - **The Codex skill** — install once with `npm run install:codex` from this
   checkout. It bundles the shared rules and profiles with the detector, without
   changing project instructions. See [integrations/codex/README.md](integrations/codex/README.md).
+- **Other coding agents** — the shared skill also has install targets for Kimi
+  Code CLI, ZCode Agent, standalone Claude Code, and OpenCode. These use the model
+  already configured in the host. See [integrations/agents/README.md](integrations/agents/README.md).
 
 ### Where the plugin runs
 
@@ -313,6 +316,8 @@ From a clone, the npm scripts:
 | `npm run install:codex` | Install the Codex skill for this user. |
 | `npm run install:codex -- --project <path>` | Install the skill for one project. |
 | `npm run build:codex` | Build a portable Codex skill directory. |
+| `npm run install:agent -- --agent <host>` | Install for `kimi`, `zcode`, `claude-code`, `opencode`, or `codex`. |
+| `npm run build:agent -- --agent <host>` | Build that host's portable skill directory without installing it. |
 | `npm run release:check` | Test the release and an install from its npm tarball; does not publish. |
 | `npm run deslop -- <file>` | Run the detector locally. |
 | `npm run check:docs` | Score the repo's own docs; fail if any drops below grade A. |

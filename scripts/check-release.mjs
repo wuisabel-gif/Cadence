@@ -7,6 +7,7 @@ import { mkdtempSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSyn
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { ROOT } from './codex-bundle.mjs';
+import { SKILL_TARGETS, defaultSkillDirectory } from './skill-targets.mjs';
 
 const readJson = (path) => JSON.parse(readFileSync(join(ROOT, path), 'utf8'));
 const pkg = readJson('package.json');
@@ -34,7 +35,10 @@ try {
   const paths = new Set(packed[0].files.map((file) => file.path));
   for (const path of [
     'scripts/install-codex.mjs', 'scripts/codex-bundle.mjs', 'scripts/build-codex.mjs',
-    'integrations/codex/SKILL.md', 'integrations/codex/README.md', 'integrations/codex/agents/openai.yaml',
+    'integrations/agents/SKILL.md', 'integrations/codex/README.md', 'integrations/codex/agents/openai.yaml',
+    'integrations/agents/README.md', 'integrations/kimi/README.md', 'integrations/zcode/README.md',
+    'integrations/claude-code/README.md', 'integrations/opencode/README.md',
+    'scripts/agent-bundle.mjs', 'scripts/skill-targets.mjs', 'scripts/install-agent-skill.mjs', 'scripts/build-agent-skill.mjs',
     'skills/cadence/AGENTS.md', 'skills/cadence/reference/voice-profile-schema.md',
     'skills/cadence/scripts/deslop.mjs', 'skills/cadence/scripts/extract-text.mjs',
     'LICENSE', 'SCORING.md', 'CHANGELOG.md', 'SECURITY.md',
@@ -49,7 +53,7 @@ try {
   const packageRoot = join(work, 'package');
   const home = join(work, 'isolated-home');
   mkdirSync(home);
-  const env = { ...process.env, HOME: home, USERPROFILE: home };
+  const env = { ...process.env, HOME: home, USERPROFILE: home, KIMI_CODE_HOME: join(home, '.kimi-code') };
   execFileSync(process.execPath, [join(packageRoot, 'scripts/install-codex.mjs')], { cwd: home, env });
   const skill = join(home, '.agents/skills/cadence');
   const detector = join(skill, 'skills/cadence/scripts/deslop.mjs');
@@ -65,8 +69,19 @@ try {
   const built = join(work, 'standalone-build', 'cadence');
   execFileSync(process.execPath, [join(packageRoot, 'scripts/build-codex.mjs'), '--out', built], { cwd: home });
   assert.equal(readFileSync(join(built, 'SKILL.md'), 'utf8'), readFileSync(join(skill, 'SKILL.md'), 'utf8'));
+  assert.equal(pkg.bin['cadence-install-skill'], 'scripts/install-agent-skill.mjs');
+  for (const agent of Object.keys(SKILL_TARGETS)) {
+    execFileSync(process.execPath, [join(packageRoot, 'scripts/install-agent-skill.mjs'), '--agent', agent], { cwd: home, env });
+    const installed = defaultSkillDirectory(agent, { home, env });
+    assert.equal(readFileSync(join(installed, 'SKILL.md'), 'utf8'), readFileSync(join(ROOT, 'integrations/agents/SKILL.md'), 'utf8'));
+    assert.deepEqual(readdirSync(join(installed, 'voices')).sort(), seeds);
+    const executable = join(installed, 'skills/cadence/scripts/deslop.mjs');
+    assert.equal(execFileSync(process.execPath, [executable, '--version'], { cwd: home, encoding: 'utf8' }).trim(), version);
+    const scored = JSON.parse(execFileSync(process.execPath, [executable, '--prose-only', '--json', draft], { cwd: home, encoding: 'utf8' }));
+    assert.deepEqual(scored, result);
+  }
   console.log(`npm tarball verified: ${packed[0].filename} (${paths.size} files, ${seeds.length} seed voices)`);
-  console.log('Packed installer, bundled CLI/version, standalone build, and local Markdown scoring passed.');
+  console.log('Packed installs and local scoring passed for: ' + Object.keys(SKILL_TARGETS).join(', '));
   console.log('No package published, release created, or real user configuration changed.');
 } finally {
   rmSync(work, { recursive: true, force: true });

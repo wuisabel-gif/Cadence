@@ -1,8 +1,8 @@
-# Cadence — write like a human (Codex skill)
+# Cadence — shared writing rules
 
 Make AI-written prose sound like a person wrote it, in a voice you choose, and strip
-the AI tone. This is the Codex / `AGENTS.md` version of Cadence; the Claude Code
-version is `SKILL.md` in the same folder. Use it whenever the user wants to write,
+the AI tone. These rules are shared by Cadence's installable agent skills. The
+client's `SKILL.md` supplies the execution workflow. Use them when asked to write,
 rewrite, de-slop, or improve prose — essays, posts, landing copy, emails, docs — so it
 reads human instead of AI-generated.
 
@@ -14,7 +14,7 @@ that quietly drops a fact is a failure, not a win.
 
 ## Score with the detector
 
-In the installed Codex skill, use the bundled detector via the paths in `SKILL.md`.
+In an installed agent skill, use the bundled detector via the paths in `SKILL.md`.
 It runs with Node 18 or newer, without npm downloads or runtime dependencies.
 
 Without the skill installed, the detector is also on npm. `npx` may download the

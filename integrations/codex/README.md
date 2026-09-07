@@ -4,6 +4,10 @@ Install Cadence once, then ask Codex to recast prose in a named voice and verify
 its edits. The skill bundles the detector with the shared writing rules and voice
 profiles. You do not need to copy an `AGENTS.md` into each repository.
 
+The portable source is now [integrations/agents/SKILL.md](../agents/SKILL.md),
+shared with the other agent hosts. Codex retains its installer aliases and optional
+`agents/openai.yaml` metadata; its discovery paths are unchanged.
+
 ## Install from a checkout
 
 Use Node 18 or newer and a Codex version with Agent Skills support. From Cadence's
