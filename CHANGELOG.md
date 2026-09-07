@@ -26,6 +26,10 @@ Because detector rules affect scores, any release that changes a rule says so he
   workflow and the existing detector, without setting a model or provider.
   Kimi honors `KIMI_CODE_HOME`. ZCode installs user-wide; project scope uses its
   documented import UI. Existing Codex commands remain compatible.
+- **Website install cards** for the five agent hosts, with copyable source
+  commands and links to setup guides. The site separates source availability from
+  npm publication, explains model/provider boundaries, and checks demo scores
+  against the detector in tests.
 - **Scoring documentation and diagnostics** (#9, #11). `SCORING.md` records the
   weights and formulas. `analyze()` returns the exact lexical and structural
   contributions; `breakdown.total` is the raw total before the score's 0–100 cap.

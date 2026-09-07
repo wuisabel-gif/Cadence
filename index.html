@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cadence: catch robotic writing, write in a voice you choose</title>
 <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
-<meta name="description" content="Cadence catches writing that sounds robotic and rewrites it in a voice you choose, in Claude, Codex, Gemini, your browser, or the command line. It learns a voice from writing you admire, writes in it, and runs a deterministic checker that scores any draft and names every tell.">
+<meta name="description" content="Install Cadence in Codex, Kimi Code CLI, ZCode, Claude Code, or OpenCode. Recast prose in a chosen voice and verify edits with the same local detector. Source installers are available now; the v0.3.0 npm release is pending.">
 <meta property="og:title" content="Cadence: catch robotic writing, write in a voice you choose">
-<meta property="og:description" content="Catch writing that sounds robotic and rewrite it in a voice you choose. A deterministic checker scores any draft and names every tell.">
+<meta property="og:description" content="One writing workflow across coding agents. Install from source, choose a voice, and measure before and after. The v0.3.0 npm release is pending.">
 <meta property="og:type" content="website">
 <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,7 +71,7 @@ code,kbd,samp{font-family:var(--mono)}
 .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad)}
 .eyebrow-cmd{font-family:var(--mono);font-size:.8rem;color:var(--flag-ink);letter-spacing:.01em}
 .lede{font-size:clamp(1.18rem,0.8vw + 1rem,1.5rem);line-height:1.5;color:var(--ink-soft);max-width:60ch}
-section{padding-block:clamp(3.5rem,8vw,7rem)}
+section{padding-block:clamp(3.5rem,8vw,7rem);scroll-margin-top:72px}
 
 /* ============================== top bar ============================== */
 .bar{position:sticky;top:0;z-index:var(--z-sticky);background:color-mix(in oklab,var(--paper) 86%, transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
@@ -81,15 +81,17 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
 .bar nav{margin-left:auto;display:flex;gap:1.4rem;align-items:center;font-family:var(--display);font-size:.92rem;font-weight:500}
 .bar nav a{color:var(--ink-soft);text-decoration:none}
 .bar nav a:hover{color:var(--brand)}
-.chip{font-family:var(--mono);font-size:.72rem;font-weight:500;padding:.2rem .5rem;border:1px solid var(--line-2);border-radius:6px;color:var(--muted)}
+.chip{font-family:var(--mono);font-size:.72rem;font-weight:500;padding:.2rem .5rem;border:1px solid var(--line-2);border-radius:6px;color:var(--muted);white-space:nowrap}
 .bar nav .gh{display:inline-flex;align-items:center;color:var(--ink-soft);transition:color .2s var(--ease),transform .2s var(--ease)}
 .bar nav .gh:hover{color:var(--ink);transform:translateY(-1px)}
-@media(max-width:720px){.bar nav .navlink{display:none}}
+@media(max-width:1040px){.bar nav .navlink{display:none}}
 
 /* ============================== hero ============================== */
 .hero{padding-top:clamp(3rem,7vw,5.5rem);padding-bottom:clamp(2.5rem,5vw,4rem)}
 .hero h1{font-size:clamp(2.55rem,6.2vw,4.7rem);font-weight:800;letter-spacing:-0.025em;max-width:15ch}
 .hero .lede{margin-top:1.4rem}
+.host-strip{display:flex;flex-wrap:wrap;gap:.45rem .9rem;list-style:none;padding:0;margin:1.3rem 0 0;font-family:var(--display);font-size:.92rem}
+.host-strip a{color:var(--ink-soft)}
 .hero-cta{margin-top:2rem;display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
 .btn{font-family:var(--display);font-weight:600;font-size:.96rem;border-radius:10px;padding:.72rem 1.15rem;border:1px solid transparent;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;transition:transform .25s var(--ease),background .25s var(--ease)}
 .btn-primary{background:var(--ink);color:var(--paper)}
@@ -239,19 +241,37 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
 .install{background:var(--paper-2);border-block:1px solid var(--line)}
 .install-grid{margin-top:clamp(2rem,4vw,3rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,3vw,3rem);align-items:start}
 @media(max-width:780px){.install-grid{grid-template-columns:1fr}}
-.codeblock{background:var(--panel);border-radius:12px;padding:1.1rem 1.2rem;font-family:var(--mono);font-size:.84rem;line-height:1.75;color:var(--panel-ink);overflow-x:auto}
+.codeblock{background:var(--panel);border-radius:12px;padding:1.1rem 1.2rem;font-family:var(--mono);font-size:.84rem;line-height:1.75;color:var(--panel-ink);overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere}
 .codeblock .cm{color:var(--panel-mut)}
 .codeblock .pr{color:var(--panel-good)}
 .codeblock+.codeblock{margin-top:1rem}
 .steps{font-family:var(--serif)}
 .steps p{margin-bottom:1.1rem;color:var(--ink-soft)}
 .steps p strong{color:var(--ink);font-weight:600}
-.status{margin-top:1.5rem;display:flex;align-items:center;gap:.7rem;font-family:var(--mono);font-size:.82rem;color:var(--ink-soft)}
+.status{margin-top:1.5rem;display:flex;flex-wrap:wrap;align-items:center;gap:.7rem;font-family:var(--mono);font-size:.82rem;color:var(--ink-soft)}
 .status .v{padding:.2rem .55rem;border:1px solid var(--line-2);border-radius:6px;color:var(--brand);font-weight:600}
 .callout{margin-top:1.4rem;padding:1rem 1.15rem;border:1px solid var(--line-2);border-radius:12px;background:var(--paper);font-family:var(--serif);font-size:.98rem;line-height:1.55;color:var(--ink-soft)}
 .callout b{color:var(--ink);font-weight:600}
 .callout .no{color:var(--flag-ink);font-weight:600}
 .callout code{font-family:var(--mono);font-size:.85em;background:var(--paper-2);padding:.1em .35em;border-radius:4px;border:1px solid var(--line);color:var(--ink)}
+
+/* ============================== agent installs ============================== */
+.source-note{padding:1rem 1.2rem;margin-top:1.5rem;border-left:3px solid var(--brand);background:var(--paper-2);color:var(--ink-soft);font-size:1rem;line-height:1.55}
+.agent-start{margin-top:1.8rem;max-width:70ch}
+.agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1rem;margin-top:1.5rem}
+.agent-card{min-width:0;border:1px solid var(--line-2);border-radius:12px;padding:1.35rem;background:var(--paper);display:flex;flex-direction:column;gap:.85rem;scroll-margin-top:85px}
+.agent-card h3{font-size:1.35rem;line-height:1.2}
+.agent-card p{font-size:.96rem;line-height:1.5;color:var(--ink-soft)}
+.agent-card .agent-path{font-family:var(--mono);font-size:.72rem;color:var(--muted);overflow-wrap:anywhere}
+.agent-card .agent-guide{margin-top:auto;font-family:var(--display);font-size:.94rem}
+.agent-command{display:flex;align-items:center;gap:.65rem;padding:.65rem .75rem;background:var(--panel);border-radius:8px;color:var(--panel-ink)}
+.agent-command code{display:block;min-width:0;flex:1;overflow-x:auto;white-space:nowrap;font-size:.77rem}
+.copy-command{flex:none;font-family:var(--display);font-size:.76rem;font-weight:600;padding:.4rem .5rem;border:1px solid var(--panel-mut);border-radius:5px;background:transparent;color:var(--panel-ink);cursor:pointer}
+.copy-command:hover{background:var(--panel-line)}
+.no-js .copy-command{display:none}
+.copy-status{min-height:1.6em;margin-top:.7rem;font-family:var(--mono);font-size:.8rem;color:var(--ink-soft)}
+.agent-notes{margin-top:1.25rem;max-width:76ch;color:var(--ink-soft);font-size:1rem}
+.agent-notes p+p{margin-top:.8rem}
 
 /* ============================== faq ============================== */
 .faq-list{margin-top:clamp(2rem,4vw,3rem);border-top:1px solid var(--line)}
@@ -280,7 +300,7 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
 .foot{padding-block:clamp(3rem,6vw,5rem);border-top:1px solid var(--line)}
 .foot-grid{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start}
 @media(max-width:680px){.foot-grid{grid-template-columns:1fr}}
-.foot .tree{font-family:var(--mono);font-size:.76rem;line-height:1.7;color:var(--muted);white-space:pre}
+.foot .tree{font-family:var(--mono);font-size:.76rem;line-height:1.7;color:var(--muted);white-space:pre;max-width:100%;overflow-x:auto}
 .foot .signoff{max-width:42ch}
 .foot .signoff p{color:var(--ink-soft);font-size:1rem;margin-top:.6rem}
 .foot .meta{margin-top:1.5rem;font-family:var(--mono);font-size:.74rem;color:var(--muted)}
@@ -324,11 +344,11 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
       <a class="navlink" href="check.html">Score your text</a>
       <a class="navlink" href="#voices">Voices</a>
       <a class="navlink" href="#detector">Detector</a>
-      <a class="navlink" href="#commands">Commands</a>
+      <a class="navlink" href="#agents">Agents</a>
       <a class="navlink" href="#whats-new">What's new</a>
-      <a class="navlink" href="#install">Install</a>
+      <a class="navlink" href="#install">Plugin</a>
       <a class="navlink" href="#faq">FAQ</a>
-      <span class="chip">v0.2</span>
+      <span class="chip" data-source-version="0.3.0">v0.3.0 · source</span>
       <a class="gh" href="https://github.com/wuisabel-gif/Cadence" target="_blank" rel="noopener" aria-label="Cadence on GitHub">
         <svg viewBox="0 0 24 24" width="21" height="21" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.78 0 12.29c0 5.2 3.44 9.6 8.21 11.16.6.11.82-.25.82-.56 0-.28-.01-1.02-.02-2-3.34.71-4.04-1.58-4.04-1.58-.55-1.36-1.34-1.73-1.34-1.73-1.09-.73.08-.71.08-.71 1.2.08 1.84 1.21 1.84 1.21 1.07 1.79 2.81 1.27 3.5.97.11-.76.42-1.27.76-1.56-2.67-.3-5.47-1.31-5.47-5.83 0-1.29.47-2.34 1.23-3.17-.12-.3-.53-1.52.12-3.16 0 0 1.01-.32 3.3 1.21a11.6 11.6 0 0 1 3-.4c1.02 0 2.05.13 3 .4 2.28-1.53 3.29-1.21 3.29-1.21.65 1.64.24 2.86.12 3.16.77.83 1.23 1.88 1.23 3.17 0 4.53-2.81 5.53-5.49 5.82.43.37.81 1.1.81 2.22 0 1.6-.01 2.9-.01 3.29 0 .31.21.68.83.56A12.02 12.02 0 0 0 24 12.29C24 5.78 18.63.5 12 .5z"/></svg>
       </a>
@@ -343,14 +363,21 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
     <p class="eyebrow-cmd reveal">cadence · prose fluency for any AI agent or the command line</p>
     <h1 class="reveal" style="margin-top:1rem">Make it sound like you wrote it.</h1>
     <p class="lede reveal">Cadence learns a voice from writing you admire, then writes in it. Underneath, a deterministic checker scores any draft and names every tell, so a clean result is something you check, not just trust.</p>
+    <ul class="host-strip" aria-label="Installable agent hosts">
+      <li><a href="#agent-codex">Codex</a></li>
+      <li><a href="#agent-kimi">Kimi Code CLI</a></li>
+      <li><a href="#agent-zcode">ZCode Agent</a></li>
+      <li><a href="#agent-claude-code">Claude Code</a></li>
+      <li><a href="#agent-opencode">OpenCode</a></li>
+    </ul>
     <div class="hero-cta reveal">
       <a class="btn btn-primary" href="check.html">Score your writing →</a>
-      <a class="btn btn-ghost" href="#voices">See the voices</a>
+      <a class="btn btn-ghost" href="#agents">Install for your agent</a>
       <a class="btn btn-ghost" href="#detector">How the detector works</a>
     </div>
 
     <!-- signature: live readout -->
-    <div class="readout reveal" id="readout">
+    <div class="readout reveal" id="readout" data-before-score="63" data-before-grade="D" data-after-score="0" data-after-grade="A">
       <div class="readout-head">
         <span class="file">marketing-draft.txt</span>
         <span class="state"><span class="tdot s-slop"></span><span id="stateLabel">flagged · grade D</span></span>
@@ -371,21 +398,21 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
             <div class="scale-label"><b>0 · clean</b><i>100 · slop</i></div>
             <div class="track">
               <div class="ticks"><span></span><span></span><span></span><span></span><span></span></div>
-              <div class="marker" id="marker" style="left:61%"></div>
+              <div class="marker" id="marker" style="left:63%"></div>
             </div>
             <div class="ticknums"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
           </div>
           <div class="score-block">
-            <div><span class="score-num" id="scoreNum">61</span><span class="score-den"> /100</span></div>
+            <div><span class="score-num" id="scoreNum">63</span><span class="score-den"> /100</span></div>
             <div class="grade">grade <b id="gradeChip">D</b></div>
           </div>
         </div>
       </div>
 
       <div class="readout-foot">
-        <span class="caption" id="caption">Real output from skills/cadence/scripts/deslop.mjs</span>
+        <span class="caption" id="caption">Checked example · real detector scores, no model runs in this demo</span>
         <button class="toggle" id="toggle" aria-pressed="false">
-          <span class="arrow">↻</span><span id="toggleLabel">Run /cadence recast</span>
+          <span class="arrow">↻</span><span id="toggleLabel">See example rewrite</span>
         </button>
       </div>
     </div>
@@ -577,15 +604,15 @@ register:</span> brand<span class="fm">
     <div class="wrap">
       <div class="head reveal">
         <h2>A detector you can run yourself.</h2>
-        <p>The engine is plain Node: no dependencies, no network. Run it on any draft and the score comes back the same every time, with every tell named. Nothing about the result asks you to take it on faith. On a 48-sample labeled corpus it flags AI with about 91% precision and rarely mislabels a human, though it misses subtler AI, so recall sits near 42%.</p>
+        <p>The engine is plain Node with no runtime dependencies. Local scoring makes no network requests; a URL is fetched only when you ask. The score is deterministic, and each lexical tell is named. On the 48-sample regression corpus, precision is 90.9% and recall is 41.7%. That small, authored corpus is a regression check, not a blind authorship test.</p>
       </div>
 
       <div class="det-grid">
-        <div class="terminal reveal" role="img" aria-label="Terminal output of the deslop detector before and after recasting, showing the score drop from 61 to 0.">
+        <div class="terminal reveal" role="img" aria-label="Checked example detector output before and after a rewrite, showing the score drop from 63 to 0.">
           <div class="tbar"><i></i><i></i><i></i></div>
 <pre><span class="cmd">$ node skills/cadence/scripts/deslop.mjs before.txt</span>
 
-Cadence de-slop  ·  <span class="flag">score 61/100  ·  grade D</span>
+Cadence de-slop  ·  <span class="flag">score 63/100  ·  grade D</span>
   <span class="flag">banned-phrase (4)</span>: "In today's world", "When it comes to",
                     "game-changer", "Whether you're"
   <span class="flag">hollow-confidence (5)</span>: "seamlessly", "powerful",
@@ -596,18 +623,18 @@ Cadence de-slop  ·  <span class="flag">score 61/100  ·  grade D</span>
 <span class="cm"># recast into the plain voice, then re-score:</span>
 <span class="cmd">$ node skills/cadence/scripts/deslop.mjs after.txt</span>
 
-Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grade A</span>     (61 → 0)</pre>
+Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grade A</span>     (63 → 0)</pre>
         </div>
 
         <div class="reveal">
           <dl class="measures">
-            <div><dt><span class="lead">▍</span>Sentence-length variance</dt><dd>The strongest tell, weighted highest. Flat rhythm is what reads as machine-made.</dd></div>
+            <div><dt><span class="lead">▍</span>Sentence-length variance</dt><dd>Measures the spread in sentence lengths alongside the lexical rules. Read the findings in context.</dd></div>
             <div><dt>Banned-phrase list</dt><dd>“In today's world,” “when it comes to,” and the rest of the stock openers and fillers.</dd></div>
             <div><dt>Hollow-confidence words</dt><dd>Assertions that carry no content: seamless, robust, powerful, comprehensive.</dd></div>
             <div><dt>Triad density · negation pivots</dt><dd>The reflexive three-part list and the “not X, it's Y” seesaw.</dd></div>
             <div><dt>Hedge stacking · adverb · em-dash rate</dt><dd>Qualifier pile-ups and the punctuation habits that give a draft away.</dd></div>
           </dl>
-          <p class="det-foot">Gate it in CI: <b>--strict</b> exits 1 when the score climbs past 25. A clean build is a clean draft.</p>
+          <p class="det-foot">Gate it in CI: <b>--strict</b> exits 1 above 25; <b>--max</b> sets your own ceiling. The source API also exposes exact score contributions. See <a href="https://github.com/wuisabel-gif/Cadence/blob/main/SCORING.md" style="color:var(--panel-good)">the scoring model</a>. A passing gate is not a quality guarantee.</p>
         </div>
       </div>
     </div>
@@ -617,7 +644,7 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
   <section class="cmds wrap" id="commands">
     <div class="head reveal">
       <h2>Five commands.</h2>
-      <p>You type these in Claude Code. Each takes a sample, a brief, or a block of text.</p>
+      <p>These operations are shared across agents. The examples below use Claude Code syntax; use your host's invocation shown in the <a href="#agents">install cards</a>, or ask naturally.</p>
     </div>
     <table class="reveal">
       <thead><tr><th scope="col">Command</th><th scope="col">What it does</th></tr></thead>
@@ -631,13 +658,88 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
     </table>
   </section>
 
+  <!-- ============ AGENT INSTALLS ============ -->
+  <section class="agents wrap" id="agents" aria-labelledby="agents-heading">
+    <div class="head reveal">
+      <h2 id="agents-heading">Pick your agent. Keep your voice.</h2>
+      <p>One shared skill, the same ten profiles, and a local detector. Use the model already configured in your host — Kimi, GLM, or another supported model. Cadence does not change endpoints, API keys, or approvals.</p>
+    </div>
+    <p class="source-note" id="release-status"><strong>Available from source now.</strong> The <code>v0.3.0</code> integrations are merged on GitHub; the npm v0.3.0 package has not been published. Use a checkout for the commands below. <a href="https://github.com/wuisabel-gif/Cadence/blob/main/docs/releases/v0.3.0.md">Release notes and remaining sign-off</a>.</p>
+    <div class="agent-start">
+      <p>First, get a checkout. You need Node 18 or newer for the detector.</p>
+      <pre class="codeblock"><code>git clone https://github.com/wuisabel-gif/Cadence.git
+cd Cadence</code></pre>
+      <p>Then choose one user-wide installer for your host:</p>
+    </div>
+    <div class="agent-grid">
+      <article class="agent-card" data-agent="codex" aria-labelledby="agent-codex">
+        <h3 id="agent-codex">Codex</h3>
+        <p>Start a new session and select <code>$cadence</code>, or ask to use Cadence.</p>
+        <div class="agent-command"><code id="install-codex">npm run install:codex</code><button type="button" class="copy-command" data-copy="install-codex" aria-label="Copy Codex install command">Copy</button></div>
+        <p class="agent-path">~/.agents/skills/cadence</p>
+        <p>Project-local installation is available. No repository <code>AGENTS.md</code> is overwritten.</p>
+        <a class="agent-guide" href="https://github.com/wuisabel-gif/Cadence/blob/main/integrations/codex/README.md">Codex setup →</a>
+      </article>
+      <article class="agent-card" data-agent="kimi" aria-labelledby="agent-kimi">
+        <h3 id="agent-kimi">Kimi Code CLI</h3>
+        <p>Start a new session and use <code>/skill:cadence</code>, or ask naturally.</p>
+        <div class="agent-command"><code id="install-kimi">npm run install:kimi</code><button type="button" class="copy-command" data-copy="install-kimi" aria-label="Copy Kimi Code CLI install command">Copy</button></div>
+        <p class="agent-path">~/.kimi-code/skills/cadence</p>
+        <p>Honors <code>KIMI_CODE_HOME</code>. This targets the current Kimi Code CLI; legacy <code>kimi-cli</code> paths differ.</p>
+        <a class="agent-guide" href="https://github.com/wuisabel-gif/Cadence/blob/main/integrations/kimi/README.md">Kimi setup →</a>
+      </article>
+      <article class="agent-card" data-agent="zcode" aria-labelledby="agent-zcode">
+        <h3 id="agent-zcode">ZCode Agent</h3>
+        <p>Refresh Settings → Skills, enable Cadence, then select <code>$cadence</code>.</p>
+        <div class="agent-command"><code id="install-zcode">npm run install:zcode</code><button type="button" class="copy-command" data-copy="install-zcode" aria-label="Copy ZCode install command">Copy</button></div>
+        <p class="agent-path">~/.zcode/skills/cadence</p>
+        <p>This is a user-wide install. For project-only use, follow ZCode's import UI; <code>--project</code> is not supported here.</p>
+        <a class="agent-guide" href="https://github.com/wuisabel-gif/Cadence/blob/main/integrations/zcode/README.md">ZCode setup →</a>
+      </article>
+      <article class="agent-card" data-agent="claude-code" aria-labelledby="agent-claude-code">
+        <h3 id="agent-claude-code">Claude Code</h3>
+        <p>Use <code>/cadence</code> or a natural request with your configured provider.</p>
+        <div class="agent-command"><code id="install-claude">npm run install:claude</code><button type="button" class="copy-command" data-copy="install-claude" aria-label="Copy Claude Code install command">Copy</button></div>
+        <p class="agent-path">~/.claude/skills/cadence</p>
+        <p>A standalone alternative to the plugin. If your Cadence plugin works, changing models needs no second install.</p>
+        <a class="agent-guide" href="https://github.com/wuisabel-gif/Cadence/blob/main/integrations/claude-code/README.md">Claude Code setup →</a>
+      </article>
+      <article class="agent-card" data-agent="opencode" aria-labelledby="agent-opencode">
+        <h3 id="agent-opencode">OpenCode</h3>
+        <p>Ask OpenCode to load the <code>cadence</code> skill. No special slash command is assumed.</p>
+        <div class="agent-command"><code id="install-opencode">npm run install:opencode</code><button type="button" class="copy-command" data-copy="install-opencode" aria-label="Copy OpenCode install command">Copy</button></div>
+        <p class="agent-path">~/.config/opencode/skills/cadence</p>
+        <p>Your agent needs access to its skill and shell tools. Keep its existing permission policy.</p>
+        <a class="agent-guide" href="https://github.com/wuisabel-gif/Cadence/blob/main/integrations/opencode/README.md">OpenCode setup →</a>
+      </article>
+    </div>
+    <p class="copy-status" id="install-copy-status" role="status" aria-live="polite"></p>
+    <div class="agent-notes">
+      <p>Prefer one repository? Codex, Kimi Code CLI, Claude Code, and OpenCode accept <code>-- --project /path/to/project</code> after the npm installer command. ZCode uses its project import UI instead. See the <a href="https://github.com/wuisabel-gif/Cadence/blob/main/integrations/agents/README.md">scope and upgrade guide</a> before changing an existing installation.</p>
+      <p>Try: <em>“Use Cadence to recast README.md in the essence voice and report the before/after scores.”</em> The skill asks the agent to preserve facts and markup, load the voice, and run the same scoring command before and after. Review the diff; a low score does not prove that meaning survived.</p>
+      <p>Installation and detector checks cover all five targets. Native discovery has been checked in Codex and Kimi Code CLI; live-agent rewrite checks in the other clients remain manual. Local scoring is offline, but the host's writing model may still use a remote service.</p>
+    </div>
+  </section>
+
   <!-- ============ WHAT'S NEW ============ -->
   <section class="shipped wrap" id="whats-new">
     <div class="head reveal">
-      <h2>Recently shipped.</h2>
-      <p>One detector, more places to use it. Newest first.</p>
+      <h2>What's new in the source.</h2>
+      <p>One detector, more places to use it. Source updates and published releases are marked separately.</p>
     </div>
     <ul class="changelog reveal">
+      <li>
+        <span class="date">Sep 7, 2026</span>
+        <span class="entry"><span class="new">SOURCE</span> <b>Install once in your agent.</b> Codex, Kimi Code CLI, ZCode Agent, Claude Code, and OpenCode now share one skill, the ten voice profiles, and the same local detector. <a href="#agents">Choose an installer</a>. Your provider settings and existing project instructions stay untouched.</span>
+      </li>
+      <li>
+        <span class="date">Sep 7, 2026</span>
+        <span class="entry"><b>v0.3.0 is being prepared, not published to npm.</b> The source adds exact score breakdowns and clearer errors for text over 5 MiB. Browser and editor views clear stale results when scoring fails. <a href="https://github.com/wuisabel-gif/Cadence/blob/main/docs/releases/v0.3.0.md">Read the release notes and remaining checks</a>.</span>
+      </li>
+      <li>
+        <span class="date">Sep 7, 2026</span>
+        <span class="entry"><b>A clearer Kaggle experiment.</b> The notebook has dry, smoke, and training modes with downloadable artifacts. Dry mode uses sample fixtures; full GPU training remains unverified. <a href="https://github.com/wuisabel-gif/Cadence/blob/main/lora/README.md">Notebook setup and limitations</a>.</span>
+      </li>
       <li>
         <span class="date">Jul 7, 2026</span>
         <span class="entry"><span class="new">NEW</span> <b>Score any text in your browser, and put it on your phone.</b> The hosted <a href="check.html">score page</a> runs the same detector on anything you paste, on-device, and names every tell. On a phone it installs to your home screen and works offline, like a small app. Share a result as a link or save it as a card image.</span>
@@ -648,7 +750,7 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
       </li>
       <li>
         <span class="date">Jul 7, 2026</span>
-        <span class="entry"><b>LoRA-Cadence.</b> An experiment that trains a small local adapter to humanize slop, graded by the detector itself instead of a self-graded benchmark. The eval rig and a Kaggle notebook live in <code>lora/</code>.</span>
+        <span class="entry"><b>LoRA-Cadence.</b> An experimental evaluation harness and Kaggle notebook live in <code>lora/</code>. Detector scores are one diagnostic, not independent proof of rewrite quality.</span>
       </li>
       <li>
         <span class="date">Jul 3, 2026</span>
@@ -701,8 +803,8 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
   <section class="install" id="install">
     <div class="wrap">
       <div class="head reveal">
-        <h2>Install it.</h2>
-        <p>Cadence ships as a Claude Code plugin. Add the marketplace once, install, and the commands are live in your next session.</p>
+        <h2>Prefer the Claude Code plugin?</h2>
+        <p>The existing marketplace route still works. Add it once and install the plugin, then start a new session. Other agents use the <a href="#agents">source installers above</a>.</p>
       </div>
       <div class="install-grid">
         <div class="reveal">
@@ -712,18 +814,18 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
 <span class="cm"># 2 · install the plugin: name@marketplace</span>
 <span class="pr">&gt;</span> /plugin install cadence@cadence</div>
           <div class="codeblock"><span class="cm"># 3 · start a fresh session, then try</span>
-<span class="pr">&gt;</span> /cadence voices
-<span class="pr">&gt;</span> /cadence deslop &lt;paste a draft&gt;
-<span class="pr">&gt;</span> /cadence write a 150-word intro in the counsel voice</div>
-          <div class="status">status <span class="v">v0.2</span> · the detector and ten seed voices work and are tested</div>
+<span class="pr">&gt;</span> Use Cadence to list the available voices.
+<span class="pr">&gt;</span> Use Cadence to de-slop this draft.
+<span class="pr">&gt;</span> Use Cadence to write a 150-word intro in the counsel voice.</div>
+          <div class="status"><span class="v" data-source-version="0.3.0">v0.3.0 source</span> · ten seed voices · npm release pending</div>
         </div>
         <div class="steps reveal">
-          <div class="callout"><b>Where it runs:</b> Cadence loads only in <b>Claude Code</b>: the <code>claude</code> command in a terminal, the VS&nbsp;Code / JetBrains extension, or the desktop app's Code mode. <span class="no">Not</span> the claude.ai website or the desktop app's regular chat. If <code>/cadence</code> isn't recognized, you're in a regular chat.</div>
+          <div class="callout"><b>This plugin route is for Claude Code.</b> It is separate from the standalone agent skills. Regular claude.ai chats use the uploadable skill bundle, and can verify scores only when code execution is available.</div>
           <p>Both steps matter: <strong>marketplace add</strong> makes Cadence available; <strong>install</strong> turns it on. Then open a new session. Skills load at startup.</p>
           <p>Rather click than type? Run <strong>/plugin</strong>, open the Discover tab, and pick Cadence from the list.</p>
-          <p>Working on Cadence itself? Skip the marketplace and link the skill straight into your config:</p>
+          <p>Working from a clone? Use the self-contained installer rather than a symlink that leaves supporting files behind:</p>
           <div class="codeblock"><span class="cm"># develop locally</span>
-<span class="pr">$</span> ln -s "$(pwd)/skills/cadence" ~/.claude/skills/cadence
+<span class="pr">$</span> npm run install:claude
 <span class="pr">$</span> npm test   <span class="cm"># run the test suite</span></div>
         </div>
       </div>
@@ -738,8 +840,8 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
     </div>
     <div class="faq-list reveal">
       <details>
-        <summary>Where does /cadence work?</summary>
-        <div class="a">Only in <b>Claude Code</b>: the <code>claude</code> command in a terminal, the VS&nbsp;Code / JetBrains extension, or the desktop app's Code mode. <span class="no">Not</span> the claude.ai website or the desktop app's regular chat. If you type <code>/cadence</code> and it isn't recognized, you're in a regular chat. Switch to a Claude Code session.</div>
+        <summary>How do I invoke Cadence in my agent?</summary>
+        <div class="a">The standalone Claude Code skill uses <code>/cadence</code>; Codex and ZCode use <code>$cadence</code>; Kimi Code CLI uses <code>/skill:cadence</code>. For a Claude plugin install, choose Cadence from the installed command menu or ask naturally. In OpenCode, ask it to load the <code>cadence</code> skill. The <a href="#agents">install cards</a> explain discovery. A regular web chat without local execution cannot run the bundled detector.</div>
       </details>
       <details>
         <summary>I added the marketplace but nothing happens.</summary>
@@ -747,7 +849,7 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
       </details>
       <details>
         <summary>Will it change my meaning or my layout?</summary>
-        <div class="a"><span class="no">No.</span> Cadence works on the words only. It never alters what a sentence claims or how a document is built. Recasting a file leaves every tag, class, and code fence exactly in place.</div>
+        <div class="a">Preserving both is a requirement, not a guarantee. The skill tells the agent to edit only the prose and review the diff for changed facts or structure. Check the result yourself: the detector cannot tell whether a smoother sentence dropped a fact, and a lower score does not prove that code fences or links survived.</div>
       </details>
       <details>
         <summary>Is a clean score the same as good writing?</summary>
@@ -755,7 +857,7 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
       </details>
       <details>
         <summary>Can I use it without Claude Code?</summary>
-        <div class="a">Yes. The detector runs on its own. <code>npx cadence-deslop draft.txt</code> scores any file, a whole folder, or a live URL, with no install and no dependencies.</div>
+        <div class="a">Yes. Use a <a href="#agents">shared agent installer</a>, the <a href="check.html">browser checker</a>, or the published CLI: <code>npx cadence-deslop draft.txt</code>. The first npm invocation may download the package. For the newest source features, run <code>node skills/cadence/scripts/deslop.mjs</code> from a checkout; npm and source versions can differ.</div>
       </details>
       <details>
         <summary>How do I add my own voice?</summary>
@@ -763,11 +865,19 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
       </details>
       <details>
         <summary>What does it cost?</summary>
-        <div class="a">Nothing. Cadence is open source under the MIT license, and Claude Code plugins have no store and no fee.</div>
+        <div class="a">Cadence is MIT-licensed open source, and its local detector requires no model API. Your agent or model provider may charge for writing requests. Cadence does not supply an account, subscription, or API key.</div>
       </details>
       <details>
-        <summary>How big is the market for this?</summary>
-        <div class="a">The AI communication assistance market is projected to reach about $8.3B by 2030, growing near 24.3% a year (Research &amp; Markets). Grammarly already showed that more than 30 million people pay to not sound wrong in writing. Sounding like yourself, not just correct, is the next upgrade, and everyone who sends a message that matters is in that market.</div>
+        <summary>Do Kimi or GLM need different writing rules?</summary>
+        <div class="a">No model-specific fork is needed. Install for the host you use and keep its supported provider setup. The same voice profiles and detector work regardless of which model writes the draft. Cadence does not configure endpoints, guarantee model access, or bypass tool approvals.</div>
+      </details>
+      <details>
+        <summary>How large can an input be?</summary>
+        <div class="a">The source analyzer accepts up to 5 MiB of UTF-8 text. The CLI checks raw files before reading and stdin while reading; extracted documents and URL text are checked before analysis, after retrieval or extraction. This is not a download or decompression limit. Oversized input shows an error rather than a stale score.</div>
+      </details>
+      <details>
+        <summary>Can I train the adapter on Kaggle?</summary>
+        <div class="a">There is an <a href="https://github.com/wuisabel-gif/Cadence/blob/main/lora/README.md">experimental notebook and setup guide</a>. Dry mode only exercises sample fixtures. Smoke and train modes need a working GPU environment, and full GPU training remains unverified. The current row split does not guarantee source-group isolation. Do not treat a dry-run report as trained-model results.</div>
       </details>
     </div>
   </section>
@@ -780,13 +890,15 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
       <a class="mark" href="#top"><svg class="brandmark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><rect x="21" y="51" width="22" height="107" rx="11" fill="#2348a1"/><rect x="55" y="96" width="22" height="62" rx="11" fill="#2348a1"/><rect x="89" y="38" width="22" height="120" rx="11" fill="#2348a1"/><rect x="123" y="68" width="22" height="90" rx="11" fill="#db332c"/><rect x="157" y="108" width="22" height="50" rx="11" fill="#2348a1"/></svg>Cadence</a>
       <p>A detector for the AI fingerprint, and a voice to write toward instead. Diagnose first, then fix, then verify the result.</p>
       <div class="builtwith">Built with Cadence: <a href="https://github.com/wuisabel-gif/linkedin-message-drafter">linkedin-message-drafter</a>, <a href="https://github.com/wuisabel-gif/readme-auto-update">readme-auto-update</a>, <a href="https://github.com/wuisabel-gif/elegance">elegance</a>.</div>
-      <div class="meta">v0.2 · plain Node · no dependencies · © 2026 <a href="https://github.com/wuisabel-gif">Isabel Wu</a> · MIT</div>
+      <div class="meta"><span data-source-version="0.3.0">v0.3.0 source</span> · npm release pending · plain Node · © 2026 <a href="https://github.com/wuisabel-gif">Isabel Wu</a> · MIT</div>
     </div>
     <pre class="tree">cadence/
 ├── .claude-plugin/
 │   ├── marketplace.json
 │   └── plugin.json
 ├── skills/        # the /cadence skill + commands
+├── integrations/  # shared agent skill + host guides
+├── scripts/       # safe installers and release checks
 ├── voices/        # shipped voice profiles
 └── tests/         # detector tests</pre>
   </div>
@@ -818,6 +930,10 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
   var toggleLabel = document.getElementById('toggleLabel');
   var stateLabel = document.getElementById('stateLabel');
   var caption = document.getElementById('caption');
+  var beforeScore = Number(readout.dataset.beforeScore);
+  var afterScore = Number(readout.dataset.afterScore);
+  var beforeGrade = readout.dataset.beforeGrade;
+  var afterGrade = readout.dataset.afterGrade;
   var clean = false;
   var rafId;
 
@@ -842,27 +958,46 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
     clean = toClean;
     readout.classList.toggle('is-clean', clean);
     if(clean){
-      marker.style.left = '0%';
-      grade.textContent = 'A';
-      animateScore(61, 0);
+      marker.style.left = afterScore+'%';
+      grade.textContent = afterGrade;
+      animateScore(beforeScore, afterScore);
       toggleLabel.textContent = 'Reset';
       toggle.setAttribute('aria-pressed','true');
-      stateLabel.textContent = 'clean · grade A';
+      stateLabel.textContent = 'checked rewrite · grade '+afterGrade;
       document.querySelector('.state .tdot').className = 'tdot s-clean';
-      caption.textContent = 'Recast into the plain voice: 61 → 0';
+      caption.textContent = 'Prewritten plain-voice example: '+beforeScore+' → '+afterScore+' · no model call';
     } else {
-      marker.style.left = '61%';
-      grade.textContent = 'D';
-      animateScore(0, 61);
-      toggleLabel.textContent = 'Run /cadence recast';
+      marker.style.left = beforeScore+'%';
+      grade.textContent = beforeGrade;
+      animateScore(afterScore, beforeScore);
+      toggleLabel.textContent = 'See example rewrite';
       toggle.setAttribute('aria-pressed','false');
-      stateLabel.textContent = 'flagged · grade D';
+      stateLabel.textContent = 'flagged · grade '+beforeGrade;
       document.querySelector('.state .tdot').className = 'tdot s-slop';
-      caption.textContent = 'Real output from skills/cadence/scripts/deslop.mjs';
+      caption.textContent = 'Checked example · real detector scores, no model runs in this demo';
     }
   }
 
   toggle.addEventListener('click', function(){ setState(!clean); });
+
+  /* ---------- copy a source install command; never execute it ---------- */
+  var copyStatus = document.getElementById('install-copy-status');
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function(button){
+    button.addEventListener('click', function(){
+      var code = document.getElementById(button.dataset.copy);
+      if(!code) return;
+      var command = code.textContent.trim();
+      if(!navigator.clipboard || !navigator.clipboard.writeText){
+        copyStatus.textContent = 'Clipboard unavailable. Select the command above and copy it.';
+        return;
+      }
+      navigator.clipboard.writeText(command).then(function(){
+        copyStatus.textContent = 'Copied: '+command;
+      }, function(){
+        copyStatus.textContent = 'Clipboard unavailable. Select the command above and copy it.';
+      });
+    });
+  });
 })();
 </script>
 </body>
