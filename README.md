@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="#install"><img src="https://img.shields.io/badge/Claude%20Code-plugin-2348a1?logo=anthropic&logoColor=white" alt="Claude Code plugin"></a>
-  <a href="skills/cadence/AGENTS.md"><img src="https://img.shields.io/badge/Codex-AGENTS.md-2348a1?logo=openai&logoColor=white" alt="Codex skill"></a>
+  <a href="integrations/codex/README.md"><img src="https://img.shields.io/badge/Codex-skill-2348a1?logo=openai&logoColor=white" alt="Codex skill"></a>
   <a href="integrations/gemini/README.md"><img src="https://img.shields.io/badge/Gemini%20CLI-extension-2348a1?logo=googlegemini&logoColor=white" alt="Gemini CLI extension"></a>
   <a href="integrations/deepseek/README.md"><img src="https://img.shields.io/badge/DeepSeek-skill-2348a1?logo=deepseek&logoColor=white" alt="DeepSeek skill"></a>
   <a href="extension/README.md"><img src="https://img.shields.io/badge/Chrome-extension-2348a1?logo=googlechrome&logoColor=white" alt="Chrome extension"></a>
@@ -343,11 +343,18 @@ npx cadence-deslop draft.txt     # run it without installing
 npm install -g cadence-deslop    # or install the `cadence-deslop` / `deslop` command
 ```
 
-**In Codex.** The skill ships an `AGENTS.md` next to `SKILL.md`, so the same folder
-works in Codex too. The detector is portable as-is (`npx cadence-deslop` runs in any
-shell); to give a Codex agent the voices and writing laws, point it at
-[`skills/cadence/AGENTS.md`](skills/cadence/AGENTS.md) — drop it into your project's
-`AGENTS.md`, or copy the parts you want.
+**In Codex.** Install once from this checkout:
+
+```bash
+npm run install:codex                         # user-wide: ~/.agents/skills/cadence
+npm run install:codex -- --project /path/to/repo  # or just one project
+```
+
+Start a new Codex session and ask: *“Use Cadence to recast README.md in the essence
+voice.”* The skill loads the shared rules and profile, scores the original, edits
+the prose, then reports the measured result. It bundles the detector, so scoring
+needs no npm download. No project instructions are overwritten. See the
+[Codex guide](integrations/codex/README.md) for npm installation after v0.3.0 ships.
 
 **In Gemini CLI.** There's an installable extension at
 [`integrations/gemini/`](integrations/gemini/README.md) — symlink it into
@@ -382,6 +389,7 @@ sentence-usage traits into that voice profile. Build it with
 | [tutorials/scan-a-repo.md](tutorials/scan-a-repo.md) | Tutorial: audit and de-slop an entire repo, then gate it in CI |
 | [extension/README.md](extension/README.md) | The Chrome extension — score prose anywhere, plus a live impression check and draft-in-your-voice in Gmail, WhatsApp Web, Telegram, LinkedIn and Instagram |
 | [integrations/vscode/README.md](integrations/vscode/README.md) | The VS Code extension — live grade, inline tells, and a score report |
+| [integrations/codex/README.md](integrations/codex/README.md) | Install the Codex skill once, choose a voice, and verify prose edits |
 | [SCORING.md](SCORING.md) | Detector scoring formulas, thresholds, grade boundaries, and calibration guidance |
 | [SECURITY.md](SECURITY.md) | Vulnerability reporting, permissions, network boundaries, and privacy guidance |
 | [benchmark/README.md](benchmark/README.md) | The accuracy benchmark: labeled corpus, published precision and recall, and the CI gate |
@@ -391,9 +399,10 @@ sentence-usage traits into that voice profile. Build it with
 | [PHILOSOPHY.md](PHILOSOPHY.md) | The thinking behind it — *The Age of Taste* |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How the project is built and how to add a rule, voice, or command |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
+| [docs/RELEASING.md](docs/RELEASING.md) | Version checks, package smoke tests, and the release checklist |
 | [LICENSE](LICENSE) | MIT |
 
-Each of these is scored by the detector on every push and must stay grade A.
+The main prose docs are scored on every push by `npm run check:docs`.
 
 ## Layout
 
@@ -419,7 +428,7 @@ cadence/
 ├── extension/                   # the Chrome extension (generated detector)
 ├── integrations/                # Codex, Gemini, DeepSeek, and VS Code surfaces
 │   └── vscode/                  # the VS Code extension (generated detector)
-└── tests/                       # 36 tests — `npm test`
+└── tests/                       # `npm test`
     ├── deslop.test.mjs
     └── extract-text.test.mjs
 ```
@@ -427,14 +436,15 @@ cadence/
 ## Test
 
 ```bash
-npm test          # 36 tests over the detector, the extractors, and the bundled builds
+npm test          # detector, extractors, integrations, and UI error handling
 npm run check:docs  # dogfood: the repo's own docs must score grade A
 npm run bench       # accuracy benchmark: precision, recall, and the tell breakdown
+npm run release:check  # tests + docs + benchmark + packaged Codex install
 ```
 
 ## Status
 
-v0.2 — the detector and the ten seed voices work and are tested. The detector is on
-npm as `cadence-deslop`, and Cadence runs across seven surfaces: Claude Code,
-a regular Claude conversation, Codex, Gemini CLI, DeepSeek, the Chrome extension, and
-the VS Code extension.
+v0.3.0 is being prepared; it has not been published. The checkout includes the
+Codex installer and the tested detector. Release notes and remaining manual checks
+are in [docs/releases/v0.3.0.md](docs/releases/v0.3.0.md). GPU training remains an
+experiment, not a verified release feature.

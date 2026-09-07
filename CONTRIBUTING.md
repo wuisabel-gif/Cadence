@@ -26,7 +26,7 @@ cd Cadence
 npm test
 ```
 
-Nothing to install. The detector, the extractors, and their 27 tests run on
+Nothing to install. The detector and extractors, along with their tests, run on
 Node ≥ 18 with no dependencies. Score a draft:
 
 ```bash
@@ -111,3 +111,6 @@ drops below grade A, so the "Verified by Cadence" badge can't quietly become a l
 - Contributing means licensing your work under the [MIT License](LICENSE).
 
 Bigger idea? Open an issue before you build it, so we can shape it together.
+
+Release preparation uses `npm run release:check`. See
+[docs/RELEASING.md](docs/RELEASING.md) for the package checks and manual steps.

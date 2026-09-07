@@ -1,33 +1,52 @@
 {
   "name": "cadence-deslop",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Deterministic checker for robotic-sounding prose. Scores any text 0–100 and names every tell: uniform rhythm, hollow-confidence words, reflexive triads, negation pivots, cliché openers. Zero dependencies. The checker behind the Cadence writing plugin.",
   "type": "module",
   "bin": {
     "cadence-deslop": "skills/cadence/scripts/deslop.mjs",
-    "deslop": "skills/cadence/scripts/deslop.mjs"
+    "deslop": "skills/cadence/scripts/deslop.mjs",
+    "cadence-install-codex": "scripts/install-codex.mjs"
   },
   "exports": "./skills/cadence/scripts/deslop.mjs",
   "files": [
     "skills/cadence/scripts/deslop.mjs",
     "skills/cadence/scripts/extract-text.mjs",
+    "skills/cadence/AGENTS.md",
+    "skills/cadence/reference/",
+    "voices/",
+    "integrations/codex/",
+    "scripts/codex-bundle.mjs",
+    "scripts/build-codex.mjs",
+    "scripts/install-codex.mjs",
     "SCORING.md",
+    "SECURITY.md",
+    "CHANGELOG.md",
+    "MANUAL.md",
+    "docs/RELEASING.md",
+    "docs/releases/v0.3.0.md",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "test": "node --test tests/deslop.test.mjs tests/extract-text.test.mjs tests/extension.test.mjs tests/vscode.test.mjs tests/benchmark.test.mjs tests/voices.test.mjs",
+    "test": "node --test tests/deslop.test.mjs tests/extract-text.test.mjs tests/extension.test.mjs tests/vscode.test.mjs tests/benchmark.test.mjs tests/voices.test.mjs tests/codex.test.mjs tests/input-limits.test.mjs tests/ui-boundaries.test.mjs",
     "deslop": "node skills/cadence/scripts/deslop.mjs",
     "bench": "node benchmark/bench.mjs",
     "bench:check": "node benchmark/bench.mjs --check",
     "build:extension": "node scripts/build-extension.mjs",
     "build:vscode": "node scripts/build-vscode.mjs",
     "build:claude-skill": "node scripts/build-claude-skill.mjs",
-    "check:docs": "node skills/cadence/scripts/deslop.mjs --prose-only --max 10 README.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 CONTRIBUTING.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 15 PHILOSOPHY.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 CHANGELOG.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 12 MANUAL.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 tutorials/scan-a-repo.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 SCORING.md"
+    "build:codex": "node scripts/build-codex.mjs",
+    "install:codex": "node scripts/install-codex.mjs",
+    "check:codex": "node scripts/check-codex-discovery.mjs",
+    "check:release": "node scripts/check-release.mjs",
+    "release:check": "npm test && npm run check:docs && npm run bench:check && npm run check:release",
+    "check:docs": "node skills/cadence/scripts/deslop.mjs --prose-only --max 10 README.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 CONTRIBUTING.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 15 PHILOSOPHY.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 CHANGELOG.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 12 MANUAL.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 tutorials/scan-a-repo.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 SCORING.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 integrations/codex/README.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 docs/RELEASING.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 docs/releases/v0.3.0.md"
   },
   "keywords": [
     "ai-slop", "ai-detector", "ai-humanizer", "humanize-ai-text", "ai-writing",
-    "writing", "prose", "linter", "text-analysis", "claude", "claude-code"
+    "writing", "prose", "linter", "text-analysis", "claude", "claude-code",
+    "codex", "codex-skill", "agent-skills", "openai"
   ],
   "repository": {
     "type": "git",
