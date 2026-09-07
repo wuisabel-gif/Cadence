@@ -8,18 +8,28 @@ const heatmapEl = document.getElementById('heatmap');
 
 const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+function clearReadout() {
+  readout.classList.add('empty');
+  readout.dataset.grade = '';
+  scoreEl.textContent = '·';
+  gradeEl.textContent = '';
+  metricsEl.textContent = '';
+  findingsEl.innerHTML = '';
+  heatmapEl.innerHTML = '';
+}
+
 function render(text) {
-  if (!text.trim()) {
-    readout.classList.add('empty');
-    readout.dataset.grade = '';
-    scoreEl.textContent = '·';
-    gradeEl.textContent = '';
-    metricsEl.textContent = '';
-    findingsEl.innerHTML = '';
-    heatmapEl.innerHTML = '';
+  clearReadout();
+  let r, paras;
+  try {
+    r = window.cadenceAnalyze(text);
+    if (!text.trim()) return;
+    paras = window.cadenceAnalyzeParagraphs ? window.cadenceAnalyzeParagraphs(text) : [];
+  } catch (e) {
+    if (!(e instanceof RangeError)) throw e;
+    metricsEl.textContent = 'Cannot score: ' + e.message + '. Shorten the text and try again.';
     return;
   }
-  const r = window.cadenceAnalyze(text);
   readout.classList.remove('empty');
   readout.dataset.grade = r.grade;
   scoreEl.textContent = r.score;
@@ -29,7 +39,6 @@ function render(text) {
 
   // Per-paragraph heatmap: only worth showing when there's more than one block,
   // one paragraph is already the overall score. Worst-first so the problem leads.
-  const paras = window.cadenceAnalyzeParagraphs ? window.cadenceAnalyzeParagraphs(text) : [];
   heatmapEl.innerHTML = paras.length > 1
     ? '<div class="hm-label">by paragraph</div>' +
       [...paras].sort((a, b) => b.score - a.score).map((p) => {

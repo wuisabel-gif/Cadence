@@ -39,6 +39,15 @@ cpSync(join(SKILL, 'SKILL.md'), join(dest, 'SKILL.md'));
 cpSync(join(SKILL, 'reference'), join(dest, 'reference'), { recursive: true });
 cpSync(join(SKILL, 'scripts'), join(dest, 'scripts'), { recursive: true });
 cpSync(join(ROOT, 'voices'), join(dest, 'voices'), { recursive: true });
+cpSync(join(ROOT, 'LICENSE'), join(dest, 'LICENSE'));
+const { version } = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
+writeFileSync(join(dest, 'package.json'), JSON.stringify({ version, type: 'module', private: true }, null, 2) + '\n');
+// The chat bundle has scripts/ directly under its root, unlike the repo layout.
+const detectorPath = join(dest, 'scripts/deslop.mjs');
+const detector = readFileSync(detectorPath, 'utf8');
+const versionLookup = "new URL('../../../package.json', import.meta.url)";
+if (!detector.includes(versionLookup)) throw new Error('Detector version lookup changed; update the skill builder.');
+writeFileSync(detectorPath, detector.replace(versionLookup, "new URL('../package.json', import.meta.url)"));
 
 for (const p of mdFiles(dest)) {
   const before = readFileSync(p, 'utf8');

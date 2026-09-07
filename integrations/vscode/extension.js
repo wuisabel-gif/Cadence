@@ -85,26 +85,72 @@ function activate(context) {
   context.subscriptions.push(diagnostics, output, status);
 
   const timers = new Map();
+  let reportStatus;
+  let outputErrorUri;
+
+  function clearReportStatus() {
+    if (reportStatus) reportStatus.dispose();
+    reportStatus = undefined;
+  }
+  context.subscriptions.push({ dispose: clearReportStatus });
+
+  function clearStatus() {
+    status.text = '';
+    status.tooltip = undefined;
+    status.backgroundColor = undefined;
+    status.hide();
+  }
+
+  function analysisFailed(doc, error) {
+    diagnostics.delete(doc.uri);
+    clearReportStatus();
+    output.clear();
+    outputErrorUri = undefined;
+    const active = vscode.window.activeTextEditor;
+    const isActive = active && active.document.uri.toString() === doc.uri.toString();
+    const showStatus = cfg().get('statusBar.enabled', true);
+    if (isActive || !active || !showStatus) clearStatus();
+    if (!(error instanceof RangeError)) throw error;
+    const message = 'Cadence: cannot score: ' + error.message + '. Shorten the text and try again.';
+    output.appendLine(message);
+    outputErrorUri = doc.uri.toString();
+    if (isActive && showStatus && isSupported(doc)) {
+      status.text = '$(warning) Cadence: not scored';
+      status.tooltip = message;
+      status.show();
+    }
+    return message;
+  }
 
   function refresh(doc) {
+    const active = vscode.window.activeTextEditor;
+    const showStatus = cfg().get('statusBar.enabled', true);
+    if (!showStatus || !active) clearStatus();
     if (!doc) return;
     const supported = isSupported(doc);
+    const isActive = active && active.document.uri.toString() === doc.uri.toString();
+    if (isActive && !supported) clearStatus();
+    const wantDiagnostics = supported && cfg().get('diagnostics.enabled', true);
+    const wantStatus = supported && isActive && showStatus;
+    if (!wantDiagnostics) diagnostics.delete(doc.uri);
+    if (!wantDiagnostics && !wantStatus) return;
 
-    // Diagnostics
-    if (supported && cfg().get('diagnostics.enabled', true)) {
-      const result = analyze(scoringText(doc));
-      diagnostics.set(doc.uri, buildDiagnostics(doc, result));
-    } else {
-      diagnostics.delete(doc.uri);
-    }
-
-    // Status bar (only for the document showing in the active editor)
-    const active = vscode.window.activeTextEditor;
-    if (!cfg().get('statusBar.enabled', true) || !active || active.document.uri.toString() !== doc.uri.toString() || !supported) {
-      if (active && active.document.uri.toString() === doc.uri.toString() && !supported) status.hide();
+    // Score once for both surfaces. A rejected input must clear the old result.
+    let r;
+    try {
+      r = analyze(scoringText(doc));
+    } catch (error) {
+      analysisFailed(doc, error);
       return;
     }
-    const r = analyze(scoringText(doc));
+    if (outputErrorUri === doc.uri.toString()) {
+      output.clear();
+      outputErrorUri = undefined;
+    }
+    if (wantDiagnostics) diagnostics.set(doc.uri, buildDiagnostics(doc, r));
+
+    // Status bar (only for the document showing in the active editor)
+    if (!wantStatus) return;
     const m = r.metrics;
     status.text = `$(pencil) Cadence ${r.grade}·${r.score}`;
     status.tooltip = new vscode.MarkdownString(
@@ -121,7 +167,7 @@ function activate(context) {
 
   function refreshActive() {
     const ed = vscode.window.activeTextEditor;
-    if (ed) refresh(ed.document); else status.hide();
+    if (ed) refresh(ed.document); else clearStatus();
   }
 
   function schedule(doc) {
@@ -131,28 +177,38 @@ function activate(context) {
   }
 
   // ── Commands ──────────────────────────────────────────────────────────────
-  function report(title, text) {
-    const result = analyze(text);
+  function report(doc, title, getText, selection = false) {
     output.clear();
+    outputErrorUri = undefined;
+    clearReportStatus();
+    let text, result;
+    try {
+      text = getText();
+      result = analyze(text);
+    } catch (error) {
+      const message = analysisFailed(doc, error);
+      output.show(true);
+      vscode.window.showErrorMessage(message);
+      return;
+    }
+    if (selection && !text.trim()) { vscode.window.showInformationMessage('Cadence: select some text first.'); return; }
     output.appendLine(title);
     output.appendLine('');
     output.appendLine(formatReport(result));
     output.show(true);
-    vscode.window.setStatusBarMessage(`Cadence: ${result.grade} · ${result.score}/100 · ${result.findings.length} tells`, 4000);
+    reportStatus = vscode.window.setStatusBarMessage(`Cadence: ${result.grade} · ${result.score}/100 · ${result.findings.length} tells`, 4000);
   }
 
   context.subscriptions.push(
     vscode.commands.registerCommand('cadence.scoreDocument', () => {
       const ed = vscode.window.activeTextEditor;
       if (!ed) { vscode.window.showInformationMessage('Cadence: open a file to score.'); return; }
-      report(`${ed.document.fileName || 'document'} (whole document)`, scoringText(ed.document));
+      report(ed.document, `${ed.document.fileName || 'document'} (whole document)`, () => scoringText(ed.document));
     }),
     vscode.commands.registerCommand('cadence.scoreSelection', () => {
       const ed = vscode.window.activeTextEditor;
       if (!ed) { vscode.window.showInformationMessage('Cadence: open a file to score.'); return; }
-      const sel = ed.document.getText(ed.selection);
-      if (!sel.trim()) { vscode.window.showInformationMessage('Cadence: select some text first.'); return; }
-      report(`${ed.document.fileName || 'document'} (selection)`, sel);
+      report(ed.document, `${ed.document.fileName || 'document'} (selection)`, () => ed.document.getText(ed.selection), true);
     }),
   );
 

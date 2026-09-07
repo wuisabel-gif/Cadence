@@ -21,8 +21,8 @@ adds the weights for all findings.
 
 The programmatic result also exposes `breakdown.lexical` with the high, medium,
 and low subtotals, plus `breakdown.structural` with one contribution per signal.
-Their totals sum to `breakdown.total`, which is the returned score after the
-0–100 clamp.
+Their totals sum to `breakdown.total`, the raw total **before** the 0–100 clamp.
+`score` is the clamped value, so it can be 100 while `breakdown.total` is higher.
 
 ## Structural contributions
 

@@ -413,8 +413,15 @@ function walk(dir, found = []) {
 }
 
 // Read one prose file as text, applying the right strip for its type.
+function readInputFile(path, encoding) {
+  if (statSync(path).size > MAX_INPUT_BYTES) {
+    throw new RangeError(`${path} exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit`);
+  }
+  return readFileSync(path, encoding);
+}
+
 function loadFileText(path) {
-  const raw = readFileSync(path, 'utf8');
+  const raw = readInputFile(path, 'utf8');
   const lower = path.toLowerCase();
   if (/\.html?$/.test(lower)) return stripHtml(raw);
   if (/\.(md|markdown|mdx)$/.test(lower)) return stripMarkdown(raw);
@@ -426,7 +433,11 @@ export function scanDir(dir) {
   const rows = [];
   for (const f of walk(dir)) {
     let text;
-    try { text = loadFileText(f); } catch { continue; }
+    try { text = loadFileText(f); }
+    catch (error) {
+      if (error instanceof RangeError) throw error; // never silently pass a gate by skipping oversized files
+      continue;
+    }
     if (text == null || text.replace(/\s/g, '').length < 20) continue;
     const r = analyze(text);
     rows.push({ file: relative(dir, f) || f, score: r.score, grade: r.grade });
@@ -627,13 +638,15 @@ function isMain() {
 async function readStdin() {
   const chunks = [];
   let bytes = 0;
-  for await (const c of process.stdin) chunks.push(c);
-  for (const c of chunks) bytes += c.length;
-  if (bytes > MAX_INPUT_BYTES) throw new RangeError(`stdin exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit`);
+  for await (const c of process.stdin) {
+    bytes += c.length;
+    if (bytes > MAX_INPUT_BYTES) throw new RangeError(`stdin exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit`);
+    chunks.push(c);
+  }
   return Buffer.concat(chunks).toString('utf8');
 }
 
-if (isMain()) {
+async function main() {
   const args = process.argv.slice(2);
   if (args.includes('-h') || args.includes('--help')) { process.stdout.write(HELP); process.exit(0); }
   if (args.includes('-v') || args.includes('--version')) { process.stdout.write(version() + '\n'); process.exit(0); }
@@ -670,11 +683,7 @@ if (isMain()) {
   } else {
     const lower = file.toLowerCase();
     if (/\.(pdf|docx|epub)$/.test(lower)) {
-      if (statSync(file).size > MAX_INPUT_BYTES) {
-        process.stderr.write(`${file} exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit\n`);
-        process.exit(2);
-      }
-      const buf = readFileSync(file);
+      const buf = readInputFile(file);
       try {
         text = lower.endsWith('.pdf') ? extractPdf(buf) : lower.endsWith('.epub') ? extractEpub(buf) : extractDocx(buf);
       } catch { text = ''; } // corrupt/truncated archive → fall through to the friendly error
@@ -683,11 +692,7 @@ if (isMain()) {
         process.exit(3);
       }
     } else {
-      if (statSync(file).size > MAX_INPUT_BYTES) {
-        process.stderr.write(`${file} exceeds the ${MAX_INPUT_BYTES / (1024 * 1024)} MiB limit\n`);
-        process.exit(2);
-      }
-      text = readFileSync(file, 'utf8');
+      text = readInputFile(file, 'utf8');
       if (args.includes('--html') || /\.html?$/i.test(lower)) text = stripHtml(text);
       else if (args.includes('--prose-only')) text = stripMarkdown(text);
     }
@@ -718,4 +723,12 @@ if (isMain()) {
 
   const maxScore = resolveMax(args);
   if (maxScore !== null && result.score > maxScore) process.exit(1);
+}
+
+if (isMain()) {
+  try { await main(); }
+  catch (error) {
+    process.stderr.write(`Cadence: ${error.message}\n`);
+    process.exitCode = error instanceof RangeError ? 2 : 3;
+  }
 }

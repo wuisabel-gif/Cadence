@@ -11,11 +11,15 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['18', '20', '22']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: ${{ matrix.node }}
 
       # Zero dependencies — nothing to install.
       - name: Tests
@@ -37,3 +41,7 @@ jobs:
       # The VS Code extension's detector is generated the same way; fail if stale.
       - name: VS Code detector stays in sync
         run: npm run build:vscode && git diff --exit-code integrations/vscode/detector.js
+
+      # Install from the packed files, not a checkout with undeclared dependencies.
+      - name: Release metadata and packaged Codex install
+        run: npm run check:release

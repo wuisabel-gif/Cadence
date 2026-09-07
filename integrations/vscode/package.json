@@ -2,7 +2,7 @@
   "name": "cadence-deslop",
   "displayName": "Cadence: robotic-writing checker",
   "description": "Score prose for robotic tone right in the editor. Live grade in the status bar, the tells squiggled inline, and a full report on demand. Runs locally, zero dependencies.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "cadence",
   "license": "MIT",
   "icon": "icon.png",

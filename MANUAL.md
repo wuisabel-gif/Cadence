@@ -12,7 +12,7 @@ document is built. A smoother line that drops a fact is a failure, not a win.
 
 ## 1. Install & activate
 
-There are two ways to use Cadence:
+Choose the integration for your workspace:
 
 - **The full plugin** — the `/cadence` skill (write, recast, learn, deslop, voices),
   which runs inside **Claude Code**.
@@ -20,6 +20,9 @@ There are two ways to use Cadence:
   anywhere with Node and needs no Claude Code.
 - **The Chrome extension** — the detector in your browser (popup or right-click).
   See [extension/README.md](extension/README.md).
+- **The Codex skill** — install once with `npm run install:codex` from this
+  checkout. It bundles the shared rules and profiles with the detector, without
+  changing project instructions. See [integrations/codex/README.md](integrations/codex/README.md).
 
 ### Where the plugin runs
 
@@ -178,10 +181,10 @@ No voice fits? Learn your own (§3).
 
 The detector on its own. Pure Node, zero dependencies. Run it three ways:
 
-CLI input is limited to 5 MiB per file, stdin stream, or extracted document. This
-prevents accidental multi-megabyte scans from consuming unbounded memory. URLs
-are subject to the extractor's own response handling as well as the analyzer
-limit; the limit is checked after the response is received.
+The analyzer accepts at most 5 MiB of UTF-8 text. The CLI checks file sizes before
+reading and stdin size while reading, including each file in a directory scan.
+Extracted text is checked before scoring. For URLs, that check occurs after the
+response is received and stripped; it is not a download or decompression limit.
 
 ```bash
 npx cadence-deslop <file>            # no install
@@ -307,5 +310,9 @@ From a clone, the npm scripts:
 | Script | Does |
 |---|---|
 | `npm test` | Run the test suite (detector + extractors). |
+| `npm run install:codex` | Install the Codex skill for this user. |
+| `npm run install:codex -- --project <path>` | Install the skill for one project. |
+| `npm run build:codex` | Build a portable Codex skill directory. |
+| `npm run release:check` | Test the release and an install from its npm tarball; does not publish. |
 | `npm run deslop -- <file>` | Run the detector locally. |
 | `npm run check:docs` | Score the repo's own docs; fail if any drops below grade A. |

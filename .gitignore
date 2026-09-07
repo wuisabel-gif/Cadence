@@ -12,3 +12,8 @@ cadence-skill.zip
 
 # working notes (private, not committed)
 progress.md
+
+# Generated release artifacts and local Python caches
+/dist/
+*.tgz
+__pycache__/

@@ -4,14 +4,33 @@ All notable changes to Cadence are recorded here. The format follows
 [Keep a Changelog](https://keepachangelog.com/), and the project aims to follow
 [Semantic Versioning](https://semver.org/).
 
-Cadence ships as two things from one repo: the **`cadence` Claude Code plugin** and
-the **`cadence-deslop` npm package** (the detector on its own). Their versions move
-together. Because detector rules affect scores, any release that changes a rule says
-so here, so a shifting number is never a surprise.
+The **`cadence` Claude Code plugin** and **`cadence-deslop` npm package** share a
+version. Starting with 0.3.0, the bundled Codex skill and browser/editor integration
+manifests use that version too. A version bump here does not publish to a store.
+Because detector rules affect scores, any release that changes a rule says so here.
 
 ## [Unreleased]
 
+## [0.3.0] — prepared, not yet released
+
 ### Added
+
+- **An installable Codex skill** (#18). Run `npm run install:codex` from a checkout
+  for a user-wide install, or add `-- --project <path>` for one repository. It
+  bundles the existing Codex rules with the detector and seed profiles. Rewrites
+  measure the original and result, report the tells, and preserve document markup.
+  No project `AGENTS.md` or Codex settings are overwritten. The npm package now
+  includes the `cadence-install-codex` command.
+- **Scoring documentation and diagnostics** (#9, #11). `SCORING.md` records the
+  weights and formulas. `analyze()` returns the exact lexical and structural
+  contributions; `breakdown.total` is the raw total before the score's 0–100 cap.
+  The benchmark reports score distributions and sample-level rule rates.
+- **Evaluation and security guidance** (#12, #14, #15). The regression corpus is
+  not a held-out evaluation. External datasets still need review before use.
+- **Kaggle notebook workflow** (#17). Dry, smoke, and training modes share a
+  generated notebook and output archive. GPU training remains experimental;
+  a sample-data run is not evidence of learned-model performance.
+- **Release checks** for shared versions and an install from the npm tarball.
 
 - **An accuracy benchmark** (`benchmark/`) — a 48-sample labeled corpus (human
   writing including public-domain classics, AI across many registers) and `npm run
@@ -35,10 +54,29 @@ so here, so a shifting number is never a surprise.
 
 ### Changed
 
+- **Unicode ellipses now end sentences** (#10), which can change rhythm metrics
+  and scores for passages that contain them. Existing grade boundaries are unchanged.
+- **Inputs over 5 MiB are rejected** (#13). Files are checked before reading and
+  stdin while reading. Scans fail rather than skipping oversized prose. Extracted
+  text and URL text are checked before analysis, not during decompression/download.
+  The CLI reports the limit with exit code 2; UI surfaces clear stale results.
+- **Integration manifests align at 0.3.0.** Chrome and Gemini previously had
+  their own 0.1.0 manifest versions. This aligns the source bundles; store
+  publication is still a separate step.
+
 - **Negation-pivot detection now catches contraction forms** of the rhetorical
   seesaw, which the rule previously missed, and weighs a pivot more heavily
   because it almost never shows up in human writing. Copy built on that pattern
   now scores a few points higher.
+
+### Fixed
+
+- **The seed voice count** in the Codex/Claude command documentation (#16).
+- **Oversized-input errors** no longer leave prior grades or share results in
+  browser/editor views. VS Code hides its status item when the setting is disabled.
+- **Score-breakdown documentation** now distinguishes raw totals from capped scores.
+- **The Claude chat bundle** now includes license and version metadata, so its
+  detector reports the release version rather than the `0.0.0` fallback.
 
 ## [0.2.0] — 2026-06-20
 
@@ -120,5 +158,6 @@ First public release.
 - The detector is English-only for now (its function-word and phrase lists are
   English).
 
+[0.3.0]: https://github.com/wuisabel-gif/Cadence/compare/v0.2.0...main
 [0.2.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.2.0
 [0.1.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.1.0

@@ -1,6 +1,6 @@
 {
   "name": "cadence",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Catch robotic-sounding writing and rewrite it in a voice you choose. Includes the deterministic checker via npx.",
   "contextFileName": "GEMINI.md"
 }

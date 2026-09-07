@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Cadence: robotic-writing checker",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Score any text for robotic tone, plus a live impression check and draft-in-your-voice in the Gmail and WhatsApp Web compose box. The score runs locally.",
   "action": {
     "default_popup": "popup.html",
