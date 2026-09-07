@@ -356,6 +356,22 @@ the prose, then reports the measured result. It bundles the detector, so scoring
 needs no npm download. No project instructions are overwritten. See the
 [Codex guide](integrations/codex/README.md) for npm installation after v0.3.0 ships.
 
+**In Kimi Code CLI, ZCode, Claude Code, or OpenCode.** Choose your host from this
+checkout:
+
+```bash
+npm run install:kimi       # Kimi Code CLI
+npm run install:zcode      # ZCode Agent
+npm run install:claude     # standalone Claude Code skill
+npm run install:opencode   # OpenCode
+```
+
+These use one shared skill and the same detector. Keep the model already selected
+in your host; Cadence does not change provider settings or ask for API keys. Kimi
+K3 and GLM-5.3 need no model-specific rules. See the [agent guide](integrations/agents/README.md)
+for discovery paths, project scope, and safe upgrades. If the Claude Code plugin
+already works, a different model provider does not require a second install.
+
 **In Gemini CLI.** There's an installable extension at
 [`integrations/gemini/`](integrations/gemini/README.md) — symlink it into
 `~/.gemini/extensions/cadence` and the `GEMINI.md` context loads every session.
@@ -390,6 +406,7 @@ sentence-usage traits into that voice profile. Build it with
 | [extension/README.md](extension/README.md) | The Chrome extension — score prose anywhere, plus a live impression check and draft-in-your-voice in Gmail, WhatsApp Web, Telegram, LinkedIn and Instagram |
 | [integrations/vscode/README.md](integrations/vscode/README.md) | The VS Code extension — live grade, inline tells, and a score report |
 | [integrations/codex/README.md](integrations/codex/README.md) | Install the Codex skill once, choose a voice, and verify prose edits |
+| [integrations/agents/README.md](integrations/agents/README.md) | The shared skill and installer targets for Kimi, ZCode, Claude Code, and OpenCode |
 | [SCORING.md](SCORING.md) | Detector scoring formulas, thresholds, grade boundaries, and calibration guidance |
 | [SECURITY.md](SECURITY.md) | Vulnerability reporting, permissions, network boundaries, and privacy guidance |
 | [benchmark/README.md](benchmark/README.md) | The accuracy benchmark: labeled corpus, published precision and recall, and the CI gate |
@@ -414,7 +431,7 @@ cadence/
 ├── skills/
 │   └── cadence/
 │       ├── SKILL.md             # router, shared writing laws, setup (Claude Code)
-│       ├── AGENTS.md            # the same skill for Codex
+│       ├── AGENTS.md            # shared writing rules for installable agent skills
 │       ├── reference/           # one file per command + the voice schema
 │       └── scripts/
 │           ├── deslop.mjs       # the detector (real code, tested)
@@ -426,7 +443,7 @@ cadence/
 ├── lora/                        # LoRA-Cadence: eval rig + Kaggle training notebook
 ├── docs/screenshots/            # example shots used in this README
 ├── extension/                   # the Chrome extension (generated detector)
-├── integrations/                # Codex, Gemini, DeepSeek, and VS Code surfaces
+├── integrations/                # installable agent skills and editor integrations
 │   └── vscode/                  # the VS Code extension (generated detector)
 └── tests/                       # `npm test`
     ├── deslop.test.mjs
@@ -439,12 +456,12 @@ cadence/
 npm test          # detector, extractors, integrations, and UI error handling
 npm run check:docs  # dogfood: the repo's own docs must score grade A
 npm run bench       # accuracy benchmark: precision, recall, and the tell breakdown
-npm run release:check  # tests + docs + benchmark + packaged Codex install
+npm run release:check  # tests + docs + benchmark + packaged agent installs
 ```
 
 ## Status
 
 v0.3.0 is being prepared; it has not been published. The checkout includes the
-Codex installer and the tested detector. Release notes and remaining manual checks
+agent installers and the tested detector. Release notes and remaining manual checks
 are in [docs/releases/v0.3.0.md](docs/releases/v0.3.0.md). GPU training remains an
 experiment, not a verified release feature.

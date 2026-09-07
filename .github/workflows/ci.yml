@@ -30,6 +30,9 @@ jobs:
       - name: Docs must stay clean
         run: npm run check:docs
 
+      - name: Shared agent guides stay clean
+        run: npm run check:agent-docs
+
       # Accuracy must not regress: recall and specificity stay above their floors.
       - name: Detector accuracy holds
         run: npm run bench:check
@@ -43,5 +46,5 @@ jobs:
         run: npm run build:vscode && git diff --exit-code integrations/vscode/detector.js
 
       # Install from the packed files, not a checkout with undeclared dependencies.
-      - name: Release metadata and packaged Codex install
+      - name: Release metadata and packaged agent installs
         run: npm run check:release
