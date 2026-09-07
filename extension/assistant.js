@@ -151,7 +151,7 @@
     '#cadence-meter .draft:hover{background:#1b3a85}',
     '#cadence-meter .draft:disabled{opacity:.55;cursor:default}',
     '#cadence-meter .read{display:none}',
-    '#cadence-meter.scored .read{display:block}',
+    '#cadence-meter.scored .read,#cadence-meter.score-error .read{display:block}',
     '#cadence-meter .hd{display:flex;align-items:baseline;gap:7px}',
     '#cadence-meter .g{font:700 22px ui-monospace,Menlo,Consolas,monospace;line-height:1;color:#db332c}',
     '#cadence-meter .s{font:12px ui-monospace,Menlo,monospace;color:#6b7280}',
@@ -201,11 +201,26 @@
   function setMsg(html) { msgEl.innerHTML = html || ''; }
 
   // ── impression check (local) ──
+  function clearScore() {
+    meter.classList.remove('scored', 'score-error');
+    meter.dataset.grade = '';
+    gEl.textContent = '·'; sEl.textContent = ''; mEl.textContent = ''; tEl.innerHTML = '';
+  }
+
   function render(text) {
+    clearScore();
     if (typeof window.cadenceAnalyze !== 'function') return;
+    var r;
+    try {
+      r = window.cadenceAnalyze(text);
+    } catch (e) {
+      if (!(e instanceof RangeError)) throw e;
+      mEl.textContent = 'Cannot score: ' + e.message + '. Shorten the text and try again.';
+      meter.classList.add('score-error');
+      return;
+    }
     var words = (text || '').replace(/\s+/g, ' ').trim().split(' ').filter(Boolean).length;
-    if (words < 6) { meter.classList.remove('scored'); return; }
-    var r = window.cadenceAnalyze(text);
+    if (words < 6) return;
     meter.dataset.grade = r.grade;
     gEl.textContent = r.grade;
     sEl.textContent = r.score + '/100';
@@ -288,6 +303,6 @@
   document.addEventListener('focusin', function (e) {
     var b = boxOf(e.target);
     if (b) { activeBox = b; setMsg(''); meter.classList.add('on'); schedule(b); }
-    else if (!meter.contains(e.target)) { meter.classList.remove('on', 'scored'); }
+    else if (!meter.contains(e.target)) { meter.classList.remove('on'); clearScore(); }
   }, true);
 })();

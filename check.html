@@ -130,7 +130,7 @@
     </div>
     <div class="hm" id="hm"></div>
   </div>
-  <div class="empty" id="empty">Write or paste at least a sentence or two to get a score.</div>
+  <div class="empty" id="empty" role="status">Write or paste at least a sentence or two to get a score.</div>
 
   <footer>
     <a href="./">← back to cadence</a> · <a href="https://github.com/wuisabel-gif/Cadence">source on GitHub</a><br>
@@ -161,14 +161,35 @@
 
   function words(t){return (t||'').replace(/\s+/g,' ').trim().split(' ').filter(Boolean).length;}
 
-  function render(){
-    var text=ta.value, n=words(text);
-    wc.textContent=n+(n===1?' word':' words');
-    if(typeof window.cadenceAnalyze!=='function'||n<6){ results.classList.remove('on'); empty.style.display=n?'block':'block'; return; }
-    empty.style.display='none'; results.classList.add('on');
-    banner.style.display='none'; shareRow.style.display='flex'; sharemsg.textContent='';
+  function clearResults(){
+    last=null;
+    results.classList.remove('on'); banner.style.display='none'; shareRow.style.display='none';
+    gradeEl.textContent='·'; gradeEl.className='grade'; scoreEl.textContent=''; verdictEl.textContent='';
+    metricsEl.innerHTML=''; findingsEl.innerHTML=''; hmEl.innerHTML=''; sharemsg.textContent='';
+    empty.textContent='Write or paste at least a sentence or two to get a score.';
+    empty.style.display='block';
+  }
 
-    var r=window.cadenceAnalyze(text);
+  function render(){
+    var text=ta.value, r, paras=[];
+    clearResults(); wc.textContent='Not scored';
+    if(typeof window.cadenceAnalyze!=='function'){ empty.textContent='Analyzer unavailable. Reload the page to try again.'; return; }
+    try{
+      // Let the analyzer enforce its byte limit even for a single word or whitespace.
+      r=window.cadenceAnalyze(text);
+      var n=words(text);
+      wc.textContent=n+(n===1?' word':' words');
+      if(n<6) return;
+      paras=window.cadenceAnalyzeParagraphs?window.cadenceAnalyzeParagraphs(text):[];
+    }catch(e){
+      if(!(e instanceof RangeError)) throw e;
+      wc.textContent='Not scored';
+      empty.textContent='Cannot score: '+e.message+'. Shorten the text and try again.';
+      return;
+    }
+    empty.style.display='none'; results.classList.add('on');
+    shareRow.style.display='flex';
+
     last={grade:r.grade,score:r.score,words:r.metrics.words,tells:topTells(r.findings)};
     gradeEl.textContent=r.grade; gradeEl.className='grade '+bucket(r.grade);
     scoreEl.textContent=r.score; verdictEl.textContent=VERDICT[r.grade]||'';
@@ -192,7 +213,6 @@
         }).join('')
       : '<div class="clean">No lexical tells found. This reads like a person wrote it.</div>';
 
-    var paras=window.cadenceAnalyzeParagraphs?window.cadenceAnalyzeParagraphs(text):[];
     hmEl.innerHTML = paras.length>1
       ? '<div class="hm-h">by paragraph, worst first</div>' +
         paras.slice().sort(function(a,b){return b.score-a.score;}).map(function(p){
@@ -266,16 +286,18 @@
 
   document.getElementById('copylink').addEventListener('click',function(){
     if(!last) return;
-    var url=location.origin+location.pathname+'#'+encodeShare(last);
+    var shared=last, url=location.origin+location.pathname+'#'+encodeShare(shared);
     (navigator.clipboard&&navigator.clipboard.writeText(url)||Promise.reject())
-      .then(function(){ sharemsg.textContent='Link copied'; },
-            function(){ prompt('Copy this link:',url); });
+      .then(function(){ if(last===shared) sharemsg.textContent='Link copied'; },
+            function(){ if(last===shared) prompt('Copy this link:',url); });
   });
   document.getElementById('saveimg').addEventListener('click',function(){
     if(!last) return;
-    drawCard(last).toBlob(function(blob){
+    var shared=last;
+    drawCard(shared).toBlob(function(blob){
+      if(last!==shared) return;
       var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-      a.download='cadence-score-'+last.grade+'.png'; document.body.appendChild(a); a.click();
+      a.download='cadence-score-'+shared.grade+'.png'; document.body.appendChild(a); a.click();
       a.remove(); setTimeout(function(){URL.revokeObjectURL(a.href);},1000);
       sharemsg.textContent='Image saved';
     });

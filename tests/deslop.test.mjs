@@ -48,6 +48,13 @@ test('score breakdown sums to the deterministic score', () => {
     + r.breakdown.structural.emDashes + r.breakdown.structural.triads);
 });
 
+test('score breakdown retains the raw total when the displayed score is capped', () => {
+  const r = analyze('robust '.repeat(40));
+  assert.ok(r.breakdown.total > 100);
+  assert.equal(r.score, 100);
+  assert.equal(r.breakdown.total, r.breakdown.lexical.total + r.breakdown.structural.total);
+});
+
 test('catches banned phrases', () => {
   const r = analyze(SLOP);
   const banned = r.findings.filter((f) => f.rule === 'banned-phrase');
