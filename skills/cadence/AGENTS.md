@@ -12,13 +12,17 @@ Cadence works on the words, not the meaning or the layout. Change how a sentence
 reads; never change what it claims or how the document is structured. A smoother line
 that quietly drops a fact is a failure, not a win.
 
-## Score with the detector (deterministic, zero-install)
+## Score with the detector
 
-The detector ships on npm. Run it with `npx` — no install, no dependencies, no network:
+In the installed Codex skill, use the bundled detector via the paths in `SKILL.md`.
+It runs with Node 18 or newer, without npm downloads or runtime dependencies.
+
+Without the skill installed, the detector is also on npm. `npx` may download the
+package on first use; scoring local text makes no network requests:
 
 ```bash
 npx cadence-deslop <file>          # .txt .md .pdf .html .docx .epub, a folder, or a URL
-echo "<text>" | npx cadence-deslop  # from stdin
+cat draft.txt | npx cadence-deslop # from stdin
 npx cadence-deslop --json <file>    # machine-readable
 ```
 

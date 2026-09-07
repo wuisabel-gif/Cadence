@@ -1,0 +1,7 @@
+interface:
+  display_name: "Cadence"
+  short_description: "Recast prose in a voice and verify each edit"
+  default_prompt: "Use $cadence to recast this prose in my chosen voice, preserve its structure, and report the measured before/after scores."
+
+policy:
+  allow_implicit_invocation: true
