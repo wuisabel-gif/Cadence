@@ -74,8 +74,7 @@ without local execution are not covered by this installer.
 
 ## npm and portable builds
 
-These npm commands require the expanded v0.3.0 package to be published. Until
-then, use the checkout commands above:
+The v0.3.0 package includes these installers. No checkout is needed:
 
 ```bash
 npx --package=cadence-deslop@0.3.0 cadence-install-skill --agent kimi

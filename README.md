@@ -461,7 +461,7 @@ npm run release:check  # tests + docs + benchmark + packaged agent installs
 
 ## Status
 
-v0.3.0 is being prepared; it has not been published. The checkout includes the
+v0.3.0 is released. The npm package and checkout include the
 agent installers and the tested detector. Release notes and remaining manual checks
 are in [docs/releases/v0.3.0.md](docs/releases/v0.3.0.md). GPU training remains an
 experiment, not a verified release feature.

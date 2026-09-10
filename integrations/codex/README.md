@@ -30,11 +30,9 @@ npm run install:codex -- --project /path/to/project
 That writes `<project>/.agents/skills/cadence/`. Choose one scope; you do not need
 both. When a path has spaces, quote it.
 
-## Install from npm after v0.3.0 is published
+## Install from npm
 
-The installer is included in the v0.3.0 package being prepared. These commands
-will work once that version has been published; use the checkout method above
-until then.
+The installer is included in the v0.3.0 package. Install once with npm:
 
 ```bash
 npx --package=cadence-deslop@0.3.0 cadence-install-codex

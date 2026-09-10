@@ -11,7 +11,7 @@ Because detector rules affect scores, any release that changes a rule says so he
 
 ## [Unreleased]
 
-## [0.3.0] — prepared, not yet released
+## [0.3.0] — 2026-09-10
 
 ### Added
 
@@ -167,6 +167,6 @@ First public release.
 - The detector is English-only for now (its function-word and phrase lists are
   English).
 
-[0.3.0]: https://github.com/wuisabel-gif/Cadence/compare/v0.2.0...main
+[0.3.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.3.0
 [0.2.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.2.0
 [0.1.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.1.0
