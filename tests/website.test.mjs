@@ -43,6 +43,10 @@ test('site source version and publication notice match release preparation metad
     assert.ok(notice.includes(`npm v${pkg.version} package has not been published`));
     assert.match(notice, /Available from source now/);
     assert.ok(!html.includes(`cadence-deslop@${pkg.version}`), 'do not offer an unpublished npm version');
+  } else {
+    assert.ok(notice.includes(`v${pkg.version} is released`));
+    assert.ok(notice.includes(`cadence-deslop@${pkg.version}`));
+    assert.ok(!notice.includes('has not been published'));
   }
 });
 
