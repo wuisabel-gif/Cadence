@@ -43,6 +43,8 @@ npx --package=cadence-deslop@0.3.0 cadence-install-codex --project .
 The npm fetch needs network access. After installation, the bundled detector
 scores local files without fetching npm packages. Codex's own model calls still
 use its configured service; local scoring does not make the whole rewrite offline.
+Run the `npx` command from your target project or another directory, not from
+inside the Cadence source checkout.
 
 ## Use it
 

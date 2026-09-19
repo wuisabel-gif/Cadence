@@ -74,7 +74,9 @@ without local execution are not covered by this installer.
 
 ## npm and portable builds
 
-The v0.3.0 package includes these installers. No checkout is needed:
+The v0.3.0 package includes these installers. No checkout is needed. Run these
+from your project or another directory, **not from inside the Cadence source
+checkout**; npm treats the checkout's own package as the local executable set:
 
 ```bash
 npx --package=cadence-deslop@0.3.0 cadence-install-skill --agent kimi
