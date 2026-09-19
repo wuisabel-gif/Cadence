@@ -376,6 +376,12 @@ already works, a different model provider does not require a second install.
 [`integrations/gemini/`](integrations/gemini/README.md) — symlink it into
 `~/.gemini/extensions/cadence` and the `GEMINI.md` context loads every session.
 
+**With Grok.** The checkout includes a portable, local function-calling bridge
+for an xAI client. Run `npm run build:grok` to export the shared skill, voice
+profiles, and detector. This is not a native grok.com install: your client must
+execute the tools and return their results. See the [Grok guide](integrations/grok/README.md).
+The bridge is unreleased and is not in npm v0.3.0.
+
 **In DeepSeek.** DeepSeek's Skills are markdown you toggle from the drawer. Paste in
 [`integrations/deepseek/cadence-skill.md`](integrations/deepseek/cadence-skill.md) and
 score drafts in a terminal with `npx cadence-deslop`.
@@ -407,6 +413,7 @@ sentence-usage traits into that voice profile. Build it with
 | [integrations/vscode/README.md](integrations/vscode/README.md) | The VS Code extension — live grade, inline tells, and a score report |
 | [integrations/codex/README.md](integrations/codex/README.md) | Install the Codex skill once, choose a voice, and verify prose edits |
 | [integrations/agents/README.md](integrations/agents/README.md) | The shared skill and installer targets for Kimi, ZCode, Claude Code, and OpenCode |
+| [integrations/grok/README.md](integrations/grok/README.md) | The portable Grok bundle and local function-calling bridge |
 | [SCORING.md](SCORING.md) | Detector scoring formulas, thresholds, grade boundaries, and calibration guidance |
 | [SECURITY.md](SECURITY.md) | Vulnerability reporting, permissions, network boundaries, and privacy guidance |
 | [benchmark/README.md](benchmark/README.md) | The accuracy benchmark: labeled corpus, published precision and recall, and the CI gate |

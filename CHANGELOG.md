@@ -11,6 +11,14 @@ Because detector rules affect scores, any release that changes a rule says so he
 
 ## [Unreleased]
 
+### Added
+
+- **A portable Grok tool bridge.** Export a self-contained bundle with
+  `npm run build:grok`. An xAI client can call the local detector and load a
+  shipped voice profile through validated function calls. No native Grok skill
+  directory is assumed, and no API key or paid request is needed for local tools.
+  This addition is not included in the published v0.3.0 package.
+
 ## [0.3.0] — 2026-09-10
 
 ### Added

@@ -39,6 +39,7 @@ try {
     'integrations/agents/README.md', 'integrations/kimi/README.md', 'integrations/zcode/README.md',
     'integrations/claude-code/README.md', 'integrations/opencode/README.md',
     'scripts/agent-bundle.mjs', 'scripts/skill-targets.mjs', 'scripts/install-agent-skill.mjs', 'scripts/build-agent-skill.mjs',
+    'scripts/build-grok.mjs', 'integrations/grok/tools.mjs', 'integrations/grok/cli.mjs', 'integrations/grok/README.md',
     'skills/cadence/AGENTS.md', 'skills/cadence/reference/voice-profile-schema.md',
     'skills/cadence/scripts/deslop.mjs', 'skills/cadence/scripts/extract-text.mjs',
     'LICENSE', 'SCORING.md', 'CHANGELOG.md', 'SECURITY.md',
@@ -80,6 +81,18 @@ try {
     const scored = JSON.parse(execFileSync(process.execPath, [executable, '--prose-only', '--json', draft], { cwd: home, encoding: 'utf8' }));
     assert.deepEqual(scored, result);
   }
+  const grok = join(work, 'portable-grok');
+  execFileSync(process.execPath, [join(packageRoot, 'scripts/build-grok.mjs'), '--out', grok], { cwd: home });
+  const grokCli = join(grok, 'integrations/grok/cli.mjs');
+  const analyzed = JSON.parse(execFileSync(process.execPath, [grokCli, 'cadence_analyze'], {
+    cwd: home, encoding: 'utf8', input: JSON.stringify({ text: readFileSync(draft, 'utf8'), prose_only: true }),
+  }));
+  assert.deepEqual(analyzed, result);
+  const voice = JSON.parse(execFileSync(process.execPath, [grokCli, 'cadence_voice'], {
+    cwd: home, encoding: 'utf8', input: JSON.stringify({ name: 'essence' }),
+  }));
+  assert.equal(voice.profile, readFileSync(join(ROOT, 'voices/essence.md'), 'utf8'));
+  console.log('Packed Grok bridge builds, scores, and loads a complete voice from an unrelated directory.');
   console.log(`npm tarball verified: ${packed[0].filename} (${paths.size} files, ${seeds.length} seed voices)`);
   console.log('Packed installs and local scoring passed for: ' + Object.keys(SKILL_TARGETS).join(', '));
   console.log('No package published, release created, or real user configuration changed.');
