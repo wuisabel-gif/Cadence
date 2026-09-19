@@ -11,6 +11,10 @@ export const ROOT = fileURLToPath(new URL('../', import.meta.url));
 // three levels above skills/cadence/scripts/. No generated copy of the rules.
 export function skillBundleFiles({ agent, root = ROOT }) {
   skillTarget(agent);
+  return bundleFiles(root, agent);
+}
+
+function bundleFiles(root, agent) {
   const files = new Map();
   const add = (from, to = from) => files.set(to, readFileSync(join(root, from)));
   add('integrations/agents/SKILL.md', 'SKILL.md');
@@ -32,6 +36,15 @@ export function skillBundleFiles({ agent, root = ROOT }) {
   return files;
 }
 
+// Portable exports deliberately have no native discovery or installation path.
+export function writeGrokBundle(destination, { root = ROOT } = {}) {
+  const files = bundleFiles(root, 'grok');
+  for (const path of ['integrations/grok/tools.mjs', 'integrations/grok/cli.mjs', 'integrations/grok/README.md']) {
+    files.set(path, readFileSync(join(root, path)));
+  }
+  return writeBundleFiles(destination, files);
+}
+
 function treeFiles(dir, prefix = '') {
   const paths = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -48,6 +61,10 @@ function treeFiles(dir, prefix = '') {
 // installation is a no-op; an upgrade requires the user to move the old one aside.
 export function writeSkillBundle(destination, { agent, root = ROOT }) {
   const files = skillBundleFiles({ agent, root });
+  return writeBundleFiles(destination, files);
+}
+
+function writeBundleFiles(destination, files) {
   const dest = resolve(destination);
   let current;
   try { current = lstatSync(dest); } catch (error) { if (error.code !== 'ENOENT') throw error; }
