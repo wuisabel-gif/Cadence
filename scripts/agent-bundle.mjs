@@ -39,9 +39,16 @@ function bundleFiles(root, agent) {
 // Portable exports deliberately have no native discovery or installation path.
 export function writeGrokBundle(destination, { root = ROOT } = {}) {
   const files = bundleFiles(root, 'grok');
+  // A portable bridge is not a discoverable native agent skill.
+  files.delete('SKILL.md');
+  files.set('skills/cadence/AGENTS.md', readFileSync(join(root, 'skills/cadence/AGENTS.md')));
   for (const path of ['integrations/grok/tools.mjs', 'integrations/grok/cli.mjs', 'integrations/grok/README.md']) {
     files.set(path, readFileSync(join(root, path)));
   }
+  files.set('README.md', files.get('integrations/grok/README.md'));
+  const metadata = JSON.parse(files.get('package.json').toString());
+  metadata.name = 'cadence-grok-bridge';
+  files.set('package.json', Buffer.from(JSON.stringify(metadata, null, 2) + '\n'));
   return writeBundleFiles(destination, files);
 }
 

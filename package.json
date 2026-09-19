@@ -7,7 +7,8 @@
     "cadence-deslop": "skills/cadence/scripts/deslop.mjs",
     "deslop": "skills/cadence/scripts/deslop.mjs",
     "cadence-install-codex": "scripts/install-codex.mjs",
-    "cadence-install-skill": "scripts/install-agent-skill.mjs"
+    "cadence-install-skill": "scripts/install-agent-skill.mjs",
+    "cadence-grok-tool": "integrations/grok/cli.mjs"
   },
   "exports": "./skills/cadence/scripts/deslop.mjs",
   "files": [
@@ -22,6 +23,8 @@
     "integrations/zcode/",
     "integrations/claude-code/",
     "integrations/opencode/",
+    "integrations/grok/",
+    "scripts/build-grok.mjs",
     "scripts/codex-bundle.mjs",
     "scripts/agent-bundle.mjs",
     "scripts/skill-targets.mjs",
@@ -39,7 +42,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node --test tests/deslop.test.mjs tests/extract-text.test.mjs tests/extension.test.mjs tests/vscode.test.mjs tests/benchmark.test.mjs tests/voices.test.mjs tests/codex.test.mjs tests/input-limits.test.mjs tests/ui-boundaries.test.mjs tests/agent-skills.test.mjs tests/website.test.mjs",
+    "test": "node --test tests/deslop.test.mjs tests/extract-text.test.mjs tests/extension.test.mjs tests/vscode.test.mjs tests/benchmark.test.mjs tests/voices.test.mjs tests/codex.test.mjs tests/input-limits.test.mjs tests/ui-boundaries.test.mjs tests/agent-skills.test.mjs tests/website.test.mjs tests/grok.test.mjs",
     "deslop": "node skills/cadence/scripts/deslop.mjs",
     "bench": "node benchmark/bench.mjs",
     "bench:check": "node benchmark/bench.mjs --check",
@@ -50,6 +53,8 @@
     "install:codex": "node scripts/install-codex.mjs",
     "install:agent": "node scripts/install-agent-skill.mjs",
     "build:agent": "node scripts/build-agent-skill.mjs",
+    "build:grok": "node scripts/build-grok.mjs",
+    "grok:tool": "node integrations/grok/cli.mjs",
     "install:kimi": "node scripts/install-agent-skill.mjs --agent kimi",
     "install:zcode": "node scripts/install-agent-skill.mjs --agent zcode",
     "install:claude": "node scripts/install-agent-skill.mjs --agent claude-code",
@@ -64,7 +69,7 @@
   "keywords": [
     "ai-slop", "ai-detector", "ai-humanizer", "humanize-ai-text", "ai-writing",
     "writing", "prose", "linter", "text-analysis", "claude", "claude-code",
-    "codex", "codex-skill", "agent-skills", "openai", "kimi", "glm", "zcode", "opencode"
+    "codex", "codex-skill", "agent-skills", "openai", "kimi", "glm", "zcode", "opencode", "grok", "xai"
   ],
   "repository": {
     "type": "git",
