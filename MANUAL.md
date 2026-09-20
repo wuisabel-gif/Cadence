@@ -17,7 +17,8 @@ Choose the integration for your workspace:
 - **The full plugin** — the `/cadence` skill (write, recast, learn, deslop, voices),
   which runs inside **Claude Code**.
 - **The detector only** — `cadence-deslop`, the scorer on its own, which runs
-  anywhere with Node and needs no Claude Code.
+  anywhere with Node and needs no Claude Code. Other websites can embed that
+  scorer; see [docs/embed.md](docs/embed.md). There is no Cadence-hosted API.
 - **The Chrome extension** — the detector in your browser (popup or right-click).
   See [extension/README.md](extension/README.md).
 - **The Codex skill** — install once with `npm run install:codex` from this

@@ -11,6 +11,13 @@ Because detector rules affect scores, any release that changes a rule says so he
 
 ## [Unreleased]
 
+### Added
+
+- **Embed Cadence on another site.** [docs/embed.md](docs/embed.md) shows how to
+  score in the visitor's browser or on your own Node server. There is no
+  Cadence-hosted HTTP API. A localhost example lives at
+  `examples/score-server.mjs`.
+
 ## [0.4.0] — 2026-09-20
 
 ### Added
