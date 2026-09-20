@@ -11,14 +11,15 @@ Because detector rules affect scores, any release that changes a rule says so he
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-09-20
+
 ### Added
 
 - **A Grok Build skill installer.** `npm run install:grok` writes the shared
   skill to `~/.grok/skills/cadence` or `.grok/skills/cadence`. Official Grok
   Build discovery paths are documented; grok.com chat still cannot load them.
   A `.grok-plugin/plugin.json` manifest is in the checkout. Cadence is not listed
-  in xAI's plugin marketplace until a separate PR there is merged. This addition
-  is not included in the published v0.3.0 package.
+  in xAI's plugin marketplace until a separate PR there is merged.
 - **A Grok Bot workspace pack.** `npm run grok-bot:pack` exports the detector,
   voices, and a private-skill prompt for `/workspace/Cadence`. The pack does not
   register a Bot skill or publish to the Grok Bot marketplace. `npm run
@@ -27,8 +28,7 @@ Because detector rules affect scores, any release that changes a rule says so he
 - **A portable Grok tool bridge.** Export a self-contained bundle with
   `npm run build:grok`. An xAI client can call the local detector and load a
   shipped voice profile through validated function calls. No API key or paid
-  request is needed for local tools. This addition is not included in the
-  published v0.3.0 package.
+  request is needed for local tools.
 
 ## [0.3.0] — 2026-09-10
 
@@ -186,6 +186,7 @@ First public release.
 - The detector is English-only for now (its function-word and phrase lists are
   English).
 
+[0.4.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.4.0
 [0.3.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.3.0
 [0.2.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.2.0
 [0.1.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.1.0

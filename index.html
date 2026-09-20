@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cadence: catch robotic writing, write in a voice you choose</title>
 <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
-<meta name="description" content="Cadence v0.3.0 is available on npm. Install it in Codex, Kimi Code CLI, ZCode, Claude Code, or OpenCode. Recast prose in a chosen voice and verify edits with the same local detector.">
+<meta name="description" content="Cadence v0.4.0 is available on npm. Install it in Codex, Kimi Code CLI, ZCode, Claude Code, OpenCode, or Grok Build. Recast prose in a chosen voice and verify edits with the same local detector.">
 <meta property="og:title" content="Cadence: catch robotic writing, write in a voice you choose">
-<meta property="og:description" content="Cadence v0.3.0 is released. One writing workflow across coding agents: install from npm or source, choose a voice, and measure before and after.">
+<meta property="og:description" content="Cadence v0.4.0 is released. One writing workflow across coding agents: install from npm or source, choose a voice, and measure before and after.">
 <meta property="og:type" content="website">
 <script>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -348,7 +348,7 @@ section{padding-block:clamp(3.5rem,8vw,7rem);scroll-margin-top:72px}
       <a class="navlink" href="#whats-new">What's new</a>
       <a class="navlink" href="#install">Plugin</a>
       <a class="navlink" href="#faq">FAQ</a>
-      <span class="chip" data-source-version="0.3.0">v0.3.0 · source</span>
+      <span class="chip" data-source-version="0.4.0">v0.4.0 · source</span>
       <a class="gh" href="https://github.com/wuisabel-gif/Cadence" target="_blank" rel="noopener" aria-label="Cadence on GitHub">
         <svg viewBox="0 0 24 24" width="21" height="21" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.37.5 0 5.78 0 12.29c0 5.2 3.44 9.6 8.21 11.16.6.11.82-.25.82-.56 0-.28-.01-1.02-.02-2-3.34.71-4.04-1.58-4.04-1.58-.55-1.36-1.34-1.73-1.34-1.73-1.09-.73.08-.71.08-.71 1.2.08 1.84 1.21 1.84 1.21 1.07 1.79 2.81 1.27 3.5.97.11-.76.42-1.27.76-1.56-2.67-.3-5.47-1.31-5.47-5.83 0-1.29.47-2.34 1.23-3.17-.12-.3-.53-1.52.12-3.16 0 0 1.01-.32 3.3 1.21a11.6 11.6 0 0 1 3-.4c1.02 0 2.05.13 3 .4 2.28-1.53 3.29-1.21 3.29-1.21.65 1.64.24 2.86.12 3.16.77.83 1.23 1.88 1.23 3.17 0 4.53-2.81 5.53-5.49 5.82.43.37.81 1.1.81 2.22 0 1.6-.01 2.9-.01 3.29 0 .31.21.68.83.56A12.02 12.02 0 0 0 24 12.29C24 5.78 18.63.5 12 .5z"/></svg>
       </a>
@@ -665,7 +665,7 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
       <h2 id="agents-heading">Pick your agent. Keep your voice.</h2>
       <p>One shared skill, the same ten profiles, and a local detector. Use the model already configured in your host — Kimi, GLM, or another supported model. Cadence does not change endpoints, API keys, or approvals.</p>
     </div>
-    <p class="source-note" id="release-status"><strong>v0.3.0 is released.</strong> From your target project (not inside the Cadence source checkout), install from npm: <code>npx --package=cadence-deslop@0.3.0 cadence-install-skill --agent kimi</code>. Replace <code>kimi</code> with <code>codex</code>, <code>zcode</code>, <code>claude-code</code>, or <code>opencode</code>. Grok Build (<code>npm run install:grok</code>) is in this source checkout, not npm v0.3.0. The cards below use a source checkout. <a href="https://github.com/wuisabel-gif/Cadence/releases/tag/v0.3.0">Release notes and downloads</a>.</p>
+    <p class="source-note" id="release-status"><strong>v0.4.0 is released.</strong> From your target project (not inside the Cadence source checkout), install from npm: <code>npx --package=cadence-deslop@0.4.0 cadence-install-skill --agent kimi</code>. Replace <code>kimi</code> with <code>codex</code>, <code>zcode</code>, <code>claude-code</code>, <code>opencode</code>, or <code>grok</code>. The cards below use a source checkout. <a href="https://github.com/wuisabel-gif/Cadence/releases/tag/v0.4.0">Release notes and downloads</a>.</p>
     <div class="agent-start">
       <p>First, get a checkout. You need Node 18 or newer for the detector.</p>
       <pre class="codeblock"><code>git clone https://github.com/wuisabel-gif/Cadence.git
@@ -738,8 +738,8 @@ cd Cadence</code></pre>
     </div>
     <ul class="changelog reveal">
       <li>
-        <span class="date">Sep 19, 2026</span>
-        <span class="entry"><span class="new">SOURCE</span> <b>Grok Build can install the shared skill.</b> <code>npm run install:grok</code> writes <code>~/.grok/skills/cadence</code>. Grok Bot gets a workspace pack, not an app installer. grok.com still cannot load local files. This is not in npm v0.3.0.</span>
+        <span class="date">Sep 20, 2026</span>
+        <span class="entry"><span class="new">RELEASE</span> <b>v0.4.0 is on npm.</b> Grok Build installs with <code>npm run install:grok</code>. Grok Bot gets a workspace pack, not an app installer. grok.com still cannot load local files. <a href="https://github.com/wuisabel-gif/Cadence/releases/tag/v0.4.0">Release notes and downloads</a>.</span>
       </li>
       <li>
         <span class="date">Sep 10, 2026</span>
@@ -834,7 +834,7 @@ cd Cadence</code></pre>
 <span class="pr">&gt;</span> Use Cadence to list the available voices.
 <span class="pr">&gt;</span> Use Cadence to de-slop this draft.
 <span class="pr">&gt;</span> Use Cadence to write a 150-word intro in the counsel voice.</div>
-          <div class="status"><span class="v" data-source-version="0.3.0">v0.3.0</span> · ten seed voices · available on npm</div>
+          <div class="status"><span class="v" data-source-version="0.4.0">v0.4.0</span> · ten seed voices · available on npm</div>
         </div>
         <div class="steps reveal">
           <div class="callout"><b>This plugin route is for Claude Code.</b> It is separate from the standalone agent skills. Regular claude.ai chats use the uploadable skill bundle, and can verify scores only when code execution is available.</div>
@@ -911,7 +911,7 @@ cd Cadence</code></pre>
       <a class="mark" href="#top"><svg class="brandmark" viewBox="0 0 200 200" fill="none" aria-hidden="true"><rect x="21" y="51" width="22" height="107" rx="11" fill="#2348a1"/><rect x="55" y="96" width="22" height="62" rx="11" fill="#2348a1"/><rect x="89" y="38" width="22" height="120" rx="11" fill="#2348a1"/><rect x="123" y="68" width="22" height="90" rx="11" fill="#db332c"/><rect x="157" y="108" width="22" height="50" rx="11" fill="#2348a1"/></svg>Cadence</a>
       <p>A detector for the AI fingerprint, and a voice to write toward instead. Diagnose first, then fix, then verify the result.</p>
       <div class="builtwith">Built with Cadence: <a href="https://github.com/wuisabel-gif/linkedin-message-drafter">linkedin-message-drafter</a>, <a href="https://github.com/wuisabel-gif/readme-auto-update">readme-auto-update</a>, <a href="https://github.com/wuisabel-gif/elegance">elegance</a>.</div>
-      <div class="meta"><span data-source-version="0.3.0">v0.3.0</span> · available on npm · plain Node · © 2026 <a href="https://github.com/wuisabel-gif">Isabel Wu</a> · MIT</div>
+      <div class="meta"><span data-source-version="0.4.0">v0.4.0</span> · available on npm · plain Node · © 2026 <a href="https://github.com/wuisabel-gif">Isabel Wu</a> · MIT</div>
     </div>
     <pre class="tree">cadence/
 ├── .claude-plugin/

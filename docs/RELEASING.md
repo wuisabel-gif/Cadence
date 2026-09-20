@@ -104,4 +104,4 @@ release with its notes and selected artifacts. Verify registry and installation
 results afterward. Extension-store publishing is a separate action; do not claim
 that a manifest version proves a store submission succeeded.
 
-For the current candidate, see [v0.3.0 notes](releases/v0.3.0.md).
+For the current candidate, see [v0.4.0 notes](releases/v0.4.0.md).

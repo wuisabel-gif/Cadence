@@ -607,6 +607,7 @@ test('VS Code does not silently swallow unexpected detector bugs', () => {
   }
 });
 
-test('PWA score-page assets use the 0.3.0 cache namespace', () => {
-  assert.match(read('sw.js'), /const CACHE = 'cadence-v0\.3\.0';/);
+test('PWA score-page assets use the current package version as the cache namespace', () => {
+  const version = JSON.parse(read('package.json')).version;
+  assert.match(read('sw.js'), new RegExp(`const CACHE = 'cadence-v${version.replaceAll('.', '\\.')}';`));
 });
