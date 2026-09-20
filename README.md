@@ -357,8 +357,8 @@ the prose, then reports the measured result. It bundles the detector, so scoring
 needs no npm download. No project instructions are overwritten. See the
 [Codex guide](integrations/codex/README.md) for npm installation.
 
-**In Kimi Code CLI, ZCode, Claude Code, OpenCode, or Grok Build.** Choose your host from this
-checkout:
+**Pick the host you already use.** Install for Kimi Code CLI or ZCode. Claude
+Code and OpenCode take the same skill. So does Grok Build:
 
 ```bash
 npm run install:kimi       # Kimi Code CLI
