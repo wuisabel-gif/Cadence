@@ -76,22 +76,16 @@ without local execution are not covered by this installer.
 
 ## npm and portable builds
 
-The v0.3.0 package includes the Kimi, ZCode, Claude Code, OpenCode, and Codex
-installers. No checkout is needed for those. Run them from your project or
-another directory, **not from inside the Cadence source checkout**; npm treats
-the checkout's own package as the local executable set:
+The v0.4.0 package includes these installers. No checkout is needed. Run them
+from your project or another directory, **not from inside the Cadence source
+checkout**; npm treats the checkout's own package as the local executable set:
 
 ```bash
-npx --package=cadence-deslop@0.3.0 cadence-install-skill --agent kimi
-npx --package=cadence-deslop@0.3.0 cadence-install-skill --agent zcode
-npx --package=cadence-deslop@0.3.0 cadence-install-skill --agent claude-code
-npx --package=cadence-deslop@0.3.0 cadence-install-skill --agent opencode
-```
-
-Grok Build uses this checkout until the next npm package:
-
-```bash
-npm run install:grok
+npx --package=cadence-deslop@0.4.0 cadence-install-skill --agent kimi
+npx --package=cadence-deslop@0.4.0 cadence-install-skill --agent zcode
+npx --package=cadence-deslop@0.4.0 cadence-install-skill --agent claude-code
+npx --package=cadence-deslop@0.4.0 cadence-install-skill --agent opencode
+npx --package=cadence-deslop@0.4.0 cadence-install-skill --agent grok
 ```
 
 The Grok host is Grok Build CLI. grok.com and Grok Bot do not use this installer.

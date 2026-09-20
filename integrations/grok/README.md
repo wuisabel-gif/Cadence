@@ -5,7 +5,8 @@ checkout ships a filesystem skill for Grok Build, a workspace pack for Grok Bot,
 and a local function-calling bridge for API clients. grok.com chat cannot load
 these files.
 
-This addition is unreleased. Use this checkout; npm v0.3.0 does not include it.
+This addition ships in npm v0.4.0. Run installers from your project or another
+directory, not from inside the Cadence source checkout.
 
 ## Grok Build CLI skill
 

@@ -355,7 +355,7 @@ Start a new Codex session and ask: *“Use Cadence to recast README.md in the es
 voice.”* The skill loads the shared rules and profile, scores the original, edits
 the prose, then reports the measured result. It bundles the detector, so scoring
 needs no npm download. No project instructions are overwritten. See the
-[Codex guide](integrations/codex/README.md) for npm installation after v0.3.0 ships.
+[Codex guide](integrations/codex/README.md) for npm installation.
 
 **In Kimi Code CLI, ZCode, Claude Code, OpenCode, or Grok Build.** Choose your host from this
 checkout:
@@ -383,7 +383,7 @@ CLI at `~/.grok/skills/cadence`. grok.com cannot load that folder. For Grok Bot,
 pack files for `/workspace` with `npm run grok-bot:pack` and save a private skill
 in the app; see [Grok Bot](integrations/grok-bot/README.md). For an xAI API
 client, `npm run build:grok` still exports the local function-calling bridge.
-None of this is in npm v0.3.0. See the [Grok guide](integrations/grok/README.md).
+See the [Grok guide](integrations/grok/README.md).
 
 **In DeepSeek.** DeepSeek's Skills are markdown you toggle from the drawer. Paste in
 [`integrations/deepseek/cadence-skill.md`](integrations/deepseek/cadence-skill.md) and
@@ -472,9 +472,7 @@ npm run release:check  # tests + docs + benchmark + packaged agent installs
 
 ## Status
 
-v0.3.0 is released. The npm package includes the tested detector and the Kimi,
-ZCode, Claude Code, OpenCode, and Codex installers. Grok Build, the Grok Bot
-pack, and the Grok API bridge are in this checkout only until the next package.
-Release notes and remaining manual checks are in
-[docs/releases/v0.3.0.md](docs/releases/v0.3.0.md). GPU training remains an
-experiment, not a verified release feature.
+v0.4.0 is released. The npm package includes the tested detector, the previous
+agent installers, Grok Build, the Grok Bot pack, and the Grok API bridge.
+Release notes are in [docs/releases/v0.4.0.md](docs/releases/v0.4.0.md). GPU
+training remains an experiment, not a verified release feature.
