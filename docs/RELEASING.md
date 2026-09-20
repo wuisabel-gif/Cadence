@@ -12,6 +12,7 @@ Use the same version in these files:
 | --- | --- |
 | npm | `package.json` |
 | Claude plugin | `.claude-plugin/plugin.json` |
+| Grok Build plugin | `.grok-plugin/plugin.json` |
 | Cadence marketplace entry | `.claude-plugin/marketplace.json` |
 | Chrome extension | `extension/manifest.json` |
 | Gemini extension | `integrations/gemini/gemini-extension.json` |
@@ -54,7 +55,7 @@ request. It does not prove rewrite quality; perform the manual check below too.
 With the current Kimi Code CLI installed, `npm run check:kimi` checks user and
 project discovery through its session-less local catalog API. It uses temporary
 configuration and an authenticated loopback server; no model call is made.
-ZCode, Claude Code, and OpenCode still need the client checks listed below.
+ZCode, Claude Code, OpenCode, and Grok Build still need the client checks listed below.
 
 CI covers the automated tests on the supported minimum Node 18 as well as Node 20
 and 22. The real-Codex check is separate so CI needs no Codex account or credentials.
@@ -63,7 +64,7 @@ and 22. The real-Codex check is separate so CI needs no Codex account or credent
 
 ```bash
 npm run build:codex              # dist/codex/cadence/
-npm run build:agent -- --agent kimi  # or zcode, claude-code, opencode
+npm run build:agent -- --agent kimi  # or zcode, claude-code, opencode, grok
 npm pack --pack-destination dist
 npm run build:claude-skill       # cadence-skill.zip; needs zip
 ```

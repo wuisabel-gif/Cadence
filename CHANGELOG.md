@@ -13,11 +13,22 @@ Because detector rules affect scores, any release that changes a rule says so he
 
 ### Added
 
+- **A Grok Build skill installer.** `npm run install:grok` writes the shared
+  skill to `~/.grok/skills/cadence` or `.grok/skills/cadence`. Official Grok
+  Build discovery paths are documented; grok.com chat still cannot load them.
+  A `.grok-plugin/plugin.json` manifest is in the checkout. Cadence is not listed
+  in xAI's plugin marketplace until a separate PR there is merged. This addition
+  is not included in the published v0.3.0 package.
+- **A Grok Bot workspace pack.** `npm run grok-bot:pack` exports the detector,
+  voices, and a private-skill prompt for `/workspace/Cadence`. The pack does not
+  register a Bot skill or publish to the Grok Bot marketplace. `npm run
+  grok-bot:probe` reports Node and git on the machine that ran it, not on a
+  Grok Bot VM.
 - **A portable Grok tool bridge.** Export a self-contained bundle with
   `npm run build:grok`. An xAI client can call the local detector and load a
-  shipped voice profile through validated function calls. No native Grok skill
-  directory is assumed, and no API key or paid request is needed for local tools.
-  This addition is not included in the published v0.3.0 package.
+  shipped voice profile through validated function calls. No API key or paid
+  request is needed for local tools. This addition is not included in the
+  published v0.3.0 package.
 
 ## [0.3.0] — 2026-09-10
 

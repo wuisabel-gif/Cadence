@@ -17,6 +17,7 @@ npm run install:kimi
 npm run install:zcode
 npm run install:claude
 npm run install:opencode
+npm run install:grok
 # Existing Codex entry point:
 npm run install:codex
 ```
@@ -42,6 +43,7 @@ No installation command changes provider settings or project instructions.
 | `zcode` | `~/.zcode/skills/cadence` | Use ZCode's project import UI | `$cadence` |
 | `claude-code` | `~/.claude/skills/cadence` | `.claude/skills/cadence` | `/cadence` or a natural request |
 | `opencode` | `~/.config/opencode/skills/cadence` | `.opencode/skills/cadence` | Ask it to load the `cadence` skill |
+| `grok` | `~/.grok/skills/cadence` | `.grok/skills/cadence` | `/cadence` or a natural request in Grok Build |
 
 Kimi honors `KIMI_CODE_HOME`; the user skill goes into its `skills/cadence`
 subdirectory. This targets the current Kimi Code CLI, not the older Python
@@ -74,9 +76,10 @@ without local execution are not covered by this installer.
 
 ## npm and portable builds
 
-The v0.3.0 package includes these installers. No checkout is needed. Run these
-from your project or another directory, **not from inside the Cadence source
-checkout**; npm treats the checkout's own package as the local executable set:
+The v0.3.0 package includes the Kimi, ZCode, Claude Code, OpenCode, and Codex
+installers. No checkout is needed for those. Run them from your project or
+another directory, **not from inside the Cadence source checkout**; npm treats
+the checkout's own package as the local executable set:
 
 ```bash
 npx --package=cadence-deslop@0.3.0 cadence-install-skill --agent kimi
@@ -84,6 +87,15 @@ npx --package=cadence-deslop@0.3.0 cadence-install-skill --agent zcode
 npx --package=cadence-deslop@0.3.0 cadence-install-skill --agent claude-code
 npx --package=cadence-deslop@0.3.0 cadence-install-skill --agent opencode
 ```
+
+Grok Build uses this checkout until the next npm package:
+
+```bash
+npm run install:grok
+```
+
+The Grok host is Grok Build CLI. grok.com and Grok Bot do not use this installer.
+See [Grok Build](../grok/README.md) and [Grok Bot](../grok-bot/README.md).
 
 Build a portable directory without installing into your home:
 
@@ -112,8 +124,11 @@ host normally needs no Cadence changes.
 - [ZCode](../zcode/README.md) — [official skills management](https://zcode.z.ai/en/docs/skill)
 - [Claude Code](../claude-code/README.md) — [official skill locations](https://code.claude.com/docs/en/skills)
 - [OpenCode](../opencode/README.md) — [official Agent Skills documentation](https://opencode.ai/docs/skills/)
+- [Grok Build](../grok/README.md) — [official skill locations](https://docs.x.ai/build/features/skills-plugins-marketplaces)
+- [Grok Bot](../grok-bot/README.md) — private skill on the cloud computer; no drop-in path
 - [Codex](../codex/README.md) — its existing installer remains compatible.
 
-Locations were checked against those sources on September 7, 2026. Filesystem
-and package tests do not prove model-generated rewrite quality; verify that
-separately in the client you use.
+Locations were checked against those sources on September 7, 2026. Grok Build
+paths were checked on September 19, 2026. Filesystem and package tests do not
+prove model-generated rewrite quality; verify that separately in the client you
+use.

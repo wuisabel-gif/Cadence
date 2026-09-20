@@ -369,6 +369,7 @@ section{padding-block:clamp(3.5rem,8vw,7rem);scroll-margin-top:72px}
       <li><a href="#agent-zcode">ZCode Agent</a></li>
       <li><a href="#agent-claude-code">Claude Code</a></li>
       <li><a href="#agent-opencode">OpenCode</a></li>
+      <li><a href="#agent-grok">Grok Build</a></li>
     </ul>
     <div class="hero-cta reveal">
       <a class="btn btn-primary" href="check.html">Score your writing →</a>
@@ -664,7 +665,7 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
       <h2 id="agents-heading">Pick your agent. Keep your voice.</h2>
       <p>One shared skill, the same ten profiles, and a local detector. Use the model already configured in your host — Kimi, GLM, or another supported model. Cadence does not change endpoints, API keys, or approvals.</p>
     </div>
-    <p class="source-note" id="release-status"><strong>v0.3.0 is released.</strong> From your target project (not inside the Cadence source checkout), install from npm: <code>npx --package=cadence-deslop@0.3.0 cadence-install-skill --agent kimi</code>. Replace <code>kimi</code> with <code>codex</code>, <code>zcode</code>, <code>claude-code</code>, or <code>opencode</code>. The cards below use a source checkout. <a href="https://github.com/wuisabel-gif/Cadence/releases/tag/v0.3.0">Release notes and downloads</a>.</p>
+    <p class="source-note" id="release-status"><strong>v0.3.0 is released.</strong> From your target project (not inside the Cadence source checkout), install from npm: <code>npx --package=cadence-deslop@0.3.0 cadence-install-skill --agent kimi</code>. Replace <code>kimi</code> with <code>codex</code>, <code>zcode</code>, <code>claude-code</code>, or <code>opencode</code>. Grok Build (<code>npm run install:grok</code>) is in this source checkout, not npm v0.3.0. The cards below use a source checkout. <a href="https://github.com/wuisabel-gif/Cadence/releases/tag/v0.3.0">Release notes and downloads</a>.</p>
     <div class="agent-start">
       <p>First, get a checkout. You need Node 18 or newer for the detector.</p>
       <pre class="codeblock"><code>git clone https://github.com/wuisabel-gif/Cadence.git
@@ -712,12 +713,20 @@ cd Cadence</code></pre>
         <p>Your agent needs access to its skill and shell tools. Keep its existing permission policy.</p>
         <a class="agent-guide" href="https://github.com/wuisabel-gif/Cadence/blob/main/integrations/opencode/README.md">OpenCode setup →</a>
       </article>
+      <article class="agent-card" data-agent="grok" aria-labelledby="agent-grok">
+        <h3 id="agent-grok">Grok Build</h3>
+        <p>Start a new <code>grok</code> session and select <code>/cadence</code>, or ask to use Cadence.</p>
+        <div class="agent-command"><code id="install-grok">npm run install:grok</code><button type="button" class="copy-command" data-copy="install-grok" aria-label="Copy Grok Build install command">Copy</button></div>
+        <p class="agent-path">~/.grok/skills/cadence</p>
+        <p>This is Grok Build CLI, not grok.com. Grok Bot uses a workspace pack, not this installer.</p>
+        <a class="agent-guide" href="https://github.com/wuisabel-gif/Cadence/blob/main/integrations/grok/README.md">Grok setup →</a>
+      </article>
     </div>
     <p class="copy-status" id="install-copy-status" role="status" aria-live="polite"></p>
     <div class="agent-notes">
-      <p>Prefer one repository? Codex, Kimi Code CLI, Claude Code, and OpenCode accept <code>-- --project /path/to/project</code> after the npm installer command. ZCode uses its project import UI instead. See the <a href="https://github.com/wuisabel-gif/Cadence/blob/main/integrations/agents/README.md">scope and upgrade guide</a> before changing an existing installation.</p>
+      <p>Prefer one repository? Codex, Kimi Code CLI, Claude Code, OpenCode, and Grok Build accept <code>-- --project /path/to/project</code> after the npm installer command. ZCode uses its project import UI instead. See the <a href="https://github.com/wuisabel-gif/Cadence/blob/main/integrations/agents/README.md">scope and upgrade guide</a> before changing an existing installation.</p>
       <p>Try: <em>“Use Cadence to recast README.md in the essence voice and report the before/after scores.”</em> The skill asks the agent to preserve facts and markup, load the voice, and run the same scoring command before and after. Review the diff; a low score does not prove that meaning survived.</p>
-      <p>Installation and detector checks cover all five targets. Native discovery has been checked in Codex and Kimi Code CLI; live-agent rewrite checks in the other clients remain manual. Local scoring is offline, but the host's writing model may still use a remote service.</p>
+      <p>Installation and detector checks cover all six targets. Native discovery has been checked in Codex and Kimi Code CLI; live-agent rewrite checks in the other clients remain manual. Local scoring is offline, but the host's writing model may still use a remote service.</p>
     </div>
   </section>
 
@@ -728,6 +737,10 @@ cd Cadence</code></pre>
       <p>One detector, more places to use it. Source updates and published releases are marked separately.</p>
     </div>
     <ul class="changelog reveal">
+      <li>
+        <span class="date">Sep 19, 2026</span>
+        <span class="entry"><span class="new">SOURCE</span> <b>Grok Build can install the shared skill.</b> <code>npm run install:grok</code> writes <code>~/.grok/skills/cadence</code>. Grok Bot gets a workspace pack, not an app installer. grok.com still cannot load local files. This is not in npm v0.3.0.</span>
+      </li>
       <li>
         <span class="date">Sep 10, 2026</span>
         <span class="entry"><span class="new">RELEASE</span> <b>v0.3.0 is on npm.</b> The package includes the shared agent installers, all ten voices, and the local detector. <a href="https://github.com/wuisabel-gif/Cadence/releases/tag/v0.3.0">Release notes and downloads</a>. GPU training remains experimental.</span>
@@ -845,7 +858,7 @@ cd Cadence</code></pre>
     <div class="faq-list reveal">
       <details>
         <summary>How do I invoke Cadence in my agent?</summary>
-        <div class="a">The standalone Claude Code skill uses <code>/cadence</code>; Codex and ZCode use <code>$cadence</code>; Kimi Code CLI uses <code>/skill:cadence</code>. For a Claude plugin install, choose Cadence from the installed command menu or ask naturally. In OpenCode, ask it to load the <code>cadence</code> skill. The <a href="#agents">install cards</a> explain discovery. A regular web chat without local execution cannot run the bundled detector.</div>
+        <div class="a">The standalone Claude Code skill and Grok Build use <code>/cadence</code>; Codex and ZCode use <code>$cadence</code>; Kimi Code CLI uses <code>/skill:cadence</code>. For a Claude plugin install, choose Cadence from the installed command menu or ask naturally. In OpenCode, ask it to load the <code>cadence</code> skill. The <a href="#agents">install cards</a> explain discovery. A regular web chat without local execution cannot run the bundled detector.</div>
       </details>
       <details>
         <summary>I added the marketplace but nothing happens.</summary>
@@ -870,6 +883,10 @@ cd Cadence</code></pre>
       <details>
         <summary>What does it cost?</summary>
         <div class="a">Cadence is MIT-licensed open source, and its local detector requires no model API. Your agent or model provider may charge for writing requests. Cadence does not supply an account, subscription, or API key.</div>
+      </details>
+      <details>
+        <summary>Can grok.com or Grok Bot install Cadence like Claude Code?</summary>
+        <div class="a">No. Grok Build CLI installs with <code>npm run install:grok</code> into <code>~/.grok/skills/cadence</code>. grok.com cannot load that folder. Grok Bot has no drop-in path: pack files for its <code>/workspace</code>, score a file, then save a private skill in the app. Cadence is not listed in the Grok Bot marketplace.</div>
       </details>
       <details>
         <summary>Do Kimi or GLM need different writing rules?</summary>
