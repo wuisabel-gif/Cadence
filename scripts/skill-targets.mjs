@@ -24,6 +24,10 @@ export const SKILL_TARGETS = Object.freeze({
     label: 'OpenCode', user: ['.config', 'opencode', 'skills'], project: ['.opencode', 'skills'],
     invoke: 'Start a new session and ask OpenCode to load the cadence skill.',
   },
+  grok: {
+    label: 'Grok Build', user: ['.grok', 'skills'], project: ['.grok', 'skills'],
+    invoke: 'Start a new grok session and select /cadence, or ask to use Cadence.',
+  },
 });
 
 export function skillTarget(agent) {

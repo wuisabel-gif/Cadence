@@ -15,10 +15,12 @@ const seedNames = readdirSync(join(ROOT, 'voices')).filter((file) => file.endsWi
 const userPaths = {
   codex: '.agents/skills/cadence', kimi: '.kimi-code/skills/cadence', zcode: '.zcode/skills/cadence',
   'claude-code': '.claude/skills/cadence', opencode: '.config/opencode/skills/cadence',
+  grok: '.grok/skills/cadence',
 };
 const projectPaths = {
   codex: '.agents/skills/cadence', kimi: '.kimi-code/skills/cadence',
   'claude-code': '.claude/skills/cadence', opencode: '.opencode/skills/cadence',
+  grok: '.grok/skills/cadence',
 };
 
 test('shared skill metadata fits the documented host format limits', () => {

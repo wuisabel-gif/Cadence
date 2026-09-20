@@ -18,6 +18,7 @@
 <p align="center">
   <a href="#install"><img src="https://img.shields.io/badge/Claude%20Code-plugin-2348a1?logo=anthropic&logoColor=white" alt="Claude Code plugin"></a>
   <a href="integrations/codex/README.md"><img src="https://img.shields.io/badge/Codex-skill-2348a1?logo=openai&logoColor=white" alt="Codex skill"></a>
+  <a href="integrations/grok/README.md"><img src="https://img.shields.io/badge/Grok%20Build-skill-2348a1?logo=x&logoColor=white" alt="Grok Build skill"></a>
   <a href="integrations/gemini/README.md"><img src="https://img.shields.io/badge/Gemini%20CLI-extension-2348a1?logo=googlegemini&logoColor=white" alt="Gemini CLI extension"></a>
   <a href="integrations/deepseek/README.md"><img src="https://img.shields.io/badge/DeepSeek-skill-2348a1?logo=deepseek&logoColor=white" alt="DeepSeek skill"></a>
   <a href="extension/README.md"><img src="https://img.shields.io/badge/Chrome-extension-2348a1?logo=googlechrome&logoColor=white" alt="Chrome extension"></a>
@@ -356,7 +357,7 @@ the prose, then reports the measured result. It bundles the detector, so scoring
 needs no npm download. No project instructions are overwritten. See the
 [Codex guide](integrations/codex/README.md) for npm installation after v0.3.0 ships.
 
-**In Kimi Code CLI, ZCode, Claude Code, or OpenCode.** Choose your host from this
+**In Kimi Code CLI, ZCode, Claude Code, OpenCode, or Grok Build.** Choose your host from this
 checkout:
 
 ```bash
@@ -364,6 +365,7 @@ npm run install:kimi       # Kimi Code CLI
 npm run install:zcode      # ZCode Agent
 npm run install:claude     # standalone Claude Code skill
 npm run install:opencode   # OpenCode
+npm run install:grok       # Grok Build CLI
 ```
 
 These use one shared skill and the same detector. Keep the model already selected
@@ -376,11 +378,12 @@ already works, a different model provider does not require a second install.
 [`integrations/gemini/`](integrations/gemini/README.md) — symlink it into
 `~/.gemini/extensions/cadence` and the `GEMINI.md` context loads every session.
 
-**With Grok.** The checkout includes a portable, local function-calling bridge
-for an xAI client. Run `npm run build:grok` to export the shared skill, voice
-profiles, and detector. This is not a native grok.com install: your client must
-execute the tools and return their results. See the [Grok guide](integrations/grok/README.md).
-The bridge is unreleased and is not in npm v0.3.0.
+**With Grok.** `npm run install:grok` installs the shared skill for Grok Build
+CLI at `~/.grok/skills/cadence`. grok.com cannot load that folder. For Grok Bot,
+pack files for `/workspace` with `npm run grok-bot:pack` and save a private skill
+in the app; see [Grok Bot](integrations/grok-bot/README.md). For an xAI API
+client, `npm run build:grok` still exports the local function-calling bridge.
+None of this is in npm v0.3.0. See the [Grok guide](integrations/grok/README.md).
 
 **In DeepSeek.** DeepSeek's Skills are markdown you toggle from the drawer. Paste in
 [`integrations/deepseek/cadence-skill.md`](integrations/deepseek/cadence-skill.md) and
@@ -412,8 +415,9 @@ sentence-usage traits into that voice profile. Build it with
 | [extension/README.md](extension/README.md) | The Chrome extension — score prose anywhere, plus a live impression check and draft-in-your-voice in Gmail, WhatsApp Web, Telegram, LinkedIn and Instagram |
 | [integrations/vscode/README.md](integrations/vscode/README.md) | The VS Code extension — live grade, inline tells, and a score report |
 | [integrations/codex/README.md](integrations/codex/README.md) | Install the Codex skill once, choose a voice, and verify prose edits |
-| [integrations/agents/README.md](integrations/agents/README.md) | The shared skill and installer targets for Kimi, ZCode, Claude Code, and OpenCode |
-| [integrations/grok/README.md](integrations/grok/README.md) | The portable Grok bundle and local function-calling bridge |
+| [integrations/agents/README.md](integrations/agents/README.md) | The shared skill and installer targets for Kimi, ZCode, Claude Code, OpenCode, and Grok Build |
+| [integrations/grok/README.md](integrations/grok/README.md) | Grok Build skill, Grok Bot pack, and local function-calling bridge |
+| [integrations/grok-bot/README.md](integrations/grok-bot/README.md) | Clone or pack Cadence onto a Grok Bot computer, then save a private skill |
 | [SCORING.md](SCORING.md) | Detector scoring formulas, thresholds, grade boundaries, and calibration guidance |
 | [SECURITY.md](SECURITY.md) | Vulnerability reporting, permissions, network boundaries, and privacy guidance |
 | [benchmark/README.md](benchmark/README.md) | The accuracy benchmark: labeled corpus, published precision and recall, and the CI gate |
@@ -468,7 +472,9 @@ npm run release:check  # tests + docs + benchmark + packaged agent installs
 
 ## Status
 
-v0.3.0 is released. The npm package and checkout include the
-agent installers and the tested detector. Release notes and remaining manual checks
-are in [docs/releases/v0.3.0.md](docs/releases/v0.3.0.md). GPU training remains an
+v0.3.0 is released. The npm package includes the tested detector and the Kimi,
+ZCode, Claude Code, OpenCode, and Codex installers. Grok Build, the Grok Bot
+pack, and the Grok API bridge are in this checkout only until the next package.
+Release notes and remaining manual checks are in
+[docs/releases/v0.3.0.md](docs/releases/v0.3.0.md). GPU training remains an
 experiment, not a verified release feature.

@@ -1,12 +1,47 @@
-# Cadence local bridge for Grok clients
+# Cadence for Grok
 
-This addition is unreleased. Use this checkout; the published v0.3.0 npm package
-does not contain the Grok bridge.
+Grok Build, Grok Bot, grok.com, and the xAI API are different products. This
+checkout ships a filesystem skill for Grok Build, a workspace pack for Grok Bot,
+and a local function-calling bridge for API clients. grok.com chat cannot load
+these files.
+
+This addition is unreleased. Use this checkout; npm v0.3.0 does not include it.
+
+## Grok Build CLI skill
+
+Install the shared skill into the directories Grok Build documents:
+
+```bash
+npm run install:grok
+# Or one repository:
+npm run install:grok -- --project /path/to/project
+```
+
+User-wide: `~/.grok/skills/cadence/`. Project: `<project>/.grok/skills/cadence/`.
+Grok Build also reads `~/.agents/skills/` and Claude Code skill trees, so an
+existing Codex or Claude install may already be visible. Start a new `grok`
+session and ask:
+
+```text
+/cadence recast README.md in the essence voice and verify the edit.
+```
+
+Official source: [Skills, plugins, and marketplaces](https://docs.x.ai/build/features/skills-plugins-marketplaces).
+A `.grok-plugin/plugin.json` manifest is in this repository so the checkout can
+be loaded as a Grok Build plugin. Cadence is not listed in xAI's plugin
+marketplace until a separate PR there is merged.
+
+## Grok Bot
+
+Grok Bot has no documented skill directory. Pack Cadence for `/workspace` and
+save a private skill in the app. See [Grok Bot setup](../grok-bot/README.md).
+
+## Local xAI function-calling bridge
 
 This adapter lets a host application answer xAI function calls with the local
-Cadence detector and bundled writing voices. It is not a Grok skill installer,
-MCP server, or API runner. Copying this folder does not register tools with a host,
-and grok.com chat does not gain access to local scripts from this bundle.
+Cadence detector and bundled writing voices. The bridge is not an MCP server or
+API runner. Copying this folder does not register tools with a host, and
+grok.com chat does not gain access to local scripts from this bundle.
 
 Node 18 or newer is required. No install step, SDK, key, or network access is
 needed to use the tools. The adapter never starts a shell, fetches a URL, or accepts
@@ -149,7 +184,9 @@ The shipped seed whitelist does not expose learned or user-added profiles.
 
 ## Verify
 
-From the checkout: `node --test tests/grok.test.mjs`. Tests cover the local contract,
-CLI errors and bounds, profile integrity, unsafe paths, and portable builds. They
-do not verify live service availability, credentials, model support, or web-chat
-integration. There is no native host discovery claim to test.
+From the checkout: `node --test tests/grok.test.mjs tests/grok-bot.test.mjs`.
+Bridge tests cover the local contract, CLI errors and bounds, profile integrity,
+unsafe paths, and portable builds. They do not verify live service availability,
+credentials, model support, or web-chat integration. Grok Build skill installs
+are covered with the other agent-skill tests. Grok Bot app discovery and VM
+software are not claimed.

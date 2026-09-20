@@ -13,7 +13,7 @@ const readJson = (path) => JSON.parse(readFileSync(join(ROOT, path), 'utf8'));
 const pkg = readJson('package.json');
 const version = pkg.version;
 assert.match(version, /^\d+\.\d+\.\d+$/);
-for (const path of ['.claude-plugin/plugin.json', 'extension/manifest.json', 'integrations/gemini/gemini-extension.json', 'integrations/vscode/package.json']) {
+for (const path of ['.claude-plugin/plugin.json', '.grok-plugin/plugin.json', 'extension/manifest.json', 'integrations/gemini/gemini-extension.json', 'integrations/vscode/package.json']) {
   assert.equal(readJson(path).version, version, `${path} version differs from package.json`);
 }
 const marketplace = readJson('.claude-plugin/marketplace.json');
@@ -39,7 +39,10 @@ try {
     'integrations/agents/README.md', 'integrations/kimi/README.md', 'integrations/zcode/README.md',
     'integrations/claude-code/README.md', 'integrations/opencode/README.md',
     'scripts/agent-bundle.mjs', 'scripts/skill-targets.mjs', 'scripts/install-agent-skill.mjs', 'scripts/build-agent-skill.mjs',
-    'scripts/build-grok.mjs', 'integrations/grok/tools.mjs', 'integrations/grok/cli.mjs', 'integrations/grok/README.md',
+    'scripts/build-grok.mjs', 'scripts/grok-bot-setup.mjs',
+    'integrations/grok/tools.mjs', 'integrations/grok/cli.mjs', 'integrations/grok/README.md',
+    'integrations/grok-bot/README.md', 'integrations/grok-bot/SAVE_SKILL.md',
+    '.grok-plugin/plugin.json',
     'skills/cadence/AGENTS.md', 'skills/cadence/reference/voice-profile-schema.md',
     'skills/cadence/scripts/deslop.mjs', 'skills/cadence/scripts/extract-text.mjs',
     'LICENSE', 'SCORING.md', 'CHANGELOG.md', 'SECURITY.md',
@@ -81,6 +84,12 @@ try {
     const scored = JSON.parse(execFileSync(process.execPath, [executable, '--prose-only', '--json', draft], { cwd: home, encoding: 'utf8' }));
     assert.deepEqual(scored, result);
   }
+  const grokBot = join(work, 'portable-grok-bot');
+  execFileSync(process.execPath, [join(packageRoot, 'scripts/grok-bot-setup.mjs'), '--pack', '--out', grokBot], { cwd: home });
+  assert.equal(readFileSync(join(grokBot, 'SAVE_SKILL.md'), 'utf8'), readFileSync(join(ROOT, 'integrations/grok-bot/SAVE_SKILL.md'), 'utf8'));
+  const grokBotDetector = join(grokBot, 'skills/cadence/scripts/deslop.mjs');
+  const grokBotScore = JSON.parse(execFileSync(process.execPath, [grokBotDetector, '--prose-only', '--json', draft], { cwd: home, encoding: 'utf8' }));
+  assert.deepEqual(grokBotScore, result);
   const grok = join(work, 'portable-grok');
   execFileSync(process.execPath, [join(packageRoot, 'scripts/build-grok.mjs'), '--out', grok], { cwd: home });
   const grokCli = join(grok, 'integrations/grok/cli.mjs');
@@ -95,6 +104,7 @@ try {
   console.log('Packed Grok bridge builds, scores, and loads a complete voice from an unrelated directory.');
   console.log(`npm tarball verified: ${packed[0].filename} (${paths.size} files, ${seeds.length} seed voices)`);
   console.log('Packed installs and local scoring passed for: ' + Object.keys(SKILL_TARGETS).join(', '));
+  console.log('This checks the local package tree labeled ' + version + ', not the already-published npm artifact.');
   console.log('No package published, release created, or real user configuration changed.');
 } finally {
   rmSync(work, { recursive: true, force: true });

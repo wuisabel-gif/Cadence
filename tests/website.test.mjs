@@ -13,7 +13,7 @@ const html = read('index.html');
 const pkg = JSON.parse(read('package.json'));
 const text = (markup) => markup.replace(/<[^>]*>/g, '').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
 const cards = [...html.matchAll(/<article\b[^>]*data-agent="([^"]+)"[^>]*>([\s\S]*?)<\/article>/g)];
-const aliases = { codex: 'codex', kimi: 'kimi', zcode: 'zcode', 'claude-code': 'claude', opencode: 'opencode' };
+const aliases = { codex: 'codex', kimi: 'kimi', zcode: 'zcode', 'claude-code': 'claude', opencode: 'opencode', grok: 'grok' };
 const demo = Object.fromEntries([...html.matchAll(/data-(before|after)-(score|grade)="([^"]+)"/g)].map((m) => [m[1] + m[2], m[3]]));
 
 test('website covers every install target with its real npm command and default path', () => {

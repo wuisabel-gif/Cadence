@@ -1,0 +1,13 @@
+{
+  "name": "cadence",
+  "description": "Catch robotic-sounding writing and rewrite it in a Cadence voice. Bundles a deterministic local detector and ten seed profiles.",
+  "version": "0.3.0",
+  "author": {
+    "name": "Isabel Wu",
+    "email": "231155141+wuisabel-gif@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/wuisabel-gif/Cadence",
+  "license": "MIT",
+  "keywords": ["cadence", "deslop"],
+  "skills": "./skills/"
+}

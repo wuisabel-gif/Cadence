@@ -52,6 +52,17 @@ export function writeGrokBundle(destination, { root = ROOT } = {}) {
   return writeBundleFiles(destination, files);
 }
 
+// Workspace pack for Grok Bot's /workspace. Not a native Bot skill installer.
+export function writeGrokBotPack(destination, { root = ROOT } = {}) {
+  const files = skillBundleFiles({ agent: 'grok', root });
+  files.set('SAVE_SKILL.md', readFileSync(join(root, 'integrations/grok-bot/SAVE_SKILL.md')));
+  files.set('README.md', readFileSync(join(root, 'integrations/grok-bot/README.md')));
+  const metadata = JSON.parse(files.get('package.json').toString());
+  metadata.name = 'cadence-grok-bot-pack';
+  files.set('package.json', Buffer.from(JSON.stringify(metadata, null, 2) + '\n'));
+  return writeBundleFiles(destination, files);
+}
+
 function treeFiles(dir, prefix = '') {
   const paths = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
