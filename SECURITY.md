@@ -48,4 +48,5 @@ Chrome/VS Code current when running integrations.
 Do not paste secrets, credentials, or private third-party content into an issue,
 benchmark fixture, voice profile, or public pull request. The core detector is
 local; network behavior is limited to explicit URL fetching and the extension's
-direct Anthropic requests.
+direct Anthropic requests. If you host a `/score` endpoint yourself, you hold
+the posted text. Cadence does not operate a public scoring API.

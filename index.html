@@ -877,6 +877,10 @@ cd Cadence</code></pre>
         <div class="a">Yes. Use a <a href="#agents">shared agent installer</a>, the <a href="check.html">browser checker</a>, or the published CLI: <code>npx cadence-deslop draft.txt</code>. The first npm invocation may download the package. For the newest source features, run <code>node skills/cadence/scripts/deslop.mjs</code> from a checkout; npm and source versions can differ.</div>
       </details>
       <details>
+        <summary>Can another website call Cadence as an API?</summary>
+        <div class="a">There is no Cadence-hosted HTTP API. A site can score in the visitor's browser with <code>extension/detector.js</code>, or run <code>analyze()</code> from <code>cadence-deslop</code> on its own server. See the <a href="https://github.com/wuisabel-gif/Cadence/blob/main/docs/embed.md">embed guide</a>. Cadence does not rewrite; that still needs the site's own model.</div>
+      </details>
+      <details>
         <summary>How do I add my own voice?</summary>
         <div class="a"><code>/cadence learn &lt;sample&gt;</code>: point it at about 500 words you admire (a file, a paste, or a URL). It measures the rhythm and writes a reusable profile you can call by name.</div>
       </details>

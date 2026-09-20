@@ -411,6 +411,7 @@ sentence-usage traits into that voice profile. Build it with
 | Document | What it covers |
 |---|---|
 | [MANUAL.md](MANUAL.md) | The full guide: install & activation, workflows, and every command, flag, and exit code |
+| [docs/embed.md](docs/embed.md) | Score on another website: browser copy of the detector, or a Node handler you host |
 | [tutorials/scan-a-repo.md](tutorials/scan-a-repo.md) | Tutorial: audit and de-slop an entire repo, then gate it in CI |
 | [extension/README.md](extension/README.md) | The Chrome extension — score prose anywhere, plus a live impression check and draft-in-your-voice in Gmail, WhatsApp Web, Telegram, LinkedIn and Instagram |
 | [integrations/vscode/README.md](integrations/vscode/README.md) | The VS Code extension — live grade, inline tells, and a score report |

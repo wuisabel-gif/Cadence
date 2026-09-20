@@ -47,6 +47,7 @@ try {
     'skills/cadence/scripts/deslop.mjs', 'skills/cadence/scripts/extract-text.mjs',
     'LICENSE', 'SCORING.md', 'CHANGELOG.md', 'SECURITY.md',
     'MANUAL.md', 'docs/RELEASING.md', 'docs/releases/v0.3.0.md', 'docs/releases/v0.4.0.md',
+    'docs/embed.md', 'examples/score-server.mjs',
   ]) assert.ok(paths.has(path), `missing from npm package: ${path}`);
   const seeds = readdirSync(join(ROOT, 'voices')).filter((file) => file.endsWith('.md')).sort();
   for (const name of seeds) assert.ok(paths.has(`voices/${name}`), `missing packaged voice: ${name}`);
