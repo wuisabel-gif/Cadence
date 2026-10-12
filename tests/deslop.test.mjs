@@ -159,6 +159,15 @@ test('triad detection fires on three-item lists', () => {
   assert.ok(r.findings.some((f) => f.rule === 'triad'));
 });
 
+test('triad skips longer lists, function-word items, and short-text density', () => {
+  const austen = analyze('Mr. Bennet was so odd a mixture of quick parts, sarcastic humour, reserve, and caprice, that the experience of three-and-twenty years had been insufficient to make his wife understand his character. Her mind was less difficult to develope.');
+  assert.ok(!austen.findings.some((f) => f.rule === 'triad'));
+  assert.equal(austen.score, 0);
+  assert.ok(!analyze('I trained hard, overnight, and the race went fine.').findings.some((f) => f.rule === 'triad'));
+  const short = analyze('We deliver fast, reliable, and scalable outcomes. That is all.');
+  assert.equal(short.breakdown.structural.triads, 0);
+});
+
 test('does not false-positive "co" inside words', () => {
   const r = analyze('The coffee company connected its core services together nicely.');
   assert.ok(!r.findings.some((f) => f.snippet === 'co'));

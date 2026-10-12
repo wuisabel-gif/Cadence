@@ -11,7 +11,31 @@ Because detector rules affect scores, any release that changes a rule says so he
 
 ## [Unreleased]
 
+### Changed
+
+- **Scores change: the triad rule is narrower.** Only exact three-item lists
+  count. A longer list ("quick parts, sarcastic humour, reserve, and caprice") or
+  a function word as an item ("hard, overnight, and the") no longer fires. Triad
+  density adds points only from three sentences up. This removes the Austen false
+  alarm.
+- **Scores change: rhythm now applies to three or four sentences.** A stricter
+  cutoff (CV below 0.3) and a smaller weight, up to 15 points, cover text that was
+  too short for the five-sentence rule. Texts that run long with uniform sentences
+  may now score grade B.
+- **Node 20 or newer is required.** CI tests Node 20, 22, and 24. Node 18 is no
+  longer tested.
+- **Docs checks moved into `scripts/check-docs.mjs`.** Each doc's score ceiling is
+  listed there instead of in a long npm-script chain.
+
 ### Added
+
+- **A larger benchmark and a held-out set.** The regression corpus grew from 48 to
+  122 samples, and `benchmark/heldout.json` holds 66 more that were not used for
+  tuning. New human samples are verbatim public-domain passages with source URLs.
+  New AI samples were written by a model that never saw the rules. On held-out
+  text, recall is 8.8% (0.4.0: 0%) and specificity is 96.9%. The published recall
+  is now lower than the 41.7% the seed corpus showed, and the lower figure is the
+  accurate one. `bench.mjs --corpus <file>` scores any labeled set.
 
 - **Embed Cadence on another site.** [docs/embed.md](docs/embed.md) shows how to
   score in the visitor's browser or on your own Node server. There is no

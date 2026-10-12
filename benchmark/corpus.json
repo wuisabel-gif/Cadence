@@ -1,98 +1,998 @@
 [
-  { "id": "h01", "label": "human", "note": "running anecdote",
-    "text": "The river had been low all summer. I ran the same loop most mornings, past the dry weir and the bench nobody sits on, and by August the whole thing felt automatic. Then the rains came back hard, overnight, and the water rose past the old marker. I stopped to watch it. Ten minutes, easy. Didn't run the rest." },
-  { "id": "h02", "label": "human", "note": "dinner note",
-    "text": "Made the lentil thing again. Too much cumin, honestly, but the kids ate it so I'm calling it a win. Next time less cumin, more lemon. The bread was the real hero." },
-  { "id": "h03", "label": "human", "note": "genuine apology",
-    "text": "I'm sorry. I should have called instead of texting, and I knew that while I was doing it. I'm around tonight if you want to talk. If not, that's fair too." },
-  { "id": "h04", "label": "human", "note": "human standup update",
-    "text": "Shipped the export fix. It was the timezone thing after all, exactly like you guessed. Still chasing a flaky test on CI that only fails on Tuesdays, which makes no sense, so I'm ignoring it until it embarrasses me. Reviewing Priya's PR after lunch." },
-  { "id": "h05", "label": "human", "note": "literary rhythm",
-    "text": "Nobody fished the pond anymore. The stocking program ended years back, quietly, the way those things end, and the trout that were left grew old and cunning and impossible to catch. Kids still came in July. They caught nothing and did not seem to mind." },
-  { "id": "h06", "label": "human", "note": "blunt opinion",
-    "text": "The new dashboard is worse. It's prettier, sure, but it takes four clicks to do what used to take one, and the search doesn't remember what I searched. Pretty is not the job." },
-  { "id": "h07", "label": "human", "note": "travel note",
-    "text": "Lisbon was all hills and tile. We walked until our feet gave out, ate too many custard tarts, got lost twice on purpose. The tram was packed and slow and I loved it anyway." },
-  { "id": "h08", "label": "human", "note": "plain-but-human, a deliberately flat one, risks a false positive",
-    "text": "The meeting is moved to Thursday at two. Same room. I updated the invite and attached the latest numbers. Let me know if that time doesn't work for you." },
-  { "id": "h09", "label": "human", "note": "dry humor",
-    "text": "Assembled the bookshelf. Only two screws left over, which the internet assures me is fine and definitely not a structural warning. It's holding books. We'll see how it feels about that in a week." },
-  { "id": "h10", "label": "human", "note": "reflective",
-    "text": "I used to think the hard part of a project was the start. It isn't. The start is fun, everything is possible and nothing is broken yet. The hard part is the middle, when the shine is gone and you still have to show up." },
-  { "id": "h11", "label": "human", "note": "quick logistics text",
-    "text": "Running ten minutes late, sorry. Grab a table if you get there first. I'll text when I'm parking." },
-  { "id": "h12", "label": "human", "note": "human-but-slightly-formal email",
-    "text": "Thanks for sending the draft over. I read it twice. The middle section is doing a lot of work and it shows. I'd cut the second example and let the first breathe. Happy to jump on a call if that's easier than notes." },
-  { "id": "h13", "label": "human", "note": "public-domain: Thoreau, Walden", "source": "Thoreau, Walden (1854)",
-    "text": "The mass of men lead lives of quiet desperation. What is called resignation is confirmed desperation. From the desperate city you go into the desperate country, and have to console yourself with the bravery of minks and muskrats." },
-  { "id": "h14", "label": "human", "note": "public-domain: Douglass, Narrative", "source": "Douglass, Narrative of the Life (1845)",
-    "text": "I was not allowed to make any inquiries of my master concerning it. He deemed all such inquiries on the part of a slave improper and impertinent, and evidence of a restless spirit. The nearest estimate I can give makes me now between twenty-seven and twenty-eight years of age." },
-  { "id": "h15", "label": "human", "note": "public-domain: Twain, Huckleberry Finn", "source": "Twain, Adventures of Huckleberry Finn (1884)",
-    "text": "I took up a book and begun something about General Washington and the wars. When I'd read about a half a minute, he fetched the book a whack with his hand and knocked it across the house." },
-  { "id": "h16", "label": "human", "note": "public-domain: Austen, Pride and Prejudice (contains a real four-item list)", "source": "Austen, Pride and Prejudice (1813)",
-    "text": "Mr. Bennet was so odd a mixture of quick parts, sarcastic humour, reserve, and caprice, that the experience of three-and-twenty years had been insufficient to make his wife understand his character. Her mind was less difficult to develope." },
-  { "id": "h17", "label": "human", "note": "product review",
-    "text": "Bought these boots for winter hiking. Two months in, the left one leaks at the seam and the laces are already fraying. The grip is genuinely good on ice, I'll give them that. Would I buy again? No." },
-  { "id": "h18", "label": "human", "note": "forum reply",
-    "text": "Yeah I hit the same wall last year. Turned out my router was double-NATing. Check whether two devices are handing out DHCP. Took me a whole weekend to figure out, felt so dumb after." },
-  { "id": "h19", "label": "human", "note": "journal entry",
-    "text": "Slept badly again. The neighbor's dog starts at five and there's no arguing with it. Made coffee, sat on the step, watched the street wake up. Some mornings that's enough. Today it almost was." },
-  { "id": "h20", "label": "human", "note": "home cook's note",
-    "text": "Roast the tomatoes longer than you think, until the edges catch. That's where the flavor is. I skip the sugar most people add, the roasting does it. Salt at the end, not the start." },
-  { "id": "h21", "label": "human", "note": "terse technical commit message",
-    "text": "Fix race condition in the upload queue. Two workers could grab the same job when the poll interval was short. Added a row lock. The tests were green before, but only because they never ran fast enough to trigger it." },
-  { "id": "h22", "label": "human", "note": "irritated complaint email",
-    "text": "This is the third time I've written about the same charge. I cancelled in March. I have the confirmation email. Please stop billing my card and refund the last two months. I'd rather not involve the bank." },
-  { "id": "h23", "label": "human", "note": "sports fan recap",
-    "text": "What a game. We were down eleven at the half and I honestly turned it off. Came back to check the score and we'd tied it. The last three minutes took a year off my life. Best comeback I've seen in ages." },
-  { "id": "h24", "label": "human", "note": "flat corporate-ish announcement, risks a false positive",
-    "text": "The office will be closed on Monday for the holiday. Normal hours resume Tuesday. Deliveries scheduled for Monday will arrive Wednesday instead. Contact the front desk with any questions." },
-  { "id": "a01", "label": "ai", "note": "marketing slop",
-    "text": "In today's world, finding the right productivity app can be a daunting task. Our cutting-edge platform leverages powerful AI to seamlessly streamline your workflow. Whether you're a busy professional or a student, our comprehensive solution empowers you to do more. It's not just an app, it's a game-changer. When it comes to getting things done, we've got you covered." },
-  { "id": "a02", "label": "ai", "note": "generic emotional reply",
-    "text": "I'm so sorry you're going through this. That sounds incredibly hard, and I want you to know that I'm always here for you. Please don't hesitate to reach out if you need anything at all. Sending you so much love and support right now." },
-  { "id": "a03", "label": "ai", "note": "listicle intro",
-    "text": "In this article, we'll dive deep into the top strategies for success. From boosting productivity to unlocking your full potential, these actionable tips are designed to empower you. Whether you're a beginner or a seasoned pro, there's something here for everyone. Let's get started." },
-  { "id": "a04", "label": "ai", "note": "hedge-stacked pseudo-academic",
-    "text": "It is important to note that the results may perhaps suggest a somewhat significant trend. Arguably, one could say that these findings generally point toward a broadly positive outcome. It could be argued that further research would potentially be beneficial in some ways." },
-  { "id": "a05", "label": "ai", "note": "negation-pivot heavy",
-    "text": "This isn't just a tool. It's a movement. It's not about doing more with less, it's about reimagining what's possible. We don't just build software; we build the future. It's not a feature, it's a promise." },
-  { "id": "a06", "label": "ai", "note": "triad and hollow confidence corporate",
-    "text": "Our robust, scalable, and innovative platform delivers seamless, powerful, and comprehensive solutions. We empower teams to collaborate, innovate, and grow. Fast, reliable, and secure, our cutting-edge technology transforms how you work, live, and connect." },
-  { "id": "a07", "label": "ai", "note": "thought-leader post",
-    "text": "Let's talk about failure. In today's fast-paced world, we often forget that every setback is a setup for a comeback. It's not about avoiding failure, it's about embracing it. Success isn't a destination, it's a journey. Remember: the only real failure is the failure to try." },
-  { "id": "a08", "label": "ai", "note": "AI product description",
-    "text": "Introducing a revolutionary new way to manage your day. Our state-of-the-art app harnesses the power of artificial intelligence to seamlessly organize your tasks. With a sleek, intuitive interface, staying productive has never been easier. Elevate your workflow and unlock your true potential today." },
-  { "id": "a09", "label": "ai", "note": "cliche-opener essay",
-    "text": "Gone are the days when writing was a purely human craft. In the digital age, technology has fundamentally transformed how we create. At the end of the day, the tools may change, but the need to communicate remains. Needless to say, this is a pivotal moment for the world of content." },
-  { "id": "a10", "label": "ai", "note": "throat-clearing advice",
-    "text": "When it comes to building good habits, it's worth noting that consistency is key. First and foremost, you'll want to start small. It's important to remember that progress takes time. Last but not least, be sure to celebrate your wins along the way." },
-  { "id": "a11", "label": "ai", "note": "a cleaner AI reply, deliberately harder to catch, tests recall",
-    "text": "Thanks for reaching out. I've reviewed the proposal and I think it looks solid overall. I have a couple of small suggestions on the timeline, which I've noted in the document. Let me know if you'd like to discuss further." },
-  { "id": "a12", "label": "ai", "note": "AI meeting recap",
-    "text": "To summarize, the team discussed several key initiatives during the meeting. It's important to note that alignment was reached on the roadmap. Moving forward, we will continue to leverage our resources to drive impactful results. Overall, it was a productive and collaborative session." },
-  { "id": "a13", "label": "ai", "note": "SEO blog intro",
-    "text": "Are you struggling to boost your online presence? You're not alone. In this comprehensive guide, we'll explore proven strategies to skyrocket your traffic and take your brand to the next level. From SEO best practices to content marketing, we've got you covered every step of the way." },
-  { "id": "a14", "label": "ai", "note": "LinkedIn hustle post",
-    "text": "I failed seven times before I succeeded. Here's what nobody tells you about entrepreneurship. Success isn't about talent, it's about showing up every single day. Stop making excuses and start taking action. Your future self will thank you. Who's with me?" },
-  { "id": "a15", "label": "ai", "note": "assistant-style explainer",
-    "text": "Certainly! I'd be happy to help you understand photosynthesis. In essence, photosynthesis is the process by which plants convert sunlight into energy. It's a fascinating and vital mechanism that sustains life on Earth. Let me break it down for you step by step." },
-  { "id": "a16", "label": "ai", "note": "corporate apology",
-    "text": "We sincerely apologize for any inconvenience this may have caused. At Acme, our customers are at the heart of everything we do. We are actively working to resolve the issue and remain committed to delivering the seamless experience you deserve. Thank you for your patience and understanding." },
-  { "id": "a17", "label": "ai", "note": "AI cover letter",
-    "text": "I am writing to express my strong interest in the Marketing Manager position. With a proven track record of driving results and a passion for innovation, I am confident that I would be a valuable asset to your team. I thrive in fast-paced environments and am eager to contribute." },
-  { "id": "a18", "label": "ai", "note": "AI motivational post",
-    "text": "Success is not final, and failure is not fatal. Every single day is a new opportunity to become the best version of yourself. Believe in your journey, embrace the process, and never give up on your dreams. The only limit is the one you set for yourself." },
-  { "id": "a19", "label": "ai", "note": "AI travel guide",
-    "text": "Nestled in the heart of the countryside, this hidden gem offers a truly unforgettable experience. Whether you're a nature lover or a history buff, there's something here for everyone. Immerse yourself in the vibrant culture and breathtaking landscapes that make this destination an absolute must-visit." },
-  { "id": "a20", "label": "ai", "note": "flowery AI recipe intro",
-    "text": "There's nothing quite like the comforting aroma of freshly baked bread wafting through your home. This delightful recipe is sure to become a beloved family favorite. With simple ingredients and easy-to-follow steps, you'll be baking like a seasoned pro in no time. Let's dive in!" },
-  { "id": "a21", "label": "ai", "note": "polished AI email, harder to catch",
-    "text": "Thank you for your email. I've gone ahead and updated the document with the requested changes. Please review it at your earliest convenience and let me know if anything else is needed. I look forward to your feedback." },
-  { "id": "a22", "label": "ai", "note": "AI summary",
-    "text": "In summary, the key takeaways from today's discussion are clear. Moving forward, we will leverage our strengths to drive meaningful impact. It is important to note that collaboration will be essential. Overall, we are well-positioned for success in the coming quarter." },
-  { "id": "a23", "label": "ai", "note": "clean AI answer, tests recall ceiling",
-    "text": "Great question. The difference mostly comes down to how each option handles concurrency. The first scales better under load, while the second is simpler to set up. For your use case, I would probably start with the second and revisit it if you hit limits." },
-  { "id": "a24", "label": "ai", "note": "clean AI explainer, tests recall ceiling",
-    "text": "A compiler translates your entire program into machine code before it runs, which tends to be faster at execution. An interpreter runs the code line by line instead, which makes debugging easier. Most modern languages blend the two approaches in practice." }
+  {
+    "id": "h01",
+    "label": "human",
+    "note": "running anecdote",
+    "text": "The river had been low all summer. I ran the same loop most mornings, past the dry weir and the bench nobody sits on, and by August the whole thing felt automatic. Then the rains came back hard, overnight, and the water rose past the old marker. I stopped to watch it. Ten minutes, easy. Didn't run the rest."
+  },
+  {
+    "id": "h02",
+    "label": "human",
+    "note": "dinner note",
+    "text": "Made the lentil thing again. Too much cumin, honestly, but the kids ate it so I'm calling it a win. Next time less cumin, more lemon. The bread was the real hero."
+  },
+  {
+    "id": "h03",
+    "label": "human",
+    "note": "genuine apology",
+    "text": "I'm sorry. I should have called instead of texting, and I knew that while I was doing it. I'm around tonight if you want to talk. If not, that's fair too."
+  },
+  {
+    "id": "h04",
+    "label": "human",
+    "note": "human standup update",
+    "text": "Shipped the export fix. It was the timezone thing after all, exactly like you guessed. Still chasing a flaky test on CI that only fails on Tuesdays, which makes no sense, so I'm ignoring it until it embarrasses me. Reviewing Priya's PR after lunch."
+  },
+  {
+    "id": "h05",
+    "label": "human",
+    "note": "literary rhythm",
+    "text": "Nobody fished the pond anymore. The stocking program ended years back, quietly, the way those things end, and the trout that were left grew old and cunning and impossible to catch. Kids still came in July. They caught nothing and did not seem to mind."
+  },
+  {
+    "id": "h06",
+    "label": "human",
+    "note": "blunt opinion",
+    "text": "The new dashboard is worse. It's prettier, sure, but it takes four clicks to do what used to take one, and the search doesn't remember what I searched. Pretty is not the job."
+  },
+  {
+    "id": "h07",
+    "label": "human",
+    "note": "travel note",
+    "text": "Lisbon was all hills and tile. We walked until our feet gave out, ate too many custard tarts, got lost twice on purpose. The tram was packed and slow and I loved it anyway."
+  },
+  {
+    "id": "h08",
+    "label": "human",
+    "note": "plain-but-human, a deliberately flat one, risks a false positive",
+    "text": "The meeting is moved to Thursday at two. Same room. I updated the invite and attached the latest numbers. Let me know if that time doesn't work for you."
+  },
+  {
+    "id": "h09",
+    "label": "human",
+    "note": "dry humor",
+    "text": "Assembled the bookshelf. Only two screws left over, which the internet assures me is fine and definitely not a structural warning. It's holding books. We'll see how it feels about that in a week."
+  },
+  {
+    "id": "h10",
+    "label": "human",
+    "note": "reflective",
+    "text": "I used to think the hard part of a project was the start. It isn't. The start is fun, everything is possible and nothing is broken yet. The hard part is the middle, when the shine is gone and you still have to show up."
+  },
+  {
+    "id": "h11",
+    "label": "human",
+    "note": "quick logistics text",
+    "text": "Running ten minutes late, sorry. Grab a table if you get there first. I'll text when I'm parking."
+  },
+  {
+    "id": "h12",
+    "label": "human",
+    "note": "human-but-slightly-formal email",
+    "text": "Thanks for sending the draft over. I read it twice. The middle section is doing a lot of work and it shows. I'd cut the second example and let the first breathe. Happy to jump on a call if that's easier than notes."
+  },
+  {
+    "id": "h13",
+    "label": "human",
+    "note": "public-domain: Thoreau, Walden",
+    "source": "Thoreau, Walden (1854)",
+    "text": "The mass of men lead lives of quiet desperation. What is called resignation is confirmed desperation. From the desperate city you go into the desperate country, and have to console yourself with the bravery of minks and muskrats."
+  },
+  {
+    "id": "h14",
+    "label": "human",
+    "note": "public-domain: Douglass, Narrative",
+    "source": "Douglass, Narrative of the Life (1845)",
+    "text": "I was not allowed to make any inquiries of my master concerning it. He deemed all such inquiries on the part of a slave improper and impertinent, and evidence of a restless spirit. The nearest estimate I can give makes me now between twenty-seven and twenty-eight years of age."
+  },
+  {
+    "id": "h15",
+    "label": "human",
+    "note": "public-domain: Twain, Huckleberry Finn",
+    "source": "Twain, Adventures of Huckleberry Finn (1884)",
+    "text": "I took up a book and begun something about General Washington and the wars. When I'd read about a half a minute, he fetched the book a whack with his hand and knocked it across the house."
+  },
+  {
+    "id": "h16",
+    "label": "human",
+    "note": "public-domain: Austen, Pride and Prejudice (contains a real four-item list)",
+    "source": "Austen, Pride and Prejudice (1813)",
+    "text": "Mr. Bennet was so odd a mixture of quick parts, sarcastic humour, reserve, and caprice, that the experience of three-and-twenty years had been insufficient to make his wife understand his character. Her mind was less difficult to develope."
+  },
+  {
+    "id": "h17",
+    "label": "human",
+    "note": "product review",
+    "text": "Bought these boots for winter hiking. Two months in, the left one leaks at the seam and the laces are already fraying. The grip is genuinely good on ice, I'll give them that. Would I buy again? No."
+  },
+  {
+    "id": "h18",
+    "label": "human",
+    "note": "forum reply",
+    "text": "Yeah I hit the same wall last year. Turned out my router was double-NATing. Check whether two devices are handing out DHCP. Took me a whole weekend to figure out, felt so dumb after."
+  },
+  {
+    "id": "h19",
+    "label": "human",
+    "note": "journal entry",
+    "text": "Slept badly again. The neighbor's dog starts at five and there's no arguing with it. Made coffee, sat on the step, watched the street wake up. Some mornings that's enough. Today it almost was."
+  },
+  {
+    "id": "h20",
+    "label": "human",
+    "note": "home cook's note",
+    "text": "Roast the tomatoes longer than you think, until the edges catch. That's where the flavor is. I skip the sugar most people add, the roasting does it. Salt at the end, not the start."
+  },
+  {
+    "id": "h21",
+    "label": "human",
+    "note": "terse technical commit message",
+    "text": "Fix race condition in the upload queue. Two workers could grab the same job when the poll interval was short. Added a row lock. The tests were green before, but only because they never ran fast enough to trigger it."
+  },
+  {
+    "id": "h22",
+    "label": "human",
+    "note": "irritated complaint email",
+    "text": "This is the third time I've written about the same charge. I cancelled in March. I have the confirmation email. Please stop billing my card and refund the last two months. I'd rather not involve the bank."
+  },
+  {
+    "id": "h23",
+    "label": "human",
+    "note": "sports fan recap",
+    "text": "What a game. We were down eleven at the half and I honestly turned it off. Came back to check the score and we'd tied it. The last three minutes took a year off my life. Best comeback I've seen in ages."
+  },
+  {
+    "id": "h24",
+    "label": "human",
+    "note": "flat corporate-ish announcement, risks a false positive",
+    "text": "The office will be closed on Monday for the holiday. Normal hours resume Tuesday. Deliveries scheduled for Monday will arrive Wednesday instead. Contact the front desk with any questions."
+  },
+  {
+    "id": "h25",
+    "label": "human",
+    "note": "park description",
+    "source": "National Park Service, Yellowstone: Nature (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.nps.gov/yell/learn/nature/index.htm",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "Yellowstone National Park is as wondrous as it is complex. Established primarily to protect hydrothermal areas that contain about half the world's active geysers, the park also forms the core of the Greater Yellowstone Ecosystem. At 28,000 square miles, it is one of the largest, nearly intact temperate-zone ecosystems on Earth."
+  },
+  {
+    "id": "h26",
+    "label": "human",
+    "note": "health guidance",
+    "source": "CDC, When and How to Wash Your Hands (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.cdc.gov/handwashing/when-how-handwashing.html",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "Washing your hands is easy, and it’s one of the most effective ways to prevent the spread of germs. Clean hands can stop germs from spreading from one person to another and throughout an entire community—from your home and workplace to childcare facilities and hospitals."
+  },
+  {
+    "id": "h27",
+    "label": "human",
+    "note": "emergency prep explainer",
+    "source": "FEMA/Ready.gov, Build A Kit (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.ready.gov/kit",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "After an emergency, you may need to survive on your own for several days. Being prepared means having your own food, water and other supplies to last for at least 72 hours. A disaster supplies kit is a collection of basic items your household may need in the event of an emergency."
+  },
+  {
+    "id": "h28",
+    "label": "human",
+    "note": "press release lede",
+    "source": "NASA, Curiosity rover press release (2012, archived 2013)",
+    "url": "https://web.archive.org/web/2013id_/https://www.nasa.gov/mission_pages/msl/news/msl20120806.html",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "PASADENA, Calif. - About two hours after landing on Mars and beaming back its first image, NASA's Curiosity rover transmitted a higher-resolution image of its new Martian home, Gale Crater."
+  },
+  {
+    "id": "h29",
+    "label": "human",
+    "note": "plain-language guidance",
+    "source": "PLAIN/GSA, plainlanguage.gov Guidelines: Write for your audience (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.plainlanguage.gov/guidelines/audience/",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "Know the expertise and interest of your average reader, and write to that person. Don’t write to the experts, the lawyers, or your management, unless they are your intended audience."
+  },
+  {
+    "id": "h30",
+    "label": "human",
+    "note": "science FAQ answer",
+    "source": "USGS, FAQ: What is an earthquake and what causes them to happen? (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.usgs.gov/faqs/what-earthquake-and-what-causes-them-happen",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "An earthquake is caused by a sudden slip on a fault. The tectonic plates are always slowly moving, but they get stuck at their edges due to friction. When the stress on the edge overcomes the friction, there is an earthquake that releases energy in waves that travel through the earth's crust and cause the shaking that we feel."
+  },
+  {
+    "id": "h31",
+    "label": "human",
+    "note": "food safety guidance",
+    "source": "CDC, Keep Food Safe (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.cdc.gov/foodsafety/keep-food-safe.html",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "Bacteria can multiply rapidly if left at room temperature or in the “Danger Zone” between 40°F and 140°F. Never leave perishable food out for more than 2 hours (or 1 hour if it’s hotter than 90°F outside)."
+  },
+  {
+    "id": "h32",
+    "label": "human",
+    "note": "park wildlife explainer",
+    "source": "National Park Service, Yosemite: Black Bears (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.nps.gov/yose/learn/nature/bears.htm",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "If visitors spot a bear while in the park, it is a black bear-not a brown or grizzly bear. The last known grizzly bear was shot outside the Yosemite region in the early 1920s; the species no longer exists in California despite its presence on the California state flag."
+  },
+  {
+    "id": "h33",
+    "label": "human",
+    "note": "hard case: not X but Y, flat",
+    "source": "USGS, FAQ: How many active volcanoes are there on Earth? (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.usgs.gov/faqs/how-many-active-volcanoes-are-there-earth",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "Most earthquakes and volcanic eruptions do not strike randomly but occur in specific areas, such as along plate boundaries. One such area is the circum-Pacific Ring of Fire , where the Pacific Plate meets many surrounding plates."
+  },
+  {
+    "id": "h34",
+    "label": "human",
+    "note": "presidential address",
+    "source": "George W. Bush, State of the Union Addresses (2001-2008)",
+    "url": "https://www.gutenberg.org/cache/epub/5049/pg5049.txt",
+    "license": "public-domain",
+    "register": "speech",
+    "text": "In recent years, America has become a more hopeful Nation. Violent crime rates have fallen to their lowest levels since the 1970s. Welfare cases have dropped by more than half over the past decade. Drug use among youth is down 19 percent since 2001."
+  },
+  {
+    "id": "h35",
+    "label": "human",
+    "note": "presidential address",
+    "source": "Jimmy Carter, Energy and the National Goals: A Crisis of Confidence (1979), Carter Library",
+    "url": "https://web.archive.org/web/2019id_/https://www.jimmycarterlibrary.gov/assets/documents/speeches/energy-crisis.phtml",
+    "license": "public-domain",
+    "register": "speech",
+    "text": "Ten days ago I had planned to speak to you again about a very important subject -- energy. For the fifth time I would have described the urgency of the problem and laid out a series of legislative recommendations to the Congress."
+  },
+  {
+    "id": "h36",
+    "label": "human",
+    "note": "hard case: not X but Y, triad",
+    "source": "Jimmy Carter, Energy and the National Goals: A Crisis of Confidence (1979), Carter Library",
+    "url": "https://web.archive.org/web/2019id_/https://www.jimmycarterlibrary.gov/assets/documents/speeches/energy-crisis.phtml",
+    "license": "public-domain",
+    "register": "speech",
+    "text": "In a nation that was proud of hard work, strong families, close-knit communities, and our faith in God, too many of us now tend to worship self-indulgence and consumption. Human identity is no longer defined by what one does, but by what one owns."
+  },
+  {
+    "id": "h37",
+    "label": "human",
+    "note": "hard case: not because X but because Y",
+    "source": "John F. Kennedy, Address at Rice University (1962), NASA JSC transcript",
+    "url": "https://web.archive.org/web/2019id_/https://er.jsc.nasa.gov/seh/ricetalk.htm",
+    "license": "public-domain",
+    "register": "speech",
+    "text": "We choose to go to the moon. We choose to go to the moon in this decade and do the other things, not because they are easy, but because they are hard, because that goal will serve to organize and measure the best of our energies and skills, because that challenge is one that we are willing to accept, one we are unwilling to postpone, and one which we intend to win, and the others, too."
+  },
+  {
+    "id": "h38",
+    "label": "human",
+    "note": "hard case: formal policy prose",
+    "source": "Dwight D. Eisenhower, Farewell Address (1961), National Archives transcript",
+    "url": "https://web.archive.org/web/2019id_/https://www.ourdocuments.gov/doc.php?flash=false&doc=90&page=transcript",
+    "license": "public-domain",
+    "register": "speech",
+    "text": "In the councils of government, we must guard against the acquisition of unwarranted influence, whether sought or unsought, by the military-industrial complex. The potential for the disastrous rise of misplaced power exists and will persist."
+  },
+  {
+    "id": "h39",
+    "label": "human",
+    "note": "public letter, conditional series",
+    "source": "Abraham Lincoln, Speeches & Letters 1832-1865",
+    "url": "https://www.gutenberg.org/cache/epub/14721/pg14721.txt",
+    "license": "public-domain",
+    "register": "letter",
+    "text": "If I could save the Union without freeing any slave, I would do it; if I could save it by freeing all the slaves, I would do it; and if I could save it by freeing some and leaving others alone, I would also do that."
+  },
+  {
+    "id": "h40",
+    "label": "human",
+    "note": "letter, plain declaratives",
+    "source": "Abraham Lincoln, Speeches & Letters 1832-1865",
+    "url": "https://www.gutenberg.org/cache/epub/14721/pg14721.txt",
+    "license": "public-domain",
+    "register": "letter",
+    "text": "I am naturally anti-slavery. If slavery is not wrong, nothing is wrong. I cannot remember when I did not so think and feel, and yet I have never understood that the Presidency conferred upon me an unrestricted right to act officially upon this judgment and feeling."
+  },
+  {
+    "id": "h41",
+    "label": "human",
+    "note": "personal letter, abstract",
+    "source": "John Keats, Letters to His Family and Friends (1810s)",
+    "url": "https://www.gutenberg.org/cache/epub/35698/pg35698.txt",
+    "license": "public-domain",
+    "register": "letter",
+    "text": "I am certain of nothing but of the holiness of the Heart's affections, and the truth of Imagination. What the Imagination seizes as Beauty must be truth--whether it existed before or not,--for I have the same idea of all our passions as of Love: they are all, in their sublime, creative of essential Beauty."
+  },
+  {
+    "id": "h42",
+    "label": "human",
+    "note": "advice letter, chatty",
+    "source": "Lord Chesterfield, Letters to His Son (1774)",
+    "url": "https://www.gutenberg.org/cache/epub/3361/pg3361.txt",
+    "license": "public-domain",
+    "register": "letter",
+    "text": "I am very glad that my letter, with Dr. Shaw’s opinion, has lessened your bathing; for since I was born, I never heard of bathing four hours a-day; which would surely be too much, even in Medea’s kettle, if you wanted (as you do not yet) new boiling."
+  },
+  {
+    "id": "h43",
+    "label": "human",
+    "note": "diary entry, terse",
+    "source": "Samuel Pepys, Diary (1660s)",
+    "url": "https://www.gutenberg.org/cache/epub/4200/pg4200.txt",
+    "license": "public-domain",
+    "register": "diary",
+    "text": "14th. Up and to the office, where busy, and after dinner also to the office again till night, when Mr. Moore come to me to discourse about the L200 I must supply my Lord Hinchingbroke, and I promised him to do it, though much against my will. So home, to supper and to bed."
+  },
+  {
+    "id": "h44",
+    "label": "human",
+    "note": "journal entry, domestic",
+    "source": "Dorothy Wordsworth, Journals Vol. 1 (1798-1803)",
+    "url": "https://www.gutenberg.org/cache/epub/42856/pg42856.txt",
+    "license": "public-domain",
+    "register": "diary",
+    "text": "William is now sleeping with the window open, lying on the window seat. The thrush is singing. There are, I do believe, a thousand buds on the honeysuckle tree, all small and far from blowing, save one that is retired behind the twigs close to the wall, and as snug as a bird nest."
+  },
+  {
+    "id": "h45",
+    "label": "human",
+    "note": "memoir",
+    "source": "Ulysses S. Grant, Personal Memoirs (1885)",
+    "url": "https://www.gutenberg.org/cache/epub/4367/pg4367.txt",
+    "license": "public-domain",
+    "register": "other",
+    "text": "When news of the surrender first reached our lines our men commenced firing a salute of a hundred guns in honor of the victory. I at once sent word, however, to have it stopped. The Confederates were now our prisoners, and we did not want to exult over their downfall."
+  },
+  {
+    "id": "h46",
+    "label": "human",
+    "note": "slave narrative",
+    "source": "Frederick Douglass, Narrative of the Life (1845)",
+    "url": "https://www.gutenberg.org/cache/epub/23/pg23.txt",
+    "license": "public-domain",
+    "register": "other",
+    "text": "In the afternoon of that day, we reached Annapolis, the capital of the State. We stopped but a few moments, so that I had no time to go on shore. It was the first large town that I had ever seen, and though it would look small compared with some of our New England factory villages, I thought it a wonderful place for its size—more imposing even than the Great House Farm!"
+  },
+  {
+    "id": "h47",
+    "label": "human",
+    "note": "hard case: tricolon",
+    "source": "Frederick Douglass, Narrative of the Life (1845)",
+    "url": "https://www.gutenberg.org/cache/epub/23/pg23.txt",
+    "license": "public-domain",
+    "register": "other",
+    "text": "That cheerful eye, under the influence of slavery, soon became red with rage; that voice, made all of sweet accord, changed to one of harsh and horrid discord; and that angelic face gave place to that of a demon."
+  },
+  {
+    "id": "h48",
+    "label": "human",
+    "note": "style manual, list of three",
+    "source": "William Strunk Jr., The Elements of Style (1918)",
+    "url": "https://www.gutenberg.org/cache/epub/37134/pg37134.txt",
+    "license": "public-domain",
+    "register": "manual",
+    "text": "This principle, that of parallel construction, requires that expressions of similar content and function should be outwardly similar. The likeness of form enables the reader to recognize more readily the likeness of content and function. Familiar instances from the Bible are the Ten Commandments, the Beatitudes, and the petitions of the Lord's Prayer."
+  },
+  {
+    "id": "h49",
+    "label": "human",
+    "note": "outdoor how-to",
+    "source": "Boy Scouts of America, Boy Scouts Handbook (1911)",
+    "url": "https://www.gutenberg.org/cache/epub/29558/pg29558.txt",
+    "license": "public-domain",
+    "register": "manual",
+    "text": "The Great Bear is also to be remembered as the Pointers for another reason. It is the hour-hand of the woodman's clock. It goes once around the North Star in about twenty-four hours, the same way as the sun, and for the same reason--that it is the earth that is going and leaving them behind."
+  },
+  {
+    "id": "h50",
+    "label": "human",
+    "note": "recipe",
+    "source": "Fannie Merritt Farmer, The Boston Cooking-School Cook Book (1896)",
+    "url": "https://www.gutenberg.org/cache/epub/65061/pg65061.txt",
+    "license": "public-domain",
+    "register": "manual",
+    "text": "Mix flour, sugar, ginger, and salt. Work in butter, using tips of fingers, and add just enough molasses to hold ingredients together. Let stand over night to get thoroughly chilled. Roll very thin, shape, and bake in a moderate oven."
+  },
+  {
+    "id": "h51",
+    "label": "human",
+    "note": "etiquette manual",
+    "source": "Florence Hartley, The Ladies' Book of Etiquette (1860)",
+    "url": "https://www.gutenberg.org/cache/epub/35123/pg35123.txt",
+    "license": "public-domain",
+    "register": "manual",
+    "text": "Avoid paying any visits in a family not upon good terms with your hostess. If such a family are very dear friends of your own, or you can claim an acquaintance, pleasant upon both sides, with them, write, and state candidly the reason why you cannot visit them, and they will appreciate your delicacy."
+  },
+  {
+    "id": "h52",
+    "label": "human",
+    "note": "gardening manual, long list",
+    "source": "L. H. Bailey, Manual of Gardening (1910)",
+    "url": "https://www.gutenberg.org/cache/epub/9550/pg9550.txt",
+    "license": "public-domain",
+    "register": "manual",
+    "text": "For still less robustness, good mass-displays can be made with the following: alyssums and candytufts for whites; phloxes for whites and various pinks and reds; lobelias and browallias for blues; pinks for whites and various shades of pink; stocks for whites and reds; wallflowers for brown-yellows; verbenas for many colors."
+  },
+  {
+    "id": "h53",
+    "label": "human",
+    "note": "reform journalism",
+    "source": "Jacob A. Riis, How the Other Half Lives (1890)",
+    "url": "https://www.gutenberg.org/cache/epub/45502/pg45502.txt",
+    "license": "public-domain",
+    "register": "journalism",
+    "text": "\"We don't buy no bread; we buy beer,\" said the boy, and it was eventually the saloon that led the police as a landmark to his \"home.\" It was worthy of the boy. As he had said, his only bed was a heap of dirty straw on the floor, his daily diet a crust in the morning, nothing else."
+  },
+  {
+    "id": "h54",
+    "label": "human",
+    "note": "travel letter",
+    "source": "Mark Twain, The Innocents Abroad (1869)",
+    "url": "https://www.gutenberg.org/cache/epub/3176/pg3176.txt",
+    "license": "public-domain",
+    "register": "journalism",
+    "text": "Just after noon we entered these narrow, crooked streets, by the ancient and the famed Damascus Gate, and now for several hours I have been trying to comprehend that I am actually in the illustrious old city where Solomon dwelt, where Abraham held converse with the Deity, and where walls still stand that witnessed the spectacle of the Crucifixion."
+  },
+  {
+    "id": "h55",
+    "label": "human",
+    "note": "travel memoir",
+    "source": "Mark Twain, Life on the Mississippi (1883)",
+    "url": "https://www.gutenberg.org/cache/epub/245/pg245.txt",
+    "license": "public-domain",
+    "register": "essay",
+    "text": "THE scenery, from St. Louis to Cairo--two hundred miles--is varied and beautiful. The hills were clothed in the fresh foliage of spring now, and were a gracious and worthy setting for the broad river flowing between."
+  },
+  {
+    "id": "h56",
+    "label": "human",
+    "note": "polemical essay",
+    "source": "Mary Wollstonecraft, A Vindication of the Rights of Woman (1792)",
+    "url": "https://www.gutenberg.org/cache/epub/3420/pg3420.txt",
+    "license": "public-domain",
+    "register": "essay",
+    "text": "But, respect for parents is, generally speaking, a much more debasing principle; it is only a selfish respect for property. The father who is blindly obeyed, is obeyed from sheer weakness, or from motives that degrade the human character."
+  },
+  {
+    "id": "h57",
+    "label": "human",
+    "note": "dialogue, dialect",
+    "source": "Sinclair Lewis, Main Street (1920)",
+    "url": "https://www.gutenberg.org/cache/epub/543/pg543.txt",
+    "license": "public-domain",
+    "register": "fiction",
+    "text": "“What you done wit' him? Heh? I'll yoost tell you what you done! He was a good boy, even if he was a damn fool. I want him back on de farm. He don't make enough money tailoring. And I can't get me no hired man!"
+  },
+  {
+    "id": "h58",
+    "label": "human",
+    "note": "dialogue with list",
+    "source": "Jerome K. Jerome, Three Men in a Boat (1889)",
+    "url": "https://www.gutenberg.org/cache/epub/308/pg308.txt",
+    "license": "public-domain",
+    "register": "fiction",
+    "text": "George said: “Begin with breakfast.” (George is so practical.) “Now for breakfast we shall want a frying-pan”—(Harris said it was indigestible; but we merely urged him not to be an ass, and George went on)—“a tea-pot and a kettle, and a methylated spirit stove.”"
+  },
+  {
+    "id": "h59",
+    "label": "human",
+    "note": "dialogue",
+    "source": "Arthur Conan Doyle, The Valley of Fear (1915)",
+    "url": "https://www.gutenberg.org/cache/epub/3289/pg3289.txt",
+    "license": "public-domain",
+    "register": "fiction",
+    "text": "Again Barker showed some signs of indecision. “I don’t see that it was remarkable, Mr. Holmes,” he answered after a pause. “The candle threw a very bad light. My first thought was to get a better one. The lamp was on the table; so I lit it.”"
+  },
+  {
+    "id": "h60",
+    "label": "human",
+    "note": "dialogue",
+    "source": "Charles W. Chesnutt, The Marrow of Tradition (1901)",
+    "url": "https://www.gutenberg.org/cache/epub/11228/pg11228.txt",
+    "license": "public-domain",
+    "register": "fiction",
+    "text": "\"Yes, sir,\" returned the man at the desk, \"he was here at luncheon, and then went out fishing in a boat with several other gentlemen. I think they came back about three o'clock. I'll find out for you.\""
+  },
+  {
+    "id": "h61",
+    "label": "human",
+    "note": "fairy tale, list of three",
+    "source": "L. Frank Baum, American Fairy Tales (1901)",
+    "url": "https://www.gutenberg.org/cache/epub/4357/pg4357.txt",
+    "license": "public-domain",
+    "register": "fiction",
+    "text": "So the king, having nothing more to live for, died suddenly and left a ten-year-old son to inherit the dismantled kingdom, the moth-eaten robe and the jewel-stripped crown."
+  },
+  {
+    "id": "h62",
+    "label": "human",
+    "note": "hard case: not only X but Y",
+    "source": "Sinclair Lewis, Babbitt (1922)",
+    "url": "https://www.gutenberg.org/cache/epub/1156/pg1156.txt",
+    "license": "public-domain",
+    "register": "fiction",
+    "text": "It was not only, as the placard on the counter observed, “a dandy little refinement, lending the last touch of class to a gentleman’s auto,” but a priceless time-saver. By freeing him from halting the car to light a match, it would in a month or two easily save ten minutes."
+  },
+  {
+    "id": "a01",
+    "label": "ai",
+    "note": "marketing slop",
+    "text": "In today's world, finding the right productivity app can be a daunting task. Our cutting-edge platform leverages powerful AI to seamlessly streamline your workflow. Whether you're a busy professional or a student, our comprehensive solution empowers you to do more. It's not just an app, it's a game-changer. When it comes to getting things done, we've got you covered."
+  },
+  {
+    "id": "a02",
+    "label": "ai",
+    "note": "generic emotional reply",
+    "text": "I'm so sorry you're going through this. That sounds incredibly hard, and I want you to know that I'm always here for you. Please don't hesitate to reach out if you need anything at all. Sending you so much love and support right now."
+  },
+  {
+    "id": "a03",
+    "label": "ai",
+    "note": "listicle intro",
+    "text": "In this article, we'll dive deep into the top strategies for success. From boosting productivity to unlocking your full potential, these actionable tips are designed to empower you. Whether you're a beginner or a seasoned pro, there's something here for everyone. Let's get started."
+  },
+  {
+    "id": "a04",
+    "label": "ai",
+    "note": "hedge-stacked pseudo-academic",
+    "text": "It is important to note that the results may perhaps suggest a somewhat significant trend. Arguably, one could say that these findings generally point toward a broadly positive outcome. It could be argued that further research would potentially be beneficial in some ways."
+  },
+  {
+    "id": "a05",
+    "label": "ai",
+    "note": "negation-pivot heavy",
+    "text": "This isn't just a tool. It's a movement. It's not about doing more with less, it's about reimagining what's possible. We don't just build software; we build the future. It's not a feature, it's a promise."
+  },
+  {
+    "id": "a06",
+    "label": "ai",
+    "note": "triad and hollow confidence corporate",
+    "text": "Our robust, scalable, and innovative platform delivers seamless, powerful, and comprehensive solutions. We empower teams to collaborate, innovate, and grow. Fast, reliable, and secure, our cutting-edge technology transforms how you work, live, and connect."
+  },
+  {
+    "id": "a07",
+    "label": "ai",
+    "note": "thought-leader post",
+    "text": "Let's talk about failure. In today's fast-paced world, we often forget that every setback is a setup for a comeback. It's not about avoiding failure, it's about embracing it. Success isn't a destination, it's a journey. Remember: the only real failure is the failure to try."
+  },
+  {
+    "id": "a08",
+    "label": "ai",
+    "note": "AI product description",
+    "text": "Introducing a revolutionary new way to manage your day. Our state-of-the-art app harnesses the power of artificial intelligence to seamlessly organize your tasks. With a sleek, intuitive interface, staying productive has never been easier. Elevate your workflow and unlock your true potential today."
+  },
+  {
+    "id": "a09",
+    "label": "ai",
+    "note": "cliche-opener essay",
+    "text": "Gone are the days when writing was a purely human craft. In the digital age, technology has fundamentally transformed how we create. At the end of the day, the tools may change, but the need to communicate remains. Needless to say, this is a pivotal moment for the world of content."
+  },
+  {
+    "id": "a10",
+    "label": "ai",
+    "note": "throat-clearing advice",
+    "text": "When it comes to building good habits, it's worth noting that consistency is key. First and foremost, you'll want to start small. It's important to remember that progress takes time. Last but not least, be sure to celebrate your wins along the way."
+  },
+  {
+    "id": "a11",
+    "label": "ai",
+    "note": "a cleaner AI reply, deliberately harder to catch, tests recall",
+    "text": "Thanks for reaching out. I've reviewed the proposal and I think it looks solid overall. I have a couple of small suggestions on the timeline, which I've noted in the document. Let me know if you'd like to discuss further."
+  },
+  {
+    "id": "a12",
+    "label": "ai",
+    "note": "AI meeting recap",
+    "text": "To summarize, the team discussed several key initiatives during the meeting. It's important to note that alignment was reached on the roadmap. Moving forward, we will continue to leverage our resources to drive impactful results. Overall, it was a productive and collaborative session."
+  },
+  {
+    "id": "a13",
+    "label": "ai",
+    "note": "SEO blog intro",
+    "text": "Are you struggling to boost your online presence? You're not alone. In this comprehensive guide, we'll explore proven strategies to skyrocket your traffic and take your brand to the next level. From SEO best practices to content marketing, we've got you covered every step of the way."
+  },
+  {
+    "id": "a14",
+    "label": "ai",
+    "note": "LinkedIn hustle post",
+    "text": "I failed seven times before I succeeded. Here's what nobody tells you about entrepreneurship. Success isn't about talent, it's about showing up every single day. Stop making excuses and start taking action. Your future self will thank you. Who's with me?"
+  },
+  {
+    "id": "a15",
+    "label": "ai",
+    "note": "assistant-style explainer",
+    "text": "Certainly! I'd be happy to help you understand photosynthesis. In essence, photosynthesis is the process by which plants convert sunlight into energy. It's a fascinating and vital mechanism that sustains life on Earth. Let me break it down for you step by step."
+  },
+  {
+    "id": "a16",
+    "label": "ai",
+    "note": "corporate apology",
+    "text": "We sincerely apologize for any inconvenience this may have caused. At Acme, our customers are at the heart of everything we do. We are actively working to resolve the issue and remain committed to delivering the seamless experience you deserve. Thank you for your patience and understanding."
+  },
+  {
+    "id": "a17",
+    "label": "ai",
+    "note": "AI cover letter",
+    "text": "I am writing to express my strong interest in the Marketing Manager position. With a proven track record of driving results and a passion for innovation, I am confident that I would be a valuable asset to your team. I thrive in fast-paced environments and am eager to contribute."
+  },
+  {
+    "id": "a18",
+    "label": "ai",
+    "note": "AI motivational post",
+    "text": "Success is not final, and failure is not fatal. Every single day is a new opportunity to become the best version of yourself. Believe in your journey, embrace the process, and never give up on your dreams. The only limit is the one you set for yourself."
+  },
+  {
+    "id": "a19",
+    "label": "ai",
+    "note": "AI travel guide",
+    "text": "Nestled in the heart of the countryside, this hidden gem offers a truly unforgettable experience. Whether you're a nature lover or a history buff, there's something here for everyone. Immerse yourself in the vibrant culture and breathtaking landscapes that make this destination an absolute must-visit."
+  },
+  {
+    "id": "a20",
+    "label": "ai",
+    "note": "flowery AI recipe intro",
+    "text": "There's nothing quite like the comforting aroma of freshly baked bread wafting through your home. This delightful recipe is sure to become a beloved family favorite. With simple ingredients and easy-to-follow steps, you'll be baking like a seasoned pro in no time. Let's dive in!"
+  },
+  {
+    "id": "a21",
+    "label": "ai",
+    "note": "polished AI email, harder to catch",
+    "text": "Thank you for your email. I've gone ahead and updated the document with the requested changes. Please review it at your earliest convenience and let me know if anything else is needed. I look forward to your feedback."
+  },
+  {
+    "id": "a22",
+    "label": "ai",
+    "note": "AI summary",
+    "text": "In summary, the key takeaways from today's discussion are clear. Moving forward, we will leverage our strengths to drive meaningful impact. It is important to note that collaboration will be essential. Overall, we are well-positioned for success in the coming quarter."
+  },
+  {
+    "id": "a23",
+    "label": "ai",
+    "note": "clean AI answer, tests recall ceiling",
+    "text": "Great question. The difference mostly comes down to how each option handles concurrency. The first scales better under load, while the second is simpler to set up. For your use case, I would probably start with the second and revisit it if you hit limits."
+  },
+  {
+    "id": "a24",
+    "label": "ai",
+    "note": "clean AI explainer, tests recall ceiling",
+    "text": "A compiler translates your entire program into machine code before it runs, which tends to be faster at execution. An interpreter runs the code line by line instead, which makes debugging easier. Most modern languages blend the two approaches in practice."
+  },
+  {
+    "id": "a25",
+    "label": "ai",
+    "note": "how-to",
+    "register": "assistant",
+    "prompt": "How do I get a stripped screw out without ruining it more?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Press a wide rubber band flat over the screw head, then seat the screwdriver through it and turn slowly with firm downward pressure. The rubber fills the stripped grooves and gives you grip. If that fails, a screw extractor bit is cheap and works well: drill a small pilot hole, then reverse it out."
+  },
+  {
+    "id": "a26",
+    "label": "ai",
+    "note": "recommendation",
+    "register": "assistant",
+    "prompt": "What's a good first houseplant for someone who kills everything?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "A pothos is hard to beat. It tolerates low light, tells you when it's thirsty by drooping, and perks back up within hours of watering. Snake plants are the other classic choice if you tend to forget about plants entirely, since they'd rather be ignored than overwatered."
+  },
+  {
+    "id": "a27",
+    "label": "ai",
+    "note": "explanation",
+    "register": "assistant",
+    "prompt": "What's the difference between a Roth and traditional IRA, in simple terms?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "With a traditional IRA you usually get a tax deduction now and pay income tax when you withdraw in retirement. With a Roth you pay tax on the money now, but qualified withdrawals later are tax-free. Which is better mostly depends on whether you expect your tax rate to be higher now or in retirement."
+  },
+  {
+    "id": "a28",
+    "label": "ai",
+    "note": "explanation",
+    "register": "assistant",
+    "prompt": "Why do my ears pop on planes?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Your middle ear is an air pocket sealed off by the eardrum, connected to your throat by a narrow tube. When cabin pressure changes during climb or descent, that tube has to open to let pressure equalize, and the pop is it finally doing so. Swallowing or yawning helps open it, which is why chewing gum on descent works."
+  },
+  {
+    "id": "a29",
+    "label": "ai",
+    "note": "how-to",
+    "register": "assistant",
+    "prompt": "What's the easiest way to clean a cast iron pan after cooking eggs?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "While the pan is still warm, rinse it with hot water and scrub with a brush or a bit of coarse salt. A small drop of soap is fine, despite what people say. Dry it completely on the stove over low heat, then wipe a very thin layer of oil on the inside before putting it away."
+  },
+  {
+    "id": "a30",
+    "label": "ai",
+    "note": "recommendation",
+    "register": "assistant",
+    "prompt": "Any tips for sleeping on a red-eye flight?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Pick a window seat so you have something to lean on and nobody climbs over you. Bring a neck pillow that supports your chin, not just the sides, plus earplugs and an eye mask. Skip the alcohol and big meals, and try to keep your phone off, since even a few minutes of screen time can make it harder to drift off."
+  },
+  {
+    "id": "a31",
+    "label": "ai",
+    "note": "explanation",
+    "register": "assistant",
+    "prompt": "Why is the sky orange at sunset?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "At sunset, sunlight passes through much more of the atmosphere before reaching you. Shorter blue wavelengths get scattered out along the way, leaving mostly the longer red and orange light. Dust, smoke, or humidity in the air can make the colors even stronger."
+  },
+  {
+    "id": "a32",
+    "label": "ai",
+    "note": "how-to",
+    "register": "assistant",
+    "prompt": "How do I stop my glasses from fogging up when I wear a mask?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Pinch the mask's nose wire so it sits snugly against the bridge of your nose, then rest your glasses on top of the mask's edge. That seal pushes your breath down instead of up. Washing the lenses with a little dish soap and letting them air dry also leaves a thin film that reduces fog."
+  },
+  {
+    "id": "a33",
+    "label": "ai",
+    "note": "work follow-up",
+    "register": "email",
+    "prompt": "Write a short follow-up to a client who hasn't replied about the proposal I sent last week.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Hi Daniel, I wanted to check in on the proposal I sent over last Tuesday. Happy to walk through any of it on a quick call if that would help, or adjust the scope if the timing isn't right on your end. Let me know what works for you. Best, Priya"
+  },
+  {
+    "id": "a34",
+    "label": "ai",
+    "note": "complaint",
+    "register": "email",
+    "prompt": "Write a complaint to an airline about my lost bag, keep it firm but polite.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Hello, my checked bag on flight 1482 from Denver to Boston on March 3 never arrived, and it has now been nine days without an update. My file reference is BOS48217. I'd like a clear status on the bag and information on how to submit receipts for the essentials I've had to buy in the meantime. Thank you, Leah Brandt"
+  },
+  {
+    "id": "a35",
+    "label": "ai",
+    "note": "personal invite",
+    "register": "email",
+    "prompt": "Write a text inviting neighbors to a small backyard barbecue.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Hi! We're doing a low-key barbecue in our backyard this Saturday around 4. Burgers and veggie skewers on us, feel free to bring a drink or a side if you want, but no pressure at all. Kids and dogs welcome. Hope you can stop by!"
+  },
+  {
+    "id": "a36",
+    "label": "ai",
+    "note": "thank you",
+    "register": "email",
+    "prompt": "Write a thank-you note to a mentor who helped me land my first job.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Dear Professor Okafor, I wanted to let you know I accepted the analyst position at Halden. Your advice on my portfolio and the mock interview you made time for made a real difference, and I don't think I'd have gotten this offer without them. Thank you for everything you've done for me this year."
+  },
+  {
+    "id": "a37",
+    "label": "ai",
+    "note": "decline",
+    "register": "email",
+    "prompt": "Help me politely decline a wedding invitation.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Dear Sam and Riley, thank you so much for the invitation. Unfortunately we won't be able to make it, as we'll be traveling for a family commitment that weekend. We're so happy for you both and will be thinking of you on the day. Wishing you a wonderful celebration and a lifetime of happiness together."
+  },
+  {
+    "id": "a38",
+    "label": "ai",
+    "note": "product description",
+    "register": "marketing",
+    "prompt": "Write a product description for a stainless steel insulated water bottle.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Keeps drinks cold for 24 hours and hot for 12, thanks to double-wall vacuum insulation. The powder-coated finish won't sweat or slip, and the leakproof lid fits in most car cup holders. Holds 24 ounces and is dishwasher safe, so it's easy to carry every day."
+  },
+  {
+    "id": "a39",
+    "label": "ai",
+    "note": "social post",
+    "register": "marketing",
+    "prompt": "Write an Instagram caption for a bakery launching pumpkin croissants.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "They're back. Our pumpkin croissants are out of the oven starting today, filled with spiced pumpkin cream and finished with a maple glaze. Limited batches every morning until they're gone, so come early. See you at the counter."
+  },
+  {
+    "id": "a40",
+    "label": "ai",
+    "note": "ad copy",
+    "register": "marketing",
+    "prompt": "Write a short Facebook ad for a dog walking service.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Long day at work? We'll make sure your pup gets a walk, some fresh air, and plenty of attention while you're away. Insured, background-checked walkers, GPS updates after every visit, and your first walk is free. Book online in under two minutes."
+  },
+  {
+    "id": "a41",
+    "label": "ai",
+    "note": "app store description",
+    "register": "marketing",
+    "prompt": "Write an app store description for a meditation app for beginners.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "New to meditation? Stillpoint guides you through short sessions of five to ten minutes, designed for people who've never sat still on purpose. Choose a goal like sleep, focus, or stress, and we'll build a simple daily routine around it. No jargon, no pressure, just a few quiet minutes a day."
+  },
+  {
+    "id": "a42",
+    "label": "ai",
+    "note": "product description",
+    "register": "marketing",
+    "prompt": "Write an Etsy listing description for handmade ceramic mugs.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Each mug is wheel-thrown in my home studio and glazed in a speckled oatmeal finish, so no two are exactly alike. It holds about 12 ounces and has a comfortable handle that fits three fingers. Microwave and dishwasher safe, though handwashing will keep the glaze looking its best."
+  },
+  {
+    "id": "a43",
+    "label": "ai",
+    "note": "meeting recap",
+    "register": "summary",
+    "prompt": "Summarize this meeting for people who missed it: we talked about Q3 launch delays, vendor issues, and pushing beta to October.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "The Q3 launch is slipping because the packaging vendor missed two delivery dates. The team agreed to move the public beta to mid-October and use the extra time to finish onboarding fixes. Marcus will confirm a new timeline with the vendor by Friday, and we'll revisit the launch date at next week's sync."
+  },
+  {
+    "id": "a44",
+    "label": "ai",
+    "note": "book",
+    "register": "summary",
+    "prompt": "Give me a short summary of 'Atomic Habits'.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "James Clear argues that big changes come from small habits compounded over time. He breaks habit formation into four steps, cue, craving, response, and reward, and suggests making good habits obvious, attractive, easy, and satisfying. A central idea is to focus on the kind of person you want to become rather than on specific outcomes."
+  },
+  {
+    "id": "a45",
+    "label": "ai",
+    "note": "research paper",
+    "register": "summary",
+    "prompt": "Summarize a study on screen time and teen sleep in plain language.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Researchers tracked about 2,000 teenagers over a year and found that those who used phones in bed slept, on average, about 40 minutes less per night. The effect was strongest for social media and weakest for music or audiobooks. The authors say the study shows a link, not proof of cause, but recommend keeping phones out of the bedroom."
+  },
+  {
+    "id": "a46",
+    "label": "ai",
+    "note": "movie plot",
+    "register": "summary",
+    "prompt": "Summarize the plot of 'The Martian' without big spoilers.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "An astronaut is left behind on Mars after his crew thinks he died in a storm. With limited supplies and no way to contact Earth at first, he has to figure out how to grow food, make water, and stay alive long enough for a rescue. Meanwhile, NASA scrambles to find a way to bring him home."
+  },
+  {
+    "id": "a47",
+    "label": "ai",
+    "note": "news",
+    "register": "summary",
+    "prompt": "Summarize news that the city council approved a new bike lane plan.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "The city council voted 7 to 2 on Tuesday to approve a plan adding 25 miles of protected bike lanes over the next four years. The first phase will focus on downtown and the corridors near the university. Some business owners raised concerns about lost parking, and the city says it will study the impact after each phase."
+  },
+  {
+    "id": "a48",
+    "label": "ai",
+    "note": "opinion opening",
+    "register": "essay",
+    "prompt": "Write an opening paragraph for an op-ed arguing cities should ban leaf blowers.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Every fall, my street fills with the whine of gas leaf blowers from eight in the morning until dusk. It's easy to dismiss this as a minor annoyance, but the small two-stroke engines in these machines are surprisingly dirty, and the noise affects people who work from home, care for babies, or simply live nearby. Cities that have phased them out haven't descended into chaos."
+  },
+  {
+    "id": "a49",
+    "label": "ai",
+    "note": "college essay",
+    "register": "essay",
+    "prompt": "Help me start a college application essay about working at my family's restaurant.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "By the time I was twelve, I could fold two hundred dumplings in an hour and tell from the sound of the fryer whether the oil was hot enough. My family's restaurant was where I did my homework, learned to talk to strangers, and figured out that being useful is its own kind of confidence."
+  },
+  {
+    "id": "a50",
+    "label": "ai",
+    "note": "blog reflection",
+    "register": "essay",
+    "prompt": "Write the opening for a blog post about quitting social media for a month.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "I deleted Instagram on a Sunday night, mostly out of irritation after scrolling for an hour without remembering a single thing I'd seen. I expected to feel lighter right away. Instead, for the first few days, I kept picking up my phone and staring at the home screen, unsure what I'd been reaching for."
+  },
+  {
+    "id": "a51",
+    "label": "ai",
+    "note": "philosophy",
+    "register": "essay",
+    "prompt": "Start an essay on whether it's ever okay to lie.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Most of us were taught that lying is wrong, and most of us lie anyway, often several times a day. We tell a friend we love the gift, tell a coworker we're fine, tell a child the dog went to live on a farm. The interesting question isn't whether these lies happen but whether some of them are actually the right thing to do."
+  },
+  {
+    "id": "a52",
+    "label": "ai",
+    "note": "personal reflection",
+    "register": "essay",
+    "prompt": "Write the start of a reflection on turning 40.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "I turned forty last month and spent most of the day doing laundry, which felt about right. I'd expected some kind of reckoning, a list of what I'd done and hadn't, but mostly I noticed that I'm calmer than I used to be and that I care much less about being liked by people I don't like."
+  },
+  {
+    "id": "a53",
+    "label": "ai",
+    "note": "story opening",
+    "register": "creative",
+    "prompt": "Write the first few lines of a mystery story set in a lighthouse.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "The keeper's logbook ended mid-sentence on the night of the storm. When the supply boat reached the island three days later, the lamp was still turning and the kettle was still warm on the stove, but there was no sign of Walter Hale anywhere on the rock."
+  },
+  {
+    "id": "a54",
+    "label": "ai",
+    "note": "recipe intro",
+    "register": "creative",
+    "prompt": "Write a short intro for my blog's weeknight chicken curry recipe.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "This is the curry I make when it's Tuesday, everyone's hungry, and I have about thirty minutes. It uses pantry spices, a can of coconut milk, and whatever vegetables are hanging around in the fridge. It's mild enough for kids but easy to spice up, and it tastes even better the next day."
+  },
+  {
+    "id": "a55",
+    "label": "ai",
+    "note": "fantasy opening",
+    "register": "creative",
+    "prompt": "Write the opening line or two of a fantasy novel.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "The dragons had been gone for three hundred years when the egg turned up in the miller's flour sack. Ela found it on a gray Tuesday morning, warm as a loaf of bread and humming faintly, like something trying to remember a song."
+  },
+  {
+    "id": "a56",
+    "label": "ai",
+    "note": "sci-fi opening",
+    "register": "creative",
+    "prompt": "Write the start of a short sci-fi story about a colony ship.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "On the 212th year of the voyage, the ship's computer woke Captain Imani Reyes four years early. She lay in the cryo bay listening to the hum of the engines, waiting for an explanation. When it finally came, it was only one line on the display: We are no longer alone out here."
+  },
+  {
+    "id": "a57",
+    "label": "ai",
+    "note": "children's story",
+    "register": "creative",
+    "prompt": "Write the opening of a bedtime story about a shy hedgehog.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Hazel the hedgehog lived at the edge of Willow Wood, where the ferns grew tall and the mushrooms came in every color. She liked her quiet burrow and her collection of shiny acorn caps, but whenever another animal said hello, she curled up into a tight, prickly ball and waited for them to go away."
+  },
+  {
+    "id": "a58",
+    "label": "ai",
+    "note": "casual text",
+    "register": "casual",
+    "prompt": "Write like a normal person: text my roommate that I'm gonna be late and can she feed the cat.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Hey, I'm gonna be late tonight, probably not home till like 9. Could you feed Mochi when you get in? Food's in the cabinet above the sink, half a can is fine. Thank you, owe you one!"
+  },
+  {
+    "id": "a59",
+    "label": "ai",
+    "note": "casual advice",
+    "register": "casual",
+    "prompt": "Explain how to unclog a drain like you're just telling a friend, not too formal.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Okay so first try boiling water, just pour it down slowly. If that doesn't do it, dump in some baking soda then vinegar, let it fizz for like 15 minutes, then more hot water. Still clogged? Grab a cheap plastic drain snake from the hardware store, they're like five bucks and they pull out the gross hair stuff."
+  },
+  {
+    "id": "a60",
+    "label": "ai",
+    "note": "casual email",
+    "register": "casual",
+    "prompt": "Write a really chill email to my coworker asking if they want to grab lunch, like a normal person would.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Hey! Are you around for lunch tomorrow? I have been meaning to try that new ramen place on 5th. No worries if you are slammed, we can just do another day this week."
+  }
 ]
