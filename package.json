@@ -72,8 +72,8 @@
     "check:kimi": "node scripts/check-kimi-discovery.mjs",
     "check:release": "node scripts/check-release.mjs",
     "release:check": "npm test && npm run check:docs && npm run check:agent-docs && npm run bench:check && npm run check:release",
-    "check:agent-docs": "node skills/cadence/scripts/deslop.mjs --prose-only --max 10 integrations/agents/README.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 integrations/agents/SKILL.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 integrations/kimi/README.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 integrations/zcode/README.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 integrations/claude-code/README.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 integrations/opencode/README.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 integrations/grok-bot/README.md",
-    "check:docs": "node skills/cadence/scripts/deslop.mjs --prose-only --max 10 README.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 CONTRIBUTING.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 15 PHILOSOPHY.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 CHANGELOG.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 12 MANUAL.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 tutorials/scan-a-repo.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 SCORING.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 integrations/codex/README.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 docs/RELEASING.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 docs/releases/v0.3.0.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 docs/releases/v0.4.0.md && node skills/cadence/scripts/deslop.mjs --prose-only --max 10 docs/embed.md"
+    "check:agent-docs": "node scripts/check-docs.mjs --agents",
+    "check:docs": "node scripts/check-docs.mjs"
   },
   "keywords": [
     "ai-slop", "ai-detector", "ai-humanizer", "humanize-ai-text", "ai-writing",
