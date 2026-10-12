@@ -24,7 +24,7 @@ to import an existing Cadence skill from a supported external agent, choose
 **Copy**, and select the **Project** target. Import the whole directory so the
 profiles and scripts remain available. Confirm the source and enable switch.
 
-Node 18 or newer and file/shell tools must be available in the agent environment.
+Node 20 or newer and file/shell tools must be available in the agent environment.
 For remote workspaces, use ZCode's skill-sync workflow and ensure Node is present
 on the remote host. Local installation alone does not deploy to a remote machine.
 

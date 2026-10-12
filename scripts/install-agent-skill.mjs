@@ -35,7 +35,7 @@ try {
     const result = writeSkillBundle(destination, { agent });
     console.log(`${result.unchanged ? 'Already installed' : 'Installed'} Cadence for ${skillTarget(agent).label} at ${result.destination}`);
     console.log(skillTarget(agent).invoke);
-    console.log('Node 18+ is required for scoring. Use the model already configured in your host.');
+    console.log('Node 20+ is required for scoring. Use the model already configured in your host.');
   }
 } catch (error) {
   console.error(`Cadence install: ${error.message}`);

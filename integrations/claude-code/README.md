@@ -31,7 +31,7 @@ have different command namespaces or precedence; inspect which source is loaded
 before evaluating the result. A working standalone copy can be removed after you
 back up any edits, without touching project voices or Claude configuration.
 
-The detector needs Node 18 or newer in the execution environment. Respect all
+The detector needs Node 20 or newer in the execution environment. Respect all
 file/shell approval settings. Scoring may be local while the host's model requests
 are remote; this installer does not change that privacy boundary.
 

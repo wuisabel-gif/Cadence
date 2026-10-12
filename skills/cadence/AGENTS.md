@@ -15,7 +15,7 @@ that quietly drops a fact is a failure, not a win.
 ## Score with the detector
 
 In an installed agent skill, use the bundled detector via the paths in `SKILL.md`.
-It runs with Node 18 or newer, without npm downloads or runtime dependencies.
+It runs with Node 20 or newer, without npm downloads or runtime dependencies.
 
 Without the skill installed, the detector is also on npm. `npx` may download the
 package on first use; scoring local text makes no network requests:
