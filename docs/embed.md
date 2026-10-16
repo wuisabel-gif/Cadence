@@ -68,7 +68,7 @@ Success is `200` and the detector object (`score`, `grade`, `breakdown`,
 `metrics`, `findings`). Oversized or invalid JSON is `400`. Unknown routes are
 `404`.
 
-Pin `cadence-deslop@0.4.0` (or later) so scores do not drift when the detector
+Pin `cadence-deslop@0.5.0` (or later) so scores do not drift when the detector
 changes.
 
 ## What this is not

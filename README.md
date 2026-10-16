@@ -473,7 +473,7 @@ npm run release:check  # tests + docs + benchmark + packaged agent installs
 
 ## Status
 
-v0.4.0 is released. The npm package includes the tested detector, the previous
-agent installers, Grok Build, the Grok Bot pack, and the Grok API bridge.
-Release notes are in [docs/releases/v0.4.0.md](docs/releases/v0.4.0.md). GPU
+v0.5.0 is released. Scores change from 0.4.0: the triad rule is narrower and
+short text is checked for rhythm. Held-out accuracy and upgrade notes are in
+[docs/releases/v0.5.0.md](docs/releases/v0.5.0.md). GPU
 training remains an experiment, not a verified release feature.

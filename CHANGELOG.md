@@ -11,6 +11,8 @@ Because detector rules affect scores, any release that changes a rule says so he
 
 ## [Unreleased]
 
+## [0.5.0] — 2026-10-16
+
 ### Changed
 
 - **Scores change: the triad rule is narrower.** Only exact three-item lists
@@ -217,6 +219,7 @@ First public release.
 - The detector is English-only for now (its function-word and phrase lists are
   English).
 
+[0.5.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.5.0
 [0.4.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.4.0
 [0.3.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.3.0
 [0.2.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.2.0

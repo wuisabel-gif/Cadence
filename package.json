@@ -1,6 +1,6 @@
 {
   "name": "cadence-deslop",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Deterministic checker for robotic-sounding prose. Scores any text 0–100 and names every tell: uniform rhythm, hollow-confidence words, reflexive triads, negation pivots, cliché openers. Zero dependencies. The checker behind the Cadence writing plugin.",
   "type": "module",
   "bin": {
@@ -42,6 +42,7 @@
     "docs/RELEASING.md",
     "docs/releases/v0.3.0.md",
     "docs/releases/v0.4.0.md",
+    "docs/releases/v0.5.0.md",
     "docs/embed.md",
     "examples/score-server.mjs",
     "README.md",

@@ -35,9 +35,9 @@ both. When a path has spaces, quote it.
 The installer is included in the npm package. Install once with npm:
 
 ```bash
-npx --package=cadence-deslop@0.4.0 cadence-install-codex
+npx --package=cadence-deslop@0.5.0 cadence-install-codex
 # Or install only for this project:
-npx --package=cadence-deslop@0.4.0 cadence-install-codex --project .
+npx --package=cadence-deslop@0.5.0 cadence-install-codex --project .
 ```
 
 The npm fetch needs network access. After installation, the bundled detector
