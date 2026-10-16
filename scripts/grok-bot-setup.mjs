@@ -23,7 +23,7 @@ function probe() {
   const scored = spawnSync(process.execPath, [detector, '--version'], { encoding: 'utf8' });
   return {
     node,
-    node_ok: Number(node.split('.')[0]) >= 18,
+    node_ok: Number(node.split('.')[0]) >= 20,
     git: git.status === 0 ? git.stdout.trim() : null,
     detector: scored.status === 0 ? scored.stdout.trim() : null,
   };

@@ -66,7 +66,7 @@ print("Cadence repo:", REPO)
 def ensure_node():
     if shutil.which("node"):
         return
-    # conda ships a recent Node on Kaggle; deslop.mjs needs Node 18+.
+    # conda ships a recent Node on Kaggle; deslop.mjs needs Node 20+.
     subprocess.run(["conda", "install", "-y", "-c", "conda-forge", "nodejs"], check=True)
 
 def grade_json(arms):

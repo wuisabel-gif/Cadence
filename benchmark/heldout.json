@@ -1,0 +1,628 @@
+[
+  {
+    "id": "hh01",
+    "label": "human",
+    "note": "park description",
+    "source": "National Park Service, Grand Canyon: Nature (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.nps.gov/grca/learn/nature/index.htm",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "Grand Canyon is considered one of the finest examples of arid-land erosion in the world. Incised by the Colorado River, the canyon is immense, averaging 4,000 feet deep for its entire 277 miles. It is 6,000 feet deep at its deepest point and 18 miles at its widest."
+  },
+  {
+    "id": "hh02",
+    "label": "human",
+    "note": "safety statistics",
+    "source": "NOAA National Weather Service, How Dangerous Is Lightning? (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.weather.gov/safety/lightning-odds",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "According to the NWS Storm Data, over the last 30 years (1989-2018) the U.S. has averaged 43 reported lightning fatalities per year. Only about 10% of people who are struck by lightning are killed, leaving 90% with various degrees of disability."
+  },
+  {
+    "id": "hh03",
+    "label": "human",
+    "note": "safety guidance, flat imperatives",
+    "source": "FEMA/Ready.gov, Floods (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.ready.gov/floods",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "If trapped in a building, then go to its highest level. Do not climb into a closed attic. You may become trapped by rising floodwater. Go on the roof only if necessary. Once there, signal for help."
+  },
+  {
+    "id": "hh04",
+    "label": "human",
+    "note": "preparedness checklist item",
+    "source": "NOAA National Weather Service, Hurricane Preparedness (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.weather.gov/safety/hurricane-plan",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "Write or review your Family Emergency Plan: Before an emergency happens, sit down with your family or close friends and decide how you will get in contact with each other, where you will go, and what you will do in an emergency."
+  },
+  {
+    "id": "hh05",
+    "label": "human",
+    "note": "plain-language guidance with examples",
+    "source": "PLAIN/GSA, plainlanguage.gov Guidelines: Write for your audience (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.plainlanguage.gov/guidelines/audience/",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "Tell your audience why the material is important to them. Say, “If you want a research grant, here’s what you have to do.” Or, “If you want to mine federal coal, here’s what you should know.” Or, “If you’re planning a trip to Rwanda, read this first.”"
+  },
+  {
+    "id": "hh06",
+    "label": "human",
+    "note": "benefits explainer, flat",
+    "source": "Social Security Administration, Retirement Planner: Starting Your Retirement Benefits (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.ssa.gov/planners/retire/applying1.html",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "If you tell us you want your benefits to start in May, you will receive your first benefit check in June. (If you want to receive your first benefit check in May, you need to be eligible for benefits in April AND tell us you want your benefits to start that month.)"
+  },
+  {
+    "id": "hh07",
+    "label": "human",
+    "note": "park wildlife explainer, list of three",
+    "source": "National Park Service, Yosemite: Black Bears (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.nps.gov/yose/learn/nature/bears.htm",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "When visiting Yosemite, visitors should expect black bears to attempt amazing acts to obtain human food. If food has been left in a car, bears will break vehicle windows, bend car frames, and pop open camper shells. To get into a trunk, they will enter the passenger area and claw through the back seat."
+  },
+  {
+    "id": "hh08",
+    "label": "human",
+    "note": "health guidance, list",
+    "source": "CDC, Preventive Steps against flu (archived 2019)",
+    "url": "https://web.archive.org/web/2019id_/https://www.cdc.gov/flu/prevent/actions-prevent-flu.htm",
+    "license": "public-domain",
+    "register": "gov",
+    "text": "Clean and disinfect frequently touched surfaces at home, work or school, especially when someone is ill. Get plenty of sleep, be physically active, manage your stress, drink plenty of fluids, and eat nutritious food."
+  },
+  {
+    "id": "hh09",
+    "label": "human",
+    "note": "presidential address",
+    "source": "Ronald Reagan, Address on the Space Shuttle Challenger (1986), Reagan Library",
+    "url": "https://web.archive.org/web/2019id_/https://www.reaganlibrary.gov/research/speeches/12886b",
+    "license": "public-domain",
+    "register": "speech",
+    "text": "I've always had great faith in and respect for our space program, and what happened today does nothing to diminish it. We don't hide our space program. We don't keep secrets and cover things up. We do it all up front and in public. That's the way freedom is, and we wouldn't change it for a minute."
+  },
+  {
+    "id": "hh10",
+    "label": "human",
+    "note": "campaign speech, anaphora",
+    "source": "Franklin D. Roosevelt, Address at Madison Square Garden (1936), National Archives transcript",
+    "url": "https://web.archive.org/web/2019id_/https://www.ourdocuments.gov/doc.php?flash=false&doc=69&page=transcript",
+    "license": "public-domain",
+    "register": "speech",
+    "text": "Nine mocking years with the golden calf and three long years of the scourge! Nine crazy years at the ticker and three long years in the breadlines! Nine mad years of mirage and three long years of despair!"
+  },
+  {
+    "id": "hh11",
+    "label": "human",
+    "note": "hard case: antithesis",
+    "source": "Jimmy Carter, Energy and the National Goals: A Crisis of Confidence (1979), Carter Library",
+    "url": "https://web.archive.org/web/2019id_/https://www.jimmycarterlibrary.gov/assets/documents/speeches/energy-crisis.phtml",
+    "license": "public-domain",
+    "register": "speech",
+    "text": "We were sure that ours was a nation of the ballot, not the bullet, until the murders of John Kennedy and Robert Kennedy and Martin Luther King Jr. We were taught that our armies were always invincible and our causes were always just, only to suffer the agony of Vietnam."
+  },
+  {
+    "id": "hh12",
+    "label": "human",
+    "note": "hard case: parallel triad, formal",
+    "source": "Dwight D. Eisenhower, Farewell Address (1961), National Archives transcript",
+    "url": "https://web.archive.org/web/2019id_/https://www.ourdocuments.gov/doc.php?flash=false&doc=90&page=transcript",
+    "license": "public-domain",
+    "register": "speech",
+    "text": "We face a hostile ideology-global in scope, atheistic in character, ruthless in purpose, and insidious in method. Unhappily the danger it poses promises to be of indefinite duration."
+  },
+  {
+    "id": "hh13",
+    "label": "human",
+    "note": "hard case: X is more than Y, it is Z",
+    "source": "George W. Bush, State of the Union Addresses (2001-2008)",
+    "url": "https://www.gutenberg.org/cache/epub/5049/pg5049.txt",
+    "license": "public-domain",
+    "register": "speech",
+    "text": "Let us agree to bridge old divides. But let us also agree that our goodwill must be dedicated to great goals. Bipartisanship is more than minding our manners, it is doing our duty."
+  },
+  {
+    "id": "hh14",
+    "label": "human",
+    "note": "condolence letter",
+    "source": "Abraham Lincoln, Speeches & Letters 1832-1865",
+    "url": "https://www.gutenberg.org/cache/epub/14721/pg14721.txt",
+    "license": "public-domain",
+    "register": "letter",
+    "text": "I feel how weak and fruitless must be any words of mine which should attempt to beguile you from the grief of a loss so overwhelming. But I cannot refrain from tendering to you the consolation that may be found in the thanks of the Republic they died to save."
+  },
+  {
+    "id": "hh15",
+    "label": "human",
+    "note": "personal letter",
+    "source": "John Keats, Letters to His Family and Friends (1810s)",
+    "url": "https://www.gutenberg.org/cache/epub/35698/pg35698.txt",
+    "license": "public-domain",
+    "register": "letter",
+    "text": "I have been hovering for some time between an exquisite sense of the luxurious, and a love for philosophy,--were I calculated for the former, I should be glad. But as I am not, I shall turn all my soul to the latter."
+  },
+  {
+    "id": "hh16",
+    "label": "human",
+    "note": "advice letter",
+    "source": "Lord Chesterfield, Letters to His Son (1774)",
+    "url": "https://www.gutenberg.org/cache/epub/3361/pg3361.txt",
+    "license": "public-domain",
+    "register": "letter",
+    "text": "Above all things, and upon all occasions, avoid speaking of yourself, if it be possible. Such is the natural pride and vanity of our hearts, that it perpetually breaks out, even in people of the best parts, in all the various modes and figures of the egotism."
+  },
+  {
+    "id": "hh17",
+    "label": "human",
+    "note": "diary entry",
+    "source": "Samuel Pepys, Diary (1660s)",
+    "url": "https://www.gutenberg.org/cache/epub/4200/pg4200.txt",
+    "license": "public-domain",
+    "register": "diary",
+    "text": "23rd (Lord’s day). Up and to church. At noon comes unexpected Mr. Fuller, the minister, and dines with me, and also I had invited Mr. Cooper with one I judge come from sea, and he and I spent the whole afternoon together, he teaching me some things in understanding of plates."
+  },
+  {
+    "id": "hh18",
+    "label": "human",
+    "note": "travel journal",
+    "source": "Dorothy Wordsworth, Journals Vol. 1 (1798-1803)",
+    "url": "https://www.gutenberg.org/cache/epub/42856/pg42856.txt",
+    "license": "public-domain",
+    "register": "diary",
+    "text": "I am sorry I did not see the High Church: both William and I were tired, and it rained very hard after we had left the bleaching-ground; besides, I am less eager to walk in a large town than anywhere else; so we put it off, and I have since repented of my irresolution."
+  },
+  {
+    "id": "hh19",
+    "label": "human",
+    "note": "autobiography, plain",
+    "source": "Booker T. Washington, Up from Slavery (1901)",
+    "url": "https://www.gutenberg.org/cache/epub/2376/pg2376.txt",
+    "license": "public-domain",
+    "register": "other",
+    "text": "Games I care little for. I have never seen a game of football. In cards I do not know one card from another. A game of old-fashioned marbles with my two boys, once in a while, is all I care for in this direction."
+  },
+  {
+    "id": "hh20",
+    "label": "human",
+    "note": "hard case: corporate boosterism jargon (satire, human-written)",
+    "source": "Sinclair Lewis, Babbitt (1922)",
+    "url": "https://www.gutenberg.org/cache/epub/1156/pg1156.txt",
+    "license": "public-domain",
+    "register": "other",
+    "text": "I believe the highest type of Service, like the most progressive tenets of ethics, senses unceasingly and is motived by active adherence and loyalty to that which is the essential principle of Boosterism--Good Citizenship in all its factors and aspects."
+  },
+  {
+    "id": "hh21",
+    "label": "human",
+    "note": "safety instructions",
+    "source": "Boy Scouts of America, Boy Scouts Handbook (1911)",
+    "url": "https://www.gutenberg.org/cache/epub/29558/pg29558.txt",
+    "license": "public-domain",
+    "register": "manual",
+    "text": "If your own clothing should catch fire do not run for help as this will fan the flames. Lie down and roll up as tightly as possible in an overcoat, blanket, or rug."
+  },
+  {
+    "id": "hh22",
+    "label": "human",
+    "note": "etiquette manual",
+    "source": "Emily Post, Etiquette (1922)",
+    "url": "https://www.gutenberg.org/cache/epub/14314/pg14314.txt",
+    "license": "public-domain",
+    "register": "manual",
+    "text": "If, when arriving at a lady's house, you find her motor at the door, you should leave your card as though she were not at home. If she happens to be in the hall, or coming down the steps, you say \"I see you are going out, and I won't keep you!\""
+  },
+  {
+    "id": "hh23",
+    "label": "human",
+    "note": "household manual, aside",
+    "source": "Isabella Beeton, The Book of Household Management (1861)",
+    "url": "https://www.gutenberg.org/cache/epub/10136/pg10136.txt",
+    "license": "public-domain",
+    "register": "manual",
+    "text": "THE SEASON FOR FISHING COD.--The best season for catching cod is from the beginning of February to the end of April; and although each fisherman engaged in taking them, catches no more than one at a time, an expert hand will sometimes take four hundred in a day."
+  },
+  {
+    "id": "hh24",
+    "label": "human",
+    "note": "speaking textbook exercise",
+    "source": "Esenwein & Carnagey, The Art of Public Speaking (1915)",
+    "url": "https://www.gutenberg.org/cache/epub/16317/pg16317.txt",
+    "license": "public-domain",
+    "register": "manual",
+    "text": "Say good-bye to an imaginary person whom you expect to see again tomorrow; then to a dear friend you never expect to meet again. Note the difference in inflection."
+  },
+  {
+    "id": "hh25",
+    "label": "human",
+    "note": "reform journalism, argument",
+    "source": "Jacob A. Riis, How the Other Half Lives (1890)",
+    "url": "https://www.gutenberg.org/cache/epub/45502/pg45502.txt",
+    "license": "public-domain",
+    "register": "journalism",
+    "text": "I will go further. I am not willing even to admit it to be an unqualified advantage that our New York tenements have less of the slum look than those of older cities. It helps to delay the recognition of their true character on the part of the well-meaning, but uninstructed, who are always in the majority."
+  },
+  {
+    "id": "hh26",
+    "label": "human",
+    "note": "essay",
+    "source": "Henry David Thoreau, Walden (1854)",
+    "url": "https://www.gutenberg.org/cache/epub/205/pg205.txt",
+    "license": "public-domain",
+    "register": "essay",
+    "text": "I have frequently seen a poet withdraw, having enjoyed the most valuable part of a farm, while the crusty farmer supposed that he had got a few wild apples only."
+  },
+  {
+    "id": "hh27",
+    "label": "human",
+    "note": "hard case: formal triad",
+    "source": "Bertrand Russell, The Problems of Philosophy (1912)",
+    "url": "https://www.gutenberg.org/cache/epub/5827/pg5827.txt",
+    "license": "public-domain",
+    "register": "essay",
+    "text": "In regard to one man's knowledge at a given time, universals, like particulars, may be divided into those known by acquaintance, those known only by description, and those not known either by acquaintance or by description."
+  },
+  {
+    "id": "hh28",
+    "label": "human",
+    "note": "dialogue, small talk, verb series",
+    "source": "Sinclair Lewis, Main Street (1920)",
+    "url": "https://www.gutenberg.org/cache/epub/543/pg543.txt",
+    "license": "public-domain",
+    "register": "fiction",
+    "text": "Half of them were silent; half resumed the discussions of that afternoon in the store. Ezra Stowbody hunted for something to say, hid a yawn, and offered to Lyman Cass, the owner of the flour-mill, “How d' you folks like the new furnace, Lym? Huh? So.”"
+  },
+  {
+    "id": "hh29",
+    "label": "human",
+    "note": "comic narration",
+    "source": "Jerome K. Jerome, Three Men in a Boat (1889)",
+    "url": "https://www.gutenberg.org/cache/epub/308/pg308.txt",
+    "license": "public-domain",
+    "register": "fiction",
+    "text": "And then he would take off his coat, and begin. He would send the girl out for sixpen’orth of nails, and then one of the boys after her to tell her what size to get; and, from that, he would gradually work down, and start the whole house."
+  },
+  {
+    "id": "hh30",
+    "label": "human",
+    "note": "dialogue, imperatives",
+    "source": "Arthur Conan Doyle, The Valley of Fear (1915)",
+    "url": "https://www.gutenberg.org/cache/epub/3289/pg3289.txt",
+    "license": "public-domain",
+    "register": "fiction",
+    "text": "“Tut! Tut!” said McGinty, getting off his barrel. “This will never do. We have a new brother here, Baldwin, and it’s not for us to greet him in such fashion. Hold out your hand, man, and make it up!”"
+  },
+  {
+    "id": "hh31",
+    "label": "human",
+    "note": "dialogue, fragmented",
+    "source": "Robert W. Chambers, The King in Yellow (1895)",
+    "url": "https://www.gutenberg.org/cache/epub/8492/pg8492.txt",
+    "license": "public-domain",
+    "register": "fiction",
+    "text": "“Worse—we know at the Legation—I can’t speak of it. But that’s not what I have to say. Something happened this afternoon. The Alsatian Brasserie was visited and an American named Hartman has been arrested. Do you know him?”"
+  },
+  {
+    "id": "hh32",
+    "label": "human",
+    "note": "adjective pileup",
+    "source": "Charles Dickens, A Christmas Carol (1843)",
+    "url": "https://www.gutenberg.org/cache/epub/24022/pg24022.txt",
+    "license": "public-domain",
+    "register": "fiction",
+    "text": "Oh! but he was a tight-fisted hand at the grindstone, Scrooge! a squeezing, wrenching, grasping, scraping, clutching, covetous old sinner! Hard and sharp as flint, from which no steel had ever struck out generous fire; secret, and self-contained, and solitary as an oyster."
+  },
+  {
+    "id": "ha01",
+    "label": "ai",
+    "note": "explanation",
+    "register": "assistant",
+    "prompt": "Why does bread go stale faster in the fridge?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Staling is mostly starch retrogradation, where the starch molecules that softened during baking slowly recrystallize and push water out. That process happens fastest at refrigerator temperatures, roughly 0 to 10 C. Room temperature slows it a bit, and freezing nearly stops it, which is why sliced bread keeps best in the freezer."
+  },
+  {
+    "id": "ha02",
+    "label": "ai",
+    "note": "how-to",
+    "register": "assistant",
+    "prompt": "How do I make my laptop battery last longer over the years?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Avoid keeping it at 100 percent all the time, especially while it's warm. Many laptops now have a setting that caps charging at 80 percent, and turning that on helps a lot if you're plugged in most of the day. Heat is the other big factor, so don't use it on a bed or couch where the vents get blocked."
+  },
+  {
+    "id": "ha03",
+    "label": "ai",
+    "note": "how-to",
+    "register": "assistant",
+    "prompt": "How do I get rid of fruit flies in my kitchen?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Put a little apple cider vinegar in a jar with a drop of dish soap, cover it with plastic wrap, and poke a few small holes in the top. The flies go in and can't get out. At the same time, take out the trash, rinse recycling, and check for a forgotten onion or potato, because the trap won't keep up if they're still breeding somewhere."
+  },
+  {
+    "id": "ha04",
+    "label": "ai",
+    "note": "recommendation",
+    "register": "assistant",
+    "prompt": "Should I buy a Kindle or just read on my phone?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "If you read more than a book or two a month, a Kindle is worth it. The e-ink screen is much easier on your eyes for long stretches, the battery lasts weeks, and there are no notifications pulling you away. If you mostly read in short bursts while waiting in line, your phone is probably fine."
+  },
+  {
+    "id": "ha05",
+    "label": "ai",
+    "note": "explanation",
+    "register": "assistant",
+    "prompt": "What does it mean when a recipe says to 'temper' eggs?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "It means slowly warming the eggs by whisking in a little of the hot liquid before adding them to the pot. If you dumped cold eggs straight into hot milk, they'd scramble. Adding the hot liquid gradually raises their temperature gently so they blend smoothly into custards and sauces."
+  },
+  {
+    "id": "ha06",
+    "label": "ai",
+    "note": "how-to",
+    "register": "assistant",
+    "prompt": "How do I ask my landlord to fix something without it becoming a whole thing?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Put the request in writing, even if it's just a short email or a message through the tenant portal. Describe the problem plainly, mention when it started, and attach a photo if you can. Ask when they expect to be able to send someone, which gives them an easy next step and gives you a record if it drags on."
+  },
+  {
+    "id": "ha07",
+    "label": "ai",
+    "note": "recommendation",
+    "register": "assistant",
+    "prompt": "What board game should I get for a family with kids around 8 and 12?",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Ticket to Ride is a great pick. The rules take about ten minutes to learn, games run under an hour, and there's enough strategy that the adults won't be bored. If they like quicker, sillier games, Sushi Go and Dragonwood are both cheap and play in about twenty minutes."
+  },
+  {
+    "id": "ha08",
+    "label": "ai",
+    "note": "apology",
+    "register": "email",
+    "prompt": "Help me apologize to my friend for missing her birthday dinner.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Hey Mara, I'm really sorry I missed your dinner on Saturday. I got the date wrong and didn't realize until I saw the photos, which made me feel terrible. I'd love to take you out this week to make up for it, my treat, wherever you want to go. Happy belated birthday."
+  },
+  {
+    "id": "ha09",
+    "label": "ai",
+    "note": "work announcement",
+    "register": "email",
+    "prompt": "Draft a Slack message telling my team I'm moving our standup from 9:30 to 10.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Hi all, starting Monday our standup will move from 9:30 to 10:00. A few people have early calls with the Europe team, and this should give everyone a little more breathing room. Same link, same 15 minutes. Thanks!"
+  },
+  {
+    "id": "ha10",
+    "label": "ai",
+    "note": "work request",
+    "register": "email",
+    "prompt": "Ask my manager for a day off next Friday, short email.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Hi Tom, I'd like to take next Friday, the 14th, as a personal day. My project tasks for the week should be wrapped up by Thursday, and Jess has agreed to cover anything urgent that comes in. Please let me know if that works. Thanks, Ana"
+  },
+  {
+    "id": "ha11",
+    "label": "ai",
+    "note": "customer service reply",
+    "register": "email",
+    "prompt": "Write a reply to a customer whose order arrived damaged.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Hi Mr. Chen, I'm sorry your order arrived damaged. We've already shipped a replacement at no cost, and you should receive tracking within a day. There's no need to return the broken item. Please reach out if anything else isn't right, and thank you for your patience."
+  },
+  {
+    "id": "ha12",
+    "label": "ai",
+    "note": "networking",
+    "register": "email",
+    "prompt": "Write a LinkedIn message to someone whose talk I liked at a conference.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Hi Jordan, I really enjoyed your talk on pricing experiments at SaaS Connect last week, especially the part about testing annual discounts. I'm working through a similar question at my company and would love to hear how you set up the holdout groups, if you're open to a short chat sometime."
+  },
+  {
+    "id": "ha13",
+    "label": "ai",
+    "note": "landing page hero",
+    "register": "marketing",
+    "prompt": "Write hero copy for a budgeting app aimed at couples.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Money is easier when you're on the same page. Shared helps couples track spending together, set goals for the things that matter, and see where every dollar goes without awkward conversations. Connect your accounts in minutes and start planning as a team."
+  },
+  {
+    "id": "ha14",
+    "label": "ai",
+    "note": "email newsletter",
+    "register": "marketing",
+    "prompt": "Write the opening of a newsletter for a local gym announcing new classes.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Fall schedule is here! Starting October 1, we're adding early morning spin at 6 a.m., a beginner strength class on Tuesday nights, and Sunday yoga for anyone who wants a slower start to the week. All classes are included with your membership, and you can book through the app."
+  },
+  {
+    "id": "ha15",
+    "label": "ai",
+    "note": "SaaS feature announcement",
+    "register": "marketing",
+    "prompt": "Write a LinkedIn post announcing our project management tool now has time tracking.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Time tracking is now built into Tasklane. Start a timer right from any task, see how long work actually takes, and export reports for clients or payroll without switching tools. It's available today on all paid plans. We built this because so many of you asked for it, so thank you, and let us know what you think."
+  },
+  {
+    "id": "ha16",
+    "label": "ai",
+    "note": "event promo",
+    "register": "marketing",
+    "prompt": "Write a tweet promoting a free community coding workshop.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Free intro to Python workshop this Saturday at the Eastside Library, 10 a.m. to 1 p.m. No experience needed, just bring a laptop. We'll build a small project together and you'll leave with code you can keep working on. Spots are limited, so grab one at the link."
+  },
+  {
+    "id": "ha17",
+    "label": "ai",
+    "note": "real estate listing",
+    "register": "marketing",
+    "prompt": "Write a short listing description for a two-bedroom condo downtown.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Bright two-bedroom, two-bath condo in the heart of downtown, steps from cafes, the riverwalk, and the light rail. The open kitchen has quartz counters and new appliances, and the living room opens onto a private balcony with city views. Includes one parking space and in-unit laundry."
+  },
+  {
+    "id": "ha18",
+    "label": "ai",
+    "note": "article",
+    "register": "summary",
+    "prompt": "Summarize an article about the four-day work week trial in the UK.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "A six-month UK trial involving about 60 companies found that most kept the four-day week after it ended. Employees reported less burnout and better sleep, while company revenue stayed roughly flat over the period. The researchers noted that results were strongest where firms redesigned meetings and workflows rather than squeezing five days into four."
+  },
+  {
+    "id": "ha19",
+    "label": "ai",
+    "note": "report",
+    "register": "summary",
+    "prompt": "Summarize this quarterly sales report in a few sentences for the exec team.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Revenue came in at 4.2 million for the quarter, up 8 percent from last year but slightly below our 4.4 million target. Enterprise deals drove most of the growth, while self-serve signups dipped after the pricing change in July. The team expects the pipeline to recover in Q4, with three large renewals scheduled to close in November."
+  },
+  {
+    "id": "ha20",
+    "label": "ai",
+    "note": "podcast episode",
+    "register": "summary",
+    "prompt": "Recap the main points of a podcast episode about urban beekeeping.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "The guest, a beekeeper in Chicago, explained that city bees often do better than rural ones because they have a wider variety of flowers and fewer pesticides. She talked about checking local rules before setting up a hive, the importance of a water source nearby, and how rooftop hives can be surprisingly productive."
+  },
+  {
+    "id": "ha21",
+    "label": "ai",
+    "note": "team retro",
+    "register": "summary",
+    "prompt": "Recap our sprint retro: good was code reviews, bad was unclear tickets, action is a ticket template.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "The team felt code reviews went well this sprint, with faster turnaround and more useful comments. The biggest frustration was tickets that lacked clear acceptance criteria, which led to rework on two features. Going forward, we'll use a shared ticket template, and Dana will draft it before the next planning session."
+  },
+  {
+    "id": "ha22",
+    "label": "ai",
+    "note": "lecture notes",
+    "register": "summary",
+    "prompt": "Summarize my notes from an intro econ lecture on supply and demand.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "The lecture covered how prices are set where supply and demand meet. When demand rises and supply stays the same, prices go up, and when supply increases with steady demand, prices fall. The professor also introduced elasticity, which describes how much people change what they buy when prices change, using gasoline and luxury goods as examples."
+  },
+  {
+    "id": "ha23",
+    "label": "ai",
+    "note": "reflection",
+    "register": "essay",
+    "prompt": "Start a personal essay about learning to cook after my mom passed away.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "My mother never used recipes, which became a problem the first time I tried to make her lentil soup without her. I stood in my kitchen with a bag of lentils and a vague memory of cumin and lemon, trying to remember what the soup smelled like when it was right. It took me eleven tries to get close."
+  },
+  {
+    "id": "ha24",
+    "label": "ai",
+    "note": "argumentative",
+    "register": "essay",
+    "prompt": "Write the intro to an essay on whether homework should be banned in elementary school.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Research on homework in the early grades is surprisingly consistent: for young children, it does little to improve academic performance. Yet many elementary schools still assign it nightly, often adding stress to families without clear benefits. This essay argues that schools should replace traditional homework with reading time and play."
+  },
+  {
+    "id": "ha25",
+    "label": "ai",
+    "note": "opinion",
+    "register": "essay",
+    "prompt": "Write an opening paragraph arguing that remote work is good for small towns.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "For decades, young people in small towns faced the same choice: stay and accept fewer opportunities, or leave for the city. Remote work has started to change that. When a software engineer or accountant can do their job from anywhere, a town of three thousand people suddenly has a way to keep its graduates and attract new residents."
+  },
+  {
+    "id": "ha26",
+    "label": "ai",
+    "note": "history reflection",
+    "register": "essay",
+    "prompt": "Write an intro paragraph for an essay on why the printing press mattered.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Before Gutenberg's press, a single book could take months to copy by hand, and most people never owned one. Within fifty years of its invention, millions of printed books circulated across Europe. That shift did more than make reading cheaper; it changed who could take part in arguments about religion, science, and politics."
+  },
+  {
+    "id": "ha27",
+    "label": "ai",
+    "note": "cultural commentary",
+    "register": "essay",
+    "prompt": "Write the opening for an essay about why people love true crime podcasts.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "True crime is one of the most popular podcast genres, and its biggest audience is women, many of whom say they listen partly to understand how to keep themselves safe. That's only part of the appeal. These shows also offer the structure of a mystery, a sense of justice when cases are solved, and a strange intimacy with hosts who talk us through the worst days of other people's lives."
+  },
+  {
+    "id": "ha28",
+    "label": "ai",
+    "note": "travel writing",
+    "register": "creative",
+    "prompt": "Write a short travel paragraph about arriving in Lisbon.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Lisbon announces itself in the steep streets before anything else. From the airport taxi, I watched the city fold up the hills in layers of tiled facades and terracotta roofs, laundry strung between windows. By the time I dropped my bag at the guesthouse in Alfama, the yellow trams were rattling past and the smell of grilled sardines drifted up from somewhere below."
+  },
+  {
+    "id": "ha29",
+    "label": "ai",
+    "note": "dialogue",
+    "register": "creative",
+    "prompt": "Write a short dialogue between two strangers stuck in an elevator.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Well, this is a first, she said, pressing the alarm button again. He shrugged and sat down against the wall. Third time this month for me. She stared at him. Then why do you keep taking it? He smiled. The stairs are worse."
+  },
+  {
+    "id": "ha30",
+    "label": "ai",
+    "note": "poem-like prose",
+    "register": "creative",
+    "prompt": "Write a short descriptive paragraph about a rainy afternoon in a coffee shop.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Rain streaked the front windows and turned the street outside into smudges of red and gray. Inside, the espresso machine hissed, someone's laptop chimed, and a man in the corner read the same page of his paperback over and over. I wrapped both hands around my mug and decided I wasn't in any hurry to leave."
+  },
+  {
+    "id": "ha31",
+    "label": "ai",
+    "note": "travel writing",
+    "register": "creative",
+    "prompt": "Write a short paragraph about hiking in the Scottish Highlands.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "The trail out of Glencoe climbs fast, and within an hour the village had shrunk to a cluster of white dots below. Clouds moved across the valley in long shadows, and the only sounds were the wind, a distant stream, and the crunch of my boots on wet gravel. By the top, my legs ached, but the view down the glen made it easy to forget."
+  },
+  {
+    "id": "ha32",
+    "label": "ai",
+    "note": "recipe intro",
+    "register": "creative",
+    "prompt": "Write an intro for a recipe for my grandmother's apple cake.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "My grandmother made this apple cake every September, as soon as the first tart apples showed up at the farm stand. It's not fancy: a simple buttery batter, plenty of cinnamon, and apples sliced thick so they stay soft and juicy. The whole house smells incredible while it bakes, and it disappears fast."
+  },
+  {
+    "id": "ha33",
+    "label": "ai",
+    "note": "casual review",
+    "register": "casual",
+    "prompt": "Write a casual Google review for a pizza place I liked, not too polished.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "Really good pizza, honestly better than I expected for a place in a strip mall. Crust was crispy and the pepperoni curled up the way it's supposed to. Service was quick and friendly. Only thing is parking is kind of a pain on weekends. Will definitely be back."
+  },
+  {
+    "id": "ha34",
+    "label": "ai",
+    "note": "casual post",
+    "register": "casual",
+    "prompt": "Write a casual Reddit comment recommending a budget mechanical keyboard.",
+    "generator": "claude-opus-5-5 (subagent, blind to detector rules)",
+    "text": "I've been using a Keychron K2 for about two years and honestly it's held up great. It's not the absolute cheapest, but it's wireless, works fine on Mac and Windows, and the switches feel nice. If you want something even cheaper, the Royal Kludge ones are pretty solid for the price too."
+  }
+]

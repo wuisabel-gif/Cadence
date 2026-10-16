@@ -22,7 +22,12 @@ that Cadence identifies authorship.
 
 ## Held-out evaluation
 
-A future evaluation set should be kept outside the training and rule-development
+`benchmark/heldout.json` is the current held-out set. Score it with
+`node benchmark/bench.mjs --corpus benchmark/heldout.json`, and only after rule
+changes are final. If a rule is tuned against it, it stops being held out and
+belongs in the regression corpus.
+
+An evaluation set should be kept outside the training and rule-development
 loop. It should not be used to select detector phrases, weights, thresholds, grade
 boundaries, or LoRA targets. Report the version, collection date, provenance,
 license, domain, language, and generation model or authorship process where known.

@@ -8,7 +8,7 @@ try {
   if (name === '--help' || name === '-h') {
     console.log('Usage: node integrations/grok/cli.mjs <cadence_analyze|cadence_voice>');
     console.log('Read one JSON argument object from stdin; write one JSON result to stdout.');
-    console.log('--list-tools prints xAI Responses function definitions. Node 18+; local only.');
+    console.log('--list-tools prints xAI Responses function definitions. Node 20+; local only.');
   } else if (name === '--list-tools') {
     console.log(JSON.stringify(tools));
   } else {

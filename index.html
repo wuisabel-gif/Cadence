@@ -605,7 +605,7 @@ register:</span> brand<span class="fm">
     <div class="wrap">
       <div class="head reveal">
         <h2>A detector you can run yourself.</h2>
-        <p>The engine is plain Node with no runtime dependencies. Local scoring makes no network requests; a URL is fetched only when you ask. The score is deterministic, and each lexical tell is named. On the 48-sample regression corpus, precision is 90.9% and recall is 41.7%. That small, authored corpus is a regression check, not a blind authorship test.</p>
+        <p>The engine is plain Node with no runtime dependencies. Local scoring makes no network requests; a URL is fetched only when you ask. The score is deterministic, and each lexical tell is named. On the 122-sample regression corpus, precision is 94.1% and recall is 26.7%. On a separate 66-sample held-out set it caught 3 of 34 AI samples, so most clean AI prose still scores grade A. The corpus is a regression check, not a blind authorship test.</p>
       </div>
 
       <div class="det-grid">
@@ -667,7 +667,7 @@ Cadence de-slop  ·  <span style="color:var(--panel-good)">score 0/100  ·  grad
     </div>
     <p class="source-note" id="release-status"><strong>v0.4.0 is released.</strong> From your target project (not inside the Cadence source checkout), install from npm: <code>npx --package=cadence-deslop@0.4.0 cadence-install-skill --agent kimi</code>. Replace <code>kimi</code> with <code>codex</code>, <code>zcode</code>, <code>claude-code</code>, <code>opencode</code>, or <code>grok</code>. The cards below use a source checkout. <a href="https://github.com/wuisabel-gif/Cadence/releases/tag/v0.4.0">Release notes and downloads</a>.</p>
     <div class="agent-start">
-      <p>First, get a checkout. You need Node 18 or newer for the detector.</p>
+      <p>First, get a checkout. You need Node 20 or newer for the detector.</p>
       <pre class="codeblock"><code>git clone https://github.com/wuisabel-gif/Cadence.git
 cd Cadence</code></pre>
       <p>Then choose one user-wide installer for your host:</p>

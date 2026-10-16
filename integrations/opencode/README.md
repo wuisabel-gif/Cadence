@@ -32,7 +32,7 @@ OpenCode can also discover Claude-compatible and `.agents/skills` locations. If 
 Cadence install is already visible there, you may not need another copy. Inspect
 the loaded source and remove redundant copies only after backing up your changes.
 
-Scoring uses Node 18 or newer and the bundled detector; the writing model remains
+Scoring uses Node 20 or newer and the bundled detector; the writing model remains
 under OpenCode's control. A project voice overrides the matching seed without
 changing the installed bundle.
 

@@ -28,7 +28,7 @@ Keep experimental training claims separate from tested CLI/skill behavior.
 
 ## Automated checks
 
-From a clean checkout with Node 18 or newer, npm, and `tar`:
+From a clean checkout with Node 20 or newer, npm, and `tar`:
 
 ```bash
 npm run release:check
@@ -57,8 +57,8 @@ project discovery through its session-less local catalog API. It uses temporary
 configuration and an authenticated loopback server; no model call is made.
 ZCode, Claude Code, OpenCode, and Grok Build still need the client checks listed below.
 
-CI covers the automated tests on the supported minimum Node 18 as well as Node 20
-and 22. The real-Codex check is separate so CI needs no Codex account or credentials.
+CI covers the automated tests on the supported minimum Node 20 as well as Node 22
+and 24. The real-Codex check is separate so CI needs no Codex account or credentials.
 
 ## Build artifacts for review
 

@@ -44,7 +44,7 @@ Cadence detector and bundled writing voices. The bridge is not an MCP server or
 API runner. Copying this folder does not register tools with a host, and
 grok.com chat does not gain access to local scripts from this bundle.
 
-Node 18 or newer is required. No install step, SDK, key, or network access is
+Node 20 or newer is required. No install step, SDK, key, or network access is
 needed to use the tools. The adapter never starts a shell, fetches a URL, or accepts
 a file path from a model. Your external client owns API authentication, model
 selection, consent to send text, request limits, and any API charges.

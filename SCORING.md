@@ -31,13 +31,19 @@ Structural rates are normalized per 100 words unless noted otherwise.
 | Signal | Activation | Contribution |
 | --- | --- | --- |
 | Uniform rhythm | At least 5 sentences and sentence-length CV `< 0.4` | `round((0.4 - CV) * 60)` |
+| Uniform rhythm, short text | 3 or 4 sentences and CV `< 0.3` | `round((0.3 - CV) * 50)` |
 | Adverbs | Adverb rate `> 5` | `round((rate - 5) * 2)` |
 | Em dashes | Em-dash rate `> 2.5` | `round((rate - 2.5) * 3)` |
-| Triad density | Triad findings / sentence count `> 0.25` | `round((density - 0.25) * 40)` |
+| Triad density | At least 3 sentences and triad findings / sentence count `> 0.25` | `round((density - 0.25) * 40)` |
 
 The sentence-length coefficient of variation is standard deviation divided by
 mean sentence length. A low value means sentence lengths cluster closely. The
-minimum sentence count prevents a short passage from being judged on rhythm alone.
+minimum sentence count keeps one or two sentences from being judged on rhythm.
+Three or four sentences get a stricter cutoff and a smaller weight, because a CV
+from so few lengths is noisy.
+
+A triad finding needs exactly three items. A list with a fourth item before it, or
+with a function word such as "the" as an item, is not counted.
 
 After all contributions are added, the result is rounded and clamped to the range
 0–100. A threshold is only applied when the relevant structural condition is met;

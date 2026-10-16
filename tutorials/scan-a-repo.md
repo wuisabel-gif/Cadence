@@ -3,7 +3,7 @@
 **Goal:** point Cadence at an entire repository, find the prose that reads as
 AI-written, and clean it up — your own project or one you've cloned.
 
-**You need:** Node 18 or newer. Nothing to install; `npx` fetches the tool on first
+**You need:** Node 20 or newer. Nothing to install; `npx` fetches the tool on first
 run. (Optional: the `/cadence` plugin in Claude Code, for the rewriting step.)
 
 This walkthrough runs about ten minutes.

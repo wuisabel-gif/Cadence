@@ -139,13 +139,21 @@ function findPhrases(text, list, rule, severity) {
   return findings;
 }
 
+const TRIAD_STOPWORDS = new Set(['the', 'a', 'an', 'to', 'of', 'in', 'on', 'at', 'for', 'with', 'i', 'he', 'she', 'it', 'we', 'they', 'you', 'his', 'her', 'my', 'our', 'their', 'that', 'this', 'then', 'so']);
+
 function detectTriads(sentences) {
   // "A, B, and C" three-item lists. Light use is fine; density is the tell.
+  // Only exact three-item lists count: a fourth item before them ("quick parts,
+  // sarcastic humour, reserve, and caprice") is ordinary human enumeration, and a
+  // function word as an item ("hard, overnight, and the") is not a list at all.
   const findings = [];
-  const re = /\b[\w'’-]+,\s+[\w'’-]+,\s+(?:and|or)\s+[\w'’-]+/gi;
+  const re = /\b([\w'’-]+),\s+([\w'’-]+),\s+(?:and|or)\s+([\w'’-]+)/gi;
   for (const s of sentences) {
-    const m = s.match(re);
-    if (m) m.forEach((hit) => findings.push({ rule: 'triad', severity: 'low', snippet: hit }));
+    for (const m of s.matchAll(re)) {
+      if (/,\s*$/.test(s.slice(0, m.index).replace(/[\w'’-]+\s*$/, ''))) continue;
+      if (m.slice(1).some((w) => TRIAD_STOPWORDS.has(w.toLowerCase()))) continue;
+      findings.push({ rule: 'triad', severity: 'low', snippet: m[0] });
+    }
   }
   return findings;
 }
@@ -232,7 +240,11 @@ function analyze(rawText) {
 
   // Uniform rhythm is the single strongest AI tell. Flag it only with enough
   // sentences to be meaningful.
-  const uniformRhythm = sentences.length >= 5 && lengthCV < 0.4;
+  // Three or four sentences give a noisier CV, so the bar is stricter and the
+  // penalty smaller (benchmark dev set: 6 more AI caught, 1 human flagged).
+  const shortText = sentences.length >= 3 && sentences.length < 5;
+  const rhythmCut = shortText ? 0.3 : 0.4;
+  const uniformRhythm = (shortText || sentences.length >= 5) && lengthCV < rhythmCut;
 
   // ── Transparent score: 0 (clean) … 100 (heavy slop) ──
   const breakdown = {
@@ -246,10 +258,11 @@ function analyze(rawText) {
     breakdown.lexical.total += points;
     score += points;
   }
-  if (uniformRhythm) breakdown.structural.uniformRhythm = Math.round((0.4 - lengthCV) * 60); // up to +24
+  if (uniformRhythm) breakdown.structural.uniformRhythm = Math.round((rhythmCut - lengthCV) * (shortText ? 50 : 60)); // up to +15 short, +24 long
   if (adverbRate > 5) breakdown.structural.adverbs = Math.round((adverbRate - 5) * 2);
   if (emDashRate > 2.5) breakdown.structural.emDashes = Math.round((emDashRate - 2.5) * 3);
-  if (triadDensity > 0.25) breakdown.structural.triads = Math.round((triadDensity - 0.25) * 40);
+  // Density needs a few sentences: one list in a two-sentence quote is not a habit.
+  if (sentences.length >= 3 && triadDensity > 0.25) breakdown.structural.triads = Math.round((triadDensity - 0.25) * 40);
   breakdown.structural.total = Object.values(breakdown.structural).reduce((sum, points) => sum + points, 0) - breakdown.structural.total;
   score += breakdown.structural.total;
   breakdown.total = breakdown.lexical.total + breakdown.structural.total;

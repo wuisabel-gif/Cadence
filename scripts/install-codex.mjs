@@ -3,7 +3,7 @@ import { homedir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { writeCodexBundle } from './codex-bundle.mjs';
 
-const HELP = `Install the Cadence Codex skill (Node 18+, no dependencies).
+const HELP = `Install the Cadence Codex skill (Node 20+, no dependencies).
 
 Usage:
   cadence-install-codex                    install for this user

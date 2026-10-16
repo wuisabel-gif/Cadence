@@ -255,9 +255,9 @@ confidence percentage you have to take on faith, but a list of exactly what it
 flagged and where. It is not guessing who wrote your text. It measures how the
 writing reads.
 
-If you want authorship numbers anyway, they exist. On a 48-sample labeled corpus it
-flags machine-written text with about 91% precision and rarely mislabels a human,
-though it misses plenty of AI that avoids the common tells. That recall gap does not
+If you want authorship numbers anyway, they exist. On a held-out set it left 31 of
+32 human passages clean but caught only 3 of 34 AI samples. Most AI prose that
+avoids the common tells scores grade A. That recall gap does not
 worry us, because catching every machine is not the job. Catching slop is, whoever
 wrote it. Run `npm run bench` for the full table, or read [benchmark/](benchmark/).
 CI fails if the numbers regress.

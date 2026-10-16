@@ -27,10 +27,13 @@ const THRESHOLD = ti >= 0 ? Number(args[ti + 1]) : 10;
 // Regression guards, set below the current numbers, not aspirational targets.
 // The detector is precision-first: recall is its known weak spot (it misses AI
 // that avoids the common tells), so the recall floor only catches a big drop.
-const FLOOR_RECALL = 0.30;
-const FLOOR_SPEC = 0.85;
+const FLOOR_RECALL = 0.20;
+const FLOOR_SPEC = 0.90;
 
-const corpus = JSON.parse(readFileSync(new URL('./corpus.json', import.meta.url), 'utf8'));
+// --corpus <file> scores another set (e.g. heldout.json) with the same report.
+const corpusArg = args.indexOf('--corpus');
+const corpusPath = corpusArg >= 0 ? args[corpusArg + 1] : new URL('./corpus.json', import.meta.url);
+const corpus = JSON.parse(readFileSync(corpusPath, 'utf8'));
 const scored = corpus.map((s) => ({ ...s, r: analyze(s.text) }));
 const pct = (x) => (x * 100).toFixed(1);
 

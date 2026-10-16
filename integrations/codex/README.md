@@ -10,7 +10,7 @@ shared with the other agent hosts. Codex retains its installer aliases and optio
 
 ## Install from a checkout
 
-Use Node 18 or newer and a Codex version with Agent Skills support. From Cadence's
+Use Node 20 or newer and a Codex version with Agent Skills support. From Cadence's
 repository root:
 
 ```bash

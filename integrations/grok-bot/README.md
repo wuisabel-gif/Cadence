@@ -31,7 +31,7 @@ From a clone:
 node scripts/grok-bot-setup.mjs --probe
 ```
 
-Need Node 18 or newer to score. git is required only to clone. The probe prints
+Need Node 20 or newer to score. git is required only to clone. The probe prints
 JSON for the machine that ran it. Tests here run that probe in CI, not on a
 Grok Bot VM.
 

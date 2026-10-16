@@ -20,51 +20,59 @@ node benchmark/bench.mjs --sweep     # full precision/recall curve
 
 ## Results
 
-Corpus: 48 labeled samples (24 human, 24 AI). The human set mixes short modern
-writing (texts, reviews, journal entries, a terse commit message) with four
-verbatim public-domain passages (Thoreau, Douglass, Twain, Austen) that were
-plainly not written to dodge a detector. The AI set spans many registers, from
-blatant marketing slop to clean, plain assistant replies. A sample counts as
-"flagged" when its score crosses the A/B grade boundary (score > 10). Numbers
-carry a Wilson 95% interval, because on 24 samples a point estimate is not the
-honest figure.
+Two sets, scored by the same `analyze()`:
 
-| metric | value | |
+- **Regression corpus** ([corpus.json](corpus.json)): 122 samples, 62 human
+  and 60 AI. Rules are tuned against it, and CI guards it.
+- **Held-out set** ([heldout.json](heldout.json)): 66 samples, 32 human and
+  34 AI. It was split off before any 0.5.0 rule change and scored once, after
+  the rules were frozen. Do not tune against it.
+
+The first 48 corpus samples are the original seed set. Most of those were written
+by the project author, who knew the rules. The rest of the corpus and all of the
+held-out set came from two sources. Human samples are verbatim public-domain
+passages: Project Gutenberg books and US federal pages saved before 2021, each
+with its URL. AI samples were written by Claude Opus 5.5 answering realistic
+requests in seven registers, with no access to the detector or its rules.
+Samples were split per register, alternating, before any scores were looked at.
+
+A sample counts as "flagged" when its score passes the A/B grade boundary
+(score > 10). Each rate carries a Wilson 95% interval.
+
+| metric | regression corpus | held-out |
 | --- | --- | --- |
-| precision | **90.9%** | when it flags AI, it is usually right |
-| specificity (human left clean) | **95.8%** (95% CI 80 to 99%) | 23 of 24 |
-| recall (AI caught) | **41.7%** (95% CI 25 to 61%) | 10 of 24 |
-| F1 | **57.1%** | |
-| accuracy | **68.8%** | 33 of 48 |
+| specificity (human left clean) | **98.4%** (61/62, CI 91 to 100%) | **96.9%** (31/32, CI 84 to 99%) |
+| recall (AI caught) | **26.7%** (16/60, CI 17 to 39%) | **8.8%** (3/34, CI 3 to 23%) |
+| precision | 94.1% | 75.0% |
 
-Precision/recall tradeoff across cutoffs:
+On the same held-out set, the 0.4.0 detector caught 0 of 34 AI samples at the
+same specificity.
+
+Cutoff tradeoff on the regression corpus:
 
 | flag when score > | recall | specificity | precision |
 | --- | --- | --- | --- |
-| 5 | 58.3% | 95.8% | 93.3% |
-| 10 (A/B boundary) | 41.7% | 95.8% | 90.9% |
-| 15 | 41.7% | 100% | 100% |
-| 20 | 20.8% | 100% | 100% |
-| 25 (C, the fix-loop cutoff) | 16.7% | 100% | 100% |
+| 5 | 33.3% | 88.7% | 74.1% |
+| 10 (A/B boundary) | 26.7% | 98.4% | 94.1% |
+| 15 | 18.3% | 100% | 100% |
+| 25 (C, the fix-loop cutoff) | 10.0% | 100% | 100% |
 
-The honest read: Cadence is **precision-first**. When it flags text as AI it is
-right about nine times in ten, and it rarely accuses a human. Its weakness is
-recall. It reliably catches text that leans on the stock tells (banned phrases,
-uniform rhythm, reflexive triads), but a lot of modern AI writing avoids those and
-scores grade A, so the detector calls most of this AI set "clean." The one false
-positive is a real Austen sentence whose four-item list trips the triad rule,
-which is a fair example of the tool over-reading a genuine human habit. This is a
-weaker headline than an easy corpus would give, and it is the accurate one.
+At a cutoff of 5 the held-out specificity falls to 75%, which is why the boundary
+stays at 10.
+
+What this means: Cadence rarely flags a human. It catches AI text that uses the
+stock tells, and it misses most AI text that doesn't. Clean modern assistant
+prose usually scores grade A. The seed corpus made recall look like 42% because
+its AI samples were written to show the tells. A blind sample shows that number
+was too high. The one held-out false alarm is a flat national-park description.
 
 ## Honesty caveat
 
-The AI samples and most of the human samples are hand-labeled and authored, so the
-author knew what the detector looks for. The public-domain passages reduce that
-bias on the human side, but this is still a seed corpus, not a blind third-party
-evaluation. Treat the numbers as a regression guard and an honest sanity check, not
-a peer-reviewed accuracy claim. Real validation needs a larger held-out corpus of
-genuine texts. The corpus is easy to grow: add entries to [corpus.json](corpus.json)
-with a `label` of `human` or `ai` and rerun.
+Both sets are small, and every new AI sample comes from one model family. The
+public-domain human passages skew older and more formal than most writing people
+check today. Treat these numbers as a regression guard and a sanity check, not an
+accuracy claim. To grow either set, follow [EVALUATION.md](EVALUATION.md): record
+provenance and keep held-out samples out of rule tuning.
 
 ## How it works
 

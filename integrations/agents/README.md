@@ -30,7 +30,7 @@ npm run install:agent -- --agent kimi
 npm run install:agent -- --agent opencode --project /path/to/project
 ```
 
-Node 18 or newer is required to run the bundled detector. Restart the CLI session
+Node 20 or newer is required to run the bundled detector. Restart the CLI session
 after installation; in ZCode, refresh the Skills settings page and enable Cadence.
 No installation command changes provider settings or project instructions.
 
