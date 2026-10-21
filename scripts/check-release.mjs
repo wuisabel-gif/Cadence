@@ -8,6 +8,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { ROOT } from './codex-bundle.mjs';
 import { SKILL_TARGETS, defaultSkillDirectory } from './skill-targets.mjs';
+import { DETECTOR_VERSION } from '../skills/cadence/scripts/deslop.mjs';
 
 const readJson = (path) => JSON.parse(readFileSync(join(ROOT, path), 'utf8'));
 const pkg = readJson('package.json');
@@ -17,6 +18,7 @@ for (const path of ['.claude-plugin/plugin.json', '.grok-plugin/plugin.json', 'e
   assert.equal(readJson(path).version, version, `${path} version differs from package.json`);
 }
 const marketplace = readJson('.claude-plugin/marketplace.json');
+assert.equal(DETECTOR_VERSION, version, 'DETECTOR_VERSION in deslop.mjs differs from package.json');
 assert.equal(marketplace.plugins.find((plugin) => plugin.name === 'cadence')?.version, version);
 assert.ok(readFileSync(join(ROOT, 'CHANGELOG.md'), 'utf8').includes(`## [${version}]`), 'missing versioned release notes');
 assert.equal(Object.keys(pkg.dependencies || {}).length, 0, 'the core must remain dependency-free');
@@ -69,6 +71,7 @@ try {
   writeFileSync(draft, '# Heading\n\nThe job finished. Open the CSV to check the rows.\n');
   const result = JSON.parse(execFileSync(process.execPath, [detector, '--prose-only', '--json', draft], { cwd: home, encoding: 'utf8' }));
   assert.equal(typeof result.score, 'number');
+  assert.equal(result.detectorVersion, version);
   assert.ok(Array.isArray(result.findings));
   assert.equal(result.metrics.sentences, 2);
   const built = join(work, 'standalone-build', 'cadence');
