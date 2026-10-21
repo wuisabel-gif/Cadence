@@ -22,10 +22,30 @@ that Cadence identifies authorship.
 
 ## Held-out evaluation
 
-`benchmark/heldout.json` is the current held-out set. Score it with
-`node benchmark/bench.mjs --corpus benchmark/heldout.json`, and only after rule
-changes are final. If a rule is tuned against it, it stops being held out and
-belongs in the regression corpus.
+`benchmark/heldout-0.6.json` is the current held-out set: 70 samples, 35
+human and 35 AI, frozen on 2026-10-21 before any 0.6.0 rule work and not yet
+scored. Score it with `node benchmark/bench.mjs --corpus
+benchmark/heldout-0.6.json`, once, after rule changes are final. The AI samples
+were written by a model that never saw the rules. The human samples are
+public-domain passages fetched with curl; whitespace inside a paragraph was
+collapsed and HTML entities decoded, and three passages stop partway through
+their paragraph.
+
+`benchmark/heldout.json` was the 0.5.0 held-out set. It was scored once for
+that release and may now be used for development, so its 66 samples no longer
+count as held out.
+
+If a rule is tuned against a held-out set, it stops being held out and belongs
+in the regression corpus.
+
+### Known bias: era of the human samples
+
+Most human samples are public-domain text, much of it a century old, while the
+AI samples are modern. On the development data, second-person "you" and
+contractions separate the labels better than any detector rule. That gap
+reflects era, not authorship, and a rule built on it would flag modern human
+writing. Recall will not improve honestly until the human side includes modern,
+redistributable prose, such as CC BY or CC BY-SA text with attribution.
 
 An evaluation set should be kept outside the training and rule-development
 loop. It should not be used to select detector phrases, weights, thresholds, grade
