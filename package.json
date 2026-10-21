@@ -71,6 +71,7 @@
     "grok-bot:probe": "node scripts/grok-bot-setup.mjs --probe",
     "check:codex": "node scripts/check-codex-discovery.mjs",
     "check:kimi": "node scripts/check-kimi-discovery.mjs",
+    "check:hosts": "node scripts/check-hosts.mjs",
     "check:release": "node scripts/check-release.mjs",
     "release:check": "npm test && npm run check:docs && npm run check:agent-docs && npm run bench:check && npm run check:release",
     "check:agent-docs": "node scripts/check-docs.mjs --agents",
