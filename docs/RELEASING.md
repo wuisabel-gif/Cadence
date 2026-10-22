@@ -58,6 +58,9 @@ project discovery through its session-less local catalog API. It uses temporary
 configuration and an authenticated loopback server; no model call is made.
 ZCode, Claude Code, OpenCode, and Grok Build still need the client checks listed below.
 
+`npm run check:hosts` runs both checks when `codex` or `kimi` is installed,
+skips a host whose CLI is missing, and names the hosts that stay manual.
+
 CI covers the automated tests on the supported minimum Node 20 as well as Node 22
 and 24. The real-Codex check is separate so CI needs no Codex account or credentials.
 
