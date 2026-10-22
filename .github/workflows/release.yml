@@ -1,0 +1,62 @@
+name: Release
+
+# Push a v* tag on the approved release commit. This checks the tree, publishes
+# to npm with provenance through npm trusted publishing (no token stored here),
+# creates the GitHub release from docs/releases/<tag>.md, and confirms the
+# registry serves the new version.
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write   # create the GitHub release
+  id-token: write   # npm trusted publishing and provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      # Trusted publishing needs npm 11.5.1 or newer.
+      - run: npm install -g npm@11
+
+      - name: Tag matches package version
+        run: test "v$(node -p "require('./package.json').version")" = "$GITHUB_REF_NAME"
+
+      - name: Release notes exist
+        run: test -f "docs/releases/$GITHUB_REF_NAME.md"
+
+      - name: Release check
+        run: npm run release:check
+
+      - name: Detector copies are current
+        run: |
+          npm run build:extension && npm run build:vscode
+          git diff --exit-code extension/detector.js integrations/vscode/detector.js
+
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file "docs/releases/$GITHUB_REF_NAME.md" --verify-tag
+
+      # The registry can lag a few minutes behind a successful publish.
+      - name: Registry serves the new version
+        run: |
+          want="${GITHUB_REF_NAME#v}"
+          for i in $(seq 1 20); do
+            got=$(npm view cadence-deslop@"$want" version 2>/dev/null || true)
+            [ "$got" = "$want" ] && echo "npm serves $got" && exit 0
+            sleep 30
+          done
+          echo "npm did not serve $want within 10 minutes" >&2
+          exit 1

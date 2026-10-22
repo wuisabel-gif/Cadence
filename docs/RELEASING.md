@@ -98,11 +98,30 @@ sources, but not the experimental LoRA directory, tests, or build scratch files.
 
 ## Publish only after approval
 
-After sign-off, record the release date, replace pending wording in the docs, and
-update the website's version labels. Tag the approved commit and publish the
-reviewed tarball through the usual authenticated npm flow. Create the GitHub
-release with its notes and selected artifacts. Verify registry and installation
-results afterward. Extension-store publishing is a separate action; do not claim
-that a manifest version proves a store submission succeeded.
+After sign-off, record the release date and update the website's version labels
+in the release commit. Merge it, then tag that exact commit:
+
+```bash
+git tag -a v0.6.0 -m v0.6.0
+git push origin v0.6.0
+```
+
+The tag starts `.github/workflows/release.yml`. It checks that the tag matches
+`package.json` and that `docs/releases/<tag>.md` exists, then reruns the release
+check. It publishes to npm with provenance, creates the GitHub release from those
+notes, and waits until the registry serves the version. No npm token or local
+login is involved. The docs say "released" only from the merge until that run
+finishes, usually a few minutes. If it fails before the npm step, fix the
+commit, delete the tag, and tag again. npm never accepts the same version twice,
+so after a publish, finish any failed later step by hand.
+
+One-time setup: on npmjs.com, open `cadence-deslop` → Settings → Trusted
+publishing. Add GitHub Actions with repository `wuisabel-gif/Cadence`, workflow
+`release.yml`, and environment `npm`. To require a person to approve each
+publish, add yourself as a required reviewer on the `npm` environment in the
+repository settings.
+
+Extension-store publishing is a separate action; do not claim that a manifest
+version proves a store submission succeeded.
 
 For the current candidate, see [v0.5.0 notes](releases/v0.5.0.md).
