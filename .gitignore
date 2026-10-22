@@ -17,3 +17,8 @@ progress.md
 /dist/
 *.tgz
 __pycache__/
+
+# Tauri desktop app (generated)
+/desktop/dist/
+/desktop/src-tauri/target/
+/desktop/src-tauri/gen/

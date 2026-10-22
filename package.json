@@ -49,7 +49,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node --test tests/deslop.test.mjs tests/extract-text.test.mjs tests/extension.test.mjs tests/vscode.test.mjs tests/benchmark.test.mjs tests/voices.test.mjs tests/codex.test.mjs tests/input-limits.test.mjs tests/ui-boundaries.test.mjs tests/agent-skills.test.mjs tests/website.test.mjs tests/grok.test.mjs tests/grok-bot.test.mjs tests/embed.test.mjs",
+    "test": "node --test tests/deslop.test.mjs tests/extract-text.test.mjs tests/extension.test.mjs tests/vscode.test.mjs tests/benchmark.test.mjs tests/voices.test.mjs tests/codex.test.mjs tests/input-limits.test.mjs tests/ui-boundaries.test.mjs tests/agent-skills.test.mjs tests/website.test.mjs tests/grok.test.mjs tests/grok-bot.test.mjs tests/embed.test.mjs tests/desktop.test.mjs",
     "deslop": "node skills/cadence/scripts/deslop.mjs",
     "bench": "node benchmark/bench.mjs",
     "bench:check": "node benchmark/bench.mjs --check",
@@ -72,6 +72,8 @@
     "check:codex": "node scripts/check-codex-discovery.mjs",
     "check:kimi": "node scripts/check-kimi-discovery.mjs",
     "check:release": "node scripts/check-release.mjs",
+    "desktop:dev": "cd desktop && npx --yes @tauri-apps/cli@2.12.1 dev",
+    "desktop:build": "cd desktop && npx --yes @tauri-apps/cli@2.12.1 build",
     "release:check": "npm test && npm run check:docs && npm run check:agent-docs && npm run bench:check && npm run check:release",
     "check:agent-docs": "node scripts/check-docs.mjs --agents",
     "check:docs": "node scripts/check-docs.mjs"

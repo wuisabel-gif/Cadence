@@ -383,4 +383,6 @@ function stripHtml(html) {
 }
   global.cadenceAnalyze = analyze;
   global.cadenceAnalyzeParagraphs = analyzeParagraphs;
+  global.cadenceStripMarkdown = stripMarkdown;
+  global.cadenceStripHtml = stripHtml;
 })(typeof window !== 'undefined' ? window : globalThis);
