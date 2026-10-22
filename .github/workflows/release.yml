@@ -3,7 +3,8 @@ name: Release
 # Push a v* tag on the approved release commit. This checks the tree, publishes
 # to npm with provenance through npm trusted publishing (no token stored here),
 # creates the GitHub release from docs/releases/<tag>.md, and confirms the
-# registry serves the new version.
+# registry serves the new version. Then it builds the desktop app for macOS,
+# Windows, and Linux and attaches the installers to that release.
 
 on:
   push:
@@ -60,3 +61,37 @@ jobs:
           done
           echo "npm did not serve $want within 10 minutes" >&2
           exit 1
+
+  desktop:
+    needs: publish
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            args: --target universal-apple-darwin
+          - os: windows-latest
+            args: ''
+          - os: ubuntu-22.04
+            args: ''
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.os == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+      - name: Linux webview libraries
+        if: matrix.os == 'ubuntu-22.04'
+        run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+      # Builds are unsigned; desktop/README.md explains the first-launch prompt.
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          projectPath: desktop
+          tauriScript: npx --yes @tauri-apps/cli@2.12.1
+          tagName: ${{ github.ref_name }}
+          args: ${{ matrix.args }}
