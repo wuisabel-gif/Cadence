@@ -239,6 +239,7 @@ section{padding-block:clamp(3.5rem,8vw,7rem);scroll-margin-top:72px}
 
 /* ============================== install ============================== */
 .install{background:var(--paper-2);border-block:1px solid var(--line)}
+.downloads{margin:.4rem 0 1rem;padding-left:1.1rem;display:grid;gap:.45rem}
 .install-grid{margin-top:clamp(2rem,4vw,3rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,3vw,3rem);align-items:start}
 @media(max-width:780px){.install-grid{grid-template-columns:1fr}}
 .codeblock{background:var(--panel);border-radius:12px;padding:1.1rem 1.2rem;font-family:var(--mono);font-size:.84rem;line-height:1.75;color:var(--panel-ink);overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere}
@@ -845,8 +846,13 @@ cd Cadence</code></pre>
           <div class="status">v0.6.0 · <a href="https://github.com/wuisabel-gif/Cadence/releases/latest">download from GitHub Releases</a></div>
         </div>
         <div class="steps reveal">
-          <p><strong>Downloads.</strong> The <a href="https://github.com/wuisabel-gif/Cadence/releases/latest">latest GitHub release</a> carries a <strong>.dmg</strong> for Mac, an <strong>.msi</strong> or <strong>.exe</strong> for Windows, and <strong>.deb</strong>, <strong>.rpm</strong>, or <strong>.AppImage</strong> files for Linux.</p>
-          <div class="callout"><b>The builds are not code-signed yet.</b> On a Mac, open System Settings &rarr; Privacy &amp; Security and choose Open Anyway after the first launch is blocked. On Windows, choose More info &rarr; Run anyway.</div>
+          <p><strong>Download v0.6.0</strong> for your system:</p>
+          <ul class="downloads">
+            <li><b>macOS</b>, Apple silicon and Intel: <a href="https://github.com/wuisabel-gif/Cadence/releases/download/v0.6.0/Cadence_0.6.0_universal.dmg">Cadence_0.6.0_universal.dmg</a> (5&nbsp;MB)</li>
+            <li><b>Windows</b>: <a href="https://github.com/wuisabel-gif/Cadence/releases/download/v0.6.0/Cadence_0.6.0_x64-setup.exe">setup .exe</a> (1&nbsp;MB) or <a href="https://github.com/wuisabel-gif/Cadence/releases/download/v0.6.0/Cadence_0.6.0_x64_en-US.msi">.msi</a> (2&nbsp;MB)</li>
+            <li><b>Linux</b>: <a href="https://github.com/wuisabel-gif/Cadence/releases/download/v0.6.0/Cadence_0.6.0_amd64.deb">.deb</a> or <a href="https://github.com/wuisabel-gif/Cadence/releases/download/v0.6.0/Cadence-0.6.0-1.x86_64.rpm">.rpm</a> (4&nbsp;MB), or <a href="https://github.com/wuisabel-gif/Cadence/releases/download/v0.6.0/Cadence_0.6.0_amd64.AppImage">.AppImage</a> (78&nbsp;MB, which bundles its own webview)</li>
+          </ul>
+          <p>The release also lists <code>Cadence_universal.app.tar.gz</code>, a zipped copy of the Mac app that the build tool adds. Most people can ignore it. All files are on the <a href="https://github.com/wuisabel-gif/Cadence/releases/tag/v0.6.0">v0.6.0 release page</a>.</p>          <div class="callout"><b>The builds are not code-signed yet.</b> On a Mac, open System Settings &rarr; Privacy &amp; Security and choose Open Anyway after the first launch is blocked. On Windows, choose More info &rarr; Run anyway.</div>
           <p>Files it reads: <strong>.txt</strong>, <strong>.md</strong>, and <strong>.html</strong>, up to 5&nbsp;MiB. Markdown and HTML are reduced to prose first, as with <code>--prose-only</code>. See the <a href="https://github.com/wuisabel-gif/Cadence/blob/main/desktop/README.md">desktop guide</a>.</p>
         </div>
       </div>
