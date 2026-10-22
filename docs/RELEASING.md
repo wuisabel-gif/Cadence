@@ -17,6 +17,7 @@ Use the same version in these files:
 | Chrome extension | `extension/manifest.json` |
 | Gemini extension | `integrations/gemini/gemini-extension.json` |
 | VS Code extension | `integrations/vscode/package.json` |
+| Detector stamp on every score | `DETECTOR_VERSION` in `skills/cadence/scripts/deslop.mjs` |
 
 Do not change the version of another project's marketplace entry. Each agent
 bundle takes its version from the root package at build time. `npm run

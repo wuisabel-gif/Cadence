@@ -68,6 +68,10 @@ const HEDGES = [
 
 export const MAX_INPUT_BYTES = 5 * 1024 * 1024;
 
+// Stamped on every result so a stored score says which rules produced it.
+// check:release keeps it equal to package.json.
+export const DETECTOR_VERSION = '0.5.0';
+
 function utf8ByteLength(text) {
   if (typeof TextEncoder !== 'undefined') return new TextEncoder().encode(text).length;
   let bytes = 0;
@@ -295,6 +299,7 @@ export function analyze(rawText) {
   return {
     score,
     grade,
+    detectorVersion: DETECTOR_VERSION,
     breakdown,
     metrics: {
       words: wordCount,
@@ -634,12 +639,6 @@ function resolveMax(args) {
   return args.includes('--strict') ? 25 : null;
 }
 
-function version() {
-  try {
-    return JSON.parse(readFileSync(new URL('../../../package.json', import.meta.url), 'utf8')).version;
-  } catch { return '0.0.0'; }
-}
-
 // True only when this file is the program entry point. Comparing resolved real
 // paths makes it survive the bin symlink that `npx cadence-deslop` runs through.
 function isMain() {
@@ -662,7 +661,7 @@ async function readStdin() {
 async function main() {
   const args = process.argv.slice(2);
   if (args.includes('-h') || args.includes('--help')) { process.stdout.write(HELP); process.exit(0); }
-  if (args.includes('-v') || args.includes('--version')) { process.stdout.write(version() + '\n'); process.exit(0); }
+  if (args.includes('-v') || args.includes('--version')) { process.stdout.write(DETECTOR_VERSION + '\n'); process.exit(0); }
 
   if (args.includes('--diff')) {
     const next = args[args.indexOf('--diff') + 1];
