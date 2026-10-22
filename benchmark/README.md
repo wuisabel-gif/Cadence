@@ -26,7 +26,9 @@ Two sets, scored by the same `analyze()`:
   and 60 AI. Rules are tuned against it, and CI guards it.
 - **Held-out set** ([heldout.json](heldout.json)): 66 samples, 32 human and
   34 AI. It was split off before any 0.5.0 rule change and scored once, after
-  the rules were frozen. Do not tune against it.
+  the rules were frozen. It may now be used for development.
+- **Next held-out set** ([heldout-0.6.json](heldout-0.6.json)): 70 samples, 35
+  human and 35 AI, frozen before any 0.6.0 rule change and not yet scored.
 
 The first 48 corpus samples are the original seed set. Most of those were written
 by the project author, who knew the rules. The rest of the corpus and all of the
