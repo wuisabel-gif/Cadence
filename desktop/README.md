@@ -2,7 +2,7 @@
 
 A native macOS, Windows, and Linux app built with [Tauri](https://tauri.app).
 It opens the score page in its own window. Drop a `.txt`, `.md`, or `.html` file
-on the window to score it. Markdown and HTML are reduced to prose first, as with
+on the window, or open one with **Open file…** (⌘O on a Mac, Ctrl+O elsewhere). Markdown and HTML are reduced to prose first, as with
 `--prose-only`. Scoring runs locally with the same detector as the CLI; no text
 leaves your computer.
 

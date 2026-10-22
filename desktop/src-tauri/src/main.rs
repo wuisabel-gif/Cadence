@@ -20,6 +20,7 @@ fn read_text(path: String) -> Result<String, String> {
 fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_dialog::init())
         .invoke_handler(tauri::generate_handler![read_text])
         .run(tauri::generate_context!())
         .expect("error while running Cadence");
