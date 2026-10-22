@@ -127,4 +127,4 @@ repository settings.
 Extension-store publishing is a separate action; do not claim that a manifest
 version proves a store submission succeeded.
 
-For the current candidate, see [v0.5.0 notes](releases/v0.5.0.md).
+For the current candidate, see [v0.6.0 notes](releases/v0.6.0.md).

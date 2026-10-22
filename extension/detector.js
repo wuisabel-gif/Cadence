@@ -48,7 +48,7 @@ const MAX_INPUT_BYTES = 5 * 1024 * 1024;
 
 // Stamped on every result so a stored score says which rules produced it.
 // check:release keeps it equal to package.json.
-const DETECTOR_VERSION = '0.5.0';
+const DETECTOR_VERSION = '0.6.0';
 
 function utf8ByteLength(text) {
   if (typeof TextEncoder !== 'undefined') return new TextEncoder().encode(text).length;

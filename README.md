@@ -473,7 +473,8 @@ npm run release:check  # tests + docs + benchmark + packaged agent installs
 
 ## Status
 
-v0.5.0 is released. Scores change from 0.4.0: the triad rule is narrower and
-short text is checked for rhythm. Held-out accuracy and upgrade notes are in
-[docs/releases/v0.5.0.md](docs/releases/v0.5.0.md). GPU
+v0.6.0 is released. Scores are unchanged from 0.5.0. This release adds a
+desktop app, a `detectorVersion` field on every score, and releases that
+publish from a tag. Notes are in
+[docs/releases/v0.6.0.md](docs/releases/v0.6.0.md). GPU
 training remains an experiment, not a verified release feature.
