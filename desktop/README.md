@@ -23,8 +23,9 @@ into `desktop/dist/`. Edit those sources, not `dist/`.
 
 ## Download
 
-From v0.6.0, each release on
-[GitHub Releases](https://github.com/wuisabel-gif/Cadence/releases) carries a
+Each release on
+[GitHub Releases](https://github.com/wuisabel-gif/Cadence/releases), starting
+with v0.6.0, carries a
 `.dmg` for macOS (Apple silicon and Intel), an `.msi` and `.exe` for Windows,
 and `.deb`, `.rpm`, and `.AppImage` files for Linux. The release workflow builds
 them from the tagged commit.

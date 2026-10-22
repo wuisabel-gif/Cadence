@@ -11,6 +11,29 @@ Because detector rules affect scores, any release that changes a rule says so he
 
 ## [Unreleased]
 
+## [0.6.0] — 2026-10-21
+
+Scores are unchanged from 0.5.0. No detector rule changed.
+
+### Added
+
+- **A desktop app.** A native Tauri window for macOS, Windows, and Linux runs
+  the score page offline. Paste text, drop a `.txt`, `.md`, or `.html` file, or
+  open one with Cmd/Ctrl+O. Installers attach to each GitHub release and are
+  not code-signed yet. See [desktop/README.md](desktop/README.md).
+- **`detectorVersion` on every result.** JSON output, the browser and VS Code
+  copies, and the Grok bridge now say which detector produced a score.
+  `--version` reads the same constant.
+- **Releases publish from a tag.** Pushing `v*` runs the release check, publishes
+  to npm with provenance through trusted publishing, creates the GitHub release,
+  and builds the desktop installers.
+- **`npm run check:hosts`** runs the Codex and Kimi discovery checks when those
+  CLIs are installed and names the hosts that still need manual sign-off.
+- **A 0.6.0 held-out set.** `benchmark/heldout-0.6.json` holds 70 samples,
+  frozen before any rule work and still unscored. The 0.5.0 held-out set is now
+  development data. EVALUATION.md explains why no recall rule ships yet: on the
+  development data, "you" and contractions separate the labels by era.
+
 ## [0.5.0] — 2026-10-16
 
 ### Changed
@@ -219,6 +242,7 @@ First public release.
 - The detector is English-only for now (its function-word and phrase lists are
   English).
 
+[0.6.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.6.0
 [0.5.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.5.0
 [0.4.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.4.0
 [0.3.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.3.0

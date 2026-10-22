@@ -76,16 +76,16 @@ without local execution are not covered by this installer.
 
 ## npm and portable builds
 
-The v0.5.0 package includes these installers. No checkout is needed. Run them
+The v0.6.0 package includes these installers. No checkout is needed. Run them
 from your project or another directory, **not from inside the Cadence source
 checkout**; npm treats the checkout's own package as the local executable set:
 
 ```bash
-npx --package=cadence-deslop@0.5.0 cadence-install-skill --agent kimi
-npx --package=cadence-deslop@0.5.0 cadence-install-skill --agent zcode
-npx --package=cadence-deslop@0.5.0 cadence-install-skill --agent claude-code
-npx --package=cadence-deslop@0.5.0 cadence-install-skill --agent opencode
-npx --package=cadence-deslop@0.5.0 cadence-install-skill --agent grok
+npx --package=cadence-deslop@0.6.0 cadence-install-skill --agent kimi
+npx --package=cadence-deslop@0.6.0 cadence-install-skill --agent zcode
+npx --package=cadence-deslop@0.6.0 cadence-install-skill --agent claude-code
+npx --package=cadence-deslop@0.6.0 cadence-install-skill --agent opencode
+npx --package=cadence-deslop@0.6.0 cadence-install-skill --agent grok
 ```
 
 The Grok host is Grok Build CLI. grok.com and Grok Bot do not use this installer.
