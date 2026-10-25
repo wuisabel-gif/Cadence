@@ -48,7 +48,12 @@ jobs:
       - name: GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file "docs/releases/$GITHUB_REF_NAME.md" --verify-tag
+        # Relative doc links only work in the repo, so point them at the tag.
+        run: |
+          base="https://github.com/$GITHUB_REPOSITORY/blob/$GITHUB_REF_NAME"
+          sed -E -e "s#\]\(\.\./\.\./#](${base}/#g" -e "s#\]\(\.\./#](${base}/docs/#g" \
+            "docs/releases/$GITHUB_REF_NAME.md" > "$RUNNER_TEMP/notes.md"
+          gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/notes.md" --verify-tag
 
       # The registry can lag a few minutes behind a successful publish.
       - name: Registry serves the new version
