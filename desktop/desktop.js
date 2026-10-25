@@ -36,6 +36,12 @@
     if (e.payload.paths && e.payload.paths.length) load(e.payload.paths[0]);
   });
 
+  // The global shortcut (Cmd/Ctrl+Shift+.) sends the clipboard here.
+  tauri.event.listen('score-text', function (e) {
+    ta.value = String(e.payload || '');
+    ta.dispatchEvent(new Event('input'));
+  });
+
   // "Open file…" next to the other controls, plus Cmd/Ctrl+O.
   var btn = document.createElement('button');
   btn.type = 'button';
