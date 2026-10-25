@@ -143,6 +143,26 @@ function stddev(xs) {
   const m = mean(xs);
   return Math.sqrt(mean(xs.map((x) => (x - m) ** 2)));
 }
+// Moving-average type-token ratio over 30-word windows: the share of distinct
+// words, independent of text length. AI prose repeats words less than people do.
+// null under 40 words, where too few windows make it noisy.
+function vocabVariety(ws) {
+  if (ws.length < 40) return null;
+  const k = 30, counts = new Map();
+  let distinct = 0, total = 0;
+  for (let i = 0; i < ws.length; i++) {
+    const add = (counts.get(ws[i]) || 0) + 1;
+    counts.set(ws[i], add);
+    if (add === 1) distinct++;
+    if (i >= k) {
+      const drop = counts.get(ws[i - k]) - 1;
+      counts.set(ws[i - k], drop);
+      if (drop === 0) distinct--;
+    }
+    if (i >= k - 1) total += distinct / k;
+  }
+  return total / (ws.length - k + 1);
+}
 
 // ─── Detectors ──────────────────────────────────────────────────────────────
 function findPhrases(text, list, rule, severity) {
@@ -275,7 +295,7 @@ export function analyze(rawText) {
   // ── Transparent score: 0 (clean) … 100 (heavy slop) ──
   const breakdown = {
     lexical: { high: 0, med: 0, low: 0, total: 0 },
-    structural: { uniformRhythm: 0, adverbs: 0, emDashes: 0, triads: 0, total: 0 },
+    structural: { uniformRhythm: 0, adverbs: 0, emDashes: 0, triads: 0, variety: 0, total: 0 },
   };
   let score = 0;
   for (const f of findings) {
@@ -289,6 +309,8 @@ export function analyze(rawText) {
   if (emDashRate > 2.5) breakdown.structural.emDashes = Math.round((emDashRate - 2.5) * 3);
   // Density needs a few sentences: one list in a two-sentence quote is not a habit.
   if (sentences.length >= 3 && triadDensity > 0.25) breakdown.structural.triads = Math.round((triadDensity - 0.25) * 40);
+  const variety = vocabVariety(allWords);
+  if (variety !== null && variety > 0.93) breakdown.structural.variety = Math.round((variety - 0.93) * 300); // up to +21
   breakdown.structural.total = Object.values(breakdown.structural).reduce((sum, points) => sum + points, 0) - breakdown.structural.total;
   score += breakdown.structural.total;
   breakdown.total = breakdown.lexical.total + breakdown.structural.total;
@@ -310,6 +332,7 @@ export function analyze(rawText) {
       adverbRate: +adverbRate.toFixed(1),
       emDashRate: +emDashRate.toFixed(1),
       triadDensity: +triadDensity.toFixed(2),
+      vocabVariety: variety === null ? null : +variety.toFixed(3),
     },
     findings,
   };

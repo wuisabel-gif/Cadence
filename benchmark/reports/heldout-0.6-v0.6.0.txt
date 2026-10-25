@@ -1,0 +1,64 @@
+Cadence accuracy benchmark  ·  70 samples  ·  flag when score > 10
+──────────────────────────────────────────────────────────
+recall (AI caught)        5.7%   2/35   95% CI 1.6-18.6%
+specificity (human clean) 85.7%   30/35   95% CI 70.6-93.7%
+false-positive rate       14.3%
+precision                 28.6%
+F1                        9.5%
+accuracy                  45.7%
+score distribution:
+  human  min   0  median    0  mean   3.6  max  21
+  ai     min   0  median    0  mean   2.7  max  13
+rule diagnostics (human rate / AI rate):
+  banned-phrase        0.0% / 2.9%
+  cliche-opener        2.9% / 0.0%
+  hollow-confidence    2.9% / 0.0%
+  triad                14.3% / 22.9%
+──────────────────────────────────────────────────────────
+38 misclassified:
+  gh11  human  score 16 (B)  — human scored too high (false alarm)  · literary criticism
+  gh19  human  score 14 (B)  — human scored too high (false alarm)  · recipe instructions
+  gh29  human  score 14 (B)  — human scored too high (false alarm)  · personnel press release
+  gh32  human  score 21 (B)  — human scored too high (false alarm)  · food safety advice
+  gh33  human  score 19 (B)  — human scored too high (false alarm)  · health information
+  ga01  ai  score 2 (A)  — AI scored too low (missed)  · pet vacuum description
+  ga02  ai  score 8 (A)  — AI scored too low (missed)  · app landing blurb
+  ga03  ai  score 2 (A)  — AI scored too low (missed)  · seasonal latte menu copy
+  ga04  ai  score 3 (A)  — AI scored too low (missed)  · crowdfunding pitch intro
+  ga05  ai  score 0 (A)  — AI scored too low (missed)  · windowsill basil care
+  ga06  ai  score 2 (A)  — AI scored too low (missed)  · wrinkle-free packing
+  ga07  ai  score 0 (A)  — AI scored too low (missed)  · simple monthly budget
+  ga08  ai  score 5 (A)  — AI scored too low (missed)  · wax out of carpet
+  ga09  ai  score 4 (A)  — AI scored too low (missed)  · cats kneading
+  ga10  ai  score 0 (A)  — AI scored too low (missed)  · inflation for a kid
+  ga11  ai  score 7 (A)  — AI scored too low (missed)  · virus vs bacteria
+  ga12  ai  score 2 (A)  — AI scored too low (missed)  · phone heat while charging
+  ga13  ai  score 0 (A)  — AI scored too low (missed)  · extension request to professor
+  ga14  ai  score 0 (A)  — AI scored too low (missed)  · office closure notice
+  ga15  ai  score 0 (A)  — AI scored too low (missed)  · post-interview follow-up
+  ga16  ai  score 0 (A)  — AI scored too low (missed)  · contractor quote request
+  ga17  ai  score 0 (A)  — AI scored too low (missed)  · libraries essay opening
+  ga18  ai  score 2 (A)  — AI scored too low (missed)  · tipping culture opinion
+  ga19  ai  score 0 (A)  — AI scored too low (missed)  · late-start running intro
+  ga20  ai  score 0 (A)  — AI scored too low (missed)  · grandfather's workshop reflection
+  ga21  ai  score 0 (A)  — AI scored too low (missed)  · night-shift nurse opening
+  ga22  ai  score 0 (A)  — AI scored too low (missed)  · found map scene
+  ga23  ai  score 0 (A)  — AI scored too low (missed)  · gas station ghost story
+  ga24  ai  score 0 (A)  — AI scored too low (missed)  · camp flash fiction
+  ga25  ai  score 0 (A)  — AI scored too low (missed)  · sourdough reddit comment
+  ga26  ai  score 0 (A)  — AI scored too low (missed)  · used car forum review
+  ga27  ai  score 8 (A)  — AI scored too low (missed)  · bailing on trivia text
+  ga28  ai  score 0 (A)  — AI scored too low (missed)  · beginner hiking boots reply
+  ga30  ai  score 3 (A)  — AI scored too low (missed)  · data analyst cover letter
+  ga31  ai  score 10 (A)  — AI scored too low (missed)  · freelance designer bio
+  ga32  ai  score 7 (A)  — AI scored too low (missed)  · intern grad school reference
+  ga34  ai  score 6 (A)  — AI scored too low (missed)  · walking meetings study
+  ga35  ai  score 0 (A)  — AI scored too low (missed)  · WWI causes quiz review
+──────────────────────────────────────────────────────────
+threshold sweep (precision/recall tradeoff):
+  score >   recall   specificity   precision   F1
+       5    22.9%        77.1%       50.0%    31.4%
+      10     5.7%        85.7%       28.6%     9.5% ←
+      15     0.0%        91.4%        0.0%     0.0%
+      20     0.0%        97.1%        0.0%     0.0%
+      25     0.0%       100.0%        0.0%     0.0%

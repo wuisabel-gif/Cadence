@@ -1,0 +1,61 @@
+Cadence accuracy benchmark  ·  70 samples  ·  flag when score > 10
+──────────────────────────────────────────────────────────
+recall (AI caught)        14.3%   5/35   95% CI 6.3-29.4%
+specificity (human clean) 85.7%   30/35   95% CI 70.6-93.7%
+false-positive rate       14.3%
+precision                 50.0%
+F1                        22.2%
+accuracy                  50.0%
+score distribution:
+  human  min   0  median    0  mean   3.9  max  24
+  ai     min   0  median    0  mean   3.5  max  18
+rule diagnostics (human rate / AI rate):
+  banned-phrase        0.0% / 2.9%
+  cliche-opener        2.9% / 0.0%
+  hollow-confidence    2.9% / 0.0%
+  triad                14.3% / 22.9%
+──────────────────────────────────────────────────────────
+35 misclassified:
+  gh11  human  score 16 (B)  — human scored too high (false alarm)  · literary criticism
+  gh19  human  score 14 (B)  — human scored too high (false alarm)  · recipe instructions
+  gh29  human  score 18 (B)  — human scored too high (false alarm)  · personnel press release
+  gh32  human  score 24 (B)  — human scored too high (false alarm)  · food safety advice
+  gh33  human  score 19 (B)  — human scored too high (false alarm)  · health information
+  ga01  ai  score 2 (A)  — AI scored too low (missed)  · pet vacuum description
+  ga02  ai  score 8 (A)  — AI scored too low (missed)  · app landing blurb
+  ga03  ai  score 2 (A)  — AI scored too low (missed)  · seasonal latte menu copy
+  ga04  ai  score 3 (A)  — AI scored too low (missed)  · crowdfunding pitch intro
+  ga05  ai  score 0 (A)  — AI scored too low (missed)  · windowsill basil care
+  ga06  ai  score 2 (A)  — AI scored too low (missed)  · wrinkle-free packing
+  ga07  ai  score 0 (A)  — AI scored too low (missed)  · simple monthly budget
+  ga08  ai  score 5 (A)  — AI scored too low (missed)  · wax out of carpet
+  ga09  ai  score 9 (A)  — AI scored too low (missed)  · cats kneading
+  ga10  ai  score 0 (A)  — AI scored too low (missed)  · inflation for a kid
+  ga12  ai  score 2 (A)  — AI scored too low (missed)  · phone heat while charging
+  ga13  ai  score 0 (A)  — AI scored too low (missed)  · extension request to professor
+  ga14  ai  score 0 (A)  — AI scored too low (missed)  · office closure notice
+  ga15  ai  score 0 (A)  — AI scored too low (missed)  · post-interview follow-up
+  ga16  ai  score 0 (A)  — AI scored too low (missed)  · contractor quote request
+  ga17  ai  score 0 (A)  — AI scored too low (missed)  · libraries essay opening
+  ga18  ai  score 2 (A)  — AI scored too low (missed)  · tipping culture opinion
+  ga19  ai  score 0 (A)  — AI scored too low (missed)  · late-start running intro
+  ga20  ai  score 0 (A)  — AI scored too low (missed)  · grandfather's workshop reflection
+  ga21  ai  score 0 (A)  — AI scored too low (missed)  · night-shift nurse opening
+  ga22  ai  score 0 (A)  — AI scored too low (missed)  · found map scene
+  ga23  ai  score 0 (A)  — AI scored too low (missed)  · gas station ghost story
+  ga24  ai  score 0 (A)  — AI scored too low (missed)  · camp flash fiction
+  ga25  ai  score 0 (A)  — AI scored too low (missed)  · sourdough reddit comment
+  ga26  ai  score 0 (A)  — AI scored too low (missed)  · used car forum review
+  ga28  ai  score 0 (A)  — AI scored too low (missed)  · beginner hiking boots reply
+  ga30  ai  score 3 (A)  — AI scored too low (missed)  · data analyst cover letter
+  ga32  ai  score 7 (A)  — AI scored too low (missed)  · intern grad school reference
+  ga34  ai  score 6 (A)  — AI scored too low (missed)  · walking meetings study
+  ga35  ai  score 0 (A)  — AI scored too low (missed)  · WWI causes quiz review
+──────────────────────────────────────────────────────────
+threshold sweep (precision/recall tradeoff):
+  score >   recall   specificity   precision   F1
+       5    25.7%        77.1%       52.9%    34.6%
+      10    14.3%        85.7%       50.0%    22.2% ←
+      15     2.9%        88.6%       20.0%     5.0%
+      20     0.0%        97.1%        0.0%     0.0%
+      25     0.0%       100.0%        0.0%     0.0%

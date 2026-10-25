@@ -35,12 +35,20 @@ Structural rates are normalized per 100 words unless noted otherwise.
 | Adverbs | Adverb rate `> 5` | `round((rate - 5) * 2)` |
 | Em dashes | Em-dash rate `> 2.5` | `round((rate - 2.5) * 3)` |
 | Triad density | At least 3 sentences and triad findings / sentence count `> 0.25` | `round((density - 0.25) * 40)` |
+| Vocabulary variety | At least 40 words and variety `> 0.93` | `round((variety - 0.93) * 300)`, up to 21 |
 
 The sentence-length coefficient of variation is standard deviation divided by
 mean sentence length. A low value means sentence lengths cluster closely. The
 minimum sentence count keeps one or two sentences from being judged on rhythm.
 Three or four sentences get a stricter cutoff and a smaller weight, because a CV
 from so few lengths is noisy.
+
+Vocabulary variety is the share of distinct words in each 30-word window,
+averaged over the text. Unlike a plain distinct-word ratio, it does not rise as
+text gets shorter. People repeat words more than AI models do; on the
+development data, human text averaged 0.85 and AI text 0.90. The cutoff was
+chosen so that modern human prose (Stack Exchange answers, Wikinews, and
+Wikipedia from before November 2022) gained no new false alarms.
 
 A triad finding needs exactly three items. A list with a fourth item before it, or
 with a function word such as "the" as an item, is not counted.
