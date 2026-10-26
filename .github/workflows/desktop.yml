@@ -1,0 +1,35 @@
+name: Desktop
+
+# Compile the Tauri app when a change could break it, so a broken desktop
+# build shows up on the PR instead of at the release tag.
+
+on:
+  pull_request:
+    paths:
+      - 'desktop/**'
+      - 'check.html'
+      - 'extension/detector.js'
+      - 'scripts/build-desktop.mjs'
+      - '.github/workflows/desktop.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: desktop/src-tauri
+      - name: Linux webview libraries
+        run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+      - name: Assemble the app's page
+        run: node scripts/build-desktop.mjs
+      - name: Compile
+        run: cargo check --locked --manifest-path desktop/src-tauri/Cargo.toml
