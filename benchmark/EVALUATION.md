@@ -22,14 +22,11 @@ that Cadence identifies authorship.
 
 ## Held-out evaluation
 
-`benchmark/heldout-0.6.json` is the current held-out set: 70 samples, 35
-human and 35 AI, frozen on 2026-10-21 before any 0.6.0 rule work and not yet
-scored. Score it with `node benchmark/bench.mjs --corpus
-benchmark/heldout-0.6.json`, once, after rule changes are final. The AI samples
-were written by a model that never saw the rules. The human samples are
-public-domain passages fetched with curl; whitespace inside a paragraph was
-collapsed and HTML entities decoded, and three passages stop partway through
-their paragraph.
+`benchmark/heldout-0.6.json` was frozen on 2026-10-21 and scored once, on
+2026-10-24, after the 0.7.0 vocabulary-variety rule was final. The exact reports
+for the new rule and for the released 0.6.0 detector are in
+`benchmark/reports/`. It is now development data. The next rule change needs a
+new held-out set, frozen before that work starts.
 
 `benchmark/heldout.json` was the 0.5.0 held-out set. It was scored once for
 that release and may now be used for development, so its 66 samples no longer
@@ -44,8 +41,10 @@ Most human samples are public-domain text, much of it a century old, while the
 AI samples are modern. On the development data, second-person "you" and
 contractions separate the labels better than any detector rule. That gap
 reflects era, not authorship, and a rule built on it would flag modern human
-writing. Recall will not improve honestly until the human side includes modern,
-redistributable prose, such as CC BY or CC BY-SA text with attribution.
+writing. `benchmark/modern-human.json` now supplies that: 80 passages from Stack
+Exchange, Wikinews, Wikipedia, and Wikibooks, all dated before November 30, 2022.
+On it, Stack Exchange answers use "you" as often as casual AI text, which
+confirms the era effect.
 
 An evaluation set should be kept outside the training and rule-development
 loop. It should not be used to select detector phrases, weights, thresholds, grade

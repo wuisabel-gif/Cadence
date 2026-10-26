@@ -11,6 +11,20 @@ Because detector rules affect scores, any release that changes a rule says so he
 
 ## [Unreleased]
 
+### Changed
+
+- **Scores change: a vocabulary-variety signal.** Text of 40 words or more gains
+  up to 21 points when its moving-average distinct-word ratio passes 0.93. AI
+  prose repeats words less than people do. On a fresh held-out set, recall rose
+  from 2 of 35 to 5 of 35 with no new false alarms. Results gain
+  `metrics.vocabVariety` and `breakdown.structural.variety`.
+
+### Added
+
+- **A modern human development set.** `benchmark/modern-human.json` holds 80
+  passages from before November 30, 2022, with licenses and source links. The
+  0.6 held-out reports are in `benchmark/reports/`.
+
 ## [0.6.0] — 2026-10-21
 
 Scores are unchanged from 0.5.0. No detector rule changed.

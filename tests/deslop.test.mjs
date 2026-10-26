@@ -45,7 +45,8 @@ test('score breakdown sums to the deterministic score', () => {
     r.breakdown.lexical.high + r.breakdown.lexical.med + r.breakdown.lexical.low);
   assert.equal(r.breakdown.structural.total,
     r.breakdown.structural.uniformRhythm + r.breakdown.structural.adverbs
-    + r.breakdown.structural.emDashes + r.breakdown.structural.triads);
+    + r.breakdown.structural.emDashes + r.breakdown.structural.triads
+    + r.breakdown.structural.variety);
 });
 
 test('score breakdown retains the raw total when the displayed score is capped', () => {
@@ -166,6 +167,20 @@ test('triad skips longer lists, function-word items, and short-text density', ()
   assert.ok(!analyze('I trained hard, overnight, and the race went fine.').findings.some((f) => f.rule === 'triad'));
   const short = analyze('We deliver fast, reliable, and scalable outcomes. That is all.');
   assert.equal(short.breakdown.structural.triads, 0);
+});
+
+test('vocabulary variety scores only long, non-repetitive text', () => {
+  assert.equal(analyze('Short text has no variety metric at all.').metrics.vocabVariety, null);
+  // Forty-plus words that never repeat: maximum variety, points added.
+  const letters = 'bcdfghjklm';
+  const varied = Array.from({ length: 48 }, (_, i) => `z${letters[Math.floor(i / 10)]}${letters[i % 10]}a`).join(' ') + '.';
+  const v = analyze(varied);
+  assert.equal(v.metrics.vocabVariety, 1);
+  assert.equal(v.breakdown.structural.variety, 21);
+  // The same few words over and over: low variety, no points.
+  const repetitive = analyze('the cat and the dog and the cat and the dog '.repeat(5));
+  assert.ok(repetitive.metrics.vocabVariety < 0.5);
+  assert.equal(repetitive.breakdown.structural.variety, 0);
 });
 
 test('does not false-positive "co" inside words', () => {

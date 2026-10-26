@@ -24,11 +24,16 @@ Two sets, scored by the same `analyze()`:
 
 - **Regression corpus** ([corpus.json](corpus.json)): 122 samples, 62 human
   and 60 AI. Rules are tuned against it, and CI guards it.
-- **Held-out set** ([heldout.json](heldout.json)): 66 samples, 32 human and
-  34 AI. It was split off before any 0.5.0 rule change and scored once, after
-  the rules were frozen. It may now be used for development.
-- **Next held-out set** ([heldout-0.6.json](heldout-0.6.json)): 70 samples, 35
-  human and 35 AI, frozen before any 0.6.0 rule change and not yet scored.
+- **Held-out set** ([heldout-0.6.json](heldout-0.6.json)): 70 samples, 35
+  human and 35 AI. It was frozen before any 0.7.0 rule work and scored once,
+  after the vocabulary-variety rule was final. The exact reports are in
+  [reports/](reports/). It may now be used for development.
+- **Modern human set** ([modern-human.json](modern-human.json)): 80 human
+  passages written before November 30, 2022 (Stack Exchange, Wikinews,
+  Wikipedia, Wikibooks), under CC BY-SA or CC BY with source links. It checks
+  that a rule does not just flag modern writing. It is development data.
+- **0.5.0 held-out set** ([heldout.json](heldout.json)): 66 samples, scored
+  once for 0.5.0 and used for development since.
 
 The first 48 corpus samples are the original seed set. Most of those were written
 by the project author, who knew the rules. The rest of the corpus and all of the
@@ -41,32 +46,32 @@ Samples were split per register, alternating, before any scores were looked at.
 A sample counts as "flagged" when its score passes the A/B grade boundary
 (score > 10). Each rate carries a Wilson 95% interval.
 
-| metric | regression corpus | held-out |
-| --- | --- | --- |
-| specificity (human left clean) | **98.4%** (61/62, CI 91 to 100%) | **96.9%** (31/32, CI 84 to 99%) |
-| recall (AI caught) | **26.7%** (16/60, CI 17 to 39%) | **8.8%** (3/34, CI 3 to 23%) |
-| precision | 94.1% | 75.0% |
+| metric | regression corpus | held-out (0.6) | modern human |
+| --- | --- | --- | --- |
+| specificity (human left clean) | **98.4%** (61/62, CI 91 to 100%) | **85.7%** (30/35, CI 71 to 94%) | **95.0%** (76/80, CI 88 to 98%) |
+| recall (AI caught) | **31.7%** (19/60, CI 21 to 45%) | **14.3%** (5/35, CI 6 to 29%) | n/a |
+| precision | 95.0% | 50.0% | n/a |
 
-On the same held-out set, the 0.4.0 detector caught 0 of 34 AI samples at the
-same specificity.
+On the same held-out set, the released 0.6.0 detector caught 2 of 35 AI samples
+with the same 5 false alarms. The new rule added recall without new false alarms
+there, and without new false alarms on the modern human set.
 
 Cutoff tradeoff on the regression corpus:
 
 | flag when score > | recall | specificity | precision |
 | --- | --- | --- | --- |
-| 5 | 33.3% | 88.7% | 74.1% |
-| 10 (A/B boundary) | 26.7% | 98.4% | 94.1% |
-| 15 | 18.3% | 100% | 100% |
+| 5 | 40.0% | 88.7% | 77.4% |
+| 10 (A/B boundary) | 31.7% | 98.4% | 95.0% |
+| 15 | 23.3% | 100% | 100% |
 | 25 (C, the fix-loop cutoff) | 10.0% | 100% | 100% |
 
-At a cutoff of 5 the held-out specificity falls to 75%, which is why the boundary
-stays at 10.
-
-What this means: Cadence rarely flags a human. It catches AI text that uses the
-stock tells, and it misses most AI text that doesn't. Clean modern assistant
-prose usually scores grade A. The seed corpus made recall look like 42% because
-its AI samples were written to show the tells. A blind sample shows that number
-was too high. The one held-out false alarm is a flat national-park description.
+What this means: Cadence rarely flags a human in the regression corpus, but fresh
+text is harder. On the 0.6 held-out set it flagged 5 of 35 human passages. Two
+were flagged for uniform rhythm (a recipe and a press release) and two for
+triads in health advice. One triad match ("chronic, severe, or even") treats
+"even" as a list item, which looks like a bug. Those fixes wait for the next
+round, so this set's result stays an honest test. Recall is still low: most AI
+text that avoids the stock tells scores grade A.
 
 ## Honesty caveat
 
