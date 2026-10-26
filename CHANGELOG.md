@@ -11,6 +11,8 @@ Because detector rules affect scores, any release that changes a rule says so he
 
 ## [Unreleased]
 
+## [0.7.0] — 2026-10-26
+
 ### Changed
 
 - **Scores change: a vocabulary-variety signal.** Text of 40 words or more gains
@@ -24,6 +26,22 @@ Because detector rules affect scores, any release that changes a rule says so he
 - **A modern human development set.** `benchmark/modern-human.json` holds 80
   passages from before November 30, 2022, with licenses and source links. The
   0.6 held-out reports are in `benchmark/reports/`.
+- **Score the clipboard from any app.** In the desktop app, copy text and press
+  Cmd+Shift+. (Ctrl+Shift+. on Windows and Linux). Cadence comes forward with
+  the text scored. It works while Cadence is open.
+- **A desktop compile check on PRs.** Changes to the app, the score page, or
+  the browser detector now compile the app before merge.
+
+### Fixed
+
+- **Release-note links work on GitHub.** The release workflow rewrites relative
+  doc links in `docs/releases/*.md` to the tagged files.
+
+### Known issues
+
+- On fresh human text, uniform rhythm and triads cause most false alarms. A
+  triad match counted the word "even" as one of its three list items.
+  Fixes wait for a new frozen held-out set.
 
 ## [0.6.0] — 2026-10-21
 
@@ -256,6 +274,7 @@ First public release.
 - The detector is English-only for now (its function-word and phrase lists are
   English).
 
+[0.7.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.7.0
 [0.6.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.6.0
 [0.5.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.5.0
 [0.4.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.4.0
