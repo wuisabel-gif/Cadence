@@ -1,6 +1,6 @@
 // Cadence PWA service worker: cache the score page and detector so the installed
 // app opens instantly and works with no network. Bump CACHE to ship an update.
-const CACHE = 'cadence-v0.6.0';
+const CACHE = 'cadence-v0.7.0';
 const ASSETS = [
   'check.html',
   'extension/detector.js',

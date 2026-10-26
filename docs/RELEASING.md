@@ -105,8 +105,8 @@ After sign-off, record the release date and update the website's version labels
 in the release commit. Merge it, then tag that exact commit:
 
 ```bash
-git tag -a v0.6.0 -m v0.6.0
-git push origin v0.6.0
+git tag -a v0.7.0 -m v0.7.0
+git push origin v0.7.0
 ```
 
 The tag starts `.github/workflows/release.yml`. It checks that the tag matches
@@ -127,4 +127,4 @@ repository settings.
 Extension-store publishing is a separate action; do not claim that a manifest
 version proves a store submission succeeded.
 
-For the current candidate, see [v0.6.0 notes](releases/v0.6.0.md).
+For the current candidate, see [v0.7.0 notes](releases/v0.7.0.md).

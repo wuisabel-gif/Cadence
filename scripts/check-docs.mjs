@@ -19,6 +19,7 @@ const DOCS = {
   'docs/releases/v0.4.0.md': 10,
   'docs/releases/v0.5.0.md': 10,
   'docs/releases/v0.6.0.md': 10,
+  'docs/releases/v0.7.0.md': 10,
   'docs/embed.md': 10,
   'benchmark/README.md': 10,
 };
