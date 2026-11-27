@@ -475,8 +475,7 @@ npm run release:check  # tests + docs + benchmark + packaged agent installs
 
 ## Status
 
-v0.7.0 is released. Scores change from 0.6.0: a vocabulary-variety signal
-catches more AI text with no new false alarms on held-out human text. The
-desktop app can score the clipboard from any app. Notes are in
-[docs/releases/v0.7.0.md](docs/releases/v0.7.0.md). GPU
+v0.8.0 is released. Scores are unchanged from 0.7.0. This release adds an
+eleventh voice, `margin`. Notes are in
+[docs/releases/v0.8.0.md](docs/releases/v0.8.0.md). GPU
 training remains an experiment, not a verified release feature.

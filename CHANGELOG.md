@@ -11,6 +11,10 @@ Because detector rules affect scores, any release that changes a rule says so he
 
 ## [Unreleased]
 
+## [0.8.0] — 2026-11-26
+
+Scores are unchanged from 0.7.0. No detector rule changed.
+
 ### Added
 
 - **An eleventh voice: `margin`.** Reasoned-essay writing: the thesis in the
@@ -280,6 +284,7 @@ First public release.
 - The detector is English-only for now (its function-word and phrase lists are
   English).
 
+[0.8.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.8.0
 [0.7.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.7.0
 [0.6.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.6.0
 [0.5.0]: https://github.com/wuisabel-gif/Cadence/releases/tag/v0.5.0
