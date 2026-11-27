@@ -2,7 +2,7 @@
 
 DeepSeek supports **Skills** — markdown instructions you save once and toggle from the
 drawer. [`cadence-skill.md`](cadence-skill.md) is a ready one: the writing laws and the
-ten voices, so DeepSeek writes in a voice and strips AI tone.
+eleven voices, so DeepSeek writes in a voice and strips AI tone.
 
 ## Install
 

@@ -63,6 +63,7 @@ Pick one to fit the job, or build one from a sample. Each is a way of moving:
 - **column** — calm analysis: a fact, the reasoning, a usable principle.
 - **kin** — a parent's unsparing letter to a child; every truth anchored in the body, then a short imperative.
 - **essence** — first-principles tech-blog writing: strip to the laws, reason up, land on conviction.
+- **margin** — reasoned essay: formal argument run out loud, with parenthetical asides and footnotes.
 
 The full voice profiles — with measured rhythm numbers and a calibration line each —
 live in the repo's `voices/*.md`. Read the relevant one before writing in that voice.

@@ -5,7 +5,7 @@ import { analyze, analyzeParagraphs, stripHtml, stripMarkdown } from '../../skil
 
 // Seed names, not paths. Keep this list in sync with the checked-in voices.
 export const VOICE_NAMES = Object.freeze([
-  'column', 'counsel', 'dispatch', 'essence', 'kin', 'measured-academic',
+  'column', 'counsel', 'dispatch', 'essence', 'kin', 'margin', 'measured-academic',
   'plain', 'punchy', 'reckoning', 'seminar',
 ]);
 export const MAX_TEXT_BYTES = 256 * 1024;
