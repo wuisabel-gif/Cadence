@@ -21,6 +21,6 @@ test('SKILL.md lists every shipped seed voice exactly once', () => {
 
 test('current picker copy uses the actual shipped seed count', () => {
   const skill = readFileSync(new URL('skills/cadence/SKILL.md', root), 'utf8');
-  assert.match(skill, /ten seeds ship today/);
-  assert.match(skill, /Ten voices ship today/);
+  assert.match(skill, /eleven seeds ship today/);
+  assert.match(skill, /Eleven voices ship today/);
 });

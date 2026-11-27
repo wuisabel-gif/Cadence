@@ -11,6 +11,12 @@ Because detector rules affect scores, any release that changes a rule says so he
 
 ## [Unreleased]
 
+### Added
+
+- **An eleventh voice: `margin`.** Reasoned-essay writing: the thesis in the
+  first paragraph, the conditions taken one at a time, parenthetical asides,
+  and footnotes. The profile describes the register and names no author.
+
 ## [0.7.0] — 2026-10-26
 
 ### Changed
