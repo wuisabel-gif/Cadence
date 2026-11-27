@@ -212,6 +212,8 @@ profile to `voices/<name>.md`. The shipped **counsel** voice was built this way.
   body, landing on a short imperative.
 - **essence** — first-principles tech-blog writing: strip a domain to its
   laws, reason up, and land on conviction.
+- **wunderkammer** — investor-essayist writing: formal reasoning run out loud,
+  with parenthetical asides and footnotes.
 
 Add your own with `/cadence learn`. Profiles are plain markdown in `voices/`. Read
 them, edit them, share them.

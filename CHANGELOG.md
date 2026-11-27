@@ -11,6 +11,13 @@ Because detector rules affect scores, any release that changes a rule says so he
 
 ## [Unreleased]
 
+### Added
+
+- **An eleventh voice: `wunderkammer`.** Investor-essayist writing: the thesis
+  in the first paragraph, the conditions taken one at a time, parenthetical
+  asides, and footnotes. Learned from 21 personal essays (about 42,000 words);
+  the profile describes the register and names no author.
+
 ## [0.7.0] — 2026-10-26
 
 ### Changed

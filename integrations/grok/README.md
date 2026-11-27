@@ -85,7 +85,7 @@ bound and parses; dispatch then validates the object against its tool contract.
 - `cadence_voice`: required `name` from the closed seed whitelist. Returns `name`,
   the complete Markdown `profile`, and the shared Markdown `rules`, not a summary.
   Names: column, counsel, dispatch, essence, kin, measured-academic, plain, punchy,
-  reckoning, seminar. These describe writing, not audio synthesis.
+  reckoning, seminar, wunderkammer. These describe writing, not audio synthesis.
 
 Input text is limited to 262144 UTF-8 bytes (256 KiB) before stripping. JSON input
 is limited to 1576960 bytes, allowing escaped text plus object overhead. The

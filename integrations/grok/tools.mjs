@@ -6,7 +6,7 @@ import { analyze, analyzeParagraphs, stripHtml, stripMarkdown } from '../../skil
 // Seed names, not paths. Keep this list in sync with the checked-in voices.
 export const VOICE_NAMES = Object.freeze([
   'column', 'counsel', 'dispatch', 'essence', 'kin', 'measured-academic',
-  'plain', 'punchy', 'reckoning', 'seminar',
+  'plain', 'punchy', 'reckoning', 'seminar', 'wunderkammer',
 ]);
 export const MAX_TEXT_BYTES = 256 * 1024;
 // JSON may encode each input byte as a six-byte Unicode escape.
